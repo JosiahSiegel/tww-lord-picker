@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWW3 Lord Picker — All 105 Legendary Lords (Update 8.0)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#131017; --panel:#1b1720; --panel2:#221d29; --text:#e7e0d2; --muted:#9b9285;
+  --line:#2e2837; --gold:#c9a24b; --pro:#8fae6a; --con:#c07070;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.disp{font-family:"Cinzel",Georgia,serif;letter-spacing:.02em}
+header.hero{padding:26px 16px 14px;max-width:1200px;margin:0 auto}
+header.hero h1{font-family:"Cinzel",Georgia,serif;font-size:clamp(1.4rem,4vw,2.1rem);margin:0;color:var(--gold);font-weight:700}
+header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch}
+.bar{position:sticky;top:0;z-index:50;background:rgba(19,16,23,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 16px}
+.bar-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=search],select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.92rem}
+input[type=search]{flex:1;min-width:180px}
+input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.85rem;cursor:pointer}
+.btn:hover{border-color:var(--gold)}
+.btn.gold{background:var(--gold);color:#1a1408;border-color:var(--gold);font-weight:600}
+.btn.gold:disabled{opacity:.45;cursor:default}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888)}
+.chip.on{color:var(--text);border-color:var(--rc,var(--gold));box-shadow:inset 0 0 0 1px var(--rc,var(--gold))}
+.rowlab{flex:0 0 auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px;min-width:64px}
+.chip.ps{--rc:var(--gold)}
+.chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
+.chip.off{color:#c07070;border-color:#7a3a3a}
+.chip.off .lbl{text-decoration:line-through}
+.tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
+.pshint{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-size:.74rem;color:var(--muted);white-space:nowrap;cursor:pointer}
+.pshint input{accent-color:var(--gold)}
+.legend{margin-top:2px}
+.legend summary{cursor:pointer;color:var(--muted);font-size:.76rem;list-style:none}
+.legend summary::before{content:"? ";color:var(--gold);font-weight:700}
+.legend[open] summary{color:var(--text)}
+.legend .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 18px;padding:8px 0 4px;font-size:.78rem;color:var(--muted)}
+.legend .lgrid b{color:var(--gold);font-weight:600}
+.count{color:var(--muted);font-size:.82rem;margin-left:auto}
+main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
+.race-head{margin:26px 0 10px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.race-banner{position:relative;background:var(--rc);color:#0f0c12;font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:1rem;padding:5px 22px 5px 12px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%)}
+.race-blurb{color:var(--muted);font-size:.85rem;max-width:72ch}
+.race-count{color:var(--muted);font-size:.8rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--rc,#666);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:var(--rc,var(--gold));border-left-color:var(--rc,#666)}
+.card h3{margin:0;font-family:"Cinzel",Georgia,serif;font-size:1.02rem;font-weight:600;color:var(--text);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.pips{font-size:.78rem;letter-spacing:1px;white-space:nowrap;flex:0 0 auto}
+.pips .f{color:var(--dc)} .pips .e{color:#4a4454}
+.sub{color:var(--muted);font-size:.8rem;margin:3px 0 6px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:2px 6px;color:var(--muted);background:none;font-family:inherit;cursor:pointer}
+.tag:hover{border-color:var(--gold);color:var(--text)}
+.tag.on{border-color:var(--gold);color:var(--gold)}
+.pick{font-size:.86rem;color:#d8cfae;font-style:italic;margin:0}
+.links{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:.78rem}
+.links a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(201,162,75,.5)}
+.links a:hover{border-bottom-style:solid}
+.race-head .links{margin-top:0;margin-left:auto}
+.det{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:.87rem}
+.card.open .det{display:block}
+.det .mname{color:var(--gold);font-weight:600}
+.det ul{margin:6px 0;padding-left:0;list-style:none}
+.det li{margin:4px 0;padding-left:1.25em;text-indent:-1.25em}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+@media(max-width:520px){.pc{grid-template-columns:1fr}}
+.pc h4{margin:0 0 3px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}
+.pros h4{color:var(--pro)} .cons h4{color:var(--con)}
+.pros li::before{content:"+ ";color:var(--pro);font-weight:700}
+.cons li::before{content:"– ";color:var(--con);font-weight:700}
+.mech li::before{content:"◆ ";color:var(--rc,var(--gold));font-size:.7em}
+.cmp-toggle{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
+.cmp-toggle:hover{color:var(--text)}
+.cmp-toggle input{accent-color:var(--gold)}
+.hint{color:var(--muted);font-size:.78rem}
+#cmpbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(27,23,32,.97);border-top:1px solid var(--gold);padding:10px 16px;display:none}
+#cmpbar.show{display:block}
+#cmpbar .bar-inner{flex-direction:row;flex-wrap:wrap;align-items:center}
+#cmpbar .names{font-size:.85rem;color:var(--text)}
+#overlay{position:fixed;inset:0;z-index:70;background:rgba(10,8,13,.96);display:none;overflow:auto;padding:20px 14px 40px}
+#overlay.show{display:block}
+.ov-inner{max-width:1200px;margin:0 auto}
+.ov-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.ov-head h2{font-family:"Cinzel",Georgia,serif;color:var(--gold);margin:0;font-size:1.2rem}
+.ov-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.ov-col{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--rc);border-radius:10px;padding:14px}
+.ov-col h3{font-family:"Cinzel",Georgia,serif;margin:0;font-size:1.05rem}
+.ov-col .sub{margin-bottom:8px}
+footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
+.empty{color:var(--muted);padding:40px 0;text-align:center;font-style:italic}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>Total War: Warhammer III — Lord Picker</h1>
+  <p>All <strong>105 legendary lords</strong> as of Update 8.0 (August 2026), including every DLC through Tides of Torment and the Bhashiva Character Pack. Tap a card for mechanics, pros &amp; cons. Check up to three lords to compare side by side.</p>
+</header>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="row">
+      <input id="q" type="search" placeholder="Search lords, mechanics, playstyles…" aria-label="Search">
+      <select id="fdiff" aria-label="Filter by difficulty">
+        <option value="">Any difficulty</option>
+        <option value="1">Easy</option><option value="2">Moderate</option>
+        <option value="3">Hard</option><option value="4">Very hard</option>
+      </select>
+      <select id="fsrc" aria-label="Filter by source">
+        <option value="">Any source</option>
+        <option value="wh3base">WH3 base game</option>
+        <option value="wh3dlc">WH3 DLC</option>
+        <option value="wh1">WH1 &amp; its DLC</option>
+        <option value="wh2">WH2 &amp; its DLC</option>
+        <option value="free">Free (FLC)</option>
+      </select>
+      <select id="sort" aria-label="Sort">
+        <option value="race">Group by race</option>
+        <option value="name">A–Z</option>
+        <option value="deasc">Easiest first</option>
+        <option value="dedesc">Hardest first</option>
+      </select>
+      <button class="btn" id="xall">Expand all</button>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="row"><span class="rowlab">Race</span><div class="chips" id="chips" role="group" aria-label="Race filters" style="flex:1"></div></div>
+    <div class="row"><span class="rowlab">Playstyle</span><div class="chips" id="pschips" role="group" aria-label="Playstyle filters" style="flex:1"></div><label class="pshint" title="When several playstyles are included: require lords to have ALL of them instead of any"><input type="checkbox" id="psall"> match all</label></div>
+    <details class="legend"><summary>What do the playstyles mean? &nbsp;(tap a chip: <b style="color:var(--gold)">include</b> → <b style="color:#c07070">exclude</b> → clear)</summary><div class="lgrid" id="pslegend"></div></details>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<div id="cmpbar">
+  <div class="bar-inner">
+    <span class="names" id="cmpnames"></span>
+    <button class="btn gold" id="docmp">Compare</button>
+    <button class="btn" id="clearcmp">Clear</button>
+  </div>
+</div>
+
+<div id="overlay" role="dialog" aria-modal="true" aria-label="Lord comparison">
+  <div class="ov-inner">
+    <div class="ov-head"><h2>Side by side</h2><button class="btn" id="closecmp">✕ Close</button></div>
+    <div class="ov-cols" id="ovcols"></div>
+  </div>
+</div>
+
+<footer>
+  Data current to <strong>Update 8.0</strong> (21 May 2026). Sources: Total War: WARHAMMER Wiki, CA release notes, community consensus for difficulty ratings.
+  Not yet included: the announced <em>Lords of the End Times</em> DLC (Nagash &amp; the Undead Legions, Boris Todbringer for the Empire, a third faction) and the free Neferata FLC arriving with Update 9.0 — unreleased as of August 2026.
+</footer>
+
+<script>
+const LORDS=[];
+// ---- Chaos gods + Kislev/Cathay (WH3 core sphere) ----
+LORDS.push(
+{n:"Skarbrand the Exiled",r:"Khorne",f:"Exiles of Khorne",src:"WH3 base",d:1,tags:["Aggro","Melee-only","Snowball"],
+ mech:[["Skulls & Blood Hosts","kills bank Skulls, Skulls buy free daemon armies summoned wherever you're fighting. You basically never recruit normally — win a fight, pop a Blood Host next to the survivors, keep rolling. It snowballs stupidly fast and the community treats it as the 'turn your brain off and paint the map red' campaign"],["Bloodletting","a combo meter for the whole faction: keep fighting and buffs stack, stop and they decay. Peace is literally a debuff, which sounds intense but in practice just means you never stop declaring wars — there's always someone next door"],["Blood for the Blood God","no ranged units, period. Replenishment comes from winning, diplomacy is dead. There's no real economy game — which is either liberating or boring depending on how many campaigns you've played"]],
+ pros:["Simplest snowball in the game — fight, win, spawn free armies, repeat","Skarbrand solos lords, monsters and small armies by himself","No economy micromanagement to speak of"],
+ cons:["Zero ranged/artillery — mass skirmishers and walls are annoying","Everyone hates you; no allies, no trade","Momentum-based: losing streaks collapse fast"],
+ pick:"Pick if you want to turn your brain off and hit things. Gets samey by turn 80, but the first 80 are a blast."},
+{n:"Skulltaker",r:"Khorne",f:"Blooded Wanderers",src:"Omens of Destruction",d:2,tags:["Duelist","Quest-driven","Aggro"],
+ mech:[["Cloak of Skulls","a hit-list of the map's legendary lords and heroes — kill them (dueling them personally counts extra) and their skull goes on the cloak as a permanent stacking buff. The stacking gets genuinely out of hand by lategame, which is the point: the community verdict is that the cloak carries the whole campaign"],["Champion of Khorne","missions point you at specific characters instead of provinces, so the sandbox turns into a boss-rush. Good if you want direction; annoying when the next target is three continents away"],["Khorne core","Skulls, Blood Hosts and Bloodletting still run underneath — same free-army engine, same fight-or-decay pressure"]],
+ pros:["Clear built-in direction: a hit-list of the map's biggest names","One of the best duelists in the game","Trophy buffs are permanent and stack into absurdity"],
+ cons:["The hit-list drags you far from a defensible empire","Still melee-only Khorne with all its matchup problems","Lustria start puts Lizardmen doomstacks in your face early"],
+ pick:"Pick if you want a bounty-hunter campaign — widely considered the most interesting way to play Khorne."},
+{n:"Arbaal the Undefeated",r:"Khorne",f:"Challengers of Khorne",src:"FLC (Update 6.0)",d:2,tags:["Aggro","Mortal roster","Free"],
+ mech:[["Khorne's chosen mortal","armies lean mortal — armoured warriors and knights instead of daemon glass. Same Khorne aggression, but your line survives a bad engagement, which makes him noticeably more forgiving than Skarbrand in actual battles"],["Prove your worth","Khorne keeps issuing demands to fight and win. It's a favour treadmill — fine if you were going to fight anyway (you were), mildly annoying when you want one turn to consolidate"],["Hound of Khorne","rides a giant flesh hound; fast anti-large duelist you steer into enemy lords every fight. Solid, if less flashy than the other two — the community's take is 'good free lord, least distinctive of the three'"]],
+ pros:["Free lord with a real campaign identity","Mortal Khorne roster is tankier and more forgiving than daemons","Northern start funnels you into juicy Kislev/Chaos brawls"],
+ cons:["Still no ranged answer","Favour pressure punishes turtling","Less unique than the paid Khorne lords"],
+ pick:"Pick if you want Khorne with armoured mortals instead of daemons — and you own no DLC."},
+{n:"Tzarina Katarin",r:"Kislev",f:"The Ice Court",src:"WH3 base",d:2,tags:["Defensive","Hybrid units","Caster"],
+ mech:[["Ice Court","enrol Ice Witches as students and shape their traits while they train. Sounds cool, and it is the first time — honest take: it's a slow drip you check every ten turns, not a system you play around. The custom witches are nice to have, not build-defining"],["Devotion & Motherland","Devotion buys church units and blessings while you race Kostaltyn for supporter control of Kislev — win the popularity contest and you confederate the whole Motherland free. The supporter race is the actual interesting part of the early game"],["Atamans","appoint governors with picked bonuses per province. Set-and-forget; a small nice-to-have"]],
+ pros:["Well-rounded hybrid roster: everything shoots AND fights","Great defensive infantry + strong lore of Ice","The 'hold the line against Chaos' fantasy done straight"],
+ cons:["Hybrids are jack-of-all-trades, master of none — cost-inefficient, and the community has never stopped saying so","Weak early economy, endless Chaos pressure from the north","Bear cavalry aside, lategame power ceiling is modest"],
+ pick:"Pick if you want defend-then-push against Chaos. Know going in: Kislev is widely rated mid-tier — you're choosing theme over power."},
+{n:"Kostaltyn",r:"Kislev",f:"The Great Orthodoxy",src:"WH3 base",d:2,tags:["Cheap infantry","Zealot","Defensive"],
+ mech:[["Cult of Ursun","Devotion pours in from his playstyle and converts into discounts on masses of cheap fanatic infantry. Early game this genuinely works — drown things in angry patriarchs. Lategame the chaff hits a wall, as chaff does"],["Supporters race","the Kislev civil cold-war from the underdog side: out-popularity the Tzarina and absorb her realm peacefully. Same mechanic as Katarin, different starting math"],["Atamans","shared governor system squeezing a poor economy for what it has"]],
+ pros:["Drowns enemies in cheap, angry patriarchs and kossars","Erengrad start is friendlier than Katarin's crossroads","Devotion economy comes naturally to his playstyle"],
+ cons:["Low-tier lean falls off hard lategame","Same Kislev hybrid-unit cost problems","Less interesting hero game than the Ice Court"],
+ pick:"Pick if you want budget zealot hordes and the Kislev civil-war race from the other side."},
+{n:"Boris Ursus",r:"Kislev",f:"Ursun Revivalists",src:"WH3 base",d:4,tags:["Hard start","Bears","Aggro"],
+ mech:[["Deep Wastes start","you start marooned in the Chaos Wastes with hostiles on every side and home a very long march south. The community calls it what it is: a survival slog with a great premise. Plenty of people bounce off it; the ones who finish the march swear by it"],["Ursun's chosen","bear-themed everything — rides Urskin, buffs bear cavalry. Bear cav stacks are legitimately good and the main reason to stick it out"],["Kislev core","Devotion, Atamans and the Ice Court come online once you're home — the reward for the trek is a normal Kislev campaign"]],
+ pros:["Genuinely epic 'fight your way home' arc","Bear cavalry doomstacks are fun and effective","Every neighbour is a valid target — no diplomacy guilt"],
+ cons:["Brutal, grinding early game with no safe province","Long trek before your real campaign even starts","Weakest of the Kislev three once the novelty fades"],
+ pick:"Pick if you want the hardest Kislev start — a survival march out of hell. Not a first-campaign choice."},
+{n:"Mother Ostankya",r:"Kislev",f:"Daughters of the Forest",src:"Shadows of Change",d:3,tags:["Witch","Guerrilla","Caster"],
+ mech:[["The Witch's Hut","gather ingredients from battles and terrain, brew Incantations — map-wide hexes and blessings. Post-buff (the SoC rework after launch backlash) this is actually worth engaging with; the brews are strong. The gathering is still busywork"],["Hexes","curse enemy armies and factions directly from the map — sap leadership, rot replenishment. Softening a target for a few turns before you jump it genuinely changes fights"],["Spirit units","forest spirits and creatures splice into the Kislev line, giving her armies a feral lean the Motherland proper never gets"]],
+ pros:["Incantation brewing is a genuinely different resource loop","Hexes let you soften targets before ever fighting","Naggaroth start = fresh matchups for Kislev (Dark Elves, Norsca)"],
+ cons:["Far from Kislev — the race's homeland mechanics barely matter","Ingredient farming adds busywork","Squishy roster core until spirits come online"],
+ pick:"Pick if you want a swamp-witch curse campaign far from the Motherland. Much better post-rework than launch reviews suggested."},
+{n:"Miao Ying, the Storm Dragon",r:"Grand Cathay",f:"The Northern Provinces",src:"WH3 base",d:1,tags:["Defensive","Balanced","Beginner-friendly"],
+ mech:[["Harmony","units, buildings and tech tip Yin or Yang; keep the scales level for faction buffs. Honest take: after your first campaign this is background noise you fix with one building slot — a flavour system, not a puzzle"],["Wu Xing Compass & Caravans","the Compass empowers a chosen aspect of the empire; caravans trek the Ivory Road each turn for gold plus escort battles. Caravans are free money and the occasional decent fight — universally liked, borderline overtuned income"],["The Great Bastion","threat meters rise, gates get besieged by scripted Chaos waves, garrisoning is a permanent chore. Great theme; the community consensus is it gets tedious around the third identical siege. Miao Ying's real job is holding it so the rest of Cathay doesn't have to"]],
+ pros:["Rock-solid armoured line + crossbows: easiest defensive battles in the game","Caravans print money","Turns into a dragon; forgiving start"],
+ cons:["Passive playstyle gets samey — you react more than you act","Bastion pressure never fully stops and the sieges repeat themselves","Roster lacks late aggression tools vs elite doomstacks"],
+ pick:"Pick if you're new — the standard 'first campaign' recommendation. Comfy fortress-empire with a dragon on top."},
+{n:"Zhao Ming, the Iron Dragon",r:"Grand Cathay",f:"The Western Provinces",src:"WH3 base",d:2,tags:["Balanced","Western front","Alchemy"],
+ mech:[["Alchemy quirks","alchemist flavour on the standard Cathay kit — some unit buffs, nothing build-changing. He's picked for his position, not his mechanics"],["Harmony / Compass / Caravans","full shared Cathay systems: balance trivia, Compass steering, caravan money"],["Desert front","no Bastion duty — he faces ogres and the Darklands instead, which means the Cathay toolkit actually gets to attack something. Community take: the more interesting of the two base-game dragons precisely because you're not chained to the wall"]],
+ pros:["More proactive front than Miao Ying — room to actually conquer","Same excellent Cathay battle line","Caravan routes west are lucrative"],
+ cons:["Ogre camps and Chaos Dwarfs are nastier neighbours than they look","Still fundamentally the same Cathay loop as Miao Ying","Far from the Bastion story content"],
+ pick:"Pick if you want Cathay's toolkit pointed at conquest instead of defence."},
+{n:"Yuan Bo, the Jade Dragon",r:"Grand Cathay",f:"The Jade Court",src:"Shadows of Change",d:2,tags:["Spymaster","Caster","Lustria start"],
+ mech:[["Matters of State","a rolling menu of edicts, projects and interventions — including reaching across the map to meddle with other factions. This is the deepest campaign-layer toolkit Cathay has, and the community rates Yuan Bo as one of the strongest Order picks in the game largely because of it"],["Compass mastery","he steers the Wu Xing Compass harder and more freely than his siblings — effectively a second resource he's always spending"],["Expedition start","begins in Lustria among Lizardmen and Skaven, running Cathay by remote control. Fresh matchups, and far enough from the Bastion that you never think about it"]],
+ pros:["Best caster-statesman hybrid in the race; very strong lord","Matters of State gives constant meaningful choices","Fresh matchups — Cathay units vs dinosaurs is a novelty"],
+ cons:["Cut off from Bastion/homeland flavour","Lustria is a meat grinder of strong AI factions","More menus than other Cathay lords — reading required"],
+ pick:"Pick if you want Cathay's deepest campaign game — widely considered the best lord in the race."},
+{n:"Bhashiva, the White Tiger",r:"Grand Cathay",f:"Claws of the White Tiger",src:"Bhashiva Character Pack",d:3,tags:["Ambush","Mercenary","Anti-infantry"],
+ mech:[["Tiger Court","capture Relics from important settlements and dedicate each to one of three pillars, each a different escalating build path. Your conquest route and faction identity get chosen together — early consensus is that the pillar choice is the pack's best idea"],["Armies of Shang-Yang","missions and caravans earn Iron Favour, spent on whole mercenary forces on demand — surge an army when the plan needs one instead of slow-building everything"],["The hunt, not the hold","ambush stances, speed, Tiger Warrior shock units. It's Cathay with the defensive comfort deliberately removed — you win fights you started, from positions you picked, or you struggle"]],
+ pros:["Plays nothing like the rest of the race — predatory and mobile","Tiger Warriors (axes/guandao/discs) are excellent shock troops","Relic pillars give real build-defining choices"],
+ cons:["Mountains of Mourn start vs Ogres is rough","Gives up Cathay's trademark defensive comfort","Newest lord — balance still settling, expect patches"],
+ pick:"Pick if you like Cathay's roster but want to be the ambusher, not the wall."},
+{n:"Kairos Fateweaver",r:"Tzeentch",f:"Oracles of Tzeentch",src:"WH3 base",d:2,tags:["Caster","Map manipulation","Magic economy"],
+ mech:[["Grimoires & Changing of the Ways","spend Grimoires on map-manipulation actions: teleport armies anywhere, force two AIs into war, steal a settlement outright. The community calls these what they are — cheat codes. Teleport-ambushing a doomstack onto an enemy capital never stops being funny"],["Barriers","settlements have a regenerating magic shield that must be dropped before walls can be assaulted. Lets a paper-thin empire survive punches it has no business surviving"],["Winds of Magic economy","hoard and channel the Winds as a strategic resource feeding monstrous spellcasting. Battles are 'delete their army with magic before your daemons evaporate' — glass cannon in its purest form"]],
+ pros:["Changing of the Ways is the strongest 'cheat the campaign map' toolset anywhere","Kairos is a monster caster with two heads of lore access","Flying, shooting, flaming roster melts most AI comps"],
+ cons:["Fragile daemons — lose the magic/missile edge and you fold","Economy is unintuitive at first","Easy to over-scheme and under-build"],
+ pick:"Pick if you want to play the campaign map itself like a puppet-master wizard."},
+{n:"The Changeling",r:"Tzeentch",f:"The Deceivers",src:"Shadows of Change",d:1,tags:["No-conquest","Unique loop","Sneaky"],
+ mech:[["Schemes & Trickster Cults","you hold zero territory — seed hidden cults in everyone's cities and work through scheme checklists per world theatre, banking permanent rewards. It's a heist board wearing a strategy game, and it's genuinely unlike anything else in the series"],["Cannot be attacked","your faction is hidden and effectively unlosable. All tension shifts from survival to execution — which is the campaign's charm and, per basically every review and Reddit thread, its problem: no stakes"],["The Ultimate Scheme","complete enough Grand Schemes and trigger a world-ending finale to win. A victory condition measured in pranks, not provinces"]],
+ pros:["Most unique campaign loop in the entire game","Effectively unlosable — pure sandbox mischief","Free-form: go anywhere, torment anyone"],
+ cons:["No empire-building at all — if you like painting the map, skip","Zero fail-state means tension evaporates once the trick is learned","Scheme checklists get formulaic on repeat runs"],
+ pick:"The consensus pick for 'play it exactly once' — brilliant the first time, low replay value after."},
+{n:"Ku'gath Plaguefather",r:"Nurgle",f:"Poxmakers of Nurgle",src:"WH3 base",d:3,tags:["Plagues","Slow","Attrition"],
+ mech:[["Plague crafting","design custom diseases from symptom parts and loose them via cultists and battle. Watching a hand-built pandemic crawl across a continent softening everyone is the faction's actual appeal — the min-max crowd gets real mileage out of symptom combos"],["Cyclical buildings","Nurgle settlements grow, bloom and decay on their own timer instead of a build queue. Every new player fights this system before learning to ride it; it's the most 'read a guide first' economy in the game"],["Recruit-by-cycle","units unlock in rotating waves and armies replenish almost instantly at hubs. You fight in pulses — surge out, rot back, surge again"]],
+ pros:["Attrition warfare fantasy fully realised — enemies rot before you touch them","Unkillable frontline blobs with regen","Plague design is a fun min-max toy"],
+ cons:["Slowest army speed in the game — chasing anything is misery, and the AI loves running","Cyclical economy fights normal 4X instincts hard","Ku'gath himself waddles; he's an artillery piece, not a fighter"],
+ pick:"Pick if you want to win by inevitability. Fair warning: 'slow' here is not a flavour word."},
+{n:"Tamurkhan the Maggot Lord",r:"Nurgle",f:"The Maggot Host",src:"Thrones of Decay",d:2,tags:["Warband","Council","Aggro Nurgle"],
+ mech:[["Chieftains","recruit named chieftain lords, each with questlines, loyalty and unique perks — a warlord council you actually manage. ToD reviewed extremely well and the chieftain system is a big reason; it gives Nurgle direction and pacing it never had"],["Kurgan warband","mortal Kurgan cavalry and warriors bolt real speed onto the rot roster — Nurgle that can chase, flank and raid instead of only absorbing"],["Nurgle core","plague crafting and the cyclical economy still run underneath; the chieftains just keep it pointed somewhere"]],
+ pros:["Fixes Nurgle's speed problem with real cavalry","Chieftain council adds RPG-ish progression and mini-stories","Toad Dragon centrepiece is a blast"],
+ cons:["Chieftain loyalty juggling adds admin","Eastern start is long on marching","Still Nurgle economy weirdness underneath"],
+ pick:"Pick if Ku'gath felt too slow — the community's preferred way to play Nurgle since ToD."},
+{n:"Epidemius",r:"Nurgle",f:"Tallymen of Pestilence",src:"FLC (Update 5.0)",d:3,tags:["Scaling","Free","Plagues"],
+ mech:[["The Tally","a faction-wide counter tracks kills, infections and rot; thresholds unlock permanent escalating buffs. It's an idle-game hook bolted onto Total War — weak until the number fills, then the buffs stack into silly territory"],["Symptom synergy","plague symptoms feed the Tally, so optimal play is maximum contagion at all times. Infect neutrals, infect allies, infect everyone"],["Nurgle core","cyclical buildings and plague crafting underneath — the standard rot machine with the dial turned toward 'spread'"]],
+ pros:["Free, and the Tally scaling gets genuinely nutty lategame","Clear incentive structure: infect everything, always","Remote start = time to snowball quietly"],
+ cons:["Slow burn — noticeably weak until the counter fills","Isolated corner start is dull terrain","Least mechanically distinct of the Nurgle lords"],
+ pick:"Pick if you want a numbers-go-up campaign — a free, slower-burning Nurgle."},
+{n:"N'Kari",r:"Slaanesh",f:"Seducers of Slaanesh",src:"WH3 base",d:2,tags:["Speed","Vassals","Glass cannon"],
+ mech:[["Seduction & Devotees","gift enemy factions into willingly becoming your vassals instead of conquering them. A developed N'Kari campaign is a pyramid of charmed puppet-states — the community mostly uses it to farm Ulthuan into a vassal donut and call it a day"],["Disciple armies","spawn free cultist armies that scout, screen and spread corruption ahead of you — disposable vanguard for the main host"],["Pure speed roster","everything is faster than its counterpart and nothing wears armour. Battles are charge-cycle micro at high APM; when it works you delete armies without taking a hit, when it doesn't a stack evaporates in one bad engagement"]],
+ pros:["Vassal-swarm empire is a fresh way to paint the map","Outruns and out-cycles every enemy army","Ulthuan start = rich, soft targets"],
+ cons:["Glass everywhere — one bad engagement deletes a stack","Micro-intensive battles (charge, cycle, repeat) — exhausting if you autoresolve-averse","Vassals are useless allies in a real fight"],
+ pick:"Pick if you want APM-heavy battles and an empire of charmed puppets."},
+{n:"Dechala, the Denied One",r:"Slaanesh",f:"The Tormentors",src:"Tides of Torment",d:2,tags:["Duelist","Aggro","Economy twist"],
+ mech:[["Pleasure Palaces","palaces passively generate elite units and Decadence on their own — free daemonettes and keepers dripping into the pool while you fight elsewhere. Early consensus: this quietly fixes Slaanesh's economy problem, and placement actually matters"],["Tormentor's Tributes","spend Decadence on army buffs for you and targeted debuffs for them — a tempo dial you set before each push"],["Blender lord","six arms, snake body, duelling stats to match. Point her at their best character; that character stops existing"]],
+ pros:["Palaces printing free elites solves the race's economy headache","Dechala is arguably the best pure duelist Slaanesh has","More straightforward than N'Kari — aggression with structure"],
+ cons:["Cathayan Hinterlands start pits you against strong ordered neighbours","Still fragile Slaanesh underneath the buffs","Palace placement decisions punish bad geography"],
+ pick:"Pick if you want Slaanesh that fights fair(ish): raw aggression funded by decadence."},
+{n:"The Masque of Slaanesh",r:"Slaanesh",f:"The Accursed Troupe",src:"FLC (Update 7.0)",d:2,tags:["Free","Buff cycling","Cults"],
+ mech:[["The Everlasting Dance","cycle between dance forms that swap her army's whole buff profile — one for slaughter, one for speed, one for seduction. Reading the next fight and picking the right form is the skill; forget to switch and you're playing at a discount"],["Performance & cults","influence spreads through performances seeding cults across Lustria — corruption as a touring show"],["Slaanesh core","the shared speed-and-glass roster underneath. She's a hero-killer with a gimmick, not a rework of the race"]],
+ pros:["Free lord with a genuinely playful identity","Dance-form swapping rewards fight-by-fight adaptation","Lustria start is target-rich"],
+ cons:["Lizardmen early game is unforgiving for glass daemons","Less campaign-map depth than the paid Slaanesh options","She's a hero-killer, not an army anchor"],
+ pick:"Pick if you want free Slaanesh with a wink — a solid FLC, not a race rework."},
+{n:"The Daemon Prince",r:"Daemons of Chaos",f:"Legion of Chaos",src:"WH3 base",d:1,tags:["Build-a-lord","All rosters","Sandbox"],
+ mech:[["Daemonic Glory","deeds earn Glory with each of the four gods (or Undivided), unlocking their units and gifts. In theory an à la carte pantheon; in practice the community solved it years ago — Undivided is flatly optimal, which flattens the interesting choice"],["Wargear customisation","assemble the Prince limb by limb from dozens of parts with real stats — the only build-a-lord in the game. By turn 100 he solos armies, and kitting him out stays fun the whole way"],["All-gods roster","Khorne blenders, Nurgle tanks, Tzeentch fliers and Slaanesh flankers in one army. A toybox, though mixed stacks are less efficient than any focused mono-god list"]],
+ pros:["Ultimate toybox: every daemon unit + a lord you design yourself","Prince becomes a stat-monster who solos armies","Simple, forgiving campaign structure"],
+ cons:["Faction mechanics beyond the Prince are shallow","Mixed rosters are fun but unfocused","Undivided path being blandly optimal undercuts the god choice"],
+ pick:"Pick if you want a character-builder wearing a strategy game. The Prince is the content; the faction is the wrapper."}
+);
+// ---- Ogres, Chaos Dwarfs, Warriors of Chaos, Norsca ----
+LORDS.push(
+{n:"Greasus Goldtooth",r:"Ogre Kingdoms",f:"Goldtooth",src:"Ogre Kingdoms DLC",d:2,tags:["Gold","Tyrant","Nomadic"],
+ mech:[["Overtyrant's greed","gold-scaling buffs and bribe-flavoured diplomacy — he gets stronger the richer he is. Simple, works, on-theme"],["Ogre core","deployable Camps as movable settlements, Meat as living upkeep, Big Name titles from deeds, Contracts paying you to join other people's wars. The ogre rework a few patches back made camps genuinely good; Meat remains the tax everyone grumbles about"],["Mountains of Mourn homeland","defensible peaks, caravan routes below worth shaking down, hungry neighbours in every direction"]],
+ pros:["Ogre charges + monsters + decent gunpowder is a fun blend","Camps let you expand anywhere without normal settlement rules","Contracts give side income and direction"],
+ cons:["Meat economy punishes idle armies — armies literally starve if you stop fighting","Low leadership — armies rout in waves if fights sour","Greasus himself is slow and comical in a bad way"],
+ pick:"Pick if you want nomadic conquest with the race's economy played straight: gold, meat, muscle."},
+{n:"Skrag the Slaughterer",r:"Ogre Kingdoms",f:"Disciples of the Maw",src:"Ogre Kingdoms DLC",d:3,tags:["Meat","Gorgers","Prophet"],
+ mech:[["Offerings to the Maw","feed prisoners and meat to the Great Maw for blessings — the hunger economy turned into a religion. Doubles down on the part of ogres (meat juggling) that people find most annoying, so know yourself"],["Gorger spam","unique cheap frenzied Gorgers en masse. The early-game gorger rush is a well-known community strat; it falls off, as spam does"],["Ogre core","Camps, Big Names, Contracts — same kit as Greasus, run as scripture instead of business"]],
+ pros:["Thematic prophet-of-hunger campaign","Gorger stacks are hilarious and effective early","Border Princes start is target-rich"],
+ cons:["Meat management is even more central (and annoying)","Squishier army identity than Greasus","Surrounded by competent Order factions"],
+ pick:"Pick if Greasus is too corporate — the cult-of-the-Maw version of ogres."},
+{n:"Golgfag Maneater",r:"Ogre Kingdoms",f:"The Maneaters",src:"Omens of Destruction",d:2,tags:["Mercenary","Unique loop","Nomadic"],
+ mech:[["Mercenary Contracts","any faction can hire you: fight their war, collect, then honour the deal or rob them on the way out. This landed extremely well — the merc loop constantly hands you a war with a paycheque attached, and betrayal is a supported playstyle, not an exploit"],["Reputation","your contract history follows you and shapes who'll hire you and at what price. Burn bridges and the good clients dry up"],["Upgraded camps","the best version of ogre nomad play — base the free company wherever the current job is"]],
+ pros:["The mercenary loop constantly hands you purpose and payment","Betrayal is a legitimate, mechanically supported strategy","Empire-adjacent start means endless employers and victims"],
+ cons:["Contract timers can railroad your tempo","Employer objectives sometimes drag you across the map","Still ogre meat/leadership fundamentals underneath"],
+ pick:"Pick if you want a soldier-of-fortune campaign — generally rated the best way to play ogres now."},
+{n:"Astragoth Ironhand",r:"Chaos Dwarfs",f:"Disciples of Hashut",src:"Forge of the Chaos Dwarfs",d:2,tags:["Industry","Priest","Economy"],
+ mech:[["Hashut's high priest","leans hardest into the Conclave — spend influence on seats in the Tower of Zharr, each a permanent empire perk. The political layer is a genuine second progression track"],["Chaos Dwarf engine","captured Labourers work the mines, Raw Materials feed Armaments factories, Armaments equip real units, the Hellforge spends output on faction upgrades. The community calls it 'labour tetris' with affection — it's the deepest economy in the game, and Chaos Dwarfs are widely rated a top-tier race because the payoff is obscene"],["Convocations","sacrifice labourers for potent faction-wide boosts — your workforce is also ritual fuel"]],
+ pros:["The deepest economy puzzle in the game (labour → industry → armies)","Devastating gunpowder + artillery + cheap hobgoblin chaff","Influence game gives a political win layer"],
+ cons:["Three-resource logistics is real homework","Elite units are ruinously expensive","Slow snowball; early stacks are chaff-heavy and it shows"],
+ pick:"Pick if you love the industry: a supply-chain empire with guns at the end. Top-tier race, real learning curve."},
+{n:"Drazhoath the Ashen",r:"Chaos Dwarfs",f:"The Legion of Azgorh",src:"Forge of the Chaos Dwarfs",d:2,tags:["Caster","Industry","Fire"],
+ mech:[["Sorcerer-prophet","the race's magic lean — fire sorcery from the back of the Bale Taurus, spells softening what the guns erase. K'daai monsters slot naturally into his lists"],["Chaos Dwarf engine","full Labourers → Armaments → Hellforge chain; same industrial machine, battle-mage at the head"],["Frontier start","carves out from the Howling Wastes with a bit more breathing room than the other two before serious rivals show up"]],
+ pros:["Magic + artillery combo is filthy","Slightly more forgiving neighbours than the other two","Cinderbreath mount makes him a flying fire battery"],
+ cons:["Same heavy logistics learning curve","Long distances between meaningful targets","Hero-casters overlap his niche later"],
+ pick:"Pick if you want the Chaos Dwarf engine with a battle-mage at the wheel."},
+{n:"Zhatan the Black",r:"Chaos Dwarfs",f:"The Warhost of Zharr",src:"Forge of the Chaos Dwarfs",d:2,tags:["Military","Industry","Aggro"],
+ mech:[["Commander of Zharr","army-wide combat buffs and cheaper war-industry output — mid-tier units punch up, production feeds the front faster. Least reading, most fighting of the three"],["Chaos Dwarf engine","Labourers, Armaments and Conclave still run underneath; Zhatan just spends the output on immediate violence"],["Warpath start","positioned to brawl from the opening turns — conquest feeds the slave economy that feeds more conquest"]],
+ pros:["Most straightforward of the three: point the war machine and fire","Army-wide buffs make mid-tier units punch up","Same spectacular artillery ceiling"],
+ cons:["Community consensus: the boring pick of the trio — thinnest personal identity","Aggression outpaces the slave economy if you're careless","Chaff-heavy early armies still rout"],
+ pick:"Pick if you want Chaos Dwarfs but would rather fight than optimise spreadsheets."},
+{n:"Archaon the Everchosen",r:"Warriors of Chaos",f:"Warhost of the Apocalypse",src:"WH1 base (rework: Champions of Chaos)",d:1,tags:["Undivided","Elite army","Snowball"],
+ mech:[["Dark Fortresses","only the ~50 fortress settlements can be truly held; the rest you raze, sack or vassalise. Feels restrictive for a campaign, then liberating — you stop caring about the map's noise and stride between strongholds"],["Warband upgrades & Eye of the Gods","units are long-term projects upgraded along god-marked paths from marauders into exalted monsters. Armies you've levelled for a hundred turns are the faction's real appeal"],["Chaos Undivided","all four gods' marks, gifts and daemons at once, with Norscan tribes flocking to you as vassals who fight the boring wars. Lategame WoC is broadly agreed to be the strongest sustained army quality in the game — the campaign's only real enemy is your own boredom"]],
+ pros:["Best 'endgame villain' fantasy — you ARE the crisis","Elite everything: the strongest sustained army quality in the game","Vassal norscans fight the boring wars for you"],
+ cons:["Slow start from the far north wastes","Fortress-only ownership takes a campaign to click","So strong it trivialises long campaigns — a common complaint"],
+ pick:"Pick if you want to lead the apocalypse with the game's most elite roster."},
+{n:"Be'lakor",r:"Warriors of Chaos",f:"Shadow Legion",src:"WH3 base (IE)",d:2,tags:["Daemon+mortal","Island base","Undivided"],
+ mech:[["Albion citadel","a mist-shrouded island home the AI essentially never threatens. Guaranteed-safe heart to the empire; you choose when the mainland war happens"],["Daemonic legion","daemons of all four gods mixed with WoC mortals in the same armies — every niche covered in one roster"],["Dark Fortresses & Eye of the Gods","shared WoC systems on the mainland. Honest take: he's Archaon with a safer start and a lower ceiling — most players rate him the chill way into WoC"]],
+ pros:["Safest home in the game — expand at your leisure","Daemon/mortal roster mix covers every niche","Be'lakor is a top-tier caster-duelist hybrid"],
+ cons:["Island start slows early tempo","Identity overlaps Archaon's without the same peak","Sea-lane micromanagement to reach the mainland"],
+ pick:"Pick if you want Undivided Chaos with a fortress hermit-kingdom opening."},
+{n:"Kholek Suneater",r:"Warriors of Chaos",f:"Heralds of the Tempest",src:"WH1 (Chaos race pack)",d:2,tags:["Monster mash","Aggro","Dragon Ogres"],
+ mech:[["Shaggoth ancestor","Kholek is one of the hardest-hitting entities in the game and his skills cheapen Dragon Ogres — the natural campaign is a monster herd with him at the front. That's the mechanic. That's it, and honestly it's enough for one run"],["Monster doomstacks","full-monster armies come online early and stay viable — no infantry babysitting, just aiming avalanches"],["WoC core","Dark Fortresses, warband upgrades, boons — the standard Warriors engine driven by something forty feet tall"]],
+ pros:["Kholek is one of the hardest-hitting lords in the entire game","Storm-of-monsters army fantasy, minimal infantry babysitting","Eastern wastes are a permissive sandbox"],
+ cons:["Monsters bleed to focused missile fire","Few interesting neighbours early — lots of walking","Thin personal mechanics; it's about the stat sheet"],
+ pick:"Pick if you want to be the kaiju — a stat sheet with legs, and a fun one."},
+{n:"Sigvald the Magnificent",r:"Warriors of Chaos",f:"The Decadent Host",src:"WH1 (Chaos race pack)",d:3,tags:["Slaanesh mark","Duelist","Vanity"],
+ mech:[["Slaanesh-marked WoC","warbands upgrade down Slaaneshi paths — fast, killy mortals bridging into daemonettes. Slaanesh tempo with actual armour underneath"],["Mirror-born vanity","self-buffing unbreakable duelist who fights because it flatters him — plays like a boss character you control"],["WoC core","fortresses, warbands, Eye of the Gods. Less faction identity than the Champions four; his draw is the lord, not the systems"]],
+ pros:["Elite fast melee with mortal staying power","Sigvald duels like a dream","Norscan north start funnels constant fights"],
+ cons:["Less faction identity than the Champions of Chaos four","No answer to massed range beyond speed","Snowbally region with several apex predators nearby"],
+ pick:"Pick if you want Slaanesh aggression with actual armour on it."},
+{n:"Valkia the Bloody",r:"Warriors of Chaos",f:"Legion of the Gorequeen",src:"Champions of Chaos",d:2,tags:["Khorne mark","Flying lord","Aggro"],
+ mech:[["Khorne-marked WoC","mortal Khorne warbands maturing into skullcrushers and daemons — Khorne's bloodlust in Warriors plate, with staying power and (heresy) some ranged access"],["Gorequeen","she flies. A flying melee lord dives enemy generals, artillery and casters at will — she personally solves Khorne's mobility problem"],["Souls & Dark Fortresses","Champions lords bank Souls from slaughter to unlock daemonic gifts. The souls grind means constant war, which for Khorne is a feature"]],
+ pros:["Khorne gameplay with armour, range access and real staying power","Flying lord solves Khorne's mobility problem personally","Kislev/Norsca start is an endless buffet"],
+ cons:["Squishier than she looks when focus-fired","Souls grind means the war literally never pauses","Overlaps Skarbrand's niche — choose your flavour"],
+ pick:"Pick if you want Khorne's rage inside the sturdier Warriors of Chaos chassis."},
+{n:"Festus the Leechlord",r:"Warriors of Chaos",f:"The Fecundites",src:"Champions of Chaos",d:1,tags:["Nurgle mark","Empire start","Corruptor"],
+ mech:[["Nurgle-marked WoC","plague-mortals upgrading into rot daemons — attrition mortals that just refuse to die while corruption does the strategic work"],["The Great Brewery","brew elixirs and plagues buffing the warband. Fine system; the real mechanic is the map position"],["Middle Mountains lair","he starts inside the Empire's heart. Turn one, Altdorf's provinces are the buffet — widely considered the best start of the four Champions and one of the easiest snowballs in WoC"]],
+ pros:["Best start position of the four Champions — the Empire is right there","Tanky attrition mortals forgive mistakes","Corruption spread does half your conquering"],
+ cons:["Empire on higher difficulties snowballs back if you stall","Slow army speed, Nurgle-style","Every Order faction hates you instantly"],
+ pick:"Pick if you want to rot the Empire from within, starting turn one."},
+{n:"Vilitch the Curseling",r:"Warriors of Chaos",f:"Puppets of Misrule",src:"Champions of Chaos",d:2,tags:["Tzeentch mark","Caster","Far east"],
+ mech:[["Tzeentch-marked WoC","sorcerous mortals ascending into disc-riding horrors — Warriors durability plus Tzeentch magic output"],["Twisted siphon","drains Winds of Magic from enemies to fuel his own casting — never dry when it matters, brutal against other casters"],["Souls & fortresses","Champions systems pointed at the Great Bastion and Cathay. The far-east theatre is the trade-off: focused war, but a long walk from everything the map's drama"]],
+ pros:["Mortal durability + Tzeentch magic output is a great pairing","Cathay border start offers a meaty, focused war","Warband paths give satisfying long-term army crafting"],
+ cons:["Remote theatre — long walks to the classic map drama","Magic-reliant; dry winds turn armies mediocre","Cathay's crossbow walls counter his early units"],
+ pick:"Pick if you want a sorcerer-warlord siege of Cathay from the wastes."},
+{n:"Azazel",r:"Warriors of Chaos",f:"The Ecstatic Legions",src:"Champions of Chaos",d:2,tags:["Slaanesh mark","Seduction","Norsca start"],
+ mech:[["Slaanesh-marked WoC","fast mortal killers maturing into daemonettes — Slaanesh tempo with enough armour to survive its own mistakes"],["Seductive corruption","settlements steeped in his corruption defect to him without a siege. Corruption-flip expansion is as lazy-strong as it sounds; spread influence, wait, collect cities"],["Souls & fortresses","Champions systems underneath — Souls fund daemonic ascension while charm does the sieging"]],
+ pros:["Corruption-flip expansion is deliciously lazy conquest","Fast mortal roster hits harder than pure Slaanesh daemons","Norsca start full of easy prey and boons"],
+ cons:["Overlaps N'Kari/Sigvald thematically","Fragile flanks vs disciplined gunlines","Kislev will crusade at you early"],
+ pick:"Pick if you want Slaanesh WoC where charm does the sieging for you."},
+{n:"Wulfrik the Wanderer",r:"Norsca",f:"World Walkers",src:"WH1: Norsca",d:2,tags:["Monster hunts","Raider","Naval"],
+ mech:[["Monstrous Arcanum hunts","legendary beasts dotted across the map — boss-fight quest battles with unique rewards, expanded to a dozen new hunts in 7.0. The hunts are the campaign's spine and the 7.0 rework finally made Norsca feel current again"],["Fleet teleport","since 7.0 he teleports his fleet to any revealed port. Raid Lustria this decade, Cathay the next — mobility no other land faction gets, and the single best reason to pick him"],["Allegiance & raiding","dedicate conquests to Norscan gods, live off raiding and sacking. The economy is other people's coastlines"]],
+ pros:["Hunt chain is a built-in world tour with boss fights","Teleport fleet makes him uniquely mobile for a land race","Cheap, angry marauder economy — sack everything"],
+ cons:["Norscan roster still thins out lategame vs elites","Homeland is poor; you must keep moving","God-allegiance choices lock you in"],
+ pick:"Pick if you want a viking world tour — much improved since the 7.0 rework."},
+{n:"Throgg",r:"Norsca",f:"Wintertooth",src:"WH1: Norsca",d:2,tags:["Trolls","Monster mash","Regen"],
+ mech:[["Troll King","cheapens and empowers trolls of every flavour — armies that are mostly regenerating monsters with a thin marauder crust. The troll blob heals through fights the enemy can't afford to lose"],["Allegiance & hunts","shared Norsca systems: god dedication, Monstrous Arcanum hunts — which suit a monster court perfectly"],["Raiding economy","sack-and-dedicate; the Winter King feeds his trolls on other people's kingdoms"]],
+ pros:["Regenerating monster blobs are hilarious and durable","Simpler army identity than Wulfrik — trolls, more trolls","Cold homeland attrition works for you"],
+ cons:["Low-leadership monsters panic without support","Same thin Norscan lategame","AP missile fire deletes trolls fast"],
+ pick:"Pick if you want a monster-mash horde with built-in health regen."},
+{n:"Sayl the Faithless",r:"Norsca",f:"Dolgan",src:"Tides of Torment",d:3,tags:["Sabotage","Ritual victory","Schemer"],
+ mech:[["Manipulations","offensive spycraft from the campaign map — sabotage settlements, cripple armies, poison politics before wars start. Rig the fight, then collect. Early consensus: the most interesting thing to happen to Norsca since the race launched"],["Dark Ritual","a four-stage Chaos Undivided ritual chain building to an outright alternate victory — a raider race with an actual endgame plan beyond 'burn more'"],["Freakshow warband","Fimir, Marauder Bearmen, the Curs'd Ettin, a burrowing Dreadmaw — the weirdest roster in Norsca, and people love it for that"]],
+ pros:["Control-freak campaign: rig fights, cripple economies, then strike","Actual alternate victory path for a raider race","Roster is a genuine toybox of monsters and tricks"],
+ cons:["Menu-heavy compared to classic smash-and-sack Norsca","Ritual stages paint targets on your back","Squishy lord — he's a caster, not a duelist"],
+ pick:"Pick if you want Norsca played as a saboteur-sorcerer instead of a raider."}
+);
+// ---- Empire, Bretonnia, Dwarfs, Greenskins ----
+LORDS.push(
+{n:"Karl Franz",r:"The Empire",f:"Reikland",src:"WH1 base",d:1,tags:["Politics","All-rounder","Beginner-friendly"],
+ mech:[["Imperial Authority & Fealty","the Empire's provinces belong to Elector Counts with opinions. Manage their fealty — gifts, wars on their behalf, the occasional forced seizure — and confederate the realm without sieges. The confed snowball is the campaign: play the politics right and you inherit half the Old World"],["Prestige","imperial deeds bank Prestige, spent on elector seats and their Runefang relics — politics paying out in provinces"],["Combined arms","halberds, handgunners, knights, artillery, wizards. Nothing exotic, everything functional — which is exactly why 'play Franz first' has been standard advice for a decade"]],
+ pros:["The definitive 'unite the realm' political campaign","Balanced roster teaches every battle fundamental","Confederation snowball can absorb half the old world peacefully"],
+ cons:["Surrounded by scripted crises (Festus, vampires, greenskins) that all hit in the first 30 turns","Mid-tier units carry a lot for a long time","Very familiar if you've played any human faction anywhere"],
+ pick:"Pick if you want the canonical Empire experience — politics first, war second. The classic first campaign."},
+{n:"Balthasar Gelt",r:"The Empire",f:"The Golden Order",src:"WH1 base",d:2,tags:["Caster","Colonial start","Magic economy"],
+ mech:[["College of Magic lean","magic-focused Empire — Gelt buffs wizards and his Metal lore turns armoured elites into statues. Spell-supported gunlines over knightly charges"],["Far-east start","he starts by Cathay's frontier as their pet wizard, half a world from Altdorf. Fresh theatre, though the community is split on it — some love the colonial angle, some miss him being in the actual Empire"],["Empire core","Authority and Fealty technically apply at extreme range; in practice elector politics is a spectator sport from out east"]],
+ pros:["Metal lore + gunpowder deletes armoured elites","Fresh map theatre for an Empire faction","Cathay makes a natural early ally"],
+ cons:["Cut off from elector politics — half the race kit is effectively decorative","Colonial economy starts thin","Chaos wastes neighbours hit hard early"],
+ pick:"Pick if you want Empire guns and spells on the frontier instead of in Reikland's sandbox."},
+{n:"Volkmar the Grim",r:"The Empire",f:"Cult of Sigmar",src:"WH1 (Grim & the Grave)",d:3,tags:["Crusade","Southlands","Zealot"],
+ mech:[["War of faith","warrior priests, flagellants and the War Altar — unbreakable fanatics instead of disciplined line infantry. Flagellant spam is a real (and cheap) strategy that holds through anything"],["Southlands crusade","starts at Sudenburg in the deep south fighting Tomb Kings and greenskins. The Empire stripped of its comforts: no electors, no heartland, just faith and sand"],["Empire core","Authority and Prestige exist on paper; this is really an isolated expedition campaign wearing Empire colours"]],
+ pros:["Crusader-in-exile campaign has a strong arc","Flagellant hordes are cheap and unbreakable","Interesting matchups the Empire never usually sees"],
+ cons:["Isolated, poor, and surrounded","Low-tier zealots fall off against elite undead","Elector politics effectively irrelevant"],
+ pick:"Pick if you want a desert crusade — the Empire's faith stripped of its comforts."},
+{n:"Markus Wulfhart",r:"The Empire",f:"Huntsmarshal's Expedition",src:"WH2 (The Hunter & the Beast)",d:3,tags:["Lustria","Monster hunts","Ranged lean"],
+ mech:[["Imperial Supply","impress the Emperor and supply ships arrive with free units and heroes — your army quality is a performance review. The drip-feed pacing is the campaign's spine and its most common complaint: you're always waiting on the next shipment"],["Hostility","expansion raises Lizardmen Hostility, and at thresholds the continent retaliates with doomwaves onto your colonies. People either love the escalating-siege tension or find it exhausting — very much a marmite mechanic"],["The Hunters","unique legendary hero companions recruited through quest chains — a named hunting party around Markus by midgame, and genuinely strong"]],
+ pros:["Expedition survival arc with escalating stakes","Hunter heroes are characterful and strong","Ranged-heavy Empire list suits Lustria's monsters"],
+ cons:["Hostility waves punish greed hard — expansion is on a leash","No elector politics, thin economy","Supply pacing bottlenecks army quality"],
+ pick:"Pick if you want a colonial monster-hunt with real pressure. Stressful by design — that's the appeal or the dealbreaker."},
+{n:"Elspeth von Draken",r:"The Empire",f:"Wissenland & Nuln",src:"Thrones of Decay",d:1,tags:["Gunline","Upgrades","Strong"],
+ mech:[["Amethyst Armoury","spend armoury points to permanently upgrade gunpowder units — new ammo types, modifications, the works. The consensus since ToD launched: this is the best Order faction in the game and probably overtuned. Upgraded Nuln gunlines delete everything that walks toward them"],["Gardens of Morr","a cemetery network across provinces suppressing corruption and letting forces redeploy between them — quiet quality-of-life that makes the heartland genuinely hard to hurt"],["Nuln gunnery school","unique high-tier blackpowder access with Elspeth and her carmine dragon as Death-magic escort. The military-industrial Empire fantasy, fully armed"]],
+ pros:["Upgraded gunlines are among the strongest armies in the game","Death-lore dragon-riding lady is a superb lord","Clean, powerful start with obvious objectives (Tamurkhan, Skaven)"],
+ cons:["Gunline battles get one-note — deploy, delete, repeat","Widely considered overtuned; campaign tension flattens fast","Micro-heavy artillery play if you optimise"],
+ pick:"Pick if you want the Empire at maximum power. Fan-favourite of Thrones of Decay for a reason."},
+{n:"Louen Leoncoeur",r:"Bretonnia",f:"Couronne",src:"WH1: Bretonnia (free)",d:2,tags:["Knights","Chivalry","Crusades"],
+ mech:[["Chivalry","an honour meter fed by noble deeds and drained by razing and treachery — high Chivalry unlocks tiers and eventually the Green Knight. A code of conduct with mechanical teeth: the game genuinely stops you playing like a bandit"],["Errantry Wars","declare crusades against distant threats and rally knights to them for big rewards — built-in reasons for a defensive kingdom to ride out"],["Peasant economy","infantry and economy share one manpower pool: too many levies and income tanks. The community has the ratios memorised; you'll learn the peasant math whether you want to or not"]],
+ pros:["Best heavy cavalry gameplay in the game","Chivalry system rewards playing 'honourably' — a fun constraint","Strong, safe corner start"],
+ cons:["Infantry is deliberately terrible","Cavalry micro every battle, forever — autoresolve hates cav, so you fight everything manually","Economy ceiling is low without careful peasant math"],
+ pick:"Pick if you want to actually play knights — hammer charges, honour, and grail vows."},
+{n:"Alberic de Bordeleaux",r:"Bretonnia",f:"Bordeleaux Errant",src:"WH1: Bretonnia (free)",d:3,tags:["Knights","Lustria","Naval flavour"],
+ mech:[["Errant crusade","a knightly expedition planted on Lustria's coast — one long errantry war fought oceans from home. Great premise; commonly rated the roughest Bretonnian start because cavalry in jungle chokepoints is self-inflicted pain"],["Chivalry & vows","full Bretonnian systems abroad, stress-tested by a continent that doesn't fight fair"],["Sea-lord flavour","naval-tinged buffs fitting a crusade that lives on its supply line"]],
+ pros:["Knightly crusade against dinosaurs is a great premise","Fresh matchups for the Bretonnian toolkit","Chivalry farming is easy when everything nearby is evil"],
+ cons:["Cavalry in jungle chokepoints is self-inflicted pain","Isolated economy, no homeland support","Vampire Coast neighbours counter knights hard"],
+ pick:"Pick if you want Bretonnia's hardest pilgrimage — chivalry tested in the jungle."},
+{n:"The Fay Enchantress",r:"Bretonnia",f:"Carcassonne",src:"WH1: Bretonnia (free)",d:2,tags:["Caster","Knights","Defensive"],
+ mech:[["The Lady's voice","the strongest caster access in the race, with Life magic healing cavalry mid-battle — patching heavy cav's one real weakness, attrition"],["Chivalry & vows","standard Bretonnian systems from the Lady's own seat"],["Southern march","Carcassonne guards the passes against greenskins and Vault undead — a border-warden campaign with clear enemies. Solid, unspectacular; the community's 'fine' pick of the four"]],
+ pros:["Healing magic fixes cavalry's attrition problem","Purposeful defensive start with clear enemies","Grail pilgrimage flavour throughout"],
+ cons:["Same peasant economy constraints","Battles still live and die on cavalry micro","Less distinct than Louen or Repanse"],
+ pick:"Pick if you want Bretonnia with the Lady's magic keeping your knights alive."},
+{n:"Repanse de Lyonesse",r:"Bretonnia",f:"Chevaliers de Lyonesse",src:"WH2 (free)",d:2,tags:["Crusade","Araby","Anti-undead"],
+ mech:[["Desert crusade","lands at Copher in Araby with a holy mandate against Tomb Kings and undead corsairs. Clear foes, clean geography, real momentum — the general consensus best Bretonnian campaign"],["Chivalry engine","righteous war against the unliving farms Chivalry faster than anyone, cascading the honour rewards early"],["Joan-of-Arc lord","cheap, inspiring, surprisingly lethal — an aura of fervour around a duelist who leads every charge"]],
+ pros:["The cleanest crusade arc in the race — clear foes, holy purpose","Chivalry cascades early and hard","Great value lord who buffs everything around her"],
+ cons:["Far from Bretonnia proper and its politics","Tomb King army caps mean endless replacement waves at you","Same infantry weaknesses in siege-heavy desert war"],
+ pick:"Pick if you want Bretonnia's best campaign — the community answer to 'which Bret lord?'"},
+{n:"Thorgrim Grudgebearer",r:"Dwarfs",f:"Karaz-a-Karak",src:"WH1 base",d:1,tags:["Grudges","Defensive","Economy"],
+ mech:[["The Great Book of Grudges","wrongs against dawi-kind become grudges with targets attached; settle them for buffs building toward an Age of Reckoning. The ToD-era rework turned this from a passive score into an actual objective system, and dwarfs have been rated strongly ever since — the Book writes your to-do list from whatever the world does to you"],["Karaz-a-Karak","the richest hold in the mountains, natural seat for reunifying the Karaz Ankor hold by hold"],["Dwarf core","elite unbreakable infantry, superior guns and artillery, gyrocopters, zero cavalry. Battles are 'hold the line while the guns work' — reliable to the point that manual battles become optional"]],
+ pros:["Grudge system turns every slight into content","Immovable battle line + superior guns wins on autopilot","Deep economy and settlement quality"],
+ cons:["Slow armies make map control a chore","Reactive playstyle — grudges tell you where to go","Greenskin/skaven pressure from every tunnel"],
+ pick:"Pick if you want the definitive dwarf ledger — much improved since the grudge rework."},
+{n:"Ungrim Ironfist",r:"Dwarfs",f:"Karak Kadrin",src:"WH1 base",d:2,tags:["Slayers","Aggro dwarfs","North wall"],
+ mech:[["Slayer king","slayers cheap, buffed and en masse — unarmoured berserkers who cannot break and hit like trucks. Slayer-heavy lists flip the dwarf rhythm from 'hold' to 'charge', which is exactly why people pick him"],["Kadrin's watch","every Chaos incursion into the mountains comes through Karak Kadrin — permanent frontline identity"],["Dwarf core","grudges, holds and artillery still back the slayers up"]],
+ pros:["Fast(er), angrier dwarfs — a refreshing spin on the race","Slayer doomstacks shred monsters and elites","Front-row seat for every Chaos invasion"],
+ cons:["Unarmoured slayers melt to massed missiles","Constant northern pressure never relents","Still dwarf-slow on the map"],
+ pick:"Pick if you want dwarfs that charge — doom-seeking aggression over turtling."},
+{n:"Belegar Ironhammer",r:"Dwarfs",f:"Clan Angrund",src:"WH1 (King & the Warlord)",d:3,tags:["Reclamation","Mission-driven","Ancestor ghosts"],
+ mech:[["Retake Karak Eight Peaks","the whole campaign is an oath to reclaim the hold from Skarsnik and Queek. Everything before Eight Peaks is prep; everything after is the payoff"],["Ancestor spirits","four ghost heroes march with Belegar until the oath is fulfilled — his early armies punch well above their weight because of them"],["Upkeep burden","faction-wide penalties until Eight Peaks is yours. Community opinion is split: some love the mechanical urgency, some just find the tax miserable. Either way, you will not dawdle"]],
+ pros:["The best mission-driven campaign among the dwarfs","Three-way feud with Skarsnik and Queek is proper drama","Payoff hold is a monster once secured"],
+ cons:["Punishing early economy under the oath penalties","Badlands is a war-torn hellscape","After Eight Peaks the campaign needs self-set goals"],
+ pick:"Pick if you want a vengeance quest with a real prize at the end."},
+{n:"Grombrindal",r:"Dwarfs",f:"The Ancestral Throng",src:"WH2 FLC (White Dwarf)",d:1,tags:["Versatile","Ancestor boons","Naggaroth"],
+ mech:[["Advice of the Ancestors","channel one ancestor god at a time — war, craft, or holds — and swap the active aspect as the situation changes. A strategy toggle no other dwarf gets, and he's a legendary stat-stick on top; commonly rated the strongest dwarf lord for free"],["Naggaroth start","dwarfs vs Dark Elves in the frozen north — a war the race never usually fights, and a good one"],["Dwarf core","the Book of Grudges and the classic toolkit travel with him"]],
+ pros:["Ancestor aspects make him the most flexible dwarf lord","Great, focused early war against Malekith's kin","He's a legendary stat-stick in melee"],
+ cons:["Far from the Karaz Ankor and its politics","Cold, poor starting territory","Aspect-swapping is the only novel system"],
+ pick:"Pick if you want a dwarf campaign with build flexibility and a fresh continent — strong FLC value."},
+{n:"Thorek Ironbrow",r:"Dwarfs",f:"Ironbrow's Expedition",src:"WH2 FLC",d:2,tags:["Relic hunt","Lustria","Runes"],
+ mech:[["Anvil of Doom","fights from the Anvil itself — a battlefield support platform striking runes that buff the throng and smite the enemy. A weapons system you position, not a duelist"],["Relic hunts","lost dawi artefacts hidden across the world, recovered through expedition missions for strong runic rewards — dwarven archaeology with an armed escort"],["Lustria expedition","digs in among Lizardmen and Skaven, building a colonial hold network around the dig sites"]],
+ pros:["Treasure-hunt structure gives constant side objectives","Anvil support play is unique among dwarf lords","Runic rewards are genuinely powerful"],
+ cons:["Expedition start lacks hold-network depth","Relic chasing drags you across oceans","Lizardmen doomstacks early are scary"],
+ pick:"Pick if you want dwarfs as archaeologists — dig up the past, rune-hammer the present."},
+{n:"Malakai Makaisson",r:"Dwarfs",f:"Masters of Innovation",src:"Thrones of Decay",d:1,tags:["Airship","Adventures","Slayer-engineer"],
+ mech:[["Spirit of Grungni","his airship is a mobile institution — arm and upgrade it over the campaign and it shadows your armies as flying fire support. The thunderbarge doomstack became a community meme within a week of ToD launching, and it has not stopped being funny"],["Adventures","the campaign runs as picked adventure arcs, each self-contained with strong rewards. There's always a current quest — the rare dwarf who never wonders what to do next"],["Slayer-engineer roster","gyros, thunderbarges and experimental guns meet slayer aggression — the most airborne army the dawi can field"]],
+ pros:["Adventure structure = built-in campaign pacing, never aimless","Thunderbarge doomstacks are outrageous fun","Norsca start gives a clean early sandbox"],
+ cons:["So self-contained the wider dwarf politics fade","Air-heavy armies trivialise many fights","Adventure hopping can scatter your empire"],
+ pick:"Pick if you want the most fun dwarf campaign — a common answer to 'best campaign in the game right now'."},
+{n:"Grimgor Ironhide",r:"Greenskins",f:"Grimgor's 'Ardboyz",src:"WH1 base",d:1,tags:["WAAAGH!","Melee","Snowball"],
+ mech:[["WAAAGH!","fightin' fills the meter; a full meter grants a free shadow army mirroring yours plus faction buffs. War funds more war — the loop takes zero explanation and never stops working"],["Scrap","battles yield Scrap spent on per-unit upgrade kits — the quiet depth of the race, kitting out veteran units over a long campaign"],["Da best","Grimgor is arguably the single strongest melee lord in the game. That's not flavour text; check any tier list"]],
+ pros:["Fight-to-power loop is simple and self-reinforcing","Scrap upgrades give greenskins surprising depth","Black orc core hits like a truck"],
+ cons:["Chaos Dwarfs next door punch back hard these days","Low-leadership chaff routs in waves","Classic roster — few surprises left"],
+ pick:"Pick if you want da simple truth: get stuck in, krump, get bigger."},
+{n:"Azhag the Slaughterer",r:"Greenskins",f:"Bloody Handz",src:"WH1 base",d:2,tags:["Caster","Wyvern","North"],
+ mech:[["Crown of Sorcery","an orc warboss casting Death magic from a wyvern — the crown whispers, Azhag obliges. Warlord and warlock in one, and squishier than he looks when someone shoots the wyvern"],["WAAAGH! & Scrap","the full greenskin engine underneath"],["Troll Country start","fights Kislev and the Empire's fringe in the frozen north — greenskins in a theatre they never usually terrorise, though a poorer one than the Badlands"]],
+ pros:["Death lore on a flying wyvern lord is a great package","Different theatre from the Badlands pile-up","Scrap-upgraded boyz plus magic covers all bases"],
+ cons:["Northern start is poorer than the Badlands","He's squishier than Grimgor in a straight duel","Kislev's hybrids counter chaff well"],
+ pick:"Pick if you want greenskins with a spellbook and a wyvern."},
+{n:"Skarsnik",r:"Greenskins",f:"Crooked Moon",src:"WH1 (King & the Warlord)",d:2,tags:["Goblins","Tricks","Eight Peaks feud"],
+ mech:[["Gobbo warlord","night goblins buffed into a real army — fanatics whirling out of units, squig herds, cheap spearwalls. Winning with the runts is the identity, and the community treats gobbo-only runs as a beloved challenge format"],["Eight Peaks claim","he holds the hold and Belegar and Queek both want it — the three-way feud anchors the early game with named rivals"],["WAAAGH! & Scrap","shared systems tuned for hordes — free armies and Scrap kits that make even goblins worth upgrading"]],
+ pros:["Squig and fanatic armies are chaos incarnate (the fun kind)","Feud narrative gives the campaign spine","Cheap units + scrap = quantity with upgrades"],
+ cons:["Goblins rout if you sneeze near them","Elite enemies eventually outclass squig spam","Badlands is a permanent warzone"],
+ pick:"Pick if you want to win with the little gits — trickery, squigs, and spite."},
+{n:"Wurrzag",r:"Greenskins",f:"Bone Nose Tribe",src:"WH1 FLC",d:2,tags:["Savage orcs","Shaman","Southlands"],
+ mech:[["Da Great Green Prophet","savage orcs — naked, frenzied, ward-saved. Warpaint-as-armour makes cheap units weirdly durable, and Wurrzag is the best orc shaman backing them up"],["WAAAGH! & Scrap","shared engine feeding a horde that fights harder the more it fights"],["Southlands start","Tomb Kings, lizards and southern dwarfs for neighbours — a quieter corner to build da prophecy"]],
+ pros:["Savage orc ward saves make cheap units weirdly durable","Big magic support from the best orc shaman","Quieter corner to snowball from"],
+ cons:["No armour anywhere — AP missiles still hurt","Southlands logistics are long","One-note army identity"],
+ pick:"Pick if you want fanatic naked orcs powered by pure belief in Gork (or possibly Mork)."},
+{n:"Grom the Paunch",r:"Greenskins",f:"Broken Axe",src:"WH2 (Warden & the Paunch)",d:1,tags:["Cauldron","Ulthuan invasion","Fun"],
+ mech:[["Grom's Cauldron","collect ingredients, cook recipes, get army-wide buff combos. Regularly cited as one of the best mechanics CA ever shipped — discovering dishes and pairing the right meal to the coming war stays fun for an entire campaign"],["Invasion of Ulthuan","the arc points at the High Elves for round two with Eltharion. Cracking the fortress-donut is a proper mid-game project"],["WAAAGH! & Scrap","the shared engine keeps the goblin horde fed between courses"]],
+ pros:["Cooking mini-game is genuinely one of the best mechanics in the series","Clear campaign arc with a hated rival","Goblin chariot spam plus buffs works shockingly well"],
+ cons:["Ulthuan is a fortified fortress-donut to crack","Recipe farming means fighting specific things","Once cooked-up, difficulty falls off"],
+ pick:"Pick if you want the chef-warlord experience — cook, invade, humiliate elves."},
+{n:"Gorbad Ironclaw",r:"Greenskins",f:"Ironclaw Orcs",src:"Omens of Destruction",d:2,tags:["Da Plan","Strategic","Boar cav"],
+ mech:[["Da Great Plan","staged campaign-wide objectives, each stage stacking permanent faction buffs and unlocking tricks — greenskins with an actual grand strategy. Landed well in OoD; direction without railroading"],["Kunnin' tactics","battle and army-level options rewarding set-up over pure krumpin' — feints, focused charges, dirty tricks"],["Boar-heavy warband","the race's best cavalry lean: boar boyz hammers around orc anvils, an actual hammer-and-anvil greenskin army"]],
+ pros:["Most 'strategist' greenskin lord — direction without railroading","Boar cav hammer/anvil actually works","Black Crag start with rich feuds nearby"],
+ cons:["Plan objectives can conflict with opportunistic play","Still greenskin leadership fragility","Less silly-fun than Grom's cauldron"],
+ pick:"Pick if you want a greenskin campaign wiv' an actual plan — cunning brutality."}
+);
+// ---- High Elves, Dark Elves, Wood Elves ----
+LORDS.push(
+{n:"Tyrion",r:"High Elves",f:"Lothern",src:"WH2 base",d:1,tags:["Duelist","Politics","Beginner-friendly"],
+ mech:[["Influence & intrigue","spend Influence on better lords or on whispering in foreign courts — nudging any two factions toward friendship or war. Veteran players cheese this hard (dogpile your rivals for pocket change); new players forget it exists. Both work"],["Defender of Ulthuan","Lothern holds the gate of the donut: N'Kari and Dark Elf raids come to you, then you police the world at your leisure"],["Sword of Khaine","the Widowmaker sits on his doorstep — huge personal power, escalating diplomatic ruin. Community consensus: a fun trap, take it for the memes or leave it buried"]],
+ pros:["Ulthuan is a natural fortress with rich provinces","Tyrion is a top-three melee duelist","Straightforward, forgiving intro to the race"],
+ cons:["Archer-and-spear core plays passively","Safe start can turn into a sleepy start — Ulthuan pacifies fast","Donut geography means long marches everywhere"],
+ pick:"Pick if you want the classic High Elf campaign — defend paradise, then police the world."},
+{n:"Teclis",r:"High Elves",f:"Order of Loremasters",src:"WH2 base",d:2,tags:["Caster","Lustria","Support"],
+ mech:[["Loremaster","every lore of magic on one character — the most complete caster in the game. Battles bend around what he deletes this turn; the army is mostly an escort"],["Southern watch","props up Lizardmen allies against Skaven and chaos near southern Lustria — guardian-abroad campaign, with the usual Lustria whack-a-mole of slippery neighbours"],["Influence","shared court intrigue, useful for keeping distant allies aligned"]],
+ pros:["Unmatched magical toolkit on one character","Interesting alliance-warden start with Lizardmen","Ranged-magic combos delete armies"],
+ cons:["Far from Ulthuan and its politics","Fragile if magic runs dry","Neighbours (Skaven, Vampire Coast) are slippery pests that keep respawning"],
+ pick:"Pick if you want to solo battles with spells and babysit the Old Ones' children."},
+{n:"Alarielle the Radiant",r:"High Elves",f:"Avelorn",src:"WH2 (Queen & the Crone)",d:2,tags:["Healer","Defensive","Anti-corruption"],
+ mech:[["The Everqueen","Life-magic sustain, purity auras, and exclusive Sisters of Avelorn — the Sisters doomstack is one of the game's oldest reliable answers to everything, and healing keeps elite armies at full strength between fights"],["Defender of the Glades","north Ulthuan with Hellebron raiding on a schedule and N'Kari next door — recurring named villains hitting your coastline"],["Influence","shared court intrigue for pointing Ulthuan's princes at actual threats"]],
+ pros:["Sisters of Avelorn are among the best missile units anywhere","Healing keeps elite elf armies pristine","Purity-vs-corruption theme is well supported"],
+ cons:["Immediate rivals hit her coastline constantly","Defensive posture can stall momentum","Overlaps Tyrion's territory goals"],
+ pick:"Pick if you want elite archers kept alive by the world's best support caster."},
+{n:"Alith Anar",r:"High Elves",f:"Nagarythe",src:"WH2 FLC",d:2,tags:["Guerrilla","Anti-Druchii","Ambush"],
+ mech:[["Shadow King","the blood-feud against the Dark Elves fought as an insurgency — vanguard deployment, ambushes, shadow warriors striking from nowhere. High Elves played as guerrillas instead of princes"],["Naggaroth start","the war happens inside the enemy's homeland: every neighbour a target, every victory behind enemy lines, and an economy that stays thin because of it"],["Moon dragon & shadow warriors","skirmisher-leaning roster with a moonlit dragon for the king himself"]],
+ pros:["Asymmetric revenge campaign with clear villains","Ambush stance shenanigans all day","Free lord with real identity"],
+ cons:["Hostile continent, thin economy","Squishy skirmish core needs discipline","Reinforcement lines from Ulthuan are long"],
+ pick:"Pick if you want elven vengeance played as an insurgency behind enemy lines."},
+{n:"Eltharion the Grim",r:"High Elves",f:"Yvresse",src:"WH2 (Warden & the Paunch)",d:2,tags:["Prison","Defense","Mistwalkers"],
+ mech:[["Athel Tamarha","capture defeated enemy lords and heroes, imprison and interrogate them for faction buffs (or worse). Genuinely villainous system for a 'good' faction — the prisoner management is a bit fiddly but flavourful all campaign"],["Mists of Yvresse","supernatural mists debuff and misdirect invaders — Yvresse is genuinely miserable to attack, which matters because Grom's waves keep coming"],["Mistwalker units","hybrid warband units that let his armies operate self-sufficiently far from home"]],
+ pros:["The prison is a deliciously villainous system for a 'good' faction","Grom rivalry gives the campaign a narrative spine","Mistwalkers make varied, self-sufficient armies"],
+ cons:["Yvresse is poor by Ulthuan standards","Prisoner upkeep micromanagement","Constant greenskin invasion pressure"],
+ pick:"Pick if you want High Elves with an edge — jailer of the realm, warden of the mists."},
+{n:"Imrik",r:"High Elves",f:"Knights of Caledor",src:"WH2 FLC",d:3,tags:["Dragons","Darklands","Elite"],
+ mech:[["Dragon encounters","unique named dragons slumber across the map; seek each out and persuade, duel or impress it into service. The dragon-collecting is beloved — one of those FLC campaigns the community rates above most paid ones"],["Exile in the Darklands","deep hostile start ringed by Chaos Dwarfs and greenskins. Rough opening, and post-Forge of the Chaos Dwarfs it got rougher — his neighbours got a whole DLC of new toys"],["Caledor's pride","roster and skills lean into dragons and dragon princes; the endgame is a sky full of them, and yes, it trivialises things — that's the reward"]],
+ pros:["Assembling a stable of legendary dragons is peak campaign motivation","Hard start makes victories feel earned","Dragon doomstacks trivialise the lategame (satisfyingly)"],
+ cons:["Genuinely rough opening surrounded by industry and WAAAGHs","Far from every High Elf system's home context","Dragon micro vs massed AP missiles"],
+ pick:"Pick if you want the dragonlord fantasy: start with one, end with a sky full."},
+{n:"Sea Lord Aislinn",r:"High Elves",f:"High Elf Sea Patrol",src:"Tides of Torment",d:3,tags:["Naval horde","No settlements","Unique loop"],
+ mech:[["Dragonship Fleets","you own no land — the Dragonships ARE the nation, floating settlements housing buildings and supporting each other in battle. The most experimental thing CA has shipped in years; early community reaction ranged from 'finally, something new' to 'I miss having provinces'. Read up before buying in"],["Asur Domination","conquered settlements get vested to other High Elf factions for favour — you win by making the Asur strong, not by painting the map. Genuinely different victory psychology"],["Outposts & dedications","coastal outposts for upgrades, deeds dedicated to elven patrons, plus Lore of Mists, sea elementals and merwyrms rounding out an actually-oceanic roster"]],
+ pros:["Genuinely new way to play: a sovereign navy without borders","Gifting conquests builds an elf-wide power bloc around you","Ocean mobility means you pick every fight"],
+ cons:["No conventional empire — if you like painting the map, wrong lord","Fleet-building rules take real learning","Weak vs landlocked threats by design"],
+ pick:"Pick if you want the admiral campaign — the most experimental lord in the game. Love-it-or-bounce-off-it."},
+{n:"Malekith",r:"Dark Elves",f:"Naggarond",src:"WH2 base",d:2,tags:["Tyrant","Slaves","Caster-fighter"],
+ mech:[["The Witch King","elite caster AND elite duelist on a black dragon — wins the magic duel and the melee one. One of the few lords who reshapes battles just by existing"],["Slave economy & Black Arks","battle captives fuel industry; Black Arks roam the seas as mobile fortresses recruiting and bombarding. Both got a 7.0 refresh that the community received well — Dark Elves feel current again"],["Claim Ulthuan","the long arc points at the Phoenix Throne. Getting there is a boat ride; taking it is the campaign"]],
+ pros:["Dark Elf roster is elite at every slot","Arks give naval reach and mobile recruitment","Strong start with clear expansion lanes"],
+ cons:["Loyalty system means your own lords can defect mid-war","Slave management is bookkeeping","Ulthuan endgame is a long boat ride away"],
+ pick:"Pick if you want the tyrant-king campaign — elite armies fed by a slave empire."},
+{n:"Morathi",r:"Dark Elves",f:"Cult of Pleasure",src:"WH2 base",d:2,tags:["Caster","Intrigue","Slaanesh flavour"],
+ mech:[["Hag Sorceress","the first and greatest sorceress — supreme caster with Slaanesh-tinged flavour, power through seduction and sorcery rather than the axe"],["Cult intrigue","influence and manipulation lean: courts swayed, rivals undermined, the knife after the whisper"],["DE core","slaves, Black Arks and disloyal lords underneath. Fewer unique systems than the DLC lords — you pick her for the lord and the vibe, not the mechanics"]],
+ pros:["Best pure caster in the race","Ghrond start is defensible with clear fronts","Political-flavoured DE campaign"],
+ cons:["Overlaps Malekith's territory ambitions","Fragile lord if caught in melee","Fewer unique systems than the DLC lords"],
+ pick:"Pick if you want Dark Elves ruled from the shadows by their true power."},
+{n:"Malus Darkblade",r:"Dark Elves",f:"Hag Graef",src:"WH2 (Shadow & the Blade)",d:2,tags:["Possession","Duelist","Risk-reward"],
+ mech:[["Tz'arkan","the daemon inside: unleash it in battle for monstrous power, at the cost of control and sanity meters. Strong duelist either way, monstrous unleashed — the dial is a genuinely good risk-reward system"],["Potion management","the suppressing elixir is a consumable you keep sourcing. Honest community take: the meter-and-potion babysitting wears thin over a long campaign even when the payoff is worth it"],["DE core","slaves, arks and loyalty underneath, funding a story that's really about the monster in the man"]],
+ pros:["Possession dial is a great personal risk-reward system","Strong duelist either way — monstrous when unleashed","Solid Hag Graef start"],
+ cons:["Meter and potion babysitting, forever","Faction-level mechanics are mostly stock DE","His story pulls focus from empire play"],
+ pick:"Pick if you want a lord with a literal inner daemon — power you have to pay for."},
+{n:"Crone Hellebron",r:"Dark Elves",f:"Har Ganeth",src:"WH2 (Queen & the Crone)",d:2,tags:["Sacrifice","Berserk","Burst buffs"],
+ mech:[["Death Night","recurring blood sacrifices open windows of enormous faction-wide buffs, then withdrawal decay when the high fades. The campaign has a heartbeat: gather victims, feast, rampage while empowered, endure the crash. You either enjoy playing to the timer or you find it forces wars you didn't want"],["Blood-fueled rage","she scales with slaughter; Witch Elf armies shred anything unarmoured and answer to nobody once frenzied"],["DE core","slaves, arks and loyalty — the sacrifices need feeding, so the raids never stop"]],
+ pros:["Death Night rhythm creates natural offensive tempo","Witch elf armies shred anything unarmoured","Raiding Ulthuan's north is on-theme and profitable"],
+ cons:["Buff-window pacing forces wars on a timer","Frenzied units are hard to control","Decay periods feel bad if you mistime"],
+ pick:"Pick if you want a campaign with a heartbeat — feast, rampage, crash, repeat."},
+{n:"Lokhir Fellheart",r:"Dark Elves",f:"The Blessed Dread",src:"WH2 FLC",d:2,tags:["Corsair","Raider","Cathay coast"],
+ mech:[["Black Ark corsair","lives on his Ark, profits from violence at sea — heavy raiding and sacking bonuses make plunder the economy. You harvest coastlines rather than hold them"],["Far-east hunting ground","starts off Cathay's coast, the richest softest seaboard in the game, working down the shipping lanes"],["DE core","slaves, arks, loyalty — fed by the corsair fleets' catch. The loop plateaus eventually; the fun is the piracy phase, not the empire phase"]],
+ pros:["Sack-economy piracy prints money","Cathay coast is fat and undefended at sea","Free lord with a clear playstyle"],
+ cons:["Far from the Dark Elf homeland power structure","Cathay on land is a hard wall","Raider loop plateaus once the coasts are stripped"],
+ pick:"Pick if you want elf piracy proper — the Black Ark as a travelling siege."},
+{n:"Rakarth",r:"Dark Elves",f:"Karond Kar",src:"WH2 FLC",d:2,tags:["Beastmaster","Monsters","Free"],
+ mech:[["Beastmaster","hydras, manticores and kharibdysses come cheaper, earlier and better-behaved — monster-heavy Dark Elf armies from turn one. Simple identity, executes well"],["Whip of agony","skills and items deepen the tamer theme — breaking beasts and fighting alongside them"],["DE core","slaves, arks, loyalty — the standard Naggarothi machine feeding an ever-larger kennel"]],
+ pros:["Monster-heavy Dark Elf armies from turn one","Simple, powerful identity","Solid start position for snowballing"],
+ cons:["Monsters vs AP missiles is always tense","Thin unique campaign systems","Roster overlap with generic DE monster play"],
+ pick:"Pick if you want the menagerie: every leash in Naggaroth, slipped at once."},
+{n:"Orion",r:"Wood Elves",f:"Talsyn",src:"WH1: Realm of the Wood Elves",d:2,tags:["Wild Hunt","Teleport network","Seasonal"],
+ mech:[["The Wild Hunt","seasons cycle toward the Hunt, when the faction surges with wrath and Orion rides out — offensives naturally align to the calendar. War on nature's schedule, which you either plan around or fight against"],["Worldroots","the world's great forests connect by roots your armies travel between — Naggaroth this decade, Cathay's jungles the next. The WE rework made this the best strategic mobility in the game short of Oxyotl, and healing forests to power up gives non-standard objectives"],["Amber & forest health","economy runs on amber and sacred groves, not sprawl — a small deep empire measured in healthy forests"]],
+ pros:["Worldroots mobility is unmatched — strike anywhere","Best archers in the game behind unkillable-if-microed skirmish lines","Forest-tending gives non-standard objectives"],
+ cons:["Fragile everything; mistakes are expensive","Economy/mechanics take a full campaign to internalise","Season pacing constrains when you can push"],
+ pick:"Pick if you want apex archery plus a teleporting god-king's hunting calendar."},
+{n:"Durthu",r:"Wood Elves",f:"Argwylon",src:"WH1: Realm of the Wood Elves",d:2,tags:["Treefolk","Melee lean","Aggro"],
+ mech:[["Elder treeman","tree-spirit army lean — dryads, treekin, treemen where other Wood Elves put fragile archers. The race's only real melee spine, and Durthu himself is a wrecking crew"],["Worldroots & forests","full Wood Elf strategic layer: root-travel, forest health, amber"],["Wrath of the wood","punitive stance toward the axe-bearers — the forest hitting back with fists of bark"]],
+ pros:["Durable melee spine the race otherwise lacks","Durthu himself is a wrecking crew","Same worldroot strategic mobility"],
+ cons:["Slow spirits + fast elves is an awkward blend","Fire damage says hello","Less distinct than Drycha's all-spirit take"],
+ pick:"Pick if you want the forest's fists — treemen up front, arrows behind."},
+{n:"Drycha",r:"Wood Elves",f:"Wargrove of Woe",src:"WH2 (Twisted & the Twilight)",d:3,tags:["No elves","Spirits only","Misanthrope"],
+ mech:[["Malicious spirits","no elf units at all — dryads, tree-kin, hags and swarming creatures. Trades the race's famous archery for regenerating spirit mass; a fundamentally different WE list"],["Everyone's enemy","starts in the Empire's forests hating man and elf alike. Hostile-to-all is the hardest diplomacy setting in the game and the community treats her as the WE challenge run"],["Worldroots & forests","shared network and forest-health economy, turned toward vengeance"]],
+ pros:["Truly distinct army identity within the race","Guilt-free target list: literally everyone","Spirit regen + swarms play differently"],
+ cons:["No archers means giving up the race's best tool","Hostile-to-all diplomacy is the hardest setting","Empire heartland start is a hornet's nest"],
+ pick:"Pick if you want the forest's grudge incarnate — the Wood Elf challenge run."},
+{n:"Sisters of Twilight",r:"Wood Elves",f:"Heralds of Ariel",src:"WH2 (Twisted & the Twilight)",d:1,tags:["Crafting","Flying lord","Naggaroth"],
+ mech:[["Forge of Daith","the smith-god forges unique items for the Sisters alone, crafted and upgraded through tiers all campaign — a full gear-progression economy, and the rewards are strong enough that the community rates this among the easiest campaigns in the game"],["Twin aspects","two sisters, one forest dragon — swap between them mid-battle to switch combat roles. A flying archer-lord who kites entire armies is exactly as cheesy as it sounds"],["Worldroots & forests","the shared network run from a Naggaroth grove with Druchii villains next door"]],
+ pros:["Forge crafting is a superb long-term progression toy","Flying archer-lord kites entire armies solo","Defensible start with clear Druchii villains"],
+ cons:["So strong it flattens difficulty — commonly cited as too easy","Remote from the classic Athel Loren drama","Item micromanagement if you min-max"],
+ pick:"Pick if you want Wood Elves on easy mode — craft, fly, delete."}
+);
+// ---- Lizardmen, Skaven, Tomb Kings ----
+LORDS.push(
+{n:"Lord Mazdamundi",r:"Lizardmen",f:"Hexoatl",src:"WH2 base",d:1,tags:["Caster","Geomantic Web","Defensive"],
+ mech:[["Geomantic Web","settlements sit on the Old Ones' power grid; strengthen the links and province edicts amplify tier by tier. Set it up once and the empire quietly out-produces its neighbours — low-touch, real payoff"],["Slann supremacy","the heaviest magic hitter in the race, hurling comets from a stegadon palanquin — battles open with him rearranging the enemy and the terrain under them"],["Great Plan","the race's Rites and directives — targeted objectives with strong rewards that give the sprawl some shape"]],
+ pros:["Dino hammer + saurus anvil + apex magic — the full package","Web-boosted edicts quietly out-economy neighbours","Safe Hexoatl start to learn the race"],
+ cons:["Web upkeep means building discipline","Skink chaff evaporates when mispositioned","Slow-ish armies chase poorly"],
+ pick:"Pick if you want the Old Ones' plan enforced by earthquakes and dinosaurs."},
+{n:"Kroq-Gar",r:"Lizardmen",f:"Last Defenders",src:"WH2 base",d:2,tags:["Saurus","Dino cav","Southlands"],
+ mech:[["Last Defender","saurus and cold-one buffs — martial lean over magic. His armies fight like a veteran legion with dinosaur cavalry; the plainest Lizardman kit, which is the common knock on him"],["Southlands watch","guards the southern temple-cities against rats, orcs and desert undead across a big, contested continent"],["Great Plan","shared Rites pointing the legion's spears at the Old Ones' priorities"]],
+ pros:["Cold-one and carnosaur aggression plays fast for the race","Clear early wars with satisfying villains","Grymloq the carnosaur is a proper mount"],
+ cons:["Less magic than the race's best","Southlands sprawl stretches armies","Fewest unique systems in the race — the vanilla pick"],
+ pick:"Pick if you want Lizardmen as a war machine — claws first, cosmology later."},
+{n:"Tehenhauin",r:"Lizardmen",f:"Cult of Sotek",src:"WH2 (Prophet & the Warlock)",d:2,tags:["Sacrifice","Skinks","Plagues"],
+ mech:[["Sacrifices to Sotek","battle captives feed the Serpent God's altars; milestones unlock blessings including plagues dropped on your enemies. Every fight has a second payoff, which keeps the war machine hungry by design"],["Red Crested host","skink-first armies — swarms, poison, javelins, chameleons. Winning through numbers and venom instead of saurus muscle, with all the micro that implies"],["Great Plan","shared Rites, though Sotek's prophet answers a hungrier god first"]],
+ pros:["Sacrifice engine gives every battle a second payoff","Skink swarms + plagues is an unusual, fun ecosystem","Ikit Claw rivalry is a great campaign spine"],
+ cons:["Skinks are tissue paper in a straight fight","Sacrifice pacing wants constant war","Lustria's civil chaos surrounds you"],
+ pick:"Pick if you want the serpent-cult crusade — drown the rats in blood and cousins."},
+{n:"Tiktaq'to",r:"Lizardmen",f:"Tlaqua",src:"WH2 FLC",d:2,tags:["Air force","Terradons","Raider"],
+ mech:[["Master of skies","terradons and ripperdactyls buffed into an actual air force — the only campaign where the army's core flies. Terrain and walls stop mattering; ammo and micro become everything"],["Skyborne raids","missions and buffs reward lightning strikes — swoop, hit, vanish"],["Great Plan","shared Rites, pursued at altitude. Fair warning from the community: the air gimmick is fun for a run, but the campaign systems around it are thin"]],
+ pros:["Flying armies ignore terrain and pick every fight","Unique niche nobody else touches","Free lord"],
+ cons:["Air units are fragile and micro-hungry","Thin campaign systems beyond the gimmick","Ground sieges still need real armies"],
+ pick:"Pick if you want death from above, exclusively — a one-run gimmick done well."},
+{n:"Gor-Rok",r:"Lizardmen",f:"Itza",src:"WH2 FLC",d:1,tags:["Infantry","Defensive","Straightforward"],
+ mech:[["The Great White Lizard","stoic saurus infantry buffs — shields, discipline, lines that do not break. The plan is a wall that walks forward, and the community's standard 'learn Lizardmen here' recommendation"],["Itza the First City","defend the cradle of the Great Plan and radiate outward"],["Great Plan","Rites give structure while the shield-wall does the arguing"]],
+ pros:["Simplest, sturdiest Lizardmen campaign — great intro","Buffed saurus lines just do not break","Free lord with honest strengths"],
+ cons:["Low novelty; few unique systems","Passive playstyle needs self-set goals","Magic/dino toys underused"],
+ pick:"Pick if you want the shield-wall of the Old Ones — patience as a weapon."},
+{n:"Nakai the Wanderer",r:"Lizardmen",f:"Spirit of the Jungle",src:"WH2 (Hunter & the Beast)",d:3,tags:["Horde","Vassal empire","Kroxigors"],
+ mech:[["Wandering horde","no cities — armies are roaming temple-hordes growing their own buildings as they march"],["Defenders of the Great Plan","conquered settlements go to a devoted AI vassal that tithes you income and grows in your wake. Honest community take: the concept is great, but watching an AI mismanage 'your' empire drives a lot of players up the wall — Nakai has a long-standing reputation as one of the clunkier designs, even after touch-ups"],["Kroxigor might","kroxigors and monstrous muscle as the warband core — slow, holy sledgehammers"]],
+ pros:["Horde play with a growing vassal state is a novel hybrid","Kroxigor blobs are satisfying sledgehammers","Total freedom of movement"],
+ cons:["Vassal AI manages your 'empire' — control freaks will suffer","Horde growth pacing is slow","Losing your horde army hurts doubly"],
+ pick:"Pick if the wandering-god concept grabs you — go in knowing the vassal AI is part of the deal."},
+{n:"Oxyotl",r:"Lizardmen",f:"Sentinels of Xeti",src:"WH2 (Silence & the Fury)",d:2,tags:["Teleport","Missions","Ambush"],
+ mech:[["Silent Sanctums","hidden sanctums built worldwide, armies teleporting between them at will — a private fast-travel network covering the entire map. Nobody else repositions like this, full stop"],["Visions of the Old Ones","timed threat missions appear anywhere; teleport in, deal with it, bank stacking rewards. The monster-of-the-week loop is why Oxyotl consistently shows up on 'best campaigns in the game' lists"],["Chameleon ambush","stalking stances and chameleon units make ambush the default engagement — fights start with the enemy surrounded"]],
+ pros:["Global teleport + mission board = a monster-of-the-week campaign","Ambush battles with chameleons are deliciously unfair","Strong rewards loop keeps momentum high"],
+ cons:["Mission timers dictate your schedule","Skirmish core needs micro discipline","Home provinces stay thin while you globetrot"],
+ pick:"Pick if you want the planet's invisible sniper — a perennial community favourite."},
+{n:"Queek Headtaker",r:"Skaven",f:"Clan Mors",src:"WH2 base",d:2,tags:["Melee skaven","Eight Peaks feud","Aggro"],
+ mech:[["Headtaker","trophy heads feed his legend, and Clan Mors fields the rare thing in skavendom: infantry that actually fights. Stormvermin walls backed by treachery instead of hiding behind it"],["Eight Peaks claim","Belegar and Skarsnik both want his hold — the three-way feud writes the early campaign"],["Skaven core","food as a second currency, scheming disloyal lords, ambush stance everywhere, and Undercities built beneath enemy capitals to drain or detonate them. The undercity game alone carries entire campaigns"]],
+ pros:["Stormvermin armies give skaven an actual spine","The Eight Peaks feud writes your early campaign for you","Undercity shenanigans under every rival"],
+ cons:["Melee skaven still leak leadership everywhere","Food management is constant","Weaker gunpowder toys than Ikit"],
+ pick:"Pick if you want stab-stab over shoot-shoot — skaven with front teeth."},
+{n:"Lord Skrolk",r:"Skaven",f:"Clan Pestilens",src:"WH2 base",d:2,tags:["Plagues","Lustria","Attrition"],
+ mech:[["Pestilent plagues","disease as doctrine — plagues seeded through censers, cults and battle rotting enemy provinces before the horde arrives"],["Lustrian infestation","gnawing at the Lizardmen heartland with Tehenhauin's serpent cult as personal nemesis"],["Skaven core","food, loyalty, ambush, Undercities — the full verminous toolkit behind the shrieking plague-monk crusade. Frenzied monks hit hard and answer to no one once released"]],
+ pros:["Plague monk hordes melt unarmoured enemies","Tehenhauin rivalry gives a strong arc","Corruption + plague softens targets before contact"],
+ cons:["Frenzied monks are uncontrollable once loosed","Lustria's dino stacks punish mistakes","Less flexible than Skryre toys"],
+ pick:"Pick if you want the plague-rat crusade — filth as a weapons programme."},
+{n:"Tretch Craventail",r:"Skaven",f:"Clan Rictus",src:"WH2 FLC",d:2,tags:["Sneaky","Free","North"],
+ mech:[["Cowardly cunning","buffs for retreating, backstabbing and fighting dirty — armies that run away profitably and stab hardest when losing"],["Northern warrens","a colder, quieter start away from the Lustria and Badlands pile-ups — room to grow fat before anyone checks under the floorboards"],["Skaven core","food, loyalty, ambush, Undercities. Fair warning: Tretch is widely considered the blandest skaven pick — vanilla rat with a free price tag"]],
+ pros:["Free lord in an underused theatre","Classic sneaky-rat toolkit","Room to snowball before anyone notices"],
+ cons:["Thinnest unique mechanics in the race","Chaos neighbours eventually come knocking","Roster without a strong personal lean"],
+ pick:"Pick if you want vanilla skaven scheming with the pressure dialled down."},
+{n:"Ikit Claw",r:"Skaven",f:"Clan Skryre",src:"WH2 (Prophet & the Warlock)",d:1,tags:["Nukes","Workshop","Fan favourite"],
+ mech:[["Forbidden Workshop","warpstone funds permanent weapon-team upgrades and, famously, Doomrockets — actual tactical nukes fired at armies on the campaign map. Sacked cities become a weapons programme with a big red button; this has been a top-3 community-favourite campaign since the day it shipped"],["Skryre arsenal","warpfire, ratling guns, doomwheels, lightning cannons — half your casualties are your own and it's still worth it"],["Skaven core","food, loyalty, ambush and Undercities, which for Ikit double as warpstone mines"]],
+ pros:["Literally fires tactical nukes; the workshop is superb","Weapon-team doomstacks delete everything","Great start with rich sacking targets"],
+ cons:["So strong the campaign becomes a victory lap — a common complaint, if a happy one","Warpstone farming means constant sacking (fine, but samey)","Friendly-fire artillery comedy cuts both ways"],
+ pick:"The standard answer to 'which skaven lord?' — yes-yes, press button."},
+{n:"Deathmaster Snikch",r:"Skaven",f:"Clan Eshin",src:"WH2 (Shadow & the Blade)",d:2,tags:["Assassin","Sabotage","Contracts"],
+ mech:[["Shadowy Dealings","a menu of Eshin dirty tricks run from the campaign map — sabotage armies, kidnap characters, plant bombs, incite unrest — capable of crippling a rival without declaring war. The best covert-ops toolkit in the game, and it's not close"],["Council missions","assassination contracts from the Council of Thirteen with escalating rewards — a career ladder for a murderer"],["Skaven core","food, loyalty, ambush, Undercities — run by the clan that treats them as job requirements"]],
+ pros:["The dirty-tricks menu is the best sabotage kit in the game","Snikch is a blender in a cloak","Contract structure gives constant direction"],
+ cons:["Eshin roster is fragile even by skaven standards","Cathay start means fighting disciplined gunlines","Action-economy juggling every turn"],
+ pick:"Pick if you want to win campaigns between battles — knives in every court."},
+{n:"Throt the Unclean",r:"Skaven",f:"Clan Moulder",src:"WH2 (Twisted & the Twilight)",d:2,tags:["Mutation","Monsters","Lab"],
+ mech:[["The Flesh Laboratory","spend Growth Juice harvested from battle to graft stacking mutations onto monsters — more arms, more armour — balanced against instability that can make creations degenerate. A genuinely good min-max sandbox that's also, per common complaint, fiddly to maintain at scale"],["Moulder menagerie","rat ogres, hell pit abominations and mutants as the army core — monster mash with skaven treachery as connective tissue"],["Skaven core","food, loyalty, ambush, Undercities — the lab needs feeding and the world is ingredients"]],
+ pros:["Unit-crafting lab is a fantastic min-max sandbox","Monster mash with skaven treachery attached","Sisters of Twilight rivalry frames the campaign"],
+ cons:["Augment juggling is fiddly","Mutants get expensive to maintain","Naggaroth start is cold and busy"],
+ pick:"Pick if you want to build designer monsters — evolution by warpstone committee."},
+{n:"Settra the Imperishable",r:"Tomb Kings",f:"Khemri",src:"WH2: Rise of the Tomb Kings",d:2,tags:["Army caps","No upkeep","Emperor"],
+ mech:[["Dynasties & caps","zero unit upkeep — armies are free; instead, army count and elites are capped, expanded through Dynasty tech and buildings. The community's honest read: early game is a skeleton-chaff slog, then constructs come online and the faction clicks. Push through the first 40 turns"],["Mortuary Cult & Canopic Jars","a crafting economy — jars fund magic items and even summon whole units made to order"],["Books of Nagash","nine Books scattered worldwide, each recovered volume stacking major buffs and pointing the campaign somewhere new"]],
+ pros:["No-upkeep economy is liberating — quality is the only limit","Khemri start is the race's power seat","Settra does not serve, but he does carry lategame fights"],
+ cons:["Skeleton chaff early game is genuinely weak","Cap system frustrates doomstack instincts","Constructs need tech before the fun starts"],
+ pick:"Pick if you want the rightful ruler campaign — slow burn into a construct-powered lategame."},
+{n:"High Queen Khalida",r:"Tomb Kings",f:"Court of Lybaras",src:"WH2: Rise of the Tomb Kings",d:2,tags:["Anti-vampire","Archers","Poison"],
+ mech:[["Aspect of Asaph","poison buffs on massed skeleton archery — the race's ranged lean, and the reason her early game is smoother than her cousins': arrow spam works when skeleton melee doesn't"],["Vampire's bane","hunts the undead perversions of her bloodline, with the Vampire Coast conveniently in range"],["TK core","no upkeep, caps, Mortuary Cult crafting, Books of Nagash"]],
+ pros:["Massed poison archery works early when nothing else does","Clear crusade targets in the vampire coasts","Fast for a Tomb King — mobile lord play"],
+ cons:["Shared race weaknesses early","Less star power than Settra or Arkhan","Lybaras corner start is a slow build"],
+ pick:"Pick if you want a purge campaign — the desert's arrows against every vampire."},
+{n:"Grand Hierophant Khatep",r:"Tomb Kings",f:"Exiles of Nehek",src:"WH2: Rise of the Tomb Kings",d:3,tags:["Caster","Exile","Relic hunt"],
+ mech:[["Liche exile","the race's caster lean, banished to an awkward corner of the map — generally rated the roughest TK start, chosen for the challenge or the theme"],["Scroll of cursed knowledge","accelerated Mortuary Cult and Books of Nagash progress — the 'rush the relics' pick, and the fastest route to the race's biggest payoffs"],["TK core","no upkeep, caps, jar-funded crafting — rebuilt from scraps in unfamiliar country"]],
+ pros:["Fastest route to the Books of Nagash payoff","Casting-focused TK is a different rhythm","Exile-to-restoration arc has shape"],
+ cons:["Remote, awkward start territory — commonly rated the worst in the race","Weak early stacks with long distances","Fragile old liche in a fight"],
+ pick:"Pick if you want the scholar's path — race the relics, resurrect the glory."},
+{n:"Arkhan the Black",r:"Tomb Kings",f:"Followers of Nagash",src:"WH2: Rise of the Tomb Kings",d:2,tags:["Nagash","Hybrid VC","Black Tower"],
+ mech:[["Nagash's herald","the only blend of Tomb King chassis with Vampire Counts necromancy — their casters and units covering weaknesses neither race solves alone. Mechanically the most flexible TK, and the popular pick because of it"],["The Black Tower","his master's dark seat anchors the campaign with its own objectives"],["TK core","no upkeep, caps, Mortuary Cult, Books of Nagash — hunted for his master, not for glory. (His whole arc is about to get very topical when Lords of the End Times lands)"]],
+ pros:["TK chassis + VC magic support is the race's best blend","Clear villain arc with the Books as the goal","Central start near rich conflict"],
+ cons:["Everyone in Nehekhara despises him — constant war","Same weak early skeleton problem","Serves-Nagash flavour overlaps the upcoming LotET content"],
+ pick:"Pick if you want to prep the Great Necromancer's return — heresy with a to-do list."}
+);
+// ---- Vampire Coast, Vampire Counts, Beastmen ----
+LORDS.push(
+{n:"Luthor Harkon",r:"Vampire Coast",f:"The Awakened",src:"WH2: Curse of the Vampire Coast",d:2,tags:["Pirates","Coves","Gun zombies"],
+ mech:[["Infamy","a career ladder toward being crowned Pirate King, with rival pirate lords climbing the same rungs — a reputation race running alongside the land grab"],["Pirate Coves","plant a hidden cove in a port instead of conquering it — a permanent cut of someone else's economy, forever, while they keep the garrison duty. Cove income snowballs into 'why do I even fight' money; universally considered the race's best idea"],["Coast core","Pieces of Eight regiment hunts, an upgradeable flagship, shanties, treasure maps — plus Harkon's personal quirk: his madness triggers home rebellions that are more nuisance than threat"]],
+ pros:["Zombie gunlines + leviathans is a unique battle identity","Cove network earns from cities you never siege","Lustria HQ full of treasure and drama"],
+ cons:["Shambling chaff needs the guns to carry","Harkon's madness events mean recurring home rebellions","Slow armies on a huge continent"],
+ pick:"Pick if you want undead piracy with a broadside — plunder first, conquer maybe."},
+{n:"Count Noctilus",r:"Vampire Coast",f:"The Dreadfleet",src:"WH2: Curse of the Vampire Coast",d:2,tags:["Sea horde","Dreadfleet","Raider"],
+ mech:[["Galleon's Graveyard","home is a supernatural vortex of wrecked ships the AI essentially can't reach — the sea itself is your castle wall"],["Dreadfleet raids","sail out, terrorise a coastline, drag the spoils home. A weather system with cannons; the trade-off is the usual horde one — less empire, more errand"],["Coast core","Infamy race, coves, Pieces of Eight, flagship upgrades — the full pirate progression from the world's safest anchorage"]],
+ pros:["True naval-vampire fantasy — the sea is your castle","Untouchable home base while you raid","Free rein to hit any coastline on the map"],
+ cons:["Horde-ish play limits empire depth","Landlocked objectives are awkward","Chaff armies until the monsters arrive"],
+ pick:"Pick if you want to captain the ghost-fleet — every coast a target, no fixed address."},
+{n:"Aranessa Saltspite",r:"Vampire Coast",f:"The Pirates of Sartosa",src:"WH2: Curse of the Vampire Coast",d:2,tags:["Mortal pirates","Sartosa","Hybrid roster"],
+ mech:[["Queen of Sartosa","she's alive, and so are her crews — unique mortal free-company units fighting alongside the rented dead. The blend is the race's most flexible roster, though the community has always found her a slightly odd fit in her own faction"],["Pirate haven","Sartosa: a defensible island free port in the Tilean sea with every major theatre a short sail away"],["Coast core","Infamy, coves, Pieces of Eight, flagship — the pirate ladder climbed with a heartbeat"]],
+ pros:["Mortal + undead blend is the race's most flexible roster","Sartosa is a lovely defensible island start","Central sea position — everywhere is close"],
+ cons:["Thematically the odd one out in her own race","Neighbours include several strong Order navies","Mortal units break the no-leadership-worries habit"],
+ pick:"Pick if you want swashbuckling proper — a pirate queen renting zombies by the hour."},
+{n:"Cylostra Direfin",r:"Vampire Coast",f:"The Drowned",src:"WH2: Curse of the Vampire Coast",d:2,tags:["Ghost fleet","Caster","Opera"],
+ mech:[["The drowned diva","ghost-heavy roster lean — spectral units with physical resistance that mundane weapons pass straight through. Against AI armies without magic damage, ethereal spam is straight-up cheese, and the community uses it as exactly that"],["Banshee of the deep","a strong caster-lord with a grudge against Bretonnia — her opening act is stealing the Lady's knights for her chorus"],["Coast core","Infamy, coves, Pieces of Eight, flagship — the pirate framework, sung fortissimo"]],
+ pros:["Ethereal units shrug off non-magical damage hilariously","Distinct caster-lord flavour in a gunpowder race","Her feud writes a fun opening act"],
+ cons:["Magic damage deletes the gimmick","Least mechanically distinct of the four","Awkward start geography"],
+ pick:"Pick if you want the phantom armada — ethereal cheese with an aria."},
+{n:"Mannfred von Carstein",r:"Vampire Counts",f:"Sylvania",src:"WH1 base",d:1,tags:["Necromancy","Flexible","Classic"],
+ mech:[["Raise Dead","recruit instant armies from any province, with battle sites where thousands fell offering elite dead. Losses barely matter — the fallen of both sides are tomorrow's reinforcements. It's the race's engine and it still holds up"],["Bloodlines","invest Blood Kisses to awaken vampire dynasties — Blood Dragons, Necrarchs and more — each unlocking unique lords and faction perks. A build-defining tech tree of aristocratic monsters"],["VC core","corruption makes land governable only by you, units crumble instead of routing, and there is not one ranged unit in the roster. Hero-heavy armies with caster lords carrying — the oldest playstyle in the series, and people still love it"]],
+ pros:["The most flexible Vampire Counts campaign","Raise Dead makes losses nearly meaningless","Sylvania is a strong corrupted heartland"],
+ cons:["Zero ranged/artillery forever","Armies crumble fast when the general falls","Empire and Dwarfs squeeze from all sides"],
+ pick:"Pick if you want the definitive necromancer sandbox — Sylvania's favourite schemer."},
+{n:"Vlad von Carstein",r:"Vampire Counts",f:"Sylvania (The von Carsteins)",src:"WH1 FLC",d:1,tags:["Duelist","Defensive","Best start"],
+ mech:[["The first and greatest","the race's best general and duelist — his ring cheats death, and his presence makes middling undead fight like elites. No gimmick; just raw quality at the top"],["Sylvanian consolidation","secure Sylvania, corrupt outward, bite when the Empire's distracted. Commonly rated the best VC start — the community answer to 'which vampire first?' is usually Vlad"],["Bloodlines & Raise Dead","full race systems, wielded by the vampire who invented the family business"]],
+ pros:["Arguably the race's best campaign start","Vlad front-lines like a legendary hero and a half","Straightforward consolidation arc"],
+ cons:["Shares Sylvania with Mannfred (confederation race)","Same race-wide no-ranged limits","Fewer unique systems — he IS the mechanic"],
+ pick:"Pick if you want the aristocrat's version: fewer gimmicks, better fundamentals. The usual first-VC recommendation."},
+{n:"Isabella von Carstein",r:"Vampire Counts",f:"The von Carsteins",src:"WH1 FLC",d:2,tags:["Duo synergy","Support","Free"],
+ mech:[["Eternal devotion","Isabella and Vlad empower each other when fighting together — the game's only true two-lord synergy, played as a pincer. Keeping the couple on the same battlefield is the whole build"],["Vampire queen","support-caster lean: sustain, buffs, shepherding the dead while Vlad butchers"],["Bloodlines & Raise Dead","full race systems. Solo she's the weakest Carstein — she exists to be half of a pair, and that's fine"]],
+ pros:["The Vlad+Isabella duo is the game's best power couple","Free lord with real synergy identity","Same strong Sylvanian position"],
+ cons:["Weaker solo than the other Carsteins","Duo play means keeping two eggs in one basket","Little else mechanically distinct"],
+ pick:"Pick if you want the romance-as-warfare campaign — two thrones, one grave-empire."},
+{n:"Heinrich Kemmler",r:"Vampire Counts",f:"Barrow Legion",src:"WH1 FLC",d:2,tags:["Wights","Bretonnia border","Necromancer"],
+ mech:[["Barrow legions","raises the ancient dead — grave guard and wights early and cheap, with Krell as deathless enforcer. Quality necromancy where the cousins spam quantity; elite undead infantry from turn one is his whole pitch"],["Mountain lich","haunts the Grey Mountains raiding Bretonnia — an outsider campaign far from Sylvanian politics, with a poor economy to match"],["Bloodlines & Raise Dead","full race systems from a necromancer older than the family"]],
+ pros:["Elite undead infantry earlier than his cousins","Bretonnia matchup is a great asymmetric war","Krell as a bundled bodyguard hero"],
+ cons:["Poor mountain economy","Isolated from Sylvanian politics","Chivalry crusades come for you eventually"],
+ pick:"Pick if you want the lich-in-the-hills campaign — old bones against bright knights."},
+{n:"Helman Ghorst",r:"Vampire Counts",f:"Caravan of Blue Roses",src:"WH1 base (own faction in IE)",d:2,tags:["Zombies","Poison","Meme-strong"],
+ mech:[["Corpse cart caravan","poison attacks and regen piled onto zombies, amplified by corpse carts — the infamous 'Ghorst bus'. It became a legitimate meta meme for a reason: units that cost nothing, poison everything, and never stop coming. Patches trimmed it; the bus still runs"],["Plague of undeath","industrial-scale necromancy — drown every enemy in expendable toxic dead"],["Bloodlines & Raise Dead","the full race systems, cheerfully misused to make the game's worst unit its funniest army"]],
+ pros:["Poisoned zombie hordes are cheap, endless and weirdly lethal","Simple, distinctive army identity","Eastern start away from the Sylvania crowd"],
+ cons:["One-trick roster by design","Zombies still lose to real elites eventually","Thin systems beyond the bus"],
+ pick:"Pick if you want the meme that actually works — all aboard the zombie bus."},
+{n:"Khazrak the One-Eye",r:"Beastmen",f:"Warherd of the One-Eye",src:"WH1: Call of the Beastmen",d:2,tags:["Ambush","Raider","Empire's bane"],
+ mech:[["Herdstones & Bloodgrounds","no settlements — plant Herdstones in ruins and raze everything around them into Bloodgrounds. Razed land generates power instead of taxes. The Beastmen rework that introduced this turned one of the game's worst races into one of its best, and the community has rated them highly ever since"],["Marks of ruination","destruction earns Dread, spent on permanent faction-wide upgrades — a full progression economy built on arson"],["Master ambusher","raiding-stance tricks that start battles with the Empire surrounded in its own forests, plus the blood-feud with Boris Todbringer. Ambush cheese is the intended playstyle, not an exploit"]],
+ pros:["Beastmen rework made razing a real economy — no settlements needed","Ambush battles start half-won","The Drakwald raiding fantasy, fully realised"],
+ cons:["No cities means no conventional safety net","Chaff herds bleed against disciplined lines","Empire retaliation scales with your success"],
+ pick:"Pick if you want to be the horror in the woods — the Empire's oldest nightmare."},
+{n:"Malagor the Dark Omen",r:"Beastmen",f:"Harbinger of Disaster",src:"WH1: Call of the Beastmen",d:2,tags:["Caster","Flying","Corruptor"],
+ mech:[["Winged prophet","a flying caster lord cursing from above while the beasts gore below — magic support and mobility in a race that usually offers neither"],["Herdstones & Dread","the full reworked engine: plant, raze, spend Dread on permanent upgrades"],["Omens","corruption-and-ruin lean — soften regions with dark influence, then descend. The quiet pick of the four; solid, less talked about"]],
+ pros:["Flying caster mobility on a horde chassis","Same excellent raze-economy engine","Badlands start offers soft targets"],
+ cons:["He's support, not a front-line anchor","Herd leadership wobbles without him nearby","Less narrative pull than Khazrak or Taurox"],
+ pick:"Pick if you want the doomsayer's herd — hexes overhead, ruin underfoot."},
+{n:"Morghur the Shadowgave",r:"Beastmen",f:"Warherd of the Shadowgave",src:"WH1: Call of the Beastmen",d:3,tags:["Spawn","Corruption","Chaos incarnate"],
+ mech:[["Essence of ruin","herds centred on chaos spawn — shapeless mutant masses as doctrine. An army that looks like a mistake; controlling the blobs is genuinely awkward, which is half the challenge and most of the complaint"],["Corruptor of form","his presence warps regions and enemies — the land sickens where he walks"],["Herdstones & Dread","the raze-economy from an Estalia start, unmaking the untouched far west most campaigns never visit"]],
+ pros:["Spawn-herd identity is delightfully wrong","Estalia/Bretonnia frontier is fresh Beastmen territory","Corruption pressure does quiet work"],
+ cons:["Spawn armies are shapeless blobs to control","Weakest personal combat of the four","Long way from the classic Drakwald drama"],
+ pick:"Pick if you want chaos as biology — an infection with hooves."},
+{n:"Taurox the Brass Bull",r:"Beastmen",f:"Slaughterhorn Tribe",src:"WH2: The Silence & The Fury",d:2,tags:["Momentum","Chain battles","Minotaurs"],
+ mech:[["Momentum","kills and victories refund campaign movement — win hard enough and you chain two, three, four battles and sieges in one turn. Routinely cited among the best mechanics in the entire series; the 'one more fight this turn' loop is genuinely addictive"],["Rampage engine","economy, buffs and objectives all reward perpetual motion. Stalling is the only real defeat, and a stalled Taurox campaign deflates fast — the flip side everyone mentions"],["Minotaur doomherd","brass minotaurs hitting like cavalry, with Taurox near-invulnerable except one lore-accurate weak spot that focus fire will find"]],
+ pros:["Momentum chaining is one of the best aggression mechanics ever shipped","Minotaur stacks hit like artillery with legs","Every turn is a puzzle: how many armies can I eat today?"],
+ cons:["Snowball stalls hurt double — momentum is the economy","One vulnerable spot (lore-accurate) — focus fire finds him","Razed-earth playstyle leaves nothing to fall back on"],
+ pick:"Pick if you want the perpetual-motion massacre — a regular pick for best campaign in the game."}
+);
+const RACES={
+ "Khorne":{c:"#a41e1e",o:1,b:"Skulls for the Skull God: melee-only daemons, free Blood Host armies, buffs for endless battle."},
+ "Kislev":{c:"#7fb4c7",o:2,b:"Hybrid fight-and-shoot units, Devotion economy, Ice Court hero training, the frozen wall against Chaos."},
+ "Grand Cathay":{c:"#c8a24a",o:3,b:"Harmony balance, the Wu Xing Compass, caravan trade and Great Bastion defence — order as a system."},
+ "Tzeentch":{c:"#2f7fd1",o:4,b:"Magic supremacy, settlement barriers, and map-manipulation scheming."},
+ "Nurgle":{c:"#5c7a29",o:5,b:"Craftable plagues, cyclical growth buildings, and armies that win by attrition."},
+ "Slaanesh":{c:"#c56bb5",o:6,b:"Fastest units in the game, zero armour, seduction diplomacy and vassal empires."},
+ "Daemons of Chaos":{c:"#7d5ba6",o:7,b:"All four gods' rosters under a fully customisable Daemon Prince."},
+ "Ogre Kingdoms":{c:"#b0763b",o:8,b:"Nomad camps, meat upkeep, Big Name titles and mercenary contracts — muscle for hire."},
+ "Chaos Dwarfs":{c:"#8c3b23",o:9,b:"Slave labour, armaments industry and Hellforge upgrades feeding brutal gunpowder armies."},
+ "Warriors of Chaos":{c:"#b08d2f",o:10,b:"Dark Fortress network, god-marked warband upgrades, boons from the Eye of the Gods — elite everything."},
+ "Norsca":{c:"#6b7f95",o:11,b:"Raid-and-sack economy, god allegiance, and world-spanning monster hunts."},
+ "The Empire":{c:"#b03030",o:12,b:"Elector politics, Prestige and Fealty, and the classic combined-arms toolkit."},
+ "Bretonnia":{c:"#2b5faa",o:13,b:"Peasant economy under the best heavy cavalry in the game; Chivalry and crusading Errantry Wars."},
+ "Dwarfs":{c:"#c28e2c",o:14,b:"The Book of Grudges, elite unbreakable infantry, superior guns, zero cavalry, zero hurry."},
+ "Greenskins":{c:"#4a8f2e",o:15,b:"Fightin' fills the WAAAGH! meter for free armies; Scrap upgrades da boyz."},
+ "High Elves":{c:"#5d9bd3",o:16,b:"Influence-driven court intrigue, elite archers and princes, and the fortress-donut of Ulthuan."},
+ "Dark Elves":{c:"#5c3b6e",o:17,b:"Slave economy, roaming Black Ark fortresses, disloyal lords and elite cruelty (systems refreshed in 7.0)."},
+ "Wood Elves":{c:"#3e7a4e",o:18,b:"Worldroot teleportation between forests, amber economy, apex archery, fragile everything else."},
+ "Lizardmen":{c:"#3a8f8f",o:19,b:"The Geomantic Web, Rites of the Old Ones, and dinosaurs as strategic doctrine."},
+ "Skaven":{c:"#8a7d4a",o:20,b:"Food economy, treacherous loyalty, ambush stance and hidden undercities beneath enemy capitals."},
+ "Tomb Kings":{c:"#c2b280",o:21,b:"No upkeep, capped armies, Mortuary Cult crafting and the race for the Books of Nagash."},
+ "Vampire Coast":{c:"#3f7a6e",o:22,b:"Infamy race to Pirate King, hidden pirate coves, Pieces of Eight regiments and upgradeable flagships."},
+ "Vampire Counts":{c:"#6e1f2e",o:23,b:"Raise Dead logistics, Bloodline unlocks, corruption spread — and not a single ranged unit."},
+ "Beastmen":{c:"#6e4f2f",o:24,b:"Settlement-free horde: plant Herdstones, raze Bloodgrounds, spend Dread on permanent upgrades."}
+};
+// ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
+const PS={
+ aggro:{t:"Perpetual War",g:"Mechanics punish peace — you fight every turn or lose power (meters, favour, momentum)."},
+ builder:{t:"Empire Building",g:"Economy, infrastructure and long-term optimisation are the core game."},
+ politics:{t:"Politics & Influence",g:"Confederation, vassals, diplomacy and court intrigue win the map."},
+ schemes:{t:"Schemes & Sabotage",g:"Dirty tricks on the campaign map — sabotage, cults, hexes — before battles even start."},
+ quest:{t:"Quest-Driven",g:"Built-in mission arcs, hunts and objectives structure the whole campaign."},
+ horde:{t:"Horde & Nomad",g:"Few or no settlements — your armies, camps or fleets are home."},
+ monsters:{t:"Monster Mash",g:"Armies built around big creatures instead of line infantry."},
+ magic:{t:"Magic Dominance",g:"Spellcasting is the win condition, on the battlefield and off it."},
+ duelist:{t:"Duelist",g:"The lord personally hunts and deletes enemy lords and heroes."},
+ defense:{t:"Fortress Defence",g:"Hold ground, weather sieges, out-attrition the invaders."},
+ raider:{t:"Raiding & Piracy",g:"Sack-and-plunder economy living off other people's lands and coasts."},
+ crafting:{t:"Workshop & Crafting",g:"Upgrade projects — units, gear, brews, machines — as a campaign-long progression."},
+ strike:{t:"Strike Anywhere",g:"Teleport networks, fleets or wings let you pick fights across the whole map."},
+ weird:{t:"Rule Breakers",g:"Campaigns that ignore the game's normal rules entirely."}
+};
+const PS_ASSIGN={
+"Skarbrand the Exiled":["aggro"],
+"Skulltaker":["aggro","quest","duelist"],
+"Arbaal the Undefeated":["aggro","duelist"],
+"Tzarina Katarin":["defense","builder"],
+"Kostaltyn":["defense","politics"],
+"Boris Ursus":["aggro","quest"],
+"Mother Ostankya":["magic","schemes","crafting"],
+"Miao Ying, the Storm Dragon":["defense","builder"],
+"Zhao Ming, the Iron Dragon":["builder","defense"],
+"Yuan Bo, the Jade Dragon":["politics","magic","builder"],
+"Bhashiva, the White Tiger":["quest","aggro"],
+"Kairos Fateweaver":["magic","schemes"],
+"The Changeling":["schemes","weird"],
+"Ku'gath Plaguefather":["crafting","builder"],
+"Tamurkhan the Maggot Lord":["quest","aggro"],
+"Epidemius":["aggro","crafting"],
+"N'Kari":["politics","aggro"],
+"Dechala, the Denied One":["aggro","duelist"],
+"The Masque of Slaanesh":["duelist","schemes"],
+"The Daemon Prince":["crafting","weird"],
+"Greasus Goldtooth":["builder","horde"],
+"Skrag the Slaughterer":["horde","monsters","aggro"],
+"Golgfag Maneater":["quest","horde","weird"],
+"Astragoth Ironhand":["builder","politics"],
+"Drazhoath the Ashen":["builder","magic"],
+"Zhatan the Black":["builder","aggro"],
+"Archaon the Everchosen":["aggro","crafting"],
+"Be'lakor":["duelist","magic"],
+"Kholek Suneater":["monsters","aggro"],
+"Sigvald the Magnificent":["duelist","aggro"],
+"Valkia the Bloody":["aggro","duelist"],
+"Festus the Leechlord":["crafting","aggro"],
+"Vilitch the Curseling":["magic","crafting"],
+"Azazel":["schemes","aggro"],
+"Wulfrik the Wanderer":["quest","raider","strike"],
+"Throgg":["monsters","raider"],
+"Sayl the Faithless":["schemes","quest"],
+"Karl Franz":["politics","builder"],
+"Balthasar Gelt":["magic","builder"],
+"Volkmar the Grim":["quest","aggro"],
+"Markus Wulfhart":["quest","defense"],
+"Elspeth von Draken":["crafting","builder"],
+"Louen Leoncoeur":["quest","politics"],
+"Alberic de Bordeleaux":["quest"],
+"The Fay Enchantress":["magic","defense"],
+"Repanse de Lyonesse":["quest","aggro"],
+"Thorgrim Grudgebearer":["builder","quest"],
+"Ungrim Ironfist":["aggro","defense"],
+"Belegar Ironhammer":["quest"],
+"Grombrindal":["builder","duelist"],
+"Thorek Ironbrow":["quest","crafting"],
+"Malakai Makaisson":["quest","crafting"],
+"Grimgor Ironhide":["aggro","duelist"],
+"Azhag the Slaughterer":["magic","aggro"],
+"Skarsnik":["schemes","defense"],
+"Wurrzag":["magic","aggro"],
+"Grom the Paunch":["crafting","quest"],
+"Gorbad Ironclaw":["quest","aggro"],
+"Tyrion":["politics","duelist","defense"],
+"Teclis":["magic"],
+"Alarielle the Radiant":["defense","magic"],
+"Alith Anar":["schemes","raider"],
+"Eltharion the Grim":["defense"],
+"Imrik":["quest","monsters"],
+"Sea Lord Aislinn":["weird","horde","strike"],
+"Malekith":["builder","duelist","magic"],
+"Morathi":["magic","politics"],
+"Malus Darkblade":["duelist"],
+"Crone Hellebron":["aggro","raider"],
+"Lokhir Fellheart":["raider"],
+"Rakarth":["monsters"],
+"Orion":["strike","aggro"],
+"Durthu":["monsters","strike"],
+"Drycha":["monsters","aggro"],
+"Sisters of Twilight":["crafting","strike"],
+"Lord Mazdamundi":["magic","builder"],
+"Kroq-Gar":["aggro","monsters"],
+"Tehenhauin":["aggro"],
+"Tiktaq'to":["strike"],
+"Gor-Rok":["defense"],
+"Nakai the Wanderer":["horde","monsters","weird"],
+"Oxyotl":["strike","quest"],
+"Queek Headtaker":["aggro","duelist"],
+"Lord Skrolk":["schemes","aggro"],
+"Tretch Craventail":["schemes"],
+"Ikit Claw":["crafting"],
+"Deathmaster Snikch":["schemes","duelist"],
+"Throt the Unclean":["crafting","monsters"],
+"Settra the Imperishable":["builder","quest"],
+"High Queen Khalida":["quest"],
+"Grand Hierophant Khatep":["magic","quest"],
+"Arkhan the Black":["magic","quest"],
+"Luthor Harkon":["raider","builder"],
+"Count Noctilus":["raider","horde","strike"],
+"Aranessa Saltspite":["raider"],
+"Cylostra Direfin":["raider","magic"],
+"Mannfred von Carstein":["magic","builder"],
+"Vlad von Carstein":["duelist","defense"],
+"Isabella von Carstein":["magic","defense"],
+"Heinrich Kemmler":["magic","raider"],
+"Helman Ghorst":["aggro"],
+"Khazrak the One-Eye":["horde","raider"],
+"Malagor the Dark Omen":["horde","magic"],
+"Morghur the Shadowgave":["horde","monsters"],
+"Taurox the Brass Bull":["aggro","horde","monsters"]
+};
+LORDS.forEach(l=>{l.ps=PS_ASSIGN[l.n]||[];});
+
+const DCOL={1:"#8fae6a",2:"#c9a24b",3:"#c77b3f",4:"#b03a3a"};
+const DLBL={1:"Easy",2:"Moderate",3:"Hard",4:"Very hard"};
+function bucket(s){s=s.toLowerCase();if(s.includes("flc")||s.includes("free"))return"free";if(s.startsWith("wh1"))return"wh1";if(s.startsWith("wh2"))return"wh2";if(s.includes("wh3 base"))return"wh3base";return"wh3dlc";}
+LORDS.forEach((l,i)=>{l.i=i;l.bk=bucket(l.src);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick).toLowerCase();});
+
+const state={q:"",race:null,psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[]};
+function psOk(l){
+  if(state.psInc.size){
+    const m=state.psAll?[...state.psInc].every(p=>l.ps.includes(p)):[...state.psInc].some(p=>l.ps.includes(p));
+    if(!m)return false;
+  }
+  for(const p of state.psExc)if(l.ps.includes(p))return false;
+  return true;
+}
+function cyclePs(p){
+  if(state.psInc.has(p)){state.psInc.delete(p);state.psExc.add(p);}
+  else if(state.psExc.has(p)){state.psExc.delete(p);}
+  else{state.psInc.add(p);}
+  renderChips();render();
+}
+const $=s=>document.querySelector(s);
+
+function pips(d){let h="";for(let i=1;i<=4;i++)h+=`<span class="${i<=d?'f':'e'}">◆</span>`;return `<span class="pips" style="--dc:${DCOL[d]}" title="${DLBL[d]} campaign">${h}</span>`;}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function wiki(q){return `https://totalwarwarhammer.fandom.com/wiki/Special:Search?search=${encodeURIComponent(q)}&go=Go`;}
+function lordLinks(l){
+  const short=l.n.split(",")[0];
+  return `<div class="links">
+    <a href="${wiki(short)}" target="_blank" rel="noopener">${esc(short)} wiki ↗</a>
+    <a href="${wiki(l.f)}" target="_blank" rel="noopener">${esc(l.f)} ↗</a>
+    <a href="${wiki(l.r+" unit roster")}" target="_blank" rel="noopener">${esc(l.r)} roster ↗</a>
+  </div>`;
+}
+
+function cardHTML(l){
+  const rc=RACES[l.r].c;
+  const open=state.open.has(l.i)?" open":"";
+  const ck=state.cmp.includes(l.i)?" checked":"";
+  return `<article class="card${open}" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
+    <h3>${esc(l.n)} ${pips(l.d)}</h3>
+    <div class="sub">${esc(l.r)} · ${esc(l.f)} · ${esc(l.src)}</div>
+    <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""}" data-ps="${p}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${esc(PS[p].t)}</button>`).join("")}</div>
+    <p class="pick">${esc(l.pick)}</p>
+    <div class="det">
+      <ul class="mech">${l.mech.map(m=>`<li><span class="mname">${esc(m[0])}</span> — ${esc(m[1])}</li>`).join("")}</ul>
+      <div class="pc">
+        <div class="pros"><h4>Pros</h4><ul>${l.pros.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
+        <div class="cons"><h4>Cons</h4><ul>${l.cons.map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
+      </div>
+      ${lordLinks(l)}
+    </div>
+    <label class="cmp-toggle"><input type="checkbox" data-cmp="${l.i}"${ck}> Compare (pick 2–3)</label>
+  </article>`;
+}
+
+function filtered(){
+  return LORDS.filter(l=>
+    (!state.race||l.r===state.race)&&
+    psOk(l)&&
+    (!state.diff||l.d===+state.diff)&&
+    (!state.src||l.bk===state.src)&&
+    (!state.q||l.hay.includes(state.q)));
+}
+
+function render(){
+  const list=filtered();
+  $("#count").textContent=`${list.length} / ${LORDS.length}`;
+  const m=$("#main");
+  if(!list.length){m.innerHTML=`<p class="empty">No lords match. Loosen a filter.</p>`;return;}
+  if(state.sort==="race"){
+    const byRace={};list.forEach(l=>{(byRace[l.r]=byRace[l.r]||[]).push(l)});
+    m.innerHTML=Object.keys(byRace).sort((a,b)=>RACES[a].o-RACES[b].o).map(r=>{
+      const rc=RACES[r].c;
+      return `<section>
+        <div class="race-head" style="--rc:${rc}">
+          <span class="race-banner">${esc(r)}</span>
+          <span class="race-count">${byRace[r].length} lord${byRace[r].length>1?"s":""}</span>
+          <span class="race-blurb">${esc(RACES[r].b)}</span>
+          <span class="links"><a href="${wiki(r)}" target="_blank" rel="noopener">wiki ↗</a><a href="${wiki(r+" unit roster")}" target="_blank" rel="noopener">unit roster ↗</a></span>
+        </div>
+        <div class="grid">${byRace[r].map(cardHTML).join("")}</div>
+      </section>`;
+    }).join("");
+  }else{
+    const s=[...list];
+    if(state.sort==="name")s.sort((a,b)=>a.n.localeCompare(b.n));
+    if(state.sort==="deasc")s.sort((a,b)=>a.d-b.d||a.n.localeCompare(b.n));
+    if(state.sort==="dedesc")s.sort((a,b)=>b.d-a.d||a.n.localeCompare(b.n));
+    m.innerHTML=`<section style="margin-top:18px"><div class="grid">${s.map(cardHTML).join("")}</div></section>`;
+  }
+}
+
+function renderChips(){
+  $("#chips").innerHTML=Object.keys(RACES).sort((a,b)=>RACES[a].o-RACES[b].o)
+    .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}"><span class="dot"></span>${esc(r)}</button>`).join("");
+  $("#pschips").innerHTML=Object.keys(PS)
+    .map(p=>{
+      const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
+      const pre=state.psInc.has(p)?"+&nbsp;":state.psExc.has(p)?"&minus;&nbsp;":"";
+      return `<button class="chip ps${st}" data-psc="${p}" title="${esc(PS[p].g)} (tap: include → exclude → clear)"><span class="dot"></span>${pre}<span class="lbl">${esc(PS[p].t)}</span></button>`;
+    }).join("")
+    +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
+}
+$("#pslegend").innerHTML=Object.keys(PS).map(p=>`<div><b>${PS[p].t}</b> — ${PS[p].g}</div>`).join("");
+
+function renderCmpBar(){
+  const b=$("#cmpbar");
+  if(!state.cmp.length){b.classList.remove("show");return;}
+  b.classList.add("show");
+  $("#cmpnames").textContent=state.cmp.map(i=>LORDS[i].n).join("  ·  ");
+  $("#docmp").textContent=state.cmp.length<2?"Compare (pick one more)":`Compare ${state.cmp.length} side by side`;
+  $("#docmp").disabled=state.cmp.length<2;
+}
+
+function openOverlay(){
+  $("#ovcols").innerHTML=state.cmp.map(i=>{
+    const l=LORDS[i],rc=RACES[l.r].c;
+    return `<div class="ov-col" style="--rc:${rc}">
+      <h3>${esc(l.n)}</h3>
+      <div class="sub">${esc(l.r)} · ${esc(l.f)}<br>${esc(l.src)} · ${DLBL[l.d]} ${pips(l.d)}</div>
+      <div class="tags">${l.ps.map(p=>`<span class="tag">${esc(PS[p].t)}</span>`).join("")}</div>
+      <ul class="mech" style="font-size:.85rem">${l.mech.map(m=>`<li><span class="mname">${esc(m[0])}</span> — ${esc(m[1])}</li>`).join("")}</ul>
+      <div class="pros"><h4>Pros</h4><ul style="font-size:.85rem">${l.pros.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
+      <div class="cons"><h4>Cons</h4><ul style="font-size:.85rem">${l.cons.map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
+      <p class="pick">${esc(l.pick)}</p>
+      ${lordLinks(l)}
+    </div>`;
+  }).join("");
+  $("#overlay").classList.add("show");
+  document.body.style.overflow="hidden";
+}
+function closeOverlay(){$("#overlay").classList.remove("show");document.body.style.overflow="";}
+
+document.addEventListener("click",e=>{
+  if(e.target.closest("#clearps")){state.psInc.clear();state.psExc.clear();renderChips();render();return;}
+  const psc=e.target.closest("[data-psc]");
+  if(psc){cyclePs(psc.dataset.psc);return;}
+  const ptag=e.target.closest(".tag[data-ps]");
+  if(ptag){cyclePs(ptag.dataset.ps);return;}
+  const chip=e.target.closest(".chip");
+  if(chip&&chip.dataset.race){state.race=state.race===chip.dataset.race?null:chip.dataset.race;renderChips();render();return;}
+  if(e.target.closest(".cmp-toggle")||e.target.closest("a"))return;
+  const card=e.target.closest(".card");
+  if(card){const i=+card.dataset.i;state.open.has(i)?state.open.delete(i):state.open.add(i);
+    card.classList.toggle("open");card.setAttribute("aria-expanded",card.classList.contains("open"));return;}
+});
+document.addEventListener("change",e=>{
+  if(!e.target.matches("[data-cmp]"))return;
+  const i=+e.target.dataset.cmp;
+  if(e.target.checked){
+    if(state.cmp.length>=3){e.target.checked=false;return;}
+    state.cmp.push(i);
+  }else{
+    state.cmp=state.cmp.filter(x=>x!==i);
+  }
+  renderCmpBar();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeOverlay();
+  if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("card"))e.target.click();
+});
+$("#q").addEventListener("input",e=>{state.q=e.target.value.trim().toLowerCase();render();});
+$("#psall").addEventListener("change",e=>{state.psAll=e.target.checked;render();});
+$("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();});
+$("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();});
+$("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
+$("#xall").addEventListener("click",()=>{
+  const all=state.open.size>=filtered().length&&filtered().length>0;
+  if(all){state.open.clear();$("#xall").textContent="Expand all";}
+  else{filtered().forEach(l=>state.open.add(l.i));$("#xall").textContent="Collapse all";}
+  render();
+});
+$("#docmp").addEventListener("click",openOverlay);
+$("#closecmp").addEventListener("click",closeOverlay);
+$("#clearcmp").addEventListener("click",()=>{state.cmp=[];renderCmpBar();render();});
+
+renderChips();render();
+</script>
+</body>
+</html>

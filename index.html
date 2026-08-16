@@ -904,8 +904,13 @@ const PS_ASSIGN={
 "Khazrak the One-Eye":["horde","raider"],
 "Malagor the Dark Omen":["horde","magic"],
 "Morghur the Shadowgave":["horde","monsters"],
-"Taurox the Brass Bull":["aggro","horde","monsters"]
-};
+"Taurox the Brass Bull":["aggro","horde","monsters"],
+ "Nagash, Supreme Lord of the Undead":["magic","quest","builder"],
+ "Thanquol, the Grey Seer":["schemes","quest"],
+ "Boris Todbringer":["quest","defense"],
+ "The Glottkin":["crafting","monsters"],
+ "Neferata, the Vampire Queen":["schemes","magic"],
+ };
 LORDS.forEach(l=>{l.ps=PS_ASSIGN[l.n]||[];});
 // ---- Lord combat one-liners: how the lord HIMSELF fights (battle prowess, separate from campaign playstyle tags) ----
 const LORD_BATTLE={
@@ -1013,8 +1018,13 @@ const LORD_BATTLE={
 "Khazrak the One-Eye":"Good melee fighter with a debuffing whip",
 "Malagor the Dark Omen":"Flying caster; avoid melee",
 "Morghur the Shadowgave":"Weak combatant who warps enemies around him",
-"Taurox the Brass Bull":"Near-invulnerable metal bull — one lore-accurate weak spot"
-};
+"Taurox the Brass Bull":"Near-invulnerable metal bull — one lore-accurate weak spot",
+ "Nagash, Supreme Lord of the Undead":"Supreme spellcaster — Lore of Undeath plus additional lores from recovered Books; avoid melee entirely",
+ "Thanquol, the Grey Seer":"Grey Seer caster on Boneripper — surprisingly durable for a skaven caster, Boneripper handles melee",
+ "Boris Todbringer":"Fearsome melee combatant with Legbiter; command bonuses buff nearby Middenland troops",
+ "The Glottkin":"Monstrous triple-entity — Otto's scythe, Ethrac's sorcery, Ghurk's bulk in one massive package",
+ "Neferata, the Vampire Queen":"Fast caster-duelist hybrid — Lahmian speed with Shadow and Vampire magic",
+ };
 LORDS.forEach(l=>{l.battle=LORD_BATTLE[l.n]||"";});
 
 const DCOL={1:"#8fae6a",2:"#c9a24b",3:"#c77b3f",4:"#b03a3a"};

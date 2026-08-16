@@ -648,7 +648,7 @@ LORDS.push(
  cons:["Everyone in Nehekhara despises him — constant war","Same weak early skeleton problem","Serves-Nagash flavour overlaps the upcoming LotET content"],
  pick:"Pick if you want to prep the Great Necromancer's return — heresy with a to-do list."}
 );
-// ---- Vampire Coast, Vampire Counts, Beastmen ----
+// ---- Vampire Coast, Vampire Counts, Beastmen, Undead Legions ----
 LORDS.push(
 {n:"Luthor Harkon",r:"Vampire Coast",f:"The Awakened",src:"WH2: Curse of the Vampire Coast",d:2,tags:["Pirates","Coves","Gun zombies"],
  mech:[["Infamy","a career ladder toward being crowned Pirate King, with rival pirate lords climbing the same rungs — a reputation race running alongside the land grab"],["Pirate Coves","plant a hidden cove in a port instead of conquering it — a permanent cut of someone else's economy, forever, while they keep the garrison duty. Cove income snowballs into 'why do I even fight' money; easily the race's best idea"],["Coast core","Pieces of Eight regiment hunts, an upgradeable flagship, shanties, treasure maps — plus Harkon's personal quirk: his madness triggers home rebellions that are more nuisance than threat"]],
@@ -714,7 +714,12 @@ LORDS.push(
  mech:[["Momentum","kills and victories refund campaign movement — win hard enough and you chain two, three, four battles and sieges in one turn. Routinely cited among the best mechanics in the entire series; the 'one more fight this turn' loop is addictive"],["Rampage engine","economy, buffs and objectives all reward perpetual motion. Stalling is the only real defeat, and a stalled Taurox campaign deflates fast — the flip side everyone mentions"],["Minotaur doomherd","brass minotaurs hitting like cavalry, with Taurox near-invulnerable except one lore-accurate weak spot that focus fire will find"]],
  pros:["Momentum chaining is one of the best aggression mechanics ever shipped","Minotaur stacks hit like artillery with legs","Every turn is a puzzle: how many armies can I eat today?"],
  cons:["Snowball stalls hurt double — momentum is the economy","One vulnerable spot (lore-accurate) — focus fire finds him","Razed-earth playstyle leaves nothing to fall back on"],
- pick:"Pick if you want the perpetual-motion massacre — a regular pick for best campaign in the game."}
+  pick:"Pick if you want the perpetual-motion massacre — a regular pick for best campaign in the game."},
+{n:"Nagash, Supreme Lord of the Undead",r:"Undead Legions",f:"The Black Pyramid",src:"Lords of the End Times",d:3,tags:["Necromancy","All undead rosters","Godhood quest"],
+ mech:[["Lands of the Undead","amass undead legions, erect necropolises, and transform the world into a Land of the Dead. Each conquest gathers dark energy that empowers the Black Pyramid — an arcane structure with powerful upgrades that unlock the true potential of his forces"],["The Nine Mortarchs","gather the nine Mortarchs, his lieutenants in the trials to come. Each Mortarch brings unique strengths to the campaign, and assembling all nine is a core campaign objective"],["Books of Nagash","reclaim the lost Books of Nagash to become the mightiest spellcaster the world has ever seen. Each recovered Book unlocks additional lores of magic beyond his native Lore of Undeath. Final aim: ascension to godhood"]],
+ pros:["Recruits from ALL undead rosters — Tomb Kings, Vampire Counts, and Vampire Coast units in one army","Lore of Undeath plus additional lores from recovered Books makes him the most versatile caster in the game","The Black Pyramid upgrade system provides a powerful long-term progression track"],
+ cons:["Slow-burn campaign — Books and Mortarchs must be gathered across the map","No single-roster focus means no race-specific bonuses or synergies","Complex multi-system campaign with many parallel objectives"],
+ pick:"Pick if you want to be the Great Necromancer himself — the ultimate undead power fantasy, commanding every undead roster in the game."}
 );
 const RACES={
  "Khorne":{c:"#a41e1e",o:1,b:"Skulls for the Skull God: melee-only daemons, free Blood Host armies, buffs for endless battle."},
@@ -740,7 +745,8 @@ const RACES={
  "Tomb Kings":{c:"#c2b280",o:21,b:"No upkeep, capped armies, Mortuary Cult crafting and the race for the Books of Nagash."},
  "Vampire Coast":{c:"#3f7a6e",o:22,b:"Infamy race to Pirate King, hidden pirate coves, Pieces of Eight regiments and upgradeable flagships."},
  "Vampire Counts":{c:"#6e1f2e",o:23,b:"Raise Dead logistics, Bloodline unlocks, corruption spread, and not a single ranged unit."},
- "Beastmen":{c:"#6e4f2f",o:24,b:"Settlement-free horde: plant Herdstones, raze Bloodgrounds, spend Dread on permanent upgrades."}
+  "Beastmen":{c:"#6e4f2f",o:24,b:"Settlement-free horde: plant Herdstones, raze Bloodgrounds, spend Dread on permanent upgrades."},
+ "Undead Legions":{c:"#5a3d8f",o:25,b:"The Great Necromancer's pan-undead host — Tomb Kings, Vampire Counts and Vampire Coast units under one banner, powered by the Black Pyramid."},
 };
 // ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
 const PS={

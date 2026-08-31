@@ -193,6 +193,33 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   text-align:center;margin-top:6px;color:var(--muted);
   font-size:.78rem;font-style:italic;
 }
+#featured-radar .fr-all-filter{
+  text-align:center;margin-top:8px;color:var(--text);
+  font-size:.82rem;
+}
+#featured-radar .fr-all-filter b{color:var(--gold);font-weight:600}
+#featured-radar .fr-clear-filter{
+  background:var(--panel2);border:1px solid var(--line);color:var(--text);
+  border-radius:6px;padding:2px 8px;font-size:.7rem;cursor:pointer;margin-left:6px;
+}
+#featured-radar .fr-clear-filter:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Radar interactivity ──────────────────────────────────────────────── */
+.all-lords-radar{cursor:crosshair}
+.all-lords-radar .wedge{transition:fill .12s}
+.all-lords-radar .wedge:hover{
+  fill:rgba(201,162,75,0.18) !important;
+  stroke:rgba(201,162,75,0.7) !important;
+  stroke-width:1.2 !important;
+  cursor:pointer;
+}
+.all-lords-radar .axis circle:hover{
+  fill:rgba(201,162,75,0.25) !important;
+  cursor:pointer;
+}
+.all-lords-radar .axis text{
+  transition:fill .12s, font-size .12s;
+}
 #featured-radar .fr-compare-btn{
   background:var(--gold);color:#1a1408;border:none;border-radius:8px;
   padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;
@@ -1531,8 +1558,24 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     };
   });
 
-  // Grid rings + spokes
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow:visible">`;
+  // Per-axis counts (for tooltips)
+  const axisCount = {};
+  keys.forEach(k => axisCount[k] = 0);
+  presentAll.forEach(({ present }) => present.forEach(k => axisCount[k]++));
+
+  // Per-wedge counts (lords that have BOTH adjacent axes)
+  const wedgeCount = {};
+  for (let i = 0; i < n; i++) {
+    const a = keys[i], b = keys[(i + 1) % n];
+    wedgeCount[`${a}|${b}`] = presentAll.filter(({ present }) => present.has(a) && present.has(b)).length;
+  }
+
+  // Helper to format tag for data attribute (lowercase, no spaces)
+  const tagKey = k => k.charAt(0).toLowerCase() + k.slice(1);
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow:visible" class="all-lords-radar">`;
+
+  // Grid rings
   [0.3, 0.6, 1.0].forEach(frac => {
     const r = maxR * frac;
     const pts = keys.map((_, i) => {
@@ -1542,6 +1585,7 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     });
     svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
   });
+  // Spokes
   keys.forEach((_, i) => {
     const a = i * 360 / n;
     const [x, y] = p2xy(cx, cy, maxR, a);
@@ -1549,11 +1593,10 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
   });
 
   // Per-lord polygon at very low alpha. 110 lords * 0.10 ≈ 11 effective layers
-  // — enough to see density, not enough to be opaque chaos.
   const alpha = 0.10;
   presentAll.forEach(({ color, present }) => {
     const activeKeys = keys.filter(k => present.has(k));
-    if (activeKeys.length < 2) return;  // skip single-point lords
+    if (activeKeys.length < 2) return;
     const pts = activeKeys.map(k => {
       const i = keys.indexOf(k);
       const a = i * 360 / n;
@@ -1563,19 +1606,56 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     svg += `<polygon points="${pts.join(" ")}" fill="${color}" fill-opacity="${alpha}" stroke="${color}" stroke-opacity="${alpha * 1.5}" stroke-width="0.6"/>`;
   });
 
-  // Axis labels
+  // Interactive wedge hit areas (transparent, between consecutive axes).
+  // Click a wedge → add both bounding tags to the include filter.
+  svg += `<g class="wedges" pointer-events="all">`;
+  for (let i = 0; i < n; i++) {
+    const aKey = keys[i], bKey = keys[(i + 1) % n];
+    const ai = i, bi = (i + 1) % n;
+    const [ax, ay] = p2xy(cx, cy, maxR, ai * 360 / n);
+    const [bx, by] = p2xy(cx, cy, maxR, bi * 360 / n);
+    const pts = `${cx},${cy} ${ax.toFixed(1)},${ay.toFixed(1)} ${bx.toFixed(1)},${by.toFixed(1)}`;
+    const labelA = PS[aKey]?.t || aKey;
+    const labelB = PS[bKey]?.t || bKey;
+    const cnt = wedgeCount[`${aKey}|${bKey}`] || 0;
+    svg += `<polygon class="wedge" data-tag-a="${tagKey(aKey)}" data-tag-b="${tagKey(bKey)}" `
+         + `points="${pts}" fill="rgba(201,162,75,0)" stroke="rgba(201,162,75,0.15)" stroke-width="0.5" `
+         + `data-tip="${cnt} lords: ${esc(labelA)} + ${esc(labelB)}" />`;
+  }
+  svg += `</g>`;
+
+  // Axis labels (clickable). Use a <g> with a text + an invisible larger
+  // hit circle so labels are easy to click on touch devices.
+  svg += `<g class="axis-labels">`;
   keys.forEach((k, i) => {
     const a = i * 360 / n;
     const [lx, ly] = p2xy(cx, cy, labelR, a);
-    const icon = PSI[k] || '';
     const fa = a;
     const sx = Math.cos((fa - 90) * Math.PI / 180);
     const anchor = sx >= 0 ? 'start' : 'end';
     const dx = sx >= 0 ? 2 : -2;
     const sy = Math.sin((fa - 90) * Math.PI / 180);
     const dy = sy >= 0 ? 3 : -3;
-    svg += `<text x="${(lx + dx).toFixed(1)}" y="${(ly + dy).toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" font-size="11" fill="rgba(231,224,210,0.85)">${icon}</text>`;
+    const cnt = axisCount[k] || 0;
+    const label = PS[k]?.t || k;
+    // Visual state based on current filter
+    const tk = tagKey(k);
+    const inc = state.psInc.has(tk);
+    const exc = state.psExc.has(tk);
+    let fill = 'rgba(231,224,210,0.85)';
+    let stroke = '';
+    if (inc) { fill = '#c9a24b'; stroke = `stroke="#c9a24b" stroke-width="2"`; }
+    else if (exc) { fill = 'rgba(192,112,112,0.6)'; stroke = `stroke="rgba(192,112,112,0.6)" stroke-width="1.5"`; }
+    // Hit circle (invisible, larger than text) for easy clicking
+    const [hx, hy] = p2xy(cx, cy, labelR, a);
+    svg += `<g class="axis" data-tag="${tk}">`
+         + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="11" fill="transparent" style="cursor:pointer" `
+         + `data-tip="${cnt} lords: ${esc(label)} (click to filter)" />`
+         + `<text x="${(lx + dx).toFixed(1)}" y="${(ly + dy).toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" `
+         + `font-size="13" fill="${fill}" ${stroke} style="pointer-events:none">${PSI[k] || ''}</text>`
+         + `</g>`;
   });
+  svg += `</g>`;
   svg += '</svg>';
   return svg;
 }
@@ -1725,11 +1805,28 @@ function updateFeaturedRadar() {
     if (frSummary) {
       const s = allLordsSummary(allIdxs);
       frSummary.style.display = '';
+      const filterDesc = [];
+      if (state.psInc.size) filterDesc.push(`<b>including</b> ${[...state.psInc].map(t => PS[normTag(t)]?.t || t).join(' + ')}`);
+      if (state.psExc.size) filterDesc.push(`<b>excluding</b> ${[...state.psExc].map(t => PS[normTag(t)]?.t || t).join(', ')}`);
+      const filterLine = filterDesc.length
+        ? `<div class="fr-all-filter">Filter: ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear</button></div>`
+        : '';
       frSummary.innerHTML = `
         <b>${s.total} lords</b> · most common playstyles: ${s.topTags}<br>
         Top races: ${s.topRaces}
-        <div class="fr-all-hint">Check a card below to focus on a single lord, or pick 2–3 to compare.</div>
+        ${filterLine}
+        <div class="fr-all-hint"><b>Click an axis</b> to filter on that playstyle · <b>Click a wedge</b> to require both bounding tags</div>
       `;
+      // Wire the clear button
+      const clr = document.getElementById('fr-clear-filter');
+      if (clr) clr.addEventListener('click', () => {
+        state.psInc.clear();
+        state.psExc.clear();
+        renderChips();
+        render();
+        drawRadars();
+        pushState();
+      });
     }
     return;
   }
@@ -1840,6 +1937,81 @@ function renderCardRadars() {
     el.innerHTML = buildRadarSVG([i], [RACES[l.r]?.c || '#c9a24b'], 80);
   });
 }
+
+// ── Radar interactivity ─────────────────────────────────────────────────
+// The featured all-lords radar is clickable:
+//   - Click an axis label (the icon outside the polygon) → cycle that
+//     playstyle through include → exclude → clear (same as the playstyle
+//     pills on cards).
+//   - Click a wedge (the triangular area between two adjacent axes) → add
+//     BOTH bounding playstyles to the include filter. This filters the
+//     lord grid to lords that have both tags.
+//   - Shift+click on a wedge → same as plain click (kept for future
+//     multi-wedge lasso; current single-click already replaces).
+// Hovering shows a tooltip with the lord count.
+function setupRadarInteraction() {
+  const radar = document.getElementById('fr-radar-svg');
+  if (!radar) return;
+
+  // Tooltip element (re-used across hovers)
+  let tip = document.getElementById('radar-tooltip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'radar-tooltip';
+    tip.style.cssText = 'position:fixed;pointer-events:none;background:var(--panel2);'
+      + 'border:1px solid var(--gold);border-radius:6px;padding:4px 8px;'
+      + 'font-size:.75rem;color:var(--text);z-index:1000;opacity:0;transition:opacity .12s';
+    document.body.appendChild(tip);
+  }
+
+  const showTip = (e, text) => {
+    tip.textContent = text;
+    tip.style.left = (e.clientX + 12) + 'px';
+    tip.style.top  = (e.clientY + 12) + 'px';
+    tip.style.opacity = '1';
+  };
+  const hideTip = () => { tip.style.opacity = '0'; };
+
+  radar.addEventListener('mousemove', e => {
+    const t = e.target.closest('[data-tip]');
+    if (t) showTip(e, t.dataset.tip + (e.shiftKey ? ' (shift: would also work)' : ''));
+    else hideTip();
+  });
+  radar.addEventListener('mouseleave', hideTip);
+
+  radar.addEventListener('click', e => {
+    // Axis label click — toggle single tag
+    const axis = e.target.closest('.axis[data-tag]');
+    if (axis) {
+      cyclePs(axis.dataset.tag);
+      renderChips();
+      render();
+      drawRadars();
+      pushState();
+      return;
+    }
+    // Wedge click — add both bounding tags to the include filter.
+    // First clear any excludes for these tags (a tag can't be both
+    // "must have" and "must not have" at the same time).
+    const wedge = e.target.closest('.wedge[data-tag-a]');
+    if (wedge) {
+      const a = wedge.dataset.tagA;
+      const b = wedge.dataset.tagB;
+      let changed = false;
+      if (state.psExc.has(a)) { state.psExc.delete(a); changed = true; }
+      if (state.psExc.has(b)) { state.psExc.delete(b); changed = true; }
+      if (!state.psInc.has(a)) { state.psInc.add(a); changed = true; }
+      if (!state.psInc.has(b)) { state.psInc.add(b); changed = true; }
+      if (changed) {
+        renderChips();
+        render();
+        drawRadars();
+        pushState();
+      }
+    }
+  });
+}
+setupRadarInteraction();
 
 // Initial render now that both scripts are loaded and buildRadarSVG exists.
 // Without this, the mini card radars and the featured all-lords radar never

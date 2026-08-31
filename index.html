@@ -33,14 +33,16 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .btn:hover{border-color:var(--gold)}
 .btn.gold{background:var(--gold);color:#1a1408;border-color:var(--gold);font-weight:600}
 .btn.gold:disabled{opacity:.45;cursor:default}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%);-webkit-mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)}
 .chips::-webkit-scrollbar{height:5px}
 .chips::-webkit-scrollbar-track{background:transparent}
 .chips::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
 .chips::-webkit-scrollbar-thumb:hover{background:var(--muted)}
-.chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap}
-.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888)}
-.chip.on{color:var(--text);border-color:var(--rc,var(--gold));box-shadow:inset 0 0 0 1px var(--rc,var(--gold))}
+.chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,color .12s}
+.chip:hover{background:var(--panel);color:var(--text)}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888);flex-shrink:0}
+.chip svg.chip-ico{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0.9}
+.chip.on{color:var(--text);border-color:var(--rc,var(--gold));box-shadow:inset 0 0 0 1px var(--rc,var(--gold));background:color-mix(in srgb,var(--rc,var(--gold)) 14%,var(--panel2))}
 .rowlab{flex:0 0 auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px;min-width:64px}
 .chip.ps{--rc:var(--gold)}
 .chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
@@ -118,10 +120,11 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
 .empty{color:var(--muted);padding:40px 0;text-align:center;font-style:italic}
 /* ── Playstyle icon pills ── */
-.ps-pill{display:inline-flex;align-items:center;gap:4px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:.68rem;color:var(--muted);white-space:nowrap;cursor:default;line-height:1;user-select:none}
-.ps-pill.on{border-color:var(--icon-col,#888);color:var(--icon-col,#888)}
-.ps-pill svg{width:11px;height:11px;flex-shrink:0;fill:currentColor}
-.ps-pill-label{text-transform:uppercase;letter-spacing:.06em}
+.ps-pill{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.72rem;color:var(--muted);white-space:nowrap;cursor:default;line-height:1;user-select:none;transition:background .12s}
+.ps-pill:hover{background:var(--panel)}
+.ps-pill.on{border-color:var(--icon-col,#888);color:var(--icon-col,#888);background:color-mix(in srgb,var(--icon-col,#888) 12%,var(--panel2))}
+.ps-pill svg{width:14px;height:14px;flex-shrink:0;fill:currentColor;stroke:currentColor;stroke-width:1.6}
+.ps-pill-label{text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 
 /* ── Radar in overlay ── */
 .ov-radar{margin:10px 0 6px;height:200px;min-height:180px;position:relative;display:block}@media(max-width:600px){.ov-radar{height:260px}}
@@ -1028,14 +1031,17 @@ Weird:'<circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2" fill
 };
 
 // iconSVG(path, size, color) — wrap an icon's path content in a self-contained
-// <svg> element. Use wherever the old Unicode emoji was previously used.
+// <svg> element with a subtle circular background to make the icon more
+// visible against the dark theme. The background opacity scales with size
+// so it doesn't dominate tiny pills.
 function iconSVG(p, size, color) {
   if (!p) return '';
   size = size || 14;
   color = color || 'currentColor';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${size}" height="${size}" style="color:${color};vertical-align:-2px;display:inline-block">${p}</svg>`;
+  const bg = size >= 14 ? '<circle cx="8" cy="8" r="7.4" fill="currentColor" fill-opacity="0.12"/>' : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${size}" height="${size}" style="color:${color};vertical-align:-2px;display:inline-block;overflow:visible">${bg}${p}</svg>`;
 }
-const RACE_ICONS={Khorne:'⚔',Tzeentch:'✨',Nurgle:'☣',Slaanesh:'🎵',Kislev:'❄','Grand Cathay':'🐉',Empire:'🏰',Dwarfs:'⚒',Greenskins:'💀','Vampire Counts':'🧛','Warriors of Chaos':'🔥',Beastmen:'🐗',Bretonnia:'🏇','Wood Elves':'🌲','High Elves':'🏛','Dark Elves':'🐍',Lizardmen:'🦎',Skaven:'🐀','Tomb Kings':'⚱','Vampire Coast':'☠','Ogre Kingdoms':'🍖',Norsca:'🪓','Chaos Dwarfs':'🗡'};
+const RACE_ICONS={'Khorne':'<path d="M3 13l4-4M5 11l-1 3 3-1M11 3l4 4M13 5l1 3-3-1M3 13l-1 1M15 3l1-1M8 5v6M5 8h6"/>','Tzeentch':'<path d="M8 2l1.5 4 4 .5-3 2.5 1 4-3.5-2-3.5 2 1-4-3-2.5 4-.5z"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/>','Nurgle':'<circle cx="8" cy="8" r="5"/><circle cx="6" cy="6" r="0.8" fill="currentColor"/><circle cx="10" cy="7" r="0.8" fill="currentColor"/><circle cx="7" cy="10" r="0.8" fill="currentColor"/><circle cx="11" cy="10" r="0.8" fill="currentColor"/>','Slaanesh':'<path d="M2 8 Q 4 4 6 8 T 10 8 T 14 8"/><path d="M2 11 Q 4 7 6 11 T 10 11 T 14 11"/>','Kislev':'<path d="M8 1v14M3 4l5-3 5 3M2 8h3M11 8h3M4 13l4 2 4-2"/>','Grand Cathay':'<path d="M5 13c-2-2-2-5 0-7M11 13c2-2 2-5 0-7M8 3v10M5 6c0 4 6 4 6 0M3 10c0 3 10 3 10 0"/>','Empire':'<path d="M2 13h12M2 13V8l3-1V5l3-2 3 2v2l3 1v5M6 8h4"/>','Dwarfs':'<path d="M3 5h10M4 5v6l-1 2h10l-1-2V5M6 5V3h4v2M7 9l1 1 1-1M10 9l-1 1-1-1"/>','Greenskins':'<path d="M5 4c-2 0-3 2-3 4 0 3 2 4 2 4M11 4c2 0 3 2 3 4 0 3-2 4-2 4M3 8h2M11 8h2M6 6l1 1M10 6l-1 1M6 13h4"/>','Vampire Counts':'<path d="M5 3L4 5v4c0 2 1 3 4 3s4-1 4-3V5L11 3M6 8v3M10 8v3M8 7v4"/>','Warriors of Chaos':'<path d="M5 14L8 2l3 12M3 9l2-2M13 9l-2-2M5 12h6"/>','Beastmen':'<path d="M2 11c1-3 3-5 6-5s5 2 6 5M5 8c0-2 1-3 3-3s3 1 3 3M4 12l-2 2M12 12l2 2M7 9l1 1 1-1"/>','Bretonnia':'<path d="M2 12l6-4 6 4M5 12V8M11 12V8M8 8V3M6 5l2-2 2 2"/>','Wood Elves':'<path d="M8 2L4 14h8zM5 9h6M6 12h4"/>','High Elves':'<path d="M2 13V8l3-2 3 3 3-3 3 2v5zM5 6V4h2v2M9 6V4h2v2M3 10h2M11 10h2"/>','Dark Elves':'<path d="M2 13L6 5l2 2 2-2 4 8M5 9h6M7 11l1 1 1-1"/>','Lizardmen':'<path d="M2 8c2-3 4-3 6 0s4 3 6 0M4 8c0 2 1 3 2 3M8 5v3M8 11c0 1 1 2 2 2"/>','Skaven':'<path d="M2 10l3-3 1 1 1-1 1 1 1-1 1 1 1-1 3 3M5 10v3M11 10v3M6 13h4"/>','Tomb Kings':'<path d="M5 3h6v3l-1 1v5l-1 1H7l-1-1V7L5 6zM4 6h2M10 6h2"/>','Vampire Coast':'<path d="M4 4h8v6c0 2-2 3-4 3s-4-1-4-3zM4 4l-2-2M12 4l2-2M6 7h4M8 5v3"/>','Ogre Kingdoms':'<path d="M3 13V8c0-3 2-5 5-5s5 2 5 5v5M3 13h10M6 9h1M9 9h1M8 11v1"/>','Norsca':'<path d="M3 13h10M5 13l3-9 3 9M6 9h4M4 7l1-1 1 1M10 7l1-1 1 1"/>','Chaos Dwarfs':'<path d="M3 14l5-10 5 10M3 14h10M5 11h6M6 8h4M7 5h2"/>','Daemons of Chaos':'<path d="M8 2l2 4 4-1-2 4 3 3-4 1-1 4-2-3-2 3-1-4-4-1 3-3-2-4 4 1z"/>'};
 const SRC_ICONS={'WH3 base':'🟡','Omens of Destruction':'🟠','Shadows of Change':'🟠','Lords of the End Times':'🟠','Bhashiva Character Pack':'🟢',FLC:'🟢',free:'🟢',wh3dlc:'🟠',wh3base:'🟡',wh1:'🟣',wh2:'🔵'};
 /* ASSIGNMENT CRITERIA (mechanics audit):
    - Tags describe the CAMPAIGN loop, not battle prowess. Max 3, minimum meaningful.
@@ -1421,7 +1427,7 @@ function render(){
 
 function renderChips(){
   $("#chips").innerHTML=Object.keys(RACES).sort((a,b)=>RACES[a].o-RACES[b].o)
-    .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}"><span class="dot"></span>${(RACE_ICONS[r]||"")+" "+esc(r)}</button>`).join("");
+    .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 18, "currentColor")}<span class="lbl">${esc(r)}</span></button>`).join("");
   $("#pschips").innerHTML=Object.keys(PS)
     .map(p=>{
       // p is uppercase (e.g. "Aggro"); state.psInc is lowercase. Normalize
@@ -1429,7 +1435,7 @@ function renderChips(){
       const pk = p.charAt(0).toLowerCase() + p.slice(1);
       const st=state.psInc.has(pk)?" on":state.psExc.has(pk)?" off":"";
       const pre=state.psInc.has(pk)?"+&nbsp;":state.psExc.has(pk)?"&minus;&nbsp;":"";
-      return `<button class="chip ps${st}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)"><span class="dot"></span>${pre}<span class="lbl">${esc(PS[p].t)}</span></button>`;
+      return `<button class="chip ps${st}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p], 18, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
 }
@@ -1696,11 +1702,16 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     else if (exc) { fill = 'rgba(192,112,112,0.6)'; stroke = `stroke="rgba(192,112,112,0.6)" stroke-width="1.5"`; }
     // Hit circle (invisible, larger than text) for easy clicking
     const [hx, hy] = p2xy(cx, cy, labelR, a);
+    // Visible background circle behind the icon, makes it pop on dark bg
+    const bgFill = inc ? 'rgba(201,162,75,0.18)' : exc ? 'rgba(192,112,112,0.18)' : 'rgba(231,224,210,0.08)';
+    const iconPx = 24;
+    const cx0 = lx + dx, cy0 = ly + dy;
     svg += `<g class="axis" data-tag="${tk}">`
-         + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="11" fill="transparent" style="cursor:pointer" `
+         + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="18" fill="transparent" style="cursor:pointer" `
          + `data-tip="${cnt} lords: ${esc(label)} (click to filter)" />`
-         + `<g transform="translate(${(lx + dx - 7).toFixed(1)},${(ly + dy - 7).toFixed(1)})" style="pointer-events:none;color:${fill}">`
-         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14">${PSI[k] || ''}</svg>`
+         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconPx/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
+         + `<g transform="translate(${(cx0 - iconPx/2).toFixed(1)},${(cy0 - iconPx/2).toFixed(1)})" style="pointer-events:none;color:${fill}">`
+         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconPx}" height="${iconPx}">${PSI[k] || ''}</svg>`
          + `</g>`
          + `</g>`;
   });
@@ -1754,24 +1765,40 @@ function buildRadarSVG(lordIdxs, colors, size) {
     return { lIdx, color: colors[ci % colors.length], present };
   });
 
-  // Grid rings (30%, 60%, 100%)
+  // Grid rings. For the per-card mini radar (size < 100), show just the outer
+  // ring and 4 spokes (cardinal directions) for context. The featured radar
+  // (size >= 100) shows the full grid + spokes for legibility.
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow:visible">`;
-  [0.3, 0.6, 1.0].forEach(frac => {
-    const r = maxR * frac;
-    const pts = keys.map((_, i) => {
+  if (size < 100) {
+    // Single outer ring (the polygon outline of the playstyle axes)
+    const outerPts = keys.map((_, i) => {
       const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, r, a);
+      const [x, y] = p2xy(cx, cy, maxR, a);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     });
-    svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="${size < 100 ? 0.5 : 1}"/>`;
-  });
-
-  // Axis spokes
-  keys.forEach((_, i) => {
-    const a = i * 360 / n;
-    const [x, y] = p2xy(cx, cy, maxR, a);
-    svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.06)" stroke-width="${size < 100 ? 0.5 : 1}"/>`;
-  });
+    svg += `<polygon points="${outerPts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
+    // 4 spokes (every 90°) for orientation
+    [0, 90, 180, 270].forEach(a => {
+      const [x, y] = p2xy(cx, cy, maxR, a);
+      svg += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>`;
+    });
+  } else {
+    // Full grid for featured radar
+    [0.3, 0.6, 1.0].forEach(frac => {
+      const r = maxR * frac;
+      const pts = keys.map((_, i) => {
+        const a = i * 360 / n;
+        const [x, y] = p2xy(cx, cy, r, a);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      });
+      svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
+    });
+    keys.forEach((_, i) => {
+      const a = i * 360 / n;
+      const [x, y] = p2xy(cx, cy, maxR, a);
+      svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+    });
+  }
 
   // Per-lord data polygon + dots
   lordData.forEach(({ lIdx, color, present }) => {
@@ -1808,25 +1835,33 @@ function buildRadarSVG(lordIdxs, colors, size) {
   // Center dot
   svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${size < 100 ? 1.5 : 2.5}" fill="rgba(255,255,255,0.2)"/>`;
 
-  // Axis labels — icon + short label
-  keys.forEach((k, i) => {
-    const a = i * 360 / n;
-    const [lx, ly] = p2xy(cx, cy, labelR, a);
-    const icon = PSI[k] || '';
-    const isActive = lordData.some(ld => ld.present.has(k));
-    const fa = a;
-    const sx = Math.cos((fa - 90) * Math.PI / 180);
-    const anchor = sx >= 0 ? 'start' : 'end';
-    const dx = sx >= 0 ? 2 : -2;
-    const dy = size < 100 ? 0 : (i => {
-      const sy = Math.sin((fa - 90) * Math.PI / 180);
-      return sy >= 0 ? 3 : -3;
-    })();
-    const iconSize = size < 100 ? 10 : 14;
-    svg += `<g transform="translate(${(lx + dx - iconSize/2).toFixed(1)},${(ly + dy - iconSize/2).toFixed(1)})" style="color:${isActive ? '#e7e0d2' : 'rgba(155,146,133,0.45)'}">`
-         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
-         + `</g>`;
-  });
+  // Axis labels — icon + short label. Skip when radar is small (<100px) to
+  // keep the per-card mini radar lightweight (110 of them, so every byte
+  // counts). The featured radar (size >= 100) still shows labels.
+  if (size >= 100) {
+    keys.forEach((k, i) => {
+      const a = i * 360 / n;
+      const [lx, ly] = p2xy(cx, cy, labelR, a);
+      const icon = PSI[k] || '';
+      const isActive = lordData.some(ld => ld.present.has(k));
+      const fa = a;
+      const sx = Math.cos((fa - 90) * Math.PI / 180);
+      const anchor = sx >= 0 ? 'start' : 'end';
+      const dx = sx >= 0 ? 2 : -2;
+      const dy = (i => {
+        const sy = Math.sin((fa - 90) * Math.PI / 180);
+        return sy >= 0 ? 3 : -3;
+      })();
+      const iconSize = 18;
+      const cx0 = lx + dx, cy0 = ly + dy;
+      // Visible background disc so the icon is readable on a dark radar.
+      const bgFill = isActive ? 'rgba(201,162,75,0.18)' : 'rgba(231,224,210,0.06)';
+      svg += `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
+           + `<g transform="translate(${(cx0 - iconSize/2).toFixed(1)},${(cy0 - iconSize/2).toFixed(1)})" style="color:${isActive ? '#e7e0d2' : 'rgba(231,224,210,0.55)'}">`
+           + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
+           + `</g>`;
+    });
+  }
 
   svg += '</svg>';
   return svg;
@@ -1852,7 +1887,7 @@ function updateFeaturedRadar() {
 
     const svgEl = document.getElementById('fr-radar-svg');
     const allIdxs = LORDS.map((_, i) => i);
-    if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 380);
+    if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440);
 
     if (frSummary) {
       const s = allLordsSummary(allIdxs);

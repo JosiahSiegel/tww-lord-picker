@@ -1,0 +1,28 @@
+# TWW Lord Picker — deploy manifest
+# Used by /workspace/scripts/deploy.sh to verify safe deploys.
+
+prod_url: https://twwlordpicker.com/
+gh_repo: JosiahSiegel/tww-lord-picker
+source_branch: master
+pages_branch: gh-pages
+verify_min_bytes: 100000    # 110 lord cards + radar + CSS is well over 100KB
+verify_timeout_sec: 180     # custom domain + Pages rebuild can take ~1 min
+
+required_files:
+  - index.html
+  - CNAME
+
+# Grep patterns (grep -E regex) that MUST appear in prod HTML after deploy.
+# Each catches a different "this is the right site" signal.
+verify_checks:
+  - "TWW3 Lord Picker"                    # <title>
+  - "ov-lord-sub.*lord.r.*lord.f"         # the fixed template literal (would NOT match broken version)
+  - "const LORDS=\\[\\]"                   # LORDS array initializer
+  - "Skarbrand"                           # lord #1 name
+  - "Update 9.0"                          # version marker in footer
+
+# Headless render assertions via jsdom. Catches "HTML serves but JS silently dies."
+# 110 lords is the contract — if we render fewer, something is broken.
+render_asserts:
+  - "document.querySelectorAll('.card').length === 110"
+  - "document.querySelector('#count')?.textContent?.includes('110')"

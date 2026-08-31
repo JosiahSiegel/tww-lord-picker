@@ -177,6 +177,22 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   color:var(--muted);font-style:italic;font-size:.9rem;
 }
 #featured-radar .fr-empty-sub{font-size:.78rem;margin-top:6px}
+
+/* "All lords" mode — radar is centered and bigger, takes full width */
+#featured-radar .fr-inner.all-lords{flex-direction:column;align-items:stretch}
+#featured-radar .fr-inner.all-lords .fr-radar{
+  flex:0 0 auto;width:100%;max-width:380px;height:380px;margin:0 auto;
+}
+#featured-radar .fr-inner.all-lords .fr-radar svg{width:380px;height:380px}
+#featured-radar .fr-all-summary{
+  text-align:center;margin:14px 0 0;color:var(--muted);
+  font-size:.86rem;line-height:1.55;
+}
+#featured-radar .fr-all-summary b{color:var(--gold);font-weight:600}
+#featured-radar .fr-all-hint{
+  text-align:center;margin-top:6px;color:var(--muted);
+  font-size:.78rem;font-style:italic;
+}
 #featured-radar .fr-compare-btn{
   background:var(--gold);color:#1a1408;border:none;border-radius:8px;
   padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;
@@ -195,12 +211,12 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 
 /* ── Mini radar on lord cards ── */
 .card-radar{
-  float:right;width:52px;height:52px;margin-left:8px;
+  float:right;width:80px;height:80px;margin-left:10px;
   background:var(--panel2);border:1px solid var(--line);
   border-radius:8px;overflow:hidden;flex-shrink:0;
   position:relative;
 }
-.card-radar svg{width:52px;height:52px;display:block}
+.card-radar svg{width:80px;height:80px;display:block}
 .card{overflow:hidden}
 
 /* ── Comparison overlay ── */
@@ -304,6 +320,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
     <div class="fr-radar" id="fr-radar" style="display:none">
       <div id="fr-radar-svg"></div>
     </div>
+    <div class="fr-all-summary" id="fr-all-summary" style="display:none"></div>
     <div class="fr-info" id="fr-info" style="display:none">
       <h2>⚔ Playstyle Radar</h2>
       <div class="fr-name" id="fr-name"></div>
@@ -1212,6 +1229,20 @@ function bucket(s){s=s.toLowerCase();if(s.includes("flc")||s.includes("free"))re
 LORDS.forEach((l,i)=>{l.i=i;l.bk=bucket(l.src);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")).toLowerCase();});
 
 const state={q:"",race:null,psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[]};
+
+// pushState lives at module scope so it's callable from anywhere
+// (e.g. the initial renderChips();render();pushState(); bootstrap at the
+//  bottom of this script and the click handlers).
+function pushState(){
+  const p=new URLSearchParams();
+  if(state.q) p.set("q",state.q);
+  if(state.race) p.set("race",state.race);
+  if(state.diff) p.set("diff",state.diff);
+  if(state.sort!=="race") p.set("sort",state.sort);
+  if(state.psInc.size) p.set("ps",[...state.psInc].join(","));
+  if(state.cmp.length) p.set("cmp",state.cmp.join(","));
+  history.replaceState(null,"",location.pathname+(p.toString()?"#"+p.toString():""));
+}
 function psOk(l){
   if(state.psInc.size){
     const m=state.psAll?[...state.psInc].every(p=>l.ps.map(t=>t.charAt(0).toUpperCase()+t.slice(1)).includes(p)):[...state.psInc].some(p=>l.ps.map(t=>t.charAt(0).toUpperCase()+t.slice(1)).includes(p));
@@ -1245,7 +1276,7 @@ function cardHTML(l){
   const open=state.open.has(l.i)?" open":"";
   const ck=state.cmp.includes(l.i)?" checked":"";
   return `<article class="card${open} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
-    <div class="card-radar" id="cradar${l.i}"></div>
+    <div class="card-radar" data-i="${l.i}"></div>
     <h3>${esc(l.n)} ${pips(l.d)}</h3>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>
     <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → exclude → clear)">${PSI[p.charAt(0).toUpperCase()+p.slice(1)]} <span class="ps-pill-label">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`).join("")}</div>
@@ -1277,13 +1308,10 @@ function render(){
   $("#count").textContent=`🔍 ${list.length} / ${LORDS.length}`;
   const m=$("#main");
   if(!list.length){m.innerHTML=`<p class="empty">&#128269; No lords match. Loosen a filter.</p>`;return;}
-  // Draw mini radars for all rendered cards
-  if(typeof buildRadarSVG==='function'){
-    list.forEach(l=>{
-      const el=document.getElementById("cradar"+l.i);
-      if(el) el.innerHTML=buildRadarSVG([l.i],[RACES[l.r].c],52);
-    });
-  }
+  // Mini radars on cards are filled by drawRadars() in the second script —
+  // do it here too for any user interaction that calls render() (the second
+  // script is already loaded by then).
+  if(typeof drawRadars==='function') drawRadars();
   // URL hash sync
   try {
     const params=new URLSearchParams(location.hash.slice(1));
@@ -1295,17 +1323,6 @@ function render(){
     const s=params.get("ps");
     if(s){state.psInc=new Set(s.split(",").filter(t=>PS[t]));}
   } catch(e){}
-  // Push state to URL
-  function pushState(){
-    const p=new URLSearchParams();
-    if(state.q) p.set("q",state.q);
-    if(state.race) p.set("race",state.race);
-    if(state.diff) p.set("diff",state.diff);
-    if(state.sort!=="race") p.set("sort",state.sort);
-    if(state.psInc.size) p.set("ps",[...state.psInc].join(","));
-    if(state.cmp.length) p.set("cmp",state.cmp.join(","));
-    history.replaceState(null,"",location.pathname+(p.toString()?"#"+p.toString():""));
-  }
   if(state.sort==="race"){
     const byRace={};list.forEach(l=>{(byRace[l.r]=byRace[l.r]||[]).push(l)});
     m.innerHTML=Object.keys(byRace).sort((a,b)=>RACES[a].o-RACES[b].o).map(r=>{
@@ -1417,6 +1434,7 @@ document.addEventListener("change",e=>{
     state.cmp=state.cmp.filter(x=>x!==i);
   }
   renderCmpBar();
+  if(typeof drawRadars==='function') drawRadars();
 });
 
 document.addEventListener("keydown",e=>{
@@ -1451,7 +1469,7 @@ document.getElementById("fr-compare-btn").addEventListener("click",()=>{
 });
 $("#fr-compare-btn").addEventListener("click",()=>{if(state.cmp.length>=2)openOverlay();});
 $("#closecmp").addEventListener("click",closeOverlay);
-$("#clearcmp").addEventListener("click",()=>{state.cmp=[];renderCmpBar();render();});
+$("#clearcmp").addEventListener("click",()=>{state.cmp=[];renderCmpBar();render();if(typeof drawRadars==='function')drawRadars();});
 $("#random-lord").addEventListener("click",()=>{
   const list=filtered();
   if(!list.length) return;
@@ -1491,6 +1509,106 @@ function p2xy(cx, cy, r, deg) {
 }
 
 function normTag(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+
+// buildAllLordsRadarSVG — overlay every (filtered) lord at very low opacity
+// so the result reads as a "playstyle distribution" rather than 110 distinct
+// shapes. Lords are colored by their race so dominant patterns per race
+// show up as colored density.
+function buildAllLordsRadarSVG(lordIdxs, size) {
+  size = size || 380;
+  const cx = size / 2, cy = size / 2;
+  const maxR = GRID_R * size / RADAR_SIZE;
+  const labelR = LABEL_R * size / RADAR_SIZE;
+  const keys = Object.keys(PS);
+  const n = keys.length;
+
+  // Per-lord per-axis presence
+  const presentAll = lordIdxs.map(i => {
+    const l = LORDS[i];
+    return {
+      color: RACES[l.r]?.c || '#c9a24b',
+      present: new Set((l.ps || []).map(normTag)),
+    };
+  });
+
+  // Grid rings + spokes
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow:visible">`;
+  [0.3, 0.6, 1.0].forEach(frac => {
+    const r = maxR * frac;
+    const pts = keys.map((_, i) => {
+      const a = i * 360 / n;
+      const [x, y] = p2xy(cx, cy, r, a);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
+  });
+  keys.forEach((_, i) => {
+    const a = i * 360 / n;
+    const [x, y] = p2xy(cx, cy, maxR, a);
+    svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
+  });
+
+  // Per-lord polygon at very low alpha. 110 lords * 0.10 ≈ 11 effective layers
+  // — enough to see density, not enough to be opaque chaos.
+  const alpha = 0.10;
+  presentAll.forEach(({ color, present }) => {
+    const activeKeys = keys.filter(k => present.has(k));
+    if (activeKeys.length < 2) return;  // skip single-point lords
+    const pts = activeKeys.map(k => {
+      const i = keys.indexOf(k);
+      const a = i * 360 / n;
+      const [x, y] = p2xy(cx, cy, maxR, a);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    svg += `<polygon points="${pts.join(" ")}" fill="${color}" fill-opacity="${alpha}" stroke="${color}" stroke-opacity="${alpha * 1.5}" stroke-width="0.6"/>`;
+  });
+
+  // Axis labels
+  keys.forEach((k, i) => {
+    const a = i * 360 / n;
+    const [lx, ly] = p2xy(cx, cy, labelR, a);
+    const icon = PSI[k] || '';
+    const fa = a;
+    const sx = Math.cos((fa - 90) * Math.PI / 180);
+    const anchor = sx >= 0 ? 'start' : 'end';
+    const dx = sx >= 0 ? 2 : -2;
+    const sy = Math.sin((fa - 90) * Math.PI / 180);
+    const dy = sy >= 0 ? 3 : -3;
+    svg += `<text x="${(lx + dx).toFixed(1)}" y="${(ly + dy).toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" font-size="11" fill="rgba(231,224,210,0.85)">${icon}</text>`;
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+// Aggregate stats for the all-lords mode: which playstyle axes are most
+// common, and which race contributes the most lords.
+function allLordsSummary(lordIdxs) {
+  const tagCounts = {};
+  const raceCounts = {};
+  lordIdxs.forEach(i => {
+    const l = LORDS[i];
+    (l.ps || []).forEach(p => {
+      const t = normTag(p);
+      tagCounts[t] = (tagCounts[t] || 0) + 1;
+    });
+    raceCounts[l.r] = (raceCounts[l.r] || 0) + 1;
+  });
+  const topTags = Object.entries(tagCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([t, c]) => {
+      const label = PS[t]?.t || t;
+      const icon = PSI[t] || '';
+      return `<b>${icon} ${esc(label)}</b> (${c})`;
+    })
+    .join(' · ');
+  const topRaces = Object.entries(raceCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([r, c]) => `<b>${esc(r)}</b> (${c})`)
+    .join(' · ');
+  return { topTags, topRaces, total: lordIdxs.length };
+}
 
 function buildRadarSVG(lordIdxs, colors, size) {
   size = size || RADAR_SIZE;
@@ -1588,18 +1706,41 @@ function updateFeaturedRadar() {
   const fi = document.getElementById('fr-info');
   const fe = document.getElementById('fr-empty');
   const cmpBtn = document.getElementById('fr-compare-btn');
+  const frInner = document.getElementById('fr-inner');
+  const frSummary = document.getElementById('fr-all-summary');
   if (!fr) return;
 
+  // ── No selection: show every filtered lord overlaid (race-colored density) ──
   if (!state.cmp.length) {
-    fr.style.display = 'none';
+    frInner.classList.add('all-lords');
+    fr.style.display = '';
     fi.style.display = 'none';
-    fe.style.display = '';
+    fe.style.display = 'none';
+    cmpBtn.style.display = 'none';
+
+    const svgEl = document.getElementById('fr-radar-svg');
+    const allIdxs = LORDS.map((_, i) => i);
+    if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 380);
+
+    if (frSummary) {
+      const s = allLordsSummary(allIdxs);
+      frSummary.style.display = '';
+      frSummary.innerHTML = `
+        <b>${s.total} lords</b> · most common playstyles: ${s.topTags}<br>
+        Top races: ${s.topRaces}
+        <div class="fr-all-hint">Check a card below to focus on a single lord, or pick 2–3 to compare.</div>
+      `;
+    }
     return;
   }
 
+  // ── Selection: show the picked lord(s) ──
+  frInner.classList.remove('all-lords');
   fr.style.display = '';
   fi.style.display = '';
   fe.style.display = 'none';
+  cmpBtn.style.display = '';
+  if (frSummary) frSummary.style.display = 'none';
 
   const first = state.cmp[0];
   const lord = LORDS[first];
@@ -1683,10 +1824,27 @@ function closeOverlay() {
 }
 
 function drawRadars() {
-  // Mini radars on cards are rendered via innerHTML in cardHTML — noop here
+  renderCardRadars();
   updateFeaturedRadar();
 }
-// ── End radar ──
+
+// Fill every .card-radar div with a mini radar SVG for that lord.
+// Called by render() and once on initial page load (after both scripts are parsed).
+function renderCardRadars() {
+  if (typeof buildRadarSVG !== 'function') return;  // safety: second script not loaded yet
+  const els = document.querySelectorAll('.card-radar[data-i]');
+  els.forEach(el => {
+    const i = +el.dataset.i;
+    const l = LORDS[i];
+    if (!l) return;
+    el.innerHTML = buildRadarSVG([i], [RACES[l.r]?.c || '#c9a24b'], 80);
+  });
+}
+
+// Initial render now that both scripts are loaded and buildRadarSVG exists.
+// Without this, the mini card radars and the featured all-lords radar never
+// draw on first page load.
+drawRadars();
 </script>
 
 </body>

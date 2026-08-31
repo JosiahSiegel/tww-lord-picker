@@ -16,7 +16,7 @@ required_files:
 verify_checks:
   - "TWW3 Lord Picker"
   - "buildAllLordsRadarSVG"
-  - "TWW3 Lord Picker — All 110"  # full title (no regex escapes needed)
+  - "const LORDS"
   - "Skarbrand"
   - "Update 9.0"
 

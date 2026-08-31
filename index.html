@@ -1496,7 +1496,11 @@ function filtered(){
 
 function render(){
   const list=filtered();
-  $("#count").textContent=`🔍 ${list.length} / ${LORDS.length}`;
+  // Real-lord count excludes the synthetic race-avg entries we inject
+  // for the single-lord radar compare overlay. Without this, the
+  // denominator would be 110 + 25 = 135 and confuse the user.
+  const realTotal = LORDS.filter(l => !l._synthetic).length;
+  $("#count").textContent=`🔍 ${list.length} / ${realTotal}`;
   // Active-filter pills are state-driven, so update them on every render.
   if (typeof renderActiveFilters === 'function') renderActiveFilters();
   const m=$("#main");

@@ -26,3 +26,6 @@ render_asserts:
   - "document.querySelector('#count')?.textContent?.includes('110')"
   - "document.querySelectorAll('.card-radar').length >= 110"
   - "document.querySelector('#fr-radar-svg')?.innerHTML?.length > 1000"
+  # Interactive radar: 14 axes (one per playstyle) and 14 wedges must be present
+  - "document.querySelectorAll('.all-lords-radar .axis').length === 14"
+  - "document.querySelectorAll('.all-lords-radar .wedge').length === 14"

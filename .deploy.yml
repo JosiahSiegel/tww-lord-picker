@@ -3,7 +3,7 @@
 
 prod_url: https://twwlordpicker.com/
 gh_repo: JosiahSiegel/tww-lord-picker
-source_branch: master
+source_branch: gh-pages
 pages_branch: gh-pages
 verify_min_bytes: 100000
 verify_timeout_sec: 180

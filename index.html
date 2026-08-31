@@ -1470,12 +1470,10 @@ function renderChips(){
       // signal: "no lord in this set has that tag").
       // filtered() already excludes synthetic race-avg lords and applies
       // race/diff/src/q filters, so we just need to count over it.
-      // The lord's ps tags are titlecase ("War") but pk is lowercase
-      // ("war"). Inline-normalize pk the same way and compare — that way
-      // the count is in the same case as the stored data.
-      const pkNorm = pk.charAt(0).toUpperCase() + pk.slice(1);
+      // l.ps is lowercase (assigned from PS_ASSIGN in the lord data setup
+      // loop), and pk is also lowercase, so direct includes() works.
       const psCount = filtered().reduce(
-        (n, l) => n + ((l.ps || []).includes(pkNorm) ? 1 : 0), 0
+        (n, l) => n + ((l.ps || []).includes(pk) ? 1 : 0), 0
       );
       const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
       return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;

@@ -1300,11 +1300,14 @@ function pushState(){
   history.replaceState(null,"",location.pathname+(p.toString()?"#"+p.toString():""));
 }
 function psOk(l){
+  // l.ps contains lowercase tags like "aggro", "duelist"
+  // state.psInc / state.psExc also use lowercase tag keys (set by cyclePs
+  // and by the radar's tagKey() helper). Compare lowercase-to-lowercase.
   if(state.psInc.size){
-    const m=state.psAll?[...state.psInc].every(p=>l.ps.map(t=>t.charAt(0).toUpperCase()+t.slice(1)).includes(p)):[...state.psInc].some(p=>l.ps.map(t=>t.charAt(0).toUpperCase()+t.slice(1)).includes(p));
+    const m=state.psAll?[...state.psInc].every(p=>l.ps.includes(p)):[...state.psInc].some(p=>l.ps.includes(p));
     if(!m)return false;
   }
-  for(const p of state.psExc)if(l.ps.map(t=>t.charAt(0).toUpperCase()+t.slice(1)).includes(p))return false;
+  for(const p of state.psExc)if(l.ps.includes(p))return false;
   return true;
 }
 function cyclePs(p){
@@ -1377,7 +1380,7 @@ function render(){
     if(params.get("sort")) state.sort=params.get("sort");
     if(params.get("cmp")) state.cmp=params.get("cmp").split(",").map(Number).filter(n=>!isNaN(n)).slice(0,3);
     const s=params.get("ps");
-    if(s){state.psInc=new Set(s.split(",").filter(t=>PS[t]));}
+    if(s){state.psInc=new Set(s.split(",").filter(t=>PS[t.charAt(0).toUpperCase()+t.slice(1)]));}
   } catch(e){}
   if(state.sort==="race"){
     const byRace={};list.forEach(l=>{(byRace[l.r]=byRace[l.r]||[]).push(l)});
@@ -1847,7 +1850,7 @@ function updateFeaturedRadar() {
         <b>${s.total} lords</b> · most common playstyles: ${s.topTags}<br>
         Top races: ${s.topRaces}
         ${filterLine}
-        <div class="fr-all-hint"><b>Click an axis</b> to filter on that playstyle · <b>Click a wedge</b> to require both bounding tags</div>
+        <div class="fr-all-hint"><b>Click an axis</b> to filter on that playstyle · <b>Click a wedge</b> to require both bounding tags<br><span style="opacity:0.65;font-size:0.85em">Ctrl/Cmd-click (or long-press on touch) to add to existing filter · click an active axis again to clear</span></div>
       `;
       // Wire the clear button
       const clr = document.getElementById('fr-clear-filter');
@@ -2010,36 +2013,96 @@ function setupRadarInteraction() {
   radar.addEventListener('mouseleave', hideTip);
 
   radar.addEventListener('click', e => {
-    // Axis label click — toggle single tag
+    const additive = e.ctrlKey || e.metaKey;
+    // Axis label click
     const axis = e.target.closest('.axis[data-tag]');
     if (axis) {
-      cyclePs(axis.dataset.tag);
-      renderChips();
-      render();
-      drawRadars();
-      pushState();
-      return;
-    }
-    // Wedge click — add both bounding tags to the include filter.
-    // First clear any excludes for these tags (a tag can't be both
-    // "must have" and "must not have" at the same time).
-    const wedge = e.target.closest('.wedge[data-tag-a]');
-    if (wedge) {
-      const a = wedge.dataset.tagA;
-      const b = wedge.dataset.tagB;
-      let changed = false;
-      if (state.psExc.has(a)) { state.psExc.delete(a); changed = true; }
-      if (state.psExc.has(b)) { state.psExc.delete(b); changed = true; }
-      if (!state.psInc.has(a)) { state.psInc.add(a); changed = true; }
-      if (!state.psInc.has(b)) { state.psInc.add(b); changed = true; }
-      if (changed) {
+      const tag = axis.dataset.tag;
+      if (additive) {
+        // Power-user: cycle include → exclude → clear (same as card pill)
+        cyclePs(tag);
+      } else {
+        // Default: replace any current include filter with just this tag.
+        // This matches the user mental model: "I'm picking ONE thing to look at".
+        if (state.psInc.size === 1 && state.psInc.has(tag) && !state.psExc.size) {
+          // Click the active axis a second time → clear (toggle off)
+          state.psInc.clear();
+        } else {
+          state.psInc = new Set([tag]);
+          state.psExc.clear();
+        }
         renderChips();
         render();
         drawRadars();
         pushState();
       }
+      return;
+    }
+    // Wedge click
+    const wedge = e.target.closest('.wedge[data-tag-a]');
+    if (wedge) {
+      const a = wedge.dataset.tagA;
+      const b = wedge.dataset.tagB;
+      if (additive) {
+        // Add both tags to existing filter (union)
+        if (!state.psInc.has(a)) state.psInc.add(a);
+        if (!state.psInc.has(b)) state.psInc.add(b);
+        state.psExc.delete(a);
+        state.psExc.delete(b);
+      } else {
+        // Default: replace with this 2-tag combo (require BOTH)
+        if (state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size) {
+          // Click the active wedge a second time → clear
+          state.psInc.clear();
+        } else {
+          state.psInc = new Set([a, b]);
+          state.psExc.clear();
+        }
+      }
+      renderChips();
+      render();
+      drawRadars();
+      pushState();
     }
   });
+
+  // Long-press / hold on touch = additive (same as Ctrl on desktop).
+  // We don't preventDefault on the click that follows the long-press;
+  // the click handler still fires. To avoid double-adding, the long-press
+  // handler sets a flag the click handler checks.
+  let pressTimer = null;
+  let additiveFlag = false;
+  const PRESS_MS = 500;
+  const clearPress = () => {
+    if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+  };
+  radar.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch') return;
+    additiveFlag = false;
+    pressTimer = setTimeout(() => {
+      additiveFlag = true;
+      pressTimer = null;
+      // Visual hint that hold is active — pulse the target
+      const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+      if (t) {
+        t.style.transition = 'transform 0.15s';
+        t.style.transformOrigin = 'center';
+        t.style.transform = 'scale(1.2)';
+        setTimeout(() => { t.style.transform = ''; }, 200);
+      }
+    }, PRESS_MS);
+  });
+  radar.addEventListener('pointerup', clearPress);
+  radar.addEventListener('pointercancel', clearPress);
+  radar.addEventListener('pointerleave', clearPress);
+  // Read additiveFlag at click time (it's set synchronously in the timer
+  // callback before the click event fires on most touch platforms)
+  radar.addEventListener('click', e => {
+    if (additiveFlag) {
+      e.ctrlKey = true; // synthesize modifier for the main handler
+      additiveFlag = false;
+    }
+  }, true); // capture phase so it runs before the main handler
 }
 setupRadarInteraction();
 

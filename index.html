@@ -1470,11 +1470,12 @@ function renderChips(){
       // signal: "no lord in this set has that tag").
       // filtered() already excludes synthetic race-avg lords and applies
       // race/diff/src/q filters, so we just need to count over it.
-      // Inline the tag normalization (normTag is in script 2 — this code
-      // runs from script 1 and must not depend on it).
-      const norm = s => s.charAt(0).toUpperCase() + s.slice(1);
+      // The lord's ps tags are titlecase ("War") but pk is lowercase
+      // ("war"). Inline-normalize pk the same way and compare — that way
+      // the count is in the same case as the stored data.
+      const pkNorm = pk.charAt(0).toUpperCase() + pk.slice(1);
       const psCount = filtered().reduce(
-        (n, l) => n + ((l.ps || []).map(norm).includes(pk) ? 1 : 0), 0
+        (n, l) => n + ((l.ps || []).includes(pkNorm) ? 1 : 0), 0
       );
       const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
       return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
@@ -2057,8 +2058,12 @@ function updateFeaturedRadar() {
     // the SVG was still drawing every lord — the user had to guess that
     // "filtered" meant "these are the polygons you see" or "the lord count
     // for the summary text only". Make the visual match the text.
+    // Exclude synthetic race-avg lords from the visual set; they exist in
+    // LORDS for the single-lord compare overlay but should never appear
+    // in the density view or summary counts.
     const isFiltered = state.psInc.size || state.psExc.size || state.race || state.diff || state.src || state.q;
-    const allIdxs = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
+    const allIdxsBase = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
+    const allIdxs = allIdxsBase.filter(i => !isSyntheticLord(i));
     if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440);
 
     if (frSummary) {

@@ -29,3 +29,7 @@ render_asserts:
   # Interactive radar: 14 axes (one per playstyle) and 14 wedges must be present
   - "document.querySelectorAll('.all-lords-radar .axis').length === 14"
   - "document.querySelectorAll('.all-lords-radar .wedge').length === 14"
+  # Mobile UX: active-filter pill bar + back-to-top button + more-filters
+  - "document.querySelectorAll('#active-filters').length === 1"
+  - "document.querySelectorAll('#back-to-top').length === 1"
+  - "document.querySelectorAll('.more-filters [data-mirror]').length === 3"

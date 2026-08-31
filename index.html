@@ -34,6 +34,26 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .btn.gold{background:var(--gold);color:#1a1408;border-color:var(--gold);font-weight:600}
 .btn.gold:disabled{opacity:.45;cursor:default}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%);-webkit-mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)}
+@media(max-width:640px){
+  /* Mobile: bigger touch targets, snap-scroll for chip rows, default-
+     collapsed legend so it doesn't push the radar off the screen. */
+  .chip{padding:9px 14px;font-size:.85rem;min-height:40px}
+  .chips{scroll-snap-type:x proximity;padding-bottom:8px}
+  .chips::-webkit-scrollbar{height:0}
+  .chip .count{font-size:.72rem;min-width:20px;height:20px}
+  /* The desktop selects stay visible (compact row) — the .more-filters
+     <details> block is the second-row, mobile-friendly copy of the same
+     inputs. The active-filter pills show the state, the .more-filters
+     details the way to change it on mobile. */
+  #fdiff,#fsrc,#sort{display:none}
+  .more-filters{font-size:.82rem}
+  .more-filters summary{padding:8px 0;cursor:pointer;color:var(--muted);list-style:none;font-weight:600}
+  .more-filters summary::before{content:"⚙ ";color:var(--gold)}
+  .more-filters[open] summary{color:var(--text)}
+  .more-filters .more-row{display:grid;grid-template-columns:1fr;gap:8px;padding:6px 0 10px}
+  .more-filters select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.9rem;min-height:42px}
+  .bar-inner{padding-bottom:2px}
+}
 .chips::-webkit-scrollbar{height:5px}
 .chips::-webkit-scrollbar-track{background:transparent}
 .chips::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
@@ -52,6 +72,28 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .chip.dim:hover{opacity:0.75}
 .chip .count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,0.08);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
 .chip.on .count,.chip.off .count{background:rgba(255,255,255,0.14);color:var(--text)}
+/* Active-filter pills: a single horizontal line below the sticky bar
+   showing every currently active filter as a removable chip. Each pill
+   is sized to a 40px touch target on mobile. The bar itself is
+   scroll-snap-friendly and only appears when at least one filter is
+   active. */
+.active-filters{display:none;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 16px 10px;border-top:1px solid rgba(201,162,75,0.25);background:rgba(19,16,23,0.7);scroll-snap-type:x proximity}
+.active-filters.has{display:flex}
+.active-filters .pill{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:rgba(201,162,75,0.16);border:1px solid rgba(201,162,75,0.4);color:var(--text);border-radius:999px;padding:0 10px 0 12px;min-height:36px;font-size:.78rem;line-height:1;scroll-snap-align:start;cursor:default}
+.active-filters .pill .x{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);color:var(--muted);font-size:.95rem;line-height:1;cursor:pointer;margin-left:2px;border:0;padding:0}
+.active-filters .pill .x:hover{background:var(--gold);color:#000}
+.active-filters .pill .pill-ic{flex:0 0 auto;display:inline-flex;align-items:center}
+.active-filters .pill .pill-ic svg{width:14px;height:14px}
+.active-filters .pill.search{padding-right:6px}
+.active-filters .pill.search .x{margin-left:6px}
+.active-filters .clear-all{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:0 14px;min-height:36px;font-size:.78rem;cursor:pointer;flex:0 0 auto}
+.active-filters .clear-all:hover{border-color:var(--gold);color:var(--gold)}
+/* Floating "back to top" button — mobile only. Hidden on desktop where
+   the sticky bar already keeps navigation within reach. */
+#back-to-top{display:none;position:fixed;right:16px;bottom:80px;width:44px;height:44px;border-radius:50%;background:rgba(27,23,32,.92);border:1px solid var(--gold);color:var(--gold);font-size:1rem;cursor:pointer;z-index:55;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,0.4);transition:opacity .2s, transform .2s;opacity:0;pointer-events:none}
+#back-to-top.show{opacity:1;pointer-events:auto}
+#back-to-top:hover{background:var(--gold);color:#000;transform:translateY(-2px)}
+@media(max-width:640px){#back-to-top{display:block}}
 .tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
 .lord-poly.lord-hover{fill-opacity:.85;stroke-opacity:.95;stroke-width:2.4}
 .card.lord-hover-source{outline:2px solid var(--gold);outline-offset:2px;box-shadow:0 0 0 1px rgba(201,162,75,0.4)}
@@ -355,6 +397,29 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
         <option value="deasc">&#9671; Easiest first</option>
         <option value="dedesc">&#11010; Hardest first</option>
       </select>
+      <details class="more-filters" id="more-filters"><summary>⚙ More filters</summary>
+        <div class="more-row">
+          <select id="fdiff-m" aria-label="Filter by difficulty" data-mirror="fdiff">
+            <option value="">&#9711; Any difficulty</option>
+            <option value="1">&#9671; Easy</option><option value="2">&#11007; Moderate</option>
+            <option value="3">&#9670; Hard</option><option value="4">&#11010; Very hard</option>
+          </select>
+          <select id="fsrc-m" aria-label="Filter by source" data-mirror="fsrc">
+            <option value="">Any source</option>
+            <option value="wh3base">&#127761; WH3 base</option>
+            <option value="wh3dlc">&#127762; WH3 DLC</option>
+            <option value="wh1">&#127763; WH1 &amp; its DLC</option>
+            <option value="wh2">&#127764; WH2 &amp; its DLC</option>
+            <option value="free">&#127762; Free (FLC)</option>
+          </select>
+          <select id="sort-m" aria-label="Sort" data-mirror="sort">
+            <option value="race">Group by race</option>
+            <option value="name">A–Z</option>
+            <option value="deasc">&#9671; Easiest first</option>
+            <option value="dedesc">&#11010; Hardest first</option>
+          </select>
+        </div>
+      </details>
       <button class="btn" id="xall">Expand all</button>
       <button class="btn" id="clear-all" title="Clear all filters" style="display:none">✕ Clear filters</button>
       <span class="count" id="count"></span><button class="btn" id="random-lord" title="Random filtered lord">🎲 Random</button>
@@ -363,6 +428,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
     <div class="row"><span class="rowlab">&#127919; Play</span><div class="chips" id="pschips" role="group" aria-label="Playstyle filters" style="flex:1"></div><label class="pshint" title="When several playstyles are included: require lords to have ALL of them instead of any"><input type="checkbox" id="psall"> match all</label></div>
     <details class="legend"><summary>What do the playstyles mean? &nbsp;(tap a chip: <b style="color:var(--gold)">include</b> → <b style="color:#c07070">exclude</b> → clear)</summary><div class="lgrid" id="pslegend"></div></details>
   </div>
+  <div class="active-filters" id="active-filters" role="region" aria-label="Active filters"></div>
 </div>
 
 
@@ -388,6 +454,8 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   </div>
 </div>
 <main id="main"></main>
+
+<button id="back-to-top" type="button" aria-label="Back to top" title="Back to top">▲</button>
 
 <div id="cmpbar">
   <div class="cmp-info">
@@ -1369,6 +1437,16 @@ function loadFromHash(){
   } catch (e) {}
 }
 loadFromHash();
+// Sync the mobile .more-filters selects with whatever state was loaded
+// from the URL (or defaults) so they don't show stale values.
+(function() {
+  const fdm = document.getElementById("fdiff-m");
+  const fsm = document.getElementById("fsrc-m");
+  const som = document.getElementById("sort-m");
+  if (fdm) fdm.value = state.diff || "";
+  if (fsm) fsm.value = state.src || "";
+  if (som) som.value = state.sort || "race";
+})();
 const $=s=>document.querySelector(s);
 
 function pips(d){let h="";for(let i=1;i<=4;i++)h+=`<span class="${i<=d?'f':'e'}">◆</span>`;return `<span class="pips" style="--dc:${DCOL[d]}" title="${DLBL[d]} campaign">${h}</span>`;}
@@ -1419,6 +1497,8 @@ function filtered(){
 function render(){
   const list=filtered();
   $("#count").textContent=`🔍 ${list.length} / ${LORDS.length}`;
+  // Active-filter pills are state-driven, so update them on every render.
+  if (typeof renderActiveFilters === 'function') renderActiveFilters();
   const m=$("#main");
   if(!list.length){m.innerHTML=`<p class="empty">&#128269; No lords match. Loosen a filter.</p>`;return;}
   // Mini radars on cards are filled by drawRadars() in the second script —
@@ -1454,8 +1534,23 @@ function render(){
 }
 
 function renderChips(){
+  // Race count badge: how many lords (in the current diff+src+q context,
+  // excluding synthetic race-avg entries) belong to this race. Zero-count
+  // races are dimmed so the user can see at a glance which races are
+  // reachable from the current filter — same affordance as the playstyle
+  // chips below. Excludes the active race itself so dimming doesn't
+  // visually fight the "on" state when the user picks a race with a small
+  // roster and then adds a playstyle filter that wipes it.
+  const raceCounts = {};
+  LORDS.filter(l => !l._synthetic).forEach(l => {
+    raceCounts[l.r] = (raceCounts[l.r] || 0) + 1;
+  });
   $("#chips").innerHTML=Object.keys(RACES).sort((a,b)=>RACES[a].o-RACES[b].o)
-    .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 22, RACES[r].c)}<span class="lbl">${esc(r)}</span></button>`).join("");
+    .map(r=>{
+      const cnt = raceCounts[r] || 0;
+      const dim = cnt === 0 ? ' dim' : '';
+      return `<button class="chip${state.race===r?" on":""}${dim}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 22, RACES[r].c)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
+    }).join("");
   $("#pschips").innerHTML=Object.keys(PS)
     .map(p=>{
       // p is uppercase (e.g. "Aggro"); state.psInc is lowercase. Normalize
@@ -1609,6 +1704,28 @@ $("#psall").addEventListener("change",e=>{state.psAll=e.target.checked;render();
 $("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();});
 $("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();});
 $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
+// Keep the mobile .more-filters mirror selects in sync when the desktop
+// selects change (so e.g. clearing all filters via the active-filter
+// pills resets the mobile dropdowns too).
+["fdiff","fsrc","sort"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("change", () => {
+    const m = document.getElementById(id + "-m");
+    if (m) m.value = el.value;
+  });
+});
+// Mirror the desktop selects to the mobile .more-filters <details>
+// selects. data-mirror="fdiff" → keep #fdiff-m in sync with #fdiff.
+document.querySelectorAll('.more-filters [data-mirror]').forEach(sel => {
+  const targetId = sel.dataset.mirror;
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  sel.addEventListener('change', e => {
+    target.value = sel.value;
+    target.dispatchEvent(new Event('change'));
+  });
+  target.addEventListener('change', () => { sel.value = target.value; });
+});
 
 $("#clear-all").addEventListener("click",()=>{
   state.q=""; state.race=null; state.diff=""; state.src="";
@@ -1616,6 +1733,9 @@ $("#clear-all").addEventListener("click",()=>{
   state.open.clear(); state.cmp=[];
   $("#q").value="";
   $("#fdiff").value=""; $("#fsrc").value="";
+  const fdm = document.getElementById("fdiff-m"); if (fdm) fdm.value = "";
+  const fsm = document.getElementById("fsrc-m"); if (fsm) fsm.value = "";
+  const som = document.getElementById("sort-m"); if (som) som.value = "race";
   renderChips(); renderCmpBar(); render(); pushState();
 });
 $("#xall").addEventListener("click",()=>{
@@ -1647,7 +1767,118 @@ $("#random-lord").addEventListener("click",()=>{
   }
 });
 
-renderChips();render();pushState();
+// ── Back-to-top button (mobile) ──────────────────────────────────────────
+// Show the floating ▲ button only when the user has scrolled past the
+// sticky filter bar. Click smoothly scrolls back to the top. The button
+// itself only renders on mobile via CSS — on desktop the sticky bar
+// already keeps the user oriented.
+(function() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      btn.classList.toggle('show', window.scrollY > 400);
+      ticking = false;
+    });
+  }, { passive: true });
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ── Active-filter pills (mobile-first) ────────────────────────────────────
+// A single line below the sticky filter bar showing every currently
+// active filter as a removable chip. One tap removes a filter, no need
+// to scroll back up to the chips. The bar hides itself when no filters
+// are active. Always rendered on every state change so the URL hash,
+// race chip, playstyle chip, etc. all stay in sync with the pills.
+function renderActiveFilters() {
+  const bar = document.getElementById('active-filters');
+  if (!bar) return;
+  const pills = [];
+
+  // Search query
+  if (state.q) {
+    pills.push(`<span class="pill search"><span class="pill-ic">🔍</span> &ldquo;${esc(state.q)}&rdquo;<button class="x" data-clear="q" aria-label="Clear search">&times;</button></span>`);
+  }
+  // Race
+  if (state.race) {
+    const rc = RACES[state.race]?.c || '#888';
+    pills.push(`<span class="pill" style="--rc:${rc}"><span class="pill-ic">${iconSVG(RACE_ICONS[state.race] || '', 14, rc)}</span>${esc(state.race)}<button class="x" data-clear="race" aria-label="Clear race">&times;</button></span>`);
+  }
+  // Playstyle include
+  state.psInc.forEach(pk => {
+    const tag = pk.charAt(0).toUpperCase() + pk.slice(1);
+    const ic = PS[tag]?.ic || '#888';
+    pills.push(`<span class="pill inc" style="--rc:${ic}"><span class="pill-ic">+</span>${esc(PS[tag]?.t || tag)}<button class="x" data-clear="psinc" data-ps="${esc(pk)}" aria-label="Remove include">&times;</button></span>`);
+  });
+  // Playstyle exclude
+  state.psExc.forEach(pk => {
+    const tag = pk.charAt(0).toUpperCase() + pk.slice(1);
+    const ic = PS[tag]?.ic || '#888';
+    pills.push(`<span class="pill exc" style="--rc:#c07070"><span class="pill-ic">&minus;</span>${esc(PS[tag]?.t || tag)}<button class="x" data-clear="psexc" data-ps="${esc(pk)}" aria-label="Remove exclude">&times;</button></span>`);
+  });
+  // Difficulty
+  if (state.diff) {
+    const lbl = {1: 'Easy', 2: 'Moderate', 3: 'Hard', 4: 'Very hard'}[+state.diff] || state.diff;
+    pills.push(`<span class="pill"><span class="pill-ic">◆</span>${esc(lbl)}<button class="x" data-clear="diff" aria-label="Clear difficulty">&times;</button></span>`);
+  }
+  // Source
+  if (state.src) {
+    const lbl = {wh3base:'WH3 base', wh3dlc:'WH3 DLC', wh1:'WH1 & DLC', wh2:'WH2 & DLC', free:'Free (FLC)'}[state.src] || state.src;
+    pills.push(`<span class="pill"><span class="pill-ic">⌘</span>${esc(lbl)}<button class="x" data-clear="src" aria-label="Clear source">&times;</button></span>`);
+  }
+  // Sort (only if not the default)
+  if (state.sort && state.sort !== 'race') {
+    const lbl = {name:'A–Z', deasc:'Easiest first', dedesc:'Hardest first'}[state.sort] || state.sort;
+    pills.push(`<span class="pill"><span class="pill-ic">↕</span>${esc(lbl)}<button class="x" data-clear="sort" aria-label="Reset sort">&times;</button></span>`);
+  }
+
+  if (pills.length === 0) {
+    bar.classList.remove('has');
+    bar.innerHTML = '';
+    return;
+  }
+  bar.classList.add('has');
+  bar.innerHTML = pills.join('') + `<button class="clear-all" data-clear="all">✕ Clear all</button>`;
+}
+// Delegated click on the active-filters bar — remove the matching filter.
+document.addEventListener('click', e => {
+  const x = e.target.closest('.active-filters .x');
+  if (x) {
+    const what = x.dataset.clear;
+    const ps = x.dataset.ps;
+    if (what === 'q')        { state.q = ''; document.getElementById('q').value = ''; }
+    else if (what === 'race'){ state.race = null; }
+    else if (what === 'psinc'){ state.psInc.delete(ps); }
+    else if (what === 'psexc'){ state.psExc.delete(ps); }
+    else if (what === 'diff'){ state.diff = ''; document.getElementById('fdiff').value = ''; const m=document.getElementById('fdiff-m'); if(m) m.value=''; }
+    else if (what === 'src') { state.src = ''; document.getElementById('fsrc').value = ''; const m=document.getElementById('fsrc-m'); if(m) m.value=''; }
+    else if (what === 'sort'){ state.sort = 'race'; document.getElementById('sort').value = 'race'; const m=document.getElementById('sort-m'); if(m) m.value='race'; }
+    pushState(); renderChips(); render(); drawRadars();
+    return;
+  }
+  const all = e.target.closest('.active-filters .clear-all');
+  if (all) {
+    state.q=''; state.race=null; state.diff=''; state.src='';
+    state.psInc.clear(); state.psExc.clear();
+    state.sort = 'race';
+    document.getElementById('q').value = '';
+    document.getElementById('fdiff').value = '';
+    document.getElementById('fsrc').value = '';
+    document.getElementById('sort').value = 'race';
+    const fdm=document.getElementById('fdiff-m'); if(fdm) fdm.value='';
+    const fsm=document.getElementById('fsrc-m'); if(fsm) fsm.value='';
+    const som=document.getElementById('sort-m'); if(som) som.value='race';
+    pushState(); renderChips(); render(); drawRadars();
+    return;
+  }
+});
+
+renderChips();render();pushState();renderActiveFilters();
 </script>
 
 <script>

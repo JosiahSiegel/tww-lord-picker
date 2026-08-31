@@ -1431,7 +1431,7 @@ function render(){
 
 function renderChips(){
   $("#chips").innerHTML=Object.keys(RACES).sort((a,b)=>RACES[a].o-RACES[b].o)
-    .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 18, "currentColor")}<span class="lbl">${esc(r)}</span></button>`).join("");
+    .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 20, RACES[r].c)}<span class="lbl">${esc(r)}</span></button>`).join("");
   $("#pschips").innerHTML=Object.keys(PS)
     .map(p=>{
       // p is uppercase (e.g. "Aggro"); state.psInc is lowercase. Normalize

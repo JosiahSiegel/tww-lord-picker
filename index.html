@@ -1005,7 +1005,36 @@ const PS={
  Strike:{t:"Strike",l:"strike",ic:"#fbbf24",g:"Teleport networks, flight, or an ocean-roaming home let you project force across the whole map."},
  Weird:{t:"Weird",l:"weird",ic:"#e879f9",g:"Campaigns that ignore the game's normal rules entirely."}
 };
-const PSI={Aggro:'⚔',Builder:'🏰',Politics:'👑',Schemes:'🕸',Quest:'🗺',Horde:'⛺',Monsters:'🐉',Magic:'✨',Duelist:'⚔',Defense:'🛡',Raider:'⚓',Crafting:'⚙',Strike:'⚡',Weird:'🌀'};
+const PSI={
+// Inline SVG icon paths (16x16 viewBox) for the 14 playstyles. Inline SVG
+// avoids the cross-platform emoji rendering problem — Unicode emoji render
+// inconsistently across OS/browsers and especially badly in headless
+// chromium used for visual checks. Each path is a simple 1-2-stroke shape
+// colored by `currentColor` so they pick up the radar's text color.
+Aggro:'<path d="M3 13l4-4M5 11l-1 3 3-1M11 3l4 4M13 5l1 3-3-1M3 13l-1 1M15 3l1-1" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+Builder:'<path d="M3 13V6l5-3 5 3v7M5 13V8.5L8 7l3 1.5V13M6 13v-2h4v2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Politics:'<path d="M3 11l1-3 2 1 2-2 2 1 2-2 1 3-1 2-1-1-2 1-1-1-2 1-1-1-1 1zM5 7l1-2 2 1 1 1 1-1 2-1 1 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Schemes:'<circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M3 8h10M8 3v10M4.5 4.5l7 7M11.5 4.5l-7 7" stroke="currentColor" stroke-width="0.6" opacity="0.6"/>',
+Quest:'<path d="M2 4h6l2 2v6l-2 2H2zM2 4v10M8 6h6v6H8M10 9h2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Horde:'<path d="M3 13l1-5 2-2 2 3 2-2 2 4 1 2zM4 13V8M8 13V8M11 13V8M13 13V8" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Monsters:'<path d="M3 12c0-2 1-3 2-3l1-2 2 1 2-1 1 2c1 0 2 1 2 3M5 9c0-1 1-1 1 0M11 9c0-1-1-1-1 0M6 12h4M7 11v1M9 11v1" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Magic:'<path d="M8 2l1 4 4 1-4 1-1 4-1-4-4-1 4-1zM3 11l0.5 2 2 0.5-2 0.5L3 16l-0.5-2-2-0.5 2-0.5zM13 11l0.5 2 2 0.5-2 0.5L13 16l-0.5-2-2-0.5 2-0.5z" fill="currentColor"/>',
+Duelist:'<path d="M2 14l5-5M5 7l4 4M7 5l4 4M9 3l4 4M2 14h3M14 2l-1 1" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+Defense:'<path d="M8 2l5 2v4c0 3-2 5-5 6-3-1-5-3-5-6V4z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/><path d="M6 8l2 2 3-3" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
+Raider:'<circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 8v6M5 11h6M3 14h10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
+Crafting:'<circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2M4 4l1.5 1.5M10.5 10.5L12 12M4 12l1.5-1.5M10.5 5.5L12 4" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
+Strike:'<path d="M9 2L4 9h3l-1 5 5-7H8z" fill="currentColor" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round"/>',
+Weird:'<circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M8 2c2 2 2 4 0 6s-2 4 0 6M8 2c-2 2-2 4 0 6s2 4 0 6" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.6"/>'
+};
+
+// iconSVG(path, size, color) — wrap an icon's path content in a self-contained
+// <svg> element. Use wherever the old Unicode emoji was previously used.
+function iconSVG(p, size, color) {
+  if (!p) return '';
+  size = size || 14;
+  color = color || 'currentColor';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${size}" height="${size}" style="color:${color};vertical-align:-2px;display:inline-block">${p}</svg>`;
+}
 const RACE_ICONS={Khorne:'⚔',Tzeentch:'✨',Nurgle:'☣',Slaanesh:'🎵',Kislev:'❄','Grand Cathay':'🐉',Empire:'🏰',Dwarfs:'⚒',Greenskins:'💀','Vampire Counts':'🧛','Warriors of Chaos':'🔥',Beastmen:'🐗',Bretonnia:'🏇','Wood Elves':'🌲','High Elves':'🏛','Dark Elves':'🐍',Lizardmen:'🦎',Skaven:'🐀','Tomb Kings':'⚱','Vampire Coast':'☠','Ogre Kingdoms':'🍖',Norsca:'🪓','Chaos Dwarfs':'🗡'};
 const SRC_ICONS={'WH3 base':'🟡','Omens of Destruction':'🟠','Shadows of Change':'🟠','Lords of the End Times':'🟠','Bhashiva Character Pack':'🟢',FLC:'🟢',free:'🟢',wh3dlc:'🟠',wh3base:'🟡',wh1:'🟣',wh2:'🔵'};
 /* ASSIGNMENT CRITERIA (mechanics audit):
@@ -1306,7 +1335,7 @@ function cardHTML(l){
     <div class="card-radar" data-i="${l.i}"></div>
     <h3>${esc(l.n)} ${pips(l.d)}</h3>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>
-    <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → exclude → clear)">${PSI[p.charAt(0).toUpperCase()+p.slice(1)]} <span class="ps-pill-label">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`).join("")}</div>
+    <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 12, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} <span class="ps-pill-label">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`).join("")}</div>
     <p class="pick">${esc(l.pick)}</p>
     <div class="det">
       <p class="battle"><b>⚔ In battle:</b> ${esc(l.battle)}</p>
@@ -1384,7 +1413,7 @@ function renderChips(){
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
 }
-$("#pslegend").innerHTML=`<div style="grid-column:1/-1;color:var(--text)">Playstyles describe the <b>campaign loop</b>, not battle prowess — a lord can be a great fighter without the Duelist tag. See each card's <b>⚔ In battle</b> line for how the lord himself fights.</div>`+Object.keys(PS).map(p=>`<div><b>${PSI[p.charAt(0).toUpperCase()+p.slice(1)]} ${PS[p.charAt(0).toUpperCase()+p.slice(1)].t}</b> — ${PS[p.charAt(0).toUpperCase()+p.slice(1)].g}</div>`).join("");
+$("#pslegend").innerHTML=`<div style="grid-column:1/-1;color:var(--text)">Playstyles describe the <b>campaign loop</b>, not battle prowess — a lord can be a great fighter without the Duelist tag. See each card's <b>⚔ In battle</b> line for how the lord himself fights.</div>`+Object.keys(PS).map(p=>`<div><b>${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 14, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} ${PS[p.charAt(0).toUpperCase()+p.slice(1)].t}</b> — ${PS[p.charAt(0).toUpperCase()+p.slice(1)].g}</div>`).join("");
 
 function renderCmpBar(){
   const b=document.getElementById("cmpbar");
@@ -1428,9 +1457,8 @@ function openOverlay(){
         <div class="ov-lord-tags">${lord.ps.map(p => {
           const tag = p.charAt(0).toUpperCase() + p.slice(1);
           const ic = PS[tag]?.ic || "#888";
-          const icon = PSI[tag] || "";
           const label = PS[tag]?.t || tag;
-          return `<span class="ov-lord-tag" style="color:${ic}">${icon} ${esc(label)}</span>`;
+          return `<span class="ov-lord-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
         }).join("")}</div>
       </div>`;
     }).join("");
@@ -1651,8 +1679,9 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     svg += `<g class="axis" data-tag="${tk}">`
          + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="11" fill="transparent" style="cursor:pointer" `
          + `data-tip="${cnt} lords: ${esc(label)} (click to filter)" />`
-         + `<text x="${(lx + dx).toFixed(1)}" y="${(ly + dy).toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" `
-         + `font-size="13" fill="${fill}" ${stroke} style="pointer-events:none">${PSI[k] || ''}</text>`
+         + `<g transform="translate(${(lx + dx - 7).toFixed(1)},${(ly + dy - 7).toFixed(1)})" style="pointer-events:none;color:${fill}">`
+         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14">${PSI[k] || ''}</svg>`
+         + `</g>`
          + `</g>`;
   });
   svg += `</g>`;
@@ -1678,8 +1707,8 @@ function allLordsSummary(lordIdxs) {
     .slice(0, 3)
     .map(([t, c]) => {
       const label = PS[t]?.t || t;
-      const icon = PSI[t] || '';
-      return `<b>${icon} ${esc(label)}</b> (${c})`;
+      const iconCol = PS[t]?.ic || '#c9a24b';
+      return `<b>${iconSVG(PSI[t], 14, iconCol)} ${esc(label)}</b> (${c})`;
     })
     .join(' · ');
   const topRaces = Object.entries(raceCounts)
@@ -1773,7 +1802,10 @@ function buildRadarSVG(lordIdxs, colors, size) {
       const sy = Math.sin((fa - 90) * Math.PI / 180);
       return sy >= 0 ? 3 : -3;
     })();
-    svg += `<text x="${(lx + dx).toFixed(1)}" y="${(ly + dy).toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" font-size="${size < 100 ? 7 : 9.5}" fill="${isActive ? '#e7e0d2' : 'rgba(155,146,133,0.45)'}">${icon}</text>`;
+    const iconSize = size < 100 ? 10 : 14;
+    svg += `<g transform="translate(${(lx + dx - iconSize/2).toFixed(1)},${(ly + dy - iconSize/2).toFixed(1)})" style="color:${isActive ? '#e7e0d2' : 'rgba(155,146,133,0.45)'}">`
+         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
+         + `</g>`;
   });
 
   svg += '</svg>';
@@ -1848,8 +1880,7 @@ function updateFeaturedRadar() {
     const tag = normTag(p);
     const ic = PS[tag]?.ic || '#888';
     const label = PS[tag]?.t || tag;
-    const icon = PSI[tag] || '';
-    return `<span class="fr-tag" style="color:${ic}">${icon} ${esc(label)}</span>`;
+    return `<span class="fr-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
   }).join('');
 
   cmpBtn.disabled = state.cmp.length < 2;
@@ -1906,9 +1937,8 @@ function openOverlay() {
         <div class="ov-lord-tags">${lord.ps.map(p => {
           const tag = normTag(p);
           const ic = PS[tag]?.ic || '#888';
-          const icon = PSI[tag] || '';
           const label = PS[tag]?.t || tag;
-          return `<span class="ov-lord-tag" style="color:${ic}">${icon} ${esc(label)}</span>`;
+          return `<span class="ov-lord-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
         }).join('')}</div>
       </div>`;
     }).join('');

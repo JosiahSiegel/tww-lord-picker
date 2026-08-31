@@ -1314,8 +1314,28 @@ function cyclePs(p){
   if(state.psInc.has(p)){state.psInc.delete(p);state.psExc.add(p);}
   else if(state.psExc.has(p)){state.psExc.delete(p);}
   else{state.psInc.add(p);}
-  renderChips();render();pushState();
+  pushState();         // write URL first
+  renderChips();
+  render();
 }
+
+// loadFromHash — read the URL hash ONCE on page load and restore state.
+// MUST run before the first render(), and must NOT be called again on
+// subsequent renders (otherwise the user's just-clicked state would be
+// clobbered every time the radar re-renders).
+function loadFromHash(){
+  try {
+    const params = new URLSearchParams(location.hash.slice(1));
+    if (params.get("q") !== null) state.q = params.get("q") || "";
+    if (params.get("race")) state.race = params.get("race");
+    if (params.get("diff")) state.diff = params.get("diff") || "";
+    if (params.get("sort")) state.sort = params.get("sort");
+    if (params.get("cmp")) state.cmp = params.get("cmp").split(",").map(Number).filter(n => !isNaN(n)).slice(0, 3);
+    const s = params.get("ps");
+    if (s) state.psInc = new Set(s.split(",").filter(t => PS[t.charAt(0).toUpperCase() + t.slice(1)]));
+  } catch (e) {}
+}
+loadFromHash();
 const $=s=>document.querySelector(s);
 
 function pips(d){let h="";for(let i=1;i<=4;i++)h+=`<span class="${i<=d?'f':'e'}">◆</span>`;return `<span class="pips" style="--dc:${DCOL[d]}" title="${DLBL[d]} campaign">${h}</span>`;}
@@ -1371,17 +1391,11 @@ function render(){
   // do it here too for any user interaction that calls render() (the second
   // script is already loaded by then).
   if(typeof drawRadars==='function') drawRadars();
-  // URL hash sync
-  try {
-    const params=new URLSearchParams(location.hash.slice(1));
-    if(params.get("q")!==undefined) state.q=params.get("q")||"";
-    if(params.get("race")) state.race=params.get("race");
-    if(params.get("diff")) state.diff=params.get("diff")||"";
-    if(params.get("sort")) state.sort=params.get("sort");
-    if(params.get("cmp")) state.cmp=params.get("cmp").split(",").map(Number).filter(n=>!isNaN(n)).slice(0,3);
-    const s=params.get("ps");
-    if(s){state.psInc=new Set(s.split(",").filter(t=>PS[t.charAt(0).toUpperCase()+t.slice(1)]));}
-  } catch(e){}
+  // NOTE: we do NOT re-parse the URL hash here. The hash is a one-time state
+  // loader on initial page load (see the IIFE below that runs once). After
+  // that, state is the single source of truth; pushState() writes the URL.
+  // Re-reading the URL on every render() clobbers the user's just-clicked
+  // state because pushState() happens AFTER render() in the click flow.
   if(state.sort==="race"){
     const byRace={};list.forEach(l=>{(byRace[l.r]=byRace[l.r]||[]).push(l)});
     m.innerHTML=Object.keys(byRace).sort((a,b)=>RACES[a].o-RACES[b].o).map(r=>{
@@ -1410,9 +1424,12 @@ function renderChips(){
     .map(r=>`<button class="chip${state.race===r?" on":""}" data-race="${esc(r)}" style="--rc:${RACES[r].c}"><span class="dot"></span>${(RACE_ICONS[r]||"")+" "+esc(r)}</button>`).join("");
   $("#pschips").innerHTML=Object.keys(PS)
     .map(p=>{
-      const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
-      const pre=state.psInc.has(p)?"+&nbsp;":state.psExc.has(p)?"&minus;&nbsp;":"";
-      return `<button class="chip ps${st}" data-psc="${p}" style="--rc:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → exclude → clear)"><span class="dot"></span>${pre}<span class="lbl">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`;
+      // p is uppercase (e.g. "Aggro"); state.psInc is lowercase. Normalize
+      // for the lookup so the chip "on" state matches the click handler.
+      const pk = p.charAt(0).toLowerCase() + p.slice(1);
+      const st=state.psInc.has(pk)?" on":state.psExc.has(pk)?" off":"";
+      const pre=state.psInc.has(pk)?"+&nbsp;":state.psExc.has(pk)?"&minus;&nbsp;":"";
+      return `<button class="chip ps${st}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)"><span class="dot"></span>${pre}<span class="lbl">${esc(PS[p].t)}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
 }
@@ -1846,9 +1863,17 @@ function updateFeaturedRadar() {
       const filterLine = filterDesc.length
         ? `<div class="fr-all-filter">Filter: ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear</button></div>`
         : '';
+      // When filtered, show the FILTERED count + the most common playstyles
+      // *within* that subset, not the global top. This is much more useful
+      // — the user wants to know what playstyles dominate the filtered
+      // set, not the whole 110.
+      const isFiltered = state.psInc.size || state.psExc.size;
+      const summaryData = isFiltered
+        ? allLordsSummary(filtered().map(l => l.i))
+        : s;
       frSummary.innerHTML = `
-        <b>${s.total} lords</b> · most common playstyles: ${s.topTags}<br>
-        Top races: ${s.topRaces}
+        <b>${summaryData.total} lord${summaryData.total === 1 ? '' : 's'}</b>${isFiltered ? ' (filtered from 110)' : ''} · most common playstyles: ${summaryData.topTags}<br>
+        Top races: ${summaryData.topRaces}
         ${filterLine}
         <div class="fr-all-hint"><b>Click an axis</b> to filter on that playstyle · <b>Click a wedge</b> to require both bounding tags<br><span style="opacity:0.65;font-size:0.85em">Ctrl/Cmd-click (or long-press on touch) to add to existing filter · click an active axis again to clear</span></div>
       `;
@@ -2023,18 +2048,21 @@ function setupRadarInteraction() {
         cyclePs(tag);
       } else {
         // Default: replace any current include filter with just this tag.
-        // This matches the user mental model: "I'm picking ONE thing to look at".
         if (state.psInc.size === 1 && state.psInc.has(tag) && !state.psExc.size) {
-          // Click the active axis a second time → clear (toggle off)
           state.psInc.clear();
         } else {
           state.psInc = new Set([tag]);
           state.psExc.clear();
         }
+        // pushState() BEFORE render() so URL hash is consistent.
+        // (render() used to re-read the hash and clobber state — that was
+        // the cause of the "click doesn't filter" bug. The hash re-read
+        // has been removed from render(); the order here is just belt-and-
+        // suspenders in case anyone re-adds it.)
+        pushState();
         renderChips();
         render();
         drawRadars();
-        pushState();
       }
       return;
     }
@@ -2059,10 +2087,10 @@ function setupRadarInteraction() {
           state.psExc.clear();
         }
       }
+      pushState();
       renderChips();
       render();
       drawRadars();
-      pushState();
     }
   });
 

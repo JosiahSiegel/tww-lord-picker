@@ -48,7 +48,14 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
 .chip.off{color:#c07070;border-color:#7a3a3a}
 .chip.off .lbl{text-decoration:line-through}
+.chip.dim{opacity:0.42}
+.chip.dim:hover{opacity:0.75}
+.chip .count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,0.08);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
+.chip.on .count,.chip.off .count{background:rgba(255,255,255,0.14);color:var(--text)}
 .tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
+.lord-poly.lord-hover{fill-opacity:.85;stroke-opacity:.95;stroke-width:2.4}
+.card.lord-hover-source{outline:2px solid var(--gold);outline-offset:2px;box-shadow:0 0 0 1px rgba(201,162,75,0.4)}
+.race-avg{fill-opacity:.18;stroke-opacity:.45;stroke-width:1;stroke-dasharray:3 2}
 .pshint{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-size:.74rem;color:var(--muted);white-space:nowrap;cursor:pointer}
 .pshint input{accent-color:var(--gold)}
 .legend{margin-top:2px}
@@ -1401,6 +1408,7 @@ function cardHTML(l){
 
 function filtered(){
   return LORDS.filter(l=>
+    !l._synthetic &&
     (!state.race||l.r===state.race)&&
     psOk(l)&&
     (!state.diff||l.d===+state.diff)&&
@@ -1455,7 +1463,21 @@ function renderChips(){
       const pk = p.charAt(0).toLowerCase() + p.slice(1);
       const st=state.psInc.has(pk)?" on":state.psExc.has(pk)?" off":"";
       const pre=state.psInc.has(pk)?"+&nbsp;":state.psExc.has(pk)?"&minus;&nbsp;":"";
-      return `<button class="chip ps${st}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span></button>`;
+      // Count badge: how many lords (in the current race+diff+src+q context)
+      // carry this playstyle. Zero-count chips are dimmed so the user can
+      // see at a glance which playstyles are reachable from the current
+      // filter — and clicking a dimmed chip filters to zero (which is a
+      // signal: "no lord in this set has that tag").
+      // filtered() already excludes synthetic race-avg lords and applies
+      // race/diff/src/q filters, so we just need to count over it.
+      // Inline the tag normalization (normTag is in script 2 — this code
+      // runs from script 1 and must not depend on it).
+      const norm = s => s.charAt(0).toUpperCase() + s.slice(1);
+      const psCount = filtered().reduce(
+        (n, l) => n + ((l.ps || []).map(norm).includes(pk) ? 1 : 0), 0
+      );
+      const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
+      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
 }
@@ -1536,6 +1558,46 @@ document.addEventListener("change",e=>{
   }
   renderCmpBar();
   if(typeof drawRadars==='function') drawRadars();
+});
+
+// Card ↔ big-radar polygon linkage. When the user hovers a card, the
+// matching lord-poly in the all-lords radar lights up; hovering a polygon
+// does the reverse. The two views stop being independent — moving the
+// mouse across the grid tells a story about which polygon is which.
+// Only meaningful in the all-lords view (where the polygons exist). The
+// CSS .lord-hover class drives the visual; we only toggle it here.
+document.addEventListener("mouseover", e => {
+  const card = e.target.closest(".card[data-i]");
+  if (card) {
+    const i = card.dataset.i;
+    const poly = document.querySelector(`#fr-radar-svg .lord-poly[data-i="${i}"]`);
+    if (poly) {
+      poly.classList.add("lord-hover");
+      card.classList.add("lord-hover-source");
+    }
+    return;
+  }
+  const poly = e.target.closest(".lord-poly[data-i]");
+  if (poly) {
+    const i = poly.dataset.i;
+    const card = document.querySelector(`.card[data-i="${i}"]`);
+    if (card) card.classList.add("lord-hover-source");
+    poly.classList.add("lord-hover");
+  }
+});
+document.addEventListener("mouseout", e => {
+  const card = e.target.closest(".card[data-i]");
+  if (card && !e.relatedTarget?.closest(`.card[data-i="${card.dataset.i}"]`)) {
+    const poly = document.querySelector(`#fr-radar-svg .lord-poly[data-i="${card.dataset.i}"]`);
+    if (poly) poly.classList.remove("lord-hover");
+    card.classList.remove("lord-hover-source");
+  }
+  const poly = e.target.closest(".lord-poly[data-i]");
+  if (poly && !e.relatedTarget?.closest(`.lord-poly[data-i="${poly.dataset.i}"]`)) {
+    const card = document.querySelector(`.card[data-i="${poly.dataset.i}"]`);
+    if (card) card.classList.remove("lord-hover-source");
+    poly.classList.remove("lord-hover");
+  }
 });
 
 document.addEventListener("keydown",e=>{
@@ -1632,16 +1694,34 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     };
   });
 
-  // Per-axis counts (for tooltips)
+  // Per-axis counts (for tooltips) + top 3 lord names per axis so the user
+  // sees "War — 23 lords · top: Archaon, Sigvald, Skarbrand" and can decide
+  // whether to filter on it.
   const axisCount = {};
-  keys.forEach(k => axisCount[k] = 0);
-  presentAll.forEach(({ present }) => present.forEach(k => axisCount[k]++));
+  const axisTop = {};
+  keys.forEach(k => { axisCount[k] = 0; axisTop[k] = []; });
+  presentAll.forEach(({ present }, idx) => {
+    present.forEach(k => {
+      axisCount[k]++;
+      if (axisTop[k].length < 3) axisTop[k].push(LORDS[lordIdxs[idx]].n.split(',')[0]);
+    });
+  });
 
-  // Per-wedge counts (lords that have BOTH adjacent axes)
+  // Per-wedge counts (lords that have BOTH adjacent axes) + top lord names
+  // so the tooltip is actionable ("here are 3 lords that combine these two
+  // playstyles") rather than just a number.
   const wedgeCount = {};
+  const wedgeTop = {};
   for (let i = 0; i < n; i++) {
     const a = keys[i], b = keys[(i + 1) % n];
-    wedgeCount[`${a}|${b}`] = presentAll.filter(({ present }) => present.has(a) && present.has(b)).length;
+    const matches = presentAll
+      .map((entry, idx) => ({ entry, idx }))
+      .filter(({ entry }) => entry.present.has(a) && entry.present.has(b));
+    wedgeCount[`${a}|${b}`] = matches.length;
+    wedgeTop[`${a}|${b}`] = matches
+      .slice(0, 3)
+      .map(({ idx }) => LORDS[lordIdxs[idx]].n.split(',')[0])
+      .join(', ');
   }
 
   // Helper to format tag for data attribute (lowercase, no spaces)
@@ -1667,9 +1747,13 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
   });
 
   // Per-lord polygon at very low alpha. 110 lords * 0.07 ≈ 8 effective layers
-  // (was 0.10 — turned the radar into a muddy mess on small screens)
+  // (was 0.10 — turned the radar into a muddy mess on small screens).
+  // Each polygon carries data-i so card-hover can target it and bright it
+  // up; click also selects that lord.
   const alpha = 0.07;
-  presentAll.forEach(({ color, present }) => {
+  presentAll.forEach((entry, idx) => {
+    const { color, present } = entry;
+    const lIdx = lordIdxs[idx];
     const activeKeys = keys.filter(k => present.has(k));
     if (activeKeys.length < 2) return;
     const pts = activeKeys.map(k => {
@@ -1678,7 +1762,9 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
       const [x, y] = p2xy(cx, cy, maxR, a);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     });
-    svg += `<polygon points="${pts.join(" ")}" fill="${color}" fill-opacity="${alpha}" stroke="${color}" stroke-opacity="${alpha * 1.5}" stroke-width="0.6"/>`;
+    svg += `<polygon class="lord-poly" data-i="${lIdx}" data-tip="${esc(LORDS[lIdx].n.split(',')[0])} · ${esc(LORDS[lIdx].r)} — click to view" `
+         + `points="${pts.join(" ")}" fill="${color}" fill-opacity="${alpha}" stroke="${color}" stroke-opacity="${alpha * 1.5}" stroke-width="0.6" `
+         + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s"/>`;
   });
 
   // Interactive wedge hit areas (transparent, between consecutive axes).
@@ -1693,9 +1779,13 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     const labelA = PS[aKey]?.t || aKey;
     const labelB = PS[bKey]?.t || bKey;
     const cnt = wedgeCount[`${aKey}|${bKey}`] || 0;
+    const top = wedgeTop[`${aKey}|${bKey}`] || '';
+    const tipText = top
+      ? `${cnt} lord${cnt === 1 ? '' : 's'} with ${esc(labelA)} + ${esc(labelB)}: ${esc(top)}${cnt > 3 ? '…' : ''}`
+      : `0 lords with ${esc(labelA)} + ${esc(labelB)}`;
     svg += `<polygon class="wedge" data-tag-a="${tagKey(aKey)}" data-tag-b="${tagKey(bKey)}" `
          + `points="${pts}" fill="rgba(201,162,75,0)" stroke="rgba(201,162,75,0.15)" stroke-width="0.5" `
-         + `data-tip="${cnt} lords: ${esc(labelA)} + ${esc(labelB)}" />`;
+         + `data-tip="${tipText}" />`;
   }
   svg += `</g>`;
 
@@ -1712,6 +1802,7 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     const sy = Math.sin((fa - 90) * Math.PI / 180);
     const dy = sy >= 0 ? 3 : -3;
     const cnt = axisCount[k] || 0;
+    const top = (axisTop[k] || []).join(', ');
     const label = PS[k]?.t || k;
     // Visual state based on current filter
     const tk = tagKey(k);
@@ -1727,9 +1818,12 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
     const bgFill = inc ? 'rgba(201,162,75,0.18)' : exc ? 'rgba(192,112,112,0.18)' : 'rgba(231,224,210,0.08)';
     const iconPx = 24;
     const cx0 = lx + dx, cy0 = ly + dy;
+    const tipText = top
+      ? `${cnt} lord${cnt === 1 ? '' : 's'}: ${esc(top)}${cnt > 3 ? '…' : ''} (click to filter)`
+      : `0 lords (click to filter)`;
     svg += `<g class="axis" data-tag="${tk}">`
          + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="18" fill="transparent" style="cursor:pointer" `
-         + `data-tip="${cnt} lords: ${esc(label)} (click to filter)" />`
+         + `data-tip="${tipText}" />`
          + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconPx/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
          + `<g transform="translate(${(cx0 - iconPx/2).toFixed(1)},${(cy0 - iconPx/2).toFixed(1)})" style="pointer-events:none;color:${fill}">`
          + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconPx}" height="${iconPx}">${PSI[k] || ''}</svg>`
@@ -1740,6 +1834,57 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
   svg += '</svg>';
   return svg;
 }
+
+// Build a synthetic "race average" lord index. The race-average lord's
+// playstyle set is the playstyles that more than half of that race's
+// real lords have — this gives a clean visual "shape" for the race that
+// can be drawn underneath a single selected lord.
+const _raceAvgLords = [];
+function buildRaceAvgLords() {
+  // Inline the tag normalization so this function doesn't depend on
+  // script-scope helpers (normTag) that may be shadowed or hoisted
+  // differently across module systems. Cheap to do: just uppercase the
+  // first letter.
+  const norm = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const races = Object.keys(RACES || {});
+  races.forEach(r => {
+    const lordsOfRace = LORDS.filter(l => l.r === r);
+    if (lordsOfRace.length < 1) return;
+    const tagCounts = {};
+    lordsOfRace.forEach(l => (l.ps || []).forEach(p => {
+      const t = norm(p);
+      tagCounts[t] = (tagCounts[t] || 0) + 1;
+    }));
+    const halfPlus = lordsOfRace.length / 2;
+    const avgPs = Object.entries(tagCounts)
+      .filter(([_, c]) => c > halfPlus)
+      .map(([t, _]) => t);
+    const idx = LORDS.length;
+    LORDS.push({
+      n: `${r} (race avg)`,
+      r: r,
+      f: '—',
+      d: 0,
+      bk: '',
+      src: '',
+      hay: '',
+      ps: avgPs,
+      pick: '',
+      battle: '',
+      mech: [],
+      pros: [],
+      cons: [],
+      _synthetic: true,
+      _race: r,
+    });
+    _raceAvgLords.push({ race: r, idx });
+  });
+}
+function avgLordForRace(race) {
+  const e = _raceAvgLords.find(x => x.race === race);
+  return e ? e.idx : null;
+}
+function isSyntheticLord(i) { return !!(LORDS[i] && LORDS[i]._synthetic); }
 
 // Aggregate stats for the all-lords mode: which playstyle axes are most
 // common, and which race contributes the most lords.
@@ -1907,7 +2052,13 @@ function updateFeaturedRadar() {
     cmpBtn.style.display = 'none';
 
     const svgEl = document.getElementById('fr-radar-svg');
-    const allIdxs = LORDS.map((_, i) => i);
+    // The big radar should mirror the filtered set, not always the full 110.
+    // The summary line below already said "X lords (filtered from 110)" but
+    // the SVG was still drawing every lord — the user had to guess that
+    // "filtered" meant "these are the polygons you see" or "the lord count
+    // for the summary text only". Make the visual match the text.
+    const isFiltered = state.psInc.size || state.psExc.size || state.race || state.diff || state.src || state.q;
+    const allIdxs = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
     if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440);
 
     if (frSummary) {
@@ -1972,9 +2123,41 @@ function updateFeaturedRadar() {
     ? '⚡ Pick 2–3 to compare'
     : `⚡ Compare ${state.cmp.length} Lords`;
 
-  // Render radar SVG
+  // Render radar SVG. When 1 lord is selected, also overlay that lord's
+  // race's average as a faded background polygon — this makes the radar
+  // informative: "this lord is more War-focused than the typical Khorne
+  // lord" jumps out immediately without the user having to compare
+  // against anything.
+  // buildRadarSVG draws each lord's polygon at ${color}28 alpha, so the
+  // race-avg will be a translucent version of the race's signature color
+  // sitting behind the gold selected-lord polygon.
   const svgEl = document.getElementById('fr-radar-svg');
-  if (svgEl) svgEl.innerHTML = buildRadarSVG([first], [RADAR_COLORS[0]], 200);
+  if (svgEl) {
+    const race = lord.r;
+    if (state.cmp.length === 1 && race && typeof RACES !== 'undefined') {
+      const raceAvgIdx = avgLordForRace(race);
+      if (raceAvgIdx != null && raceAvgIdx !== first) {
+        const rc = RACES[race]?.c || '#c9a24b';
+        // Tag the race-avg polygon as .race-avg via string surgery so CSS
+        // can stroke it dashed and lift the alpha a bit (race-avg should
+        // be subtle — the user's lord is the focus).
+        const rendered = buildRadarSVG([raceAvgIdx, first], [rc, RADAR_COLORS[0]], 200);
+        // First polygon = race-avg, drawn first = behind. Tag it.
+        let tagged = '';
+        let seen = 0;
+        tagged = rendered.replace(/<polygon /g, m => {
+          seen++;
+          return seen === 1 ? '<polygon class="race-avg" ' : m;
+        });
+        // Wrap the whole SVG with a label so the user can read the legend.
+        svgEl.innerHTML = tagged;
+      } else {
+        svgEl.innerHTML = buildRadarSVG([first], [RADAR_COLORS[0]], 200);
+      }
+    } else {
+      svgEl.innerHTML = buildRadarSVG(state.cmp, RADAR_COLORS.slice(0, state.cmp.length), 200);
+    }
+  }
 
   // Legend for all selected
   const legendEl = document.getElementById('fr-legend');
@@ -2095,6 +2278,31 @@ function setupRadarInteraction() {
 
   radar.addEventListener('click', e => {
     const additive = e.ctrlKey || e.metaKey;
+    // Per-lord polygon click → select that lord (toggles with the existing
+    // compare bar). This is the missing input direction: the user can now
+    // point at a polygon in the density view and say "show me this one".
+    // The polygon's data-i is the lord's index in LORDS.
+    const lordPoly = e.target.closest('.lord-poly[data-i]');
+    if (lordPoly) {
+      const i = +lordPoly.dataset.i;
+      // Toggle: clicking the already-selected lord clears; otherwise
+      // replace the current selection with this one. Up to 3 for compare.
+      if (state.cmp.length === 1 && state.cmp[0] === i) {
+        state.cmp = [];
+        state.open.delete(i);
+      } else {
+        state.cmp = state.cmp.includes(i) ? state.cmp.filter(x => x !== i) : [...state.cmp, i].slice(-3);
+        state.open.add(i);
+      }
+      pushState();
+      renderCmpBar();
+      render();
+      drawRadars();
+      // Scroll the grid to that card so the user sees the selection.
+      const card = document.querySelector(`.card[data-i="${i}"]`);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     // Axis label click
     const axis = e.target.closest('.axis[data-tag]');
     if (axis) {
@@ -2193,6 +2401,10 @@ setupRadarInteraction();
 // Initial render now that both scripts are loaded and buildRadarSVG exists.
 // Without this, the mini card radars and the featured all-lords radar never
 // draw on first page load.
+// buildRaceAvgLords() must run after LORDS data + RACES are parsed and
+// before drawRadars() (which is what calls updateFeaturedRadar that may
+// reference the race-avg lord for a 1-lord selection).
+buildRaceAvgLords();
 drawRadars();
 </script>
 

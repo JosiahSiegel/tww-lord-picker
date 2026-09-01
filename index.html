@@ -2714,6 +2714,10 @@ function setupRadarInteraction() {
   }
 
   radar.addEventListener('click', e => {
+    // Power-user modifier: Ctrl/Cmd-click on an axis or wedge adds to the
+    // existing filter instead of replacing it. Removed from touch (the
+    // long-press that used to synthesize this on mobile is gone — touch
+    // is now strictly 2-state: include / clear).
     const additive = e.ctrlKey || e.metaKey;
     // Per-lord polygon click → select that lord (toggles with the existing
     // compare bar). This is the missing input direction: the user can now

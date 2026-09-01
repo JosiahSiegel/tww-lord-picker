@@ -112,6 +112,28 @@ body.filter-on #count .count-filter{color:var(--text);font-weight:400;opacity:0.
 .fr-all-filter-label{color:#6cd6d6;font-weight:700;letter-spacing:.02em}
 .fr-clear-filter{background:transparent;border:1px solid rgba(192,112,112,0.5);color:#e5a3a3;border-radius:999px;padding:2px 10px;font-size:.72rem;cursor:pointer;margin-left:auto;flex:0 0 auto}
 .fr-clear-filter:hover{background:rgba(192,112,112,0.2);color:#fff}
+
+/* Playstyle profile (replaces the visual envelope polygon). When the
+   filter is active, the user gets a horizontal bar chart showing what
+   fraction of the filtered set has each playstyle. The bar width is
+   the unambiguous part: 100% = every filtered lord has it. */
+.profile-details{margin-top:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0 10px}
+.profile-details summary{cursor:pointer;padding:8px 0;font-size:.78rem;color:var(--muted);font-weight:600;list-style:none;user-select:none}
+.profile-details summary::before{content:"▸ ";color:var(--gold);margin-right:2px}
+.profile-details[open] summary::before{content:"▾ "}
+.profile-details summary:hover{color:var(--text)}
+.profile-chart{padding:6px 0 10px;display:flex;flex-direction:column;gap:5px}
+.profile-row{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;font-size:.78rem;line-height:1}
+.profile-name{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.profile-name svg{width:14px;height:14px;flex-shrink:0}
+.profile-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,0.05)}
+.profile-fill{display:block;height:100%;border-radius:3px;min-width:2px;transition:width .25s ease-out}
+.profile-pct{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.72rem;text-align:right;white-space:nowrap}
+@media(max-width:640px){
+  .profile-row{grid-template-columns:90px 1fr 70px;gap:6px;font-size:.72rem}
+  .profile-pct{font-size:.68rem}
+  .profile-name{font-size:.72rem}
+}
 /* .more-filters is a mobile-only <details> that wraps a second copy of
    the difficulty/source/sort selects. Hidden on desktop where the
    original selects are visible. The mobile media query overrides this
@@ -2052,37 +2074,11 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
          + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s"/>`;
   });
 
-  // Filter envelope — when filters are active, draw a teal dashed outline
-  // showing the MAX value of each axis across the filtered set. This makes
-  // the radar's "filter reach" visible: "given your filter, here's the
-  // strongest possible stat in each playstyle." Drawn BEHIND the per-lord
-  // density so it reads as a frame, not a lord.
-  const isFiltered = lordIdxs.length < LORDS.filter(l => !l._synthetic).length;
-  if (isFiltered) {
-    const maxPerAxis = {};
-    keys.forEach(k => { maxPerAxis[k] = 0; });
-    presentAll.forEach(({ present }) => {
-      keys.forEach(k => { if (present.has(k)) maxPerAxis[k]++; });
-    });
-    const filteredTotal = lordIdxs.length;
-    // Each axis "value" = how many filtered lords hit it / filtered total
-    // (0..1). This is the fraction of your filtered set that has each
-    // playstyle — visually the same scale as the per-lord density.
-    const envKeys = keys.filter(k => maxPerAxis[k] / filteredTotal > 0.05);
-    if (envKeys.length >= 2) {
-      const envPts = envKeys.map(k => {
-        const i = keys.indexOf(k);
-        const a = i * 360 / n;
-        const v = Math.max(0.15, maxPerAxis[k] / filteredTotal);
-        const [x, y] = p2xy(cx, cy, maxR * v, a);
-        return `${x.toFixed(1)},${y.toFixed(1)}`;
-      });
-      svg += `<polygon class="filter-env" points="${envPts.join(" ")}" `
-           + `fill="rgba(96,200,200,0.06)" stroke="rgba(96,200,200,0.7)" `
-           + `stroke-width="1.5" stroke-dasharray="4 3" `
-           + `style="pointer-events:none"/>`;
-    }
-  }
+  // (filter envelope polygon removed — it plotted playstyle FREQUENCY on the
+  // radar's radial scale, which conflicted with the per-lord density that
+  // uses the same scale to show per-lord PRESENCE. The same data is now
+  // shown as a horizontal bar chart in the radar summary text, where
+  // each playstyle gets its own bar whose width is unambiguous.)
 
   // Interactive wedge hit areas (transparent, between consecutive axes).
   // Click a wedge → add both bounding tags to the include filter.
@@ -2216,21 +2212,31 @@ function allLordsSummary(lordIdxs) {
     });
     raceCounts[l.r] = (raceCounts[l.r] || 0) + 1;
   });
-  const topTags = Object.entries(tagCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 3)
+  const total = lordIdxs.length || 1;
+  // Build a full playstyle profile (all axes, sorted by frequency) as
+  // horizontal bars. The bar width is unambiguous: it equals the fraction
+  // of the filtered set that has each playstyle. This replaces the visual
+  // envelope polygon that plotted the same data on the radar's radial
+  // scale (where it conflicted with the per-lord density).
+  const profileRows = Object.entries(tagCounts)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .map(([t, c]) => {
       const label = PS[t]?.t || t;
       const iconCol = PS[t]?.ic || '#c9a24b';
-      return `<b>${iconSVG(PSI[t], 14, iconCol)} ${esc(label)}</b> (${c})`;
-    })
-    .join(' · ');
+      const pct = Math.round(c / total * 100);
+      const iconHtml = iconSVG(PSI[t], 12, iconCol);
+      return `<div class="profile-row">`
+           + `<span class="profile-name" style="color:${iconCol}">${iconHtml} ${esc(label)}</span>`
+           + `<span class="profile-bar"><span class="profile-fill" style="width:${pct}%;background:${iconCol}"></span></span>`
+           + `<span class="profile-pct">${c}/${total} · ${pct}%</span>`
+           + `</div>`;
+    }).join('');
   const topRaces = Object.entries(raceCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
     .map(([r, c]) => `<b>${esc(r)}</b> (${c})`)
     .join(' · ');
-  return { topTags, topRaces, total: lordIdxs.length };
+  return { profileRows, topRaces, total: lordIdxs.length };
 }
 
 function buildRadarSVG(lordIdxs, colors, size) {
@@ -2404,9 +2410,10 @@ function updateFeaturedRadar() {
         ? allLordsSummary(filtered().map(l => l.i))
         : s;
       frSummary.innerHTML = `
-        <b>${summaryData.total} lord${summaryData.total === 1 ? '' : 's'}</b>${isFiltered ? ' (filtered from 110)' : ''} · most common playstyles: ${summaryData.topTags}<br>
-        Top races: ${summaryData.topRaces}
+        <b>${summaryData.total} lord${summaryData.total === 1 ? '' : 's'}</b>${isFiltered ? ' (filtered from 110)' : ''} · Top races: ${summaryData.topRaces}
         ${filterLine}
+        <details class="profile-details"><summary>Playstyle profile — what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
+        <div class="profile-chart">${summaryData.profileRows}</div></details>
         <div class="fr-all-hint"><b>Click an axis</b> to filter on that playstyle · <b>Click a wedge</b> to require both bounding tags<br><span style="opacity:0.65;font-size:0.85em">Ctrl/Cmd-click (or long-press on touch) to add to existing filter · click an active axis again to clear</span></div>
       `;
       // Wire the clear button

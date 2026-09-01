@@ -62,7 +62,10 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .chip:hover{background:var(--panel);color:var(--text)}
 .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888);flex-shrink:0}
 .chip svg.chip-ico{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0.9}
-.chip.on{color:var(--text);border-color:var(--rc,var(--gold));box-shadow:inset 0 0 0 1px var(--rc,var(--gold));background:color-mix(in srgb,var(--rc,var(--gold)) 14%,var(--panel2))}
+.chip.on{color:#1a1419;border-color:var(--rc,var(--gold));background:var(--rc,var(--gold));font-weight:700;box-shadow:0 0 0 1px var(--rc,var(--gold)),0 2px 8px color-mix(in srgb,var(--rc,var(--gold)) 30%,transparent)}
+.chip.on::before{content:"✓";display:inline-block;font-size:.85em;margin-right:-2px;color:rgba(0,0,0,0.5)}
+.chip.off{color:#f1d4d4;border-color:rgba(192,112,112,0.55);background:rgba(192,112,112,0.16);text-decoration:line-through;text-decoration-color:rgba(192,112,112,0.5)}
+.chip.off::before{content:"✕";display:inline-block;font-size:.7em;margin-right:-2px;color:#c07070}
 .rowlab{flex:0 0 auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px;min-width:64px}
 .chip.ps{--rc:var(--gold)}
 .chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
@@ -71,7 +74,8 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .chip.dim{opacity:0.42}
 .chip.dim:hover{opacity:0.75}
 .chip .count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,0.08);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
-.chip.on .count,.chip.off .count{background:rgba(255,255,255,0.14);color:var(--text)}
+.chip.on .count,.chip.off .count{background:rgba(0,0,0,0.25);color:#1a1419;font-weight:700}
+.chip.off .count{background:rgba(192,112,112,0.3);color:#f1d4d4}
 /* Active-filter pills: a single horizontal line below the sticky bar
    showing every currently active filter as a removable chip. Each pill
    is sized to a 40px touch target on mobile. The bar itself is
@@ -88,6 +92,26 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .active-filters .pill.search .x{margin-left:6px}
 .active-filters .clear-all{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:0 14px;min-height:36px;font-size:.78rem;cursor:pointer;flex:0 0 auto}
 .active-filters .clear-all:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Filter-active visual cues — applied to <body> when any filter is set
+   so the bar, count badge, and other chrome can all pick it up. */
+body.filter-on .bar{border-bottom:1px solid rgba(201,162,75,0.45);box-shadow:0 2px 18px rgba(201,162,75,0.12)}
+body.filter-on #count{color:var(--gold);font-weight:600;background:rgba(201,162,75,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(201,162,75,0.35)}
+body.filter-on #count .count-filter{color:var(--text);font-weight:400;opacity:0.85}
+
+/* Card match badge — gold pill in top-right of each card when filters
+   are active. Shows the count of filters the card satisfied. */
+.match-badge{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;gap:3px;background:rgba(201,162,75,0.18);border:1px solid rgba(201,162,75,0.5);color:var(--gold);border-radius:999px;padding:2px 8px 2px 6px;font-size:.7rem;font-weight:700;line-height:1.2;z-index:2;pointer-events:none;backdrop-filter:blur(4px)}
+.match-badge .match-check{font-size:.85em;line-height:1}
+.match-badge .match-count{font-variant-numeric:tabular-nums}
+@media(max-width:640px){.match-badge{top:6px;right:6px;font-size:.65rem;padding:1px 7px 1px 5px}}
+
+/* Radar "Showing filter" line — make it a sticky-feeling header. */
+.fr-all-filter{background:rgba(96,200,200,0.08);border:1px solid rgba(96,200,200,0.3);border-radius:8px;padding:6px 10px;margin:6px 0 8px;font-size:.8rem;color:var(--text);display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.fr-all-filter-none{background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.15);color:var(--muted)}
+.fr-all-filter-label{color:#6cd6d6;font-weight:700;letter-spacing:.02em}
+.fr-clear-filter{background:transparent;border:1px solid rgba(192,112,112,0.5);color:#e5a3a3;border-radius:999px;padding:2px 10px;font-size:.72rem;cursor:pointer;margin-left:auto;flex:0 0 auto}
+.fr-clear-filter:hover{background:rgba(192,112,112,0.2);color:#fff}
 /* .more-filters is a mobile-only <details> that wraps a second copy of
    the difficulty/source/sort selects. Hidden on desktop where the
    original selects are visible. The mobile media query overrides this
@@ -1470,7 +1494,14 @@ function cardHTML(l){
   const rc=RACES[l.r].c;
   const open=state.open.has(l.i)?" open":"";
   const ck=state.cmp.includes(l.i)?" checked":"";
-  return `<article class="card${open} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
+  // When any filter is active, show a small "matches" badge so the user
+  // knows the card is visible BECAUSE it passed the filter. The badge
+  // counts how many filters were satisfied (always >= 1).
+  const activeFilters = (state.q ? 1 : 0) + (state.race ? 1 : 0) + (state.diff ? 1 : 0) + (state.src ? 1 : 0) + state.psInc.size + state.psExc.size;
+  const matchBadge = activeFilters
+    ? `<div class="match-badge" title="Matches ${activeFilters} active filter${activeFilters>1?'s':''}"><span class="match-check">✓</span><span class="match-count">${activeFilters}</span></div>`
+    : '';
+  return `<article class="card${open}${activeFilters ? ' has-match' : ''} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">${matchBadge}
     <div class="card-radar" data-i="${l.i}"></div>
     <h3>${esc(l.n)} ${pips(l.d)}</h3>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>
@@ -1506,6 +1537,21 @@ function render(){
   // denominator would be 110 + 25 = 135 and confuse the user.
   const realTotal = LORDS.filter(l => !l._synthetic).length;
   $("#count").textContent=`🔍 ${list.length} / ${realTotal}`;
+  // Add a visual "filter active" cue on the bar when any filter is set
+  const isFiltered = state.psInc.size || state.psExc.size || state.race || state.diff || state.src || state.q;
+  document.body.classList.toggle('filter-on', !!isFiltered);
+  // If filtered, change the count text to mention the filter
+  if (isFiltered) {
+    const filterChips = [];
+    if (state.q) filterChips.push(`"${state.q}"`);
+    if (state.race) filterChips.push(state.race);
+    if (state.diff) filterChips.push(DLBL[state.diff] || state.diff);
+    if (state.src) filterChips.push(state.src);
+    if (state.psInc.size) filterChips.push([...state.psInc].map(t => PS[normTag(t)]?.t || t).join('+'));
+    if (filterChips.length) {
+      $("#count").innerHTML = `<b>${list.length} / ${realTotal}</b> <span class="count-filter">· ${esc(filterChips.join(' · '))}</span>`;
+    }
+  }
   // Active-filter pills are state-driven, so update them on every render.
   if (typeof renderActiveFilters === 'function') renderActiveFilters();
   const m=$("#main");
@@ -2006,6 +2052,38 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
          + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s"/>`;
   });
 
+  // Filter envelope — when filters are active, draw a teal dashed outline
+  // showing the MAX value of each axis across the filtered set. This makes
+  // the radar's "filter reach" visible: "given your filter, here's the
+  // strongest possible stat in each playstyle." Drawn BEHIND the per-lord
+  // density so it reads as a frame, not a lord.
+  const isFiltered = lordIdxs.length < LORDS.filter(l => !l._synthetic).length;
+  if (isFiltered) {
+    const maxPerAxis = {};
+    keys.forEach(k => { maxPerAxis[k] = 0; });
+    presentAll.forEach(({ present }) => {
+      keys.forEach(k => { if (present.has(k)) maxPerAxis[k]++; });
+    });
+    const filteredTotal = lordIdxs.length;
+    // Each axis "value" = how many filtered lords hit it / filtered total
+    // (0..1). This is the fraction of your filtered set that has each
+    // playstyle — visually the same scale as the per-lord density.
+    const envKeys = keys.filter(k => maxPerAxis[k] / filteredTotal > 0.05);
+    if (envKeys.length >= 2) {
+      const envPts = envKeys.map(k => {
+        const i = keys.indexOf(k);
+        const a = i * 360 / n;
+        const v = Math.max(0.15, maxPerAxis[k] / filteredTotal);
+        const [x, y] = p2xy(cx, cy, maxR * v, a);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      });
+      svg += `<polygon class="filter-env" points="${envPts.join(" ")}" `
+           + `fill="rgba(96,200,200,0.06)" stroke="rgba(96,200,200,0.7)" `
+           + `stroke-width="1.5" stroke-dasharray="4 3" `
+           + `style="pointer-events:none"/>`;
+    }
+  }
+
   // Interactive wedge hit areas (transparent, between consecutive axes).
   // Click a wedge → add both bounding tags to the include filter.
   svg += `<g class="wedges" pointer-events="all">`;
@@ -2311,8 +2389,8 @@ function updateFeaturedRadar() {
       if (state.psInc.size) filterDesc.push(`<b>including</b> ${[...state.psInc].map(t => PS[normTag(t)]?.t || t).join(' + ')}`);
       if (state.psExc.size) filterDesc.push(`<b>excluding</b> ${[...state.psExc].map(t => PS[normTag(t)]?.t || t).join(', ')}`);
       const filterLine = filterDesc.length
-        ? `<div class="fr-all-filter">Filter: ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear</button></div>`
-        : '';
+        ? `<div class="fr-all-filter"><span class="fr-all-filter-label">🔍 Showing filter:</span> ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear</button></div>`
+        : `<div class="fr-all-filter fr-all-filter-none">🔍 No filter active — showing all 110 lords</div>`;
       // When filtered, show the FILTERED count + the most common playstyles
       // *within* that subset, not the global top. This is much more useful
       // — the user wants to know what playstyles dominate the filtered

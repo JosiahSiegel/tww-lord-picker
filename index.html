@@ -46,7 +46,8 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
      inputs. The active-filter pills show the state, the .more-filters
      details the way to change it on mobile. */
   #fdiff,#fsrc,#sort{display:none}
-  .more-filters{font-size:.82rem}
+  .more-filters{font-size:.82rem;display:none}
+  .more-filters[open]{display:block}
   .more-filters summary{padding:8px 0;cursor:pointer;color:var(--muted);list-style:none;font-weight:600}
   .more-filters summary::before{content:"⚙ ";color:var(--gold)}
   .more-filters[open] summary{color:var(--text)}

@@ -549,7 +549,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
     </div>
     <div class="row"><span class="rowlab">&#9876; Race</span><div class="chips" id="chips" role="group" aria-label="Race filters" style="flex:1"></div></div>
     <div class="row"><span class="rowlab">&#127919; Play</span><div class="chips" id="pschips" role="group" aria-label="Playstyle filters" style="flex:1"></div><label class="pshint" title="When several playstyles are included: require lords to have ALL of them instead of any"><input type="checkbox" id="psall"> match all</label></div>
-    <details class="legend"><summary>What do the playstyles mean? &nbsp;(tap a chip: <b style="color:var(--gold)">include</b> → <b style="color:#c07070">exclude</b> → clear)</summary><div class="lgrid" id="pslegend"></div></details>
+    <details class="legend"><summary>What do the playstyles mean? &nbsp;(tap a chip: <b style="color:var(--gold)">include</b> → clear)</summary><div class="lgrid" id="pslegend"></div></details>
     <div class="active-filters" id="active-filters" role="region" aria-label="Active filters"></div>
   </div>
 </div>
@@ -1536,8 +1536,12 @@ function psOk(l){
   return true;
 }
 function cyclePs(p){
-  if(state.psInc.has(p)){state.psInc.delete(p);state.psExc.add(p);}
-  else if(state.psExc.has(p)){state.psExc.delete(p);}
+  // Simple 2-state: tap to include, tap again to clear. The old 3-state
+  // cycle (include → exclude → clear) was confusing in practice — users
+  // didn't know what the second tap would do, and the "exclude" state
+  // was rarely useful since the default OR filter already narrows
+  // results when you select fewer tags.
+  if(state.psInc.has(p)){state.psInc.delete(p);}
   else{state.psInc.add(p);}
   pushState();         // write URL first
   renderChips();
@@ -1600,7 +1604,7 @@ function cardHTML(l){
     <div class="card-radar" data-i="${l.i}"></div>
     <h3>${esc(l.n)} ${pips(l.d)}</h3>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>
-    <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 12, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} <span class="ps-pill-label">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`).join("")}</div>
+    <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → clear)">${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 12, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} <span class="ps-pill-label">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`).join("")}</div>
     <p class="pick">${esc(l.pick)}</p>
     <div class="det">
       <p class="battle"><b>⚔ In battle:</b> ${esc(l.battle)}</p>
@@ -1732,7 +1736,7 @@ function renderChips(){
         (n, l) => n + ((l.ps || []).includes(pk) ? 1 : 0), 0
       );
       const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
-      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → exclude → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
+      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
 }
@@ -2887,7 +2891,7 @@ function setupRadarInteraction() {
     if (axis) {
       const tag = axis.dataset.tag;
       if (additive) {
-        // Power-user: cycle include → exclude → clear (same as card pill)
+        // Power-user: cycle include → clear (same as card pill)
         cyclePs(tag);
       } else {
         // Default: replace any current include filter with just this tag.

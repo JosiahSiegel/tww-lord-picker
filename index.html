@@ -2714,10 +2714,16 @@ function setupRadarInteraction() {
   }
 
   radar.addEventListener('click', e => {
-    // Power-user modifier: Ctrl/Cmd-click on an axis or wedge adds to the
-    // existing filter instead of replacing it. Removed from touch (the
-    // long-press that used to synthesize this on mobile is gone — touch
-    // is now strictly 2-state: include / clear).
+    // Long-press already fired on this gesture — the additive action was
+    // triggered by the pointerdown timer below. Suppress the click so we
+    // don't double-act.
+    if (longPressFired) { longPressFired = false; return; }
+    // Power-user modifier: Ctrl/Cmd-click on a wedge adds both tags to the
+    // existing filter (multi-select). On an axis, Ctrl-click cycles through
+    // include → exclude → clear (same as the card pill). On touch, long-
+    // press (500ms) is the equivalent of Ctrl-click-on-wedge — it adds
+    // the tag(s) to the include set without cycling. See the long-press
+    // block at the end of this function.
     const additive = e.ctrlKey || e.metaKey;
     // Per-lord polygon click → select that lord (toggles with the existing
     // compare bar). This is the missing input direction: the user can now
@@ -2821,6 +2827,98 @@ function setupRadarInteraction() {
   radar.addEventListener('pointerup', resetTap);
   radar.addEventListener('pointercancel', resetTap);
   radar.addEventListener('pointerleave', resetTap);
+
+  // ── Long-press: hold an axis or wedge for 500ms to add (rather than
+  // replace) the tag(s) to the include filter. This is the touch
+  // equivalent of Ctrl/Cmd-click-on-a-wedge and makes multi-select
+  // possible without a keyboard. The visual is: element scales up further
+  // than the tap-feedback scale (1.15 → 1.3) and gains a gold glow while
+  // held; on fire, it pulses back to scale(1) and the click that would
+  // otherwise follow is suppressed.
+  // Power-user note: long-press always ADDS (it does not cycle). Cycle
+  // (include → exclude → clear) is still available via Ctrl-click on an
+  // axis, same as before.
+  let longPressTimer = null;
+  let longPressFired = false;
+  let longPressTarget = null;
+  let longPressStartX = 0, longPressStartY = 0;
+  const LONG_PRESS_MS = 500;
+  const LONG_PRESS_SLOP = 10; // px movement that cancels the hold
+
+  const longPressCancel = () => {
+    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+    if (longPressTarget) {
+      // Drop the long-press transition so the existing tap-feedback reset
+      // (above) returns the element to scale(1) instantly on a short tap.
+      longPressTarget.style.transition = '';
+      longPressTarget.style.filter = '';
+      longPressTarget = null;
+    }
+  };
+
+  radar.addEventListener('pointerdown', e => {
+    const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+    if (!t) return;
+    longPressTarget = t;
+    longPressStartX = e.clientX;
+    longPressStartY = e.clientY;
+    // Override the tap-feedback transition (0.12s scale to 1.15) with a
+    // slower 0.5s ease so the user can see the scale continue to grow as
+    // they hold. If they release early, the tap-feedback reset on
+    // pointerup will drop back to scale(1).
+    t.style.transition = 'transform 0.5s linear, filter 0.5s linear';
+    t.style.transform = 'scale(1.3)';
+    t.style.filter = 'drop-shadow(0 0 6px var(--gold))';
+    longPressTimer = setTimeout(() => {
+      if (longPressTarget !== t) return; // cancelled by move/up
+      longPressFired = true;
+      // Additive action: add tag(s) to include, remove from exclude.
+      // Mirrors the wedge-additive branch in the click handler.
+      const axis = t.closest('.axis[data-tag]');
+      const wedge = t.closest('.wedge[data-tag-a]');
+      if (axis) {
+        const tag = axis.dataset.tag;
+        if (!state.psInc.has(tag)) state.psInc.add(tag);
+        state.psExc.delete(tag);
+      } else if (wedge) {
+        const a = wedge.dataset.tagA;
+        const b = wedge.dataset.tagB;
+        if (!state.psInc.has(a)) state.psInc.add(a);
+        if (!state.psInc.has(b)) state.psInc.add(b);
+        state.psExc.delete(a);
+        state.psExc.delete(b);
+      }
+      pushState();
+      renderChips();
+      render();
+      drawRadars();
+      // Visual confirmation: smoothly return to scale(1) with a brief
+      // overshoot. The element settles into place over 0.4s; the click
+      // event that fires on pointerup is suppressed by longPressFired.
+      t.style.transition = 'transform 0.4s ease-out, filter 0.4s ease-out';
+      t.style.transform = 'scale(1)';
+      t.style.filter = '';
+      longPressTimer = null;
+      longPressTarget = null;
+    }, LONG_PRESS_MS);
+  });
+
+  radar.addEventListener('pointermove', e => {
+    if (!longPressTarget) return;
+    const dx = e.clientX - longPressStartX;
+    const dy = e.clientY - longPressStartY;
+    if (Math.hypot(dx, dy) > LONG_PRESS_SLOP) longPressCancel();
+  });
+
+  // On pointerup: if long-press fired, the click handler will bail on
+  // longPressFired. If it didn't fire, cancel the timer and let the
+  // tap-feedback reset (above) snap the element back to scale(1).
+  radar.addEventListener('pointerup', () => {
+    if (longPressTimer) longPressCancel();
+  });
+  // On cancel/leave: drop the long-press state without firing.
+  radar.addEventListener('pointercancel', longPressCancel);
+  radar.addEventListener('pointerleave', longPressCancel);
 }
 setupRadarInteraction();
 

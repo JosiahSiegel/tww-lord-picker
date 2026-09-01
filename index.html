@@ -351,12 +351,37 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 
 /* ── Radar interactivity ──────────────────────────────────────────────── */
 .all-lords-radar{cursor:crosshair}
-.all-lords-radar .wedge{transition:fill .12s}
+.all-lords-radar .wedge{transition:fill .12s, stroke .12s, stroke-width .12s}
 .all-lords-radar .wedge:hover{
-  fill:rgba(201,162,75,0.18) !important;
+  fill:rgba(201,162,75,0.22) !important;
   stroke:rgba(201,162,75,0.7) !important;
   stroke-width:1.2 !important;
   cursor:pointer;
+}
+/* Wedge selection states (driven by inline class on the polygon).
+   .wedge-include = both bounding tags are in the include set (multi-select
+   or single replace click). .wedge-exclude = both in the exclude set.
+   The strong fill makes it obvious which segments are active when the
+   user has stacked multiple selections via ctrl-click / long-press. */
+.all-lords-radar .wedge-include{
+  fill:rgba(201,162,75,0.34) !important;
+  stroke:rgba(201,162,75,0.95) !important;
+  stroke-width:1.5 !important;
+  cursor:pointer;
+}
+.all-lords-radar .wedge-exclude{
+  fill:rgba(192,112,112,0.24) !important;
+  stroke:rgba(192,112,112,0.85) !important;
+  stroke-width:1.3 !important;
+  cursor:pointer;
+}
+.all-lords-radar .wedge-partial{
+  /* One bounding tag is in the include set, the other is not. A faint
+     tint only — partial inclusion isn't a real filter state, just a hint
+     that an adjacent axis is selected. */
+  fill:rgba(201,162,75,0.10) !important;
+  stroke:rgba(201,162,75,0.45) !important;
+  stroke-width:0.8 !important;
 }
 .all-lords-radar .axis circle:hover{
   fill:rgba(201,162,75,0.25) !important;
@@ -364,6 +389,22 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 }
 .all-lords-radar .axis text{
   transition:fill .12s, font-size .12s;
+}
+
+/* Prevent native text selection / iOS long-press callout / tap highlight
+   on the radar. The radar has no meaningful text to copy, and the iOS
+   "Copy / Look Up" callout that pops up after ~500ms of holding fights
+   with our own long-press handler (which fires the additive action at
+   the same threshold). Disabling these native behaviors keeps touch
+   interaction clean. */
+.all-lords-radar,
+.all-lords-radar *{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;
 }
 #featured-radar .fr-compare-btn{
   background:var(--gold);color:#1a1408;border:none;border-radius:8px;
@@ -2127,7 +2168,21 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     const tipText = top
       ? `${cnt} lord${cnt === 1 ? '' : 's'} with ${esc(labelA)} + ${esc(labelB)}: ${esc(top)}${cnt > 3 ? '…' : ''}`
       : `0 lords with ${esc(labelA)} + ${esc(labelB)}`;
-    svg += `<polygon class="wedge" data-tag-a="${tagKey(aKey)}" data-tag-b="${tagKey(bKey)}" `
+    // Selection state: highlight the wedge when both bounding tags are
+    // in the include set, or both in the exclude set. This makes multi-
+    // select (ctrl-click / long-press) visible — every selected wedge
+    // stays gold/red, not just the most recent one. Hover styles in CSS
+    // override the default fill, but the explicit .wedge-include /
+    // .wedge-exclude rules have !important to win over hover for selected
+    // segments.
+    const aTk = tagKey(aKey), bTk = tagKey(bKey);
+    const aInc = state.psInc.has(aTk), bInc = state.psInc.has(bTk);
+    const aExc = state.psExc.has(aTk), bExc = state.psExc.has(bTk);
+    let wedgeCls = 'wedge';
+    if (aInc && bInc) wedgeCls = 'wedge wedge-include';
+    else if (aExc && bExc) wedgeCls = 'wedge wedge-exclude';
+    else if (aInc || bInc) wedgeCls = 'wedge wedge-partial';
+    svg += `<polygon class="${wedgeCls}" data-tag-a="${aTk}" data-tag-b="${bTk}" `
          + `points="${pts}" fill="rgba(201,162,75,0)" stroke="rgba(201,162,75,0.15)" stroke-width="0.5" `
          + `data-tip="${tipText}" />`;
   }
@@ -2160,6 +2215,12 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     const [hx, hy] = p2xy(cx, cy, labelR, a);
     // Visible background circle behind the icon, makes it pop on dark bg
     const bgFill = inc ? 'rgba(201,162,75,0.18)' : exc ? 'rgba(192,112,112,0.18)' : 'rgba(231,224,210,0.08)';
+    // When the tag is in the include/exclude set, draw a ring around the
+    // background circle so multi-select is obvious at a glance — the icon
+    // itself was already recolored by the `fill` above, but the ring makes
+    // the selected state visible even when several axes are stacked or
+    // when the icon is at a small viewport.
+    const bgStroke = inc ? ' stroke="#c9a24b" stroke-width="1.6"' : exc ? ' stroke="rgba(192,112,112,0.85)" stroke-width="1.3"' : '';
     const iconPx = 24;
     const cx0 = lx + dx, cy0 = ly + dy;
     const tipText = top
@@ -2168,7 +2229,7 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     svg += `<g class="axis" data-tag="${tk}">`
          + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="18" fill="transparent" style="cursor:pointer" `
          + `data-tip="${tipText}" />`
-         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconPx/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
+         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconPx/2 + 1).toFixed(1)}" fill="${bgFill}"${bgStroke} pointer-events="none"/>`
          + `<g transform="translate(${(cx0 - iconPx/2).toFixed(1)},${(cy0 - iconPx/2).toFixed(1)})" style="pointer-events:none;color:${fill}">`
          + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconPx}" height="${iconPx}">${PSI[k] || ''}</svg>`
          + `</g>`

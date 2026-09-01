@@ -2050,7 +2050,21 @@ function p2xy(cx, cy, r, deg) {
   return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
 }
 
-function normTag(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+// Map a playstyle display label (e.g. "War", "Builder") to the matching
+// PS object key (e.g. "Aggro", "Builder"). Lord's `l.ps` stores the
+// display labels, not the keys — and they don't always line up (War→Aggro,
+// etc.) — so a naive "capitalize first letter" mapping breaks the radar
+// polygon filtering. The radar's `keys.filter(k => present.has(k))` needs
+// real PS keys, not display labels.
+//
+// Falls back to the old capitalize behavior if no match is found, so
+// existing call sites that pass a PS key directly still work.
+function normTag(t) {
+  for (const k in PS) {
+    if (PS[k].t === t) return k;
+  }
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
 
 // buildAllLordsRadarSVG — overlay every (filtered) lord at very low opacity
 // so the result reads as a "playstyle distribution" rather than 110 distinct

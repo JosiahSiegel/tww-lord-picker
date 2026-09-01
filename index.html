@@ -2588,25 +2588,81 @@ function setupRadarInteraction() {
     tip = document.createElement('div');
     tip.id = 'radar-tooltip';
     tip.style.cssText = 'position:fixed;pointer-events:none;background:var(--panel2);'
-      + 'border:1px solid var(--gold);border-radius:6px;padding:4px 8px;'
-      + 'font-size:.75rem;color:var(--text);z-index:1000;opacity:0;transition:opacity .12s';
+      + 'border:1px solid var(--gold);border-radius:6px;padding:6px 10px;'
+      + 'font-size:.75rem;color:var(--text);z-index:1000;opacity:0;transition:opacity .12s;'
+      + 'max-width:240px;line-height:1.35;box-shadow:0 4px 16px rgba(0,0,0,0.5)';
     document.body.appendChild(tip);
   }
 
+  // Touch handling: on touch devices, mousemove is simulated AFTER touchend,
+  // so the tooltip pops up at the tap location and stays until the next
+  // touch. The user reports this as "the floating prompts are in the way."
+  // Fix: on touch, show the tooltip above the tapped element for a brief
+  // moment (1.5s), then auto-hide. Position it centered above the element
+  // (not following the finger) and clamp it inside the viewport.
+  // matchMedia may be missing in some test environments — guard for it.
+  const isTouch = (typeof matchMedia === 'function' && matchMedia('(hover: none)').matches)
+    || (typeof window !== 'undefined' && 'ontouchstart' in window);
+  let tipTimer = null;
   const showTip = (e, text) => {
     tip.textContent = text;
+    if (isTouch && e.target && e.target.closest) {
+      const t = e.target.closest('[data-tip]');
+      if (t && t.getBoundingClientRect) {
+        const r = t.getBoundingClientRect();
+        // Center the tooltip horizontally above the element
+        const cx = r.left + r.width / 2;
+        const top = r.top - 8;
+        // Measure after we set text to know its width
+        tip.style.left = '0px';
+        tip.style.top = '0px';
+        tip.style.opacity = '1';
+        const tw = tip.offsetWidth;
+        const th = tip.offsetHeight;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        // Clamp horizontal so it doesn't go off-screen
+        let left = cx - tw / 2;
+        if (left < 6) left = 6;
+        if (left + tw > vw - 6) left = vw - tw - 6;
+        // If it doesn't fit above, place below
+        let placeTop = top - th;
+        if (placeTop < 6) placeTop = r.bottom + 8;
+        if (placeTop + th > vh - 6) placeTop = vh - th - 6;
+        tip.style.left = left + 'px';
+        tip.style.top = placeTop + 'px';
+        // Auto-hide after 1.5s on touch
+        if (tipTimer) clearTimeout(tipTimer);
+        tipTimer = setTimeout(hideTip, 1500);
+        return;
+      }
+    }
+    // Mouse: follow cursor (original behavior)
     tip.style.left = (e.clientX + 12) + 'px';
     tip.style.top  = (e.clientY + 12) + 'px';
     tip.style.opacity = '1';
   };
-  const hideTip = () => { tip.style.opacity = '0'; };
+  const hideTip = () => { tip.style.opacity = '0'; if (tipTimer) { clearTimeout(tipTimer); tipTimer = null; } };
 
-  radar.addEventListener('mousemove', e => {
-    const t = e.target.closest('[data-tip]');
-    if (t) showTip(e, t.dataset.tip + (e.shiftKey ? ' (shift: would also work)' : ''));
-    else hideTip();
-  });
-  radar.addEventListener('mouseleave', hideTip);
+  if (isTouch) {
+    // Touch: show on pointerdown, auto-hide after 1.5s. The click handler
+    // below still runs (it fires on touchend/click), so the user gets the
+    // info AND the action.
+    radar.addEventListener('pointerdown', e => {
+      const t = e.target.closest('[data-tip]');
+      if (t) showTip(e, t.dataset.tip);
+    });
+    // Also hide on scroll so the tooltip doesn't drift from its anchor
+    window.addEventListener('scroll', hideTip, { passive: true });
+  } else {
+    // Mouse: original behavior
+    radar.addEventListener('mousemove', e => {
+      const t = e.target.closest('[data-tip]');
+      if (t) showTip(e, t.dataset.tip + (e.shiftKey ? ' (shift: would also work)' : ''));
+      else hideTip();
+    });
+    radar.addEventListener('mouseleave', hideTip);
+  }
 
   radar.addEventListener('click', e => {
     const additive = e.ctrlKey || e.metaKey;

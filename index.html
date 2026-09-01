@@ -1654,7 +1654,6 @@ function render(){
   // Mini radars on cards are filled by drawRadars() in the second script —
   // do it here too for any user interaction that calls render() (the second
   // script is already loaded by then).
-  if(typeof drawRadars==='function') drawRadars();
   // NOTE: we do NOT re-parse the URL hash here. The hash is a one-time state
   // loader on initial page load (see the IIFE below that runs once). After
   // that, state is the single source of truth; pushState() writes the URL.
@@ -1681,6 +1680,12 @@ function render(){
     if(state.sort==="dedesc")s.sort((a,b)=>b.d-a.d||a.n.localeCompare(b.n));
     m.innerHTML=`<section style="margin-top:18px"><div class="grid">${s.map(cardHTML).join("")}</div></section>`;
   }
+  // Mini radars on cards are filled by drawRadars() in the second script.
+  // Must run AFTER m.innerHTML is set above — otherwise the .card-radar
+  // divs don't exist yet and drawRadars() finds nothing to fill (the
+  // original bug: it was called BEFORE the sort/render block, so after
+  // a filter the cards rebuilt but their mini radars never re-appeared).
+  if(typeof drawRadars==='function') drawRadars();
 }
 
 function renderChips(){

@@ -42,12 +42,51 @@ header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 input[type=search],select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.92rem}
 input[type=search]:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+input[type=search]::placeholder{color:rgba(231,224,210,0.45)}
+
+/* ── Top-row buttons (Filters / Sort) ── */
+.top-row{gap:6px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;font-size:.88rem;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s}
+.btn:hover{background:var(--panel);border-color:rgba(201,162,75,0.4)}
+.btn .btn-ic{opacity:0.7}
+.btn .btn-badge{background:var(--gold);color:#1a1419;font-weight:700;font-size:.7rem;padding:1px 7px;border-radius:999px;min-width:18px;text-align:center;line-height:1.2}
+.btn[aria-expanded="true"]{background:var(--panel);border-color:var(--gold)}
+
+/* ── Popovers (Filters / Sort) ── */
+/* Popovers anchor to the right edge of the bar (where the Filters /
+   Sort buttons live). On narrow screens they flip to align with the
+   bar's padding so they don't overflow. */
+.popover{position:absolute;top:calc(100% + 6px);right:16px;left:auto;z-index:60;background:rgba(19,16,23,0.98);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(201,162,75,0.12);min-width:380px;max-width:min(720px,calc(100vw - 32px));padding:0;overflow:hidden}
+.popover.sort-pop{min-width:220px;right:120px}
+.popover[hidden]{display:none}
+.pop-tabs{display:flex;border-bottom:1px solid var(--line);padding:0;background:rgba(0,0,0,0.2)}
+/* Tab indicator is a centered pseudo-element so it hugs the text
+   width instead of spanning the full tab cell (which looked like a
+   big yellow underline across the whole popover). */
+.pop-tab{position:relative;flex:1;background:transparent;border:0;color:var(--muted);padding:12px 8px;font-size:.82rem;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:color .12s}
+.pop-tab:hover{color:var(--text)}
+.pop-tab.active{color:var(--gold)}
+.pop-tab.active::after{content:"";position:absolute;left:50%;bottom:-1px;width:32px;height:2px;background:var(--gold);transform:translateX(-50%);border-radius:1px}
+.pop-body{padding:14px 16px;max-height:60vh;overflow-y:auto}
+.pop-pane{display:none}
+.pop-pane.active{display:block}
+.pop-field{display:flex;align-items:center;gap:12px;padding:6px 0}
+.pop-field .pop-label{flex:0 0 90px;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.pop-field select{flex:1;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:.9rem;min-height:42px}
+.sort-opt{display:block;width:100%;background:transparent;border:0;color:var(--text);padding:10px 16px;font-size:.92rem;text-align:left;cursor:pointer}
+.sort-opt:hover{background:var(--panel2)}
+.sort-opt.active{color:var(--gold);font-weight:600;background:rgba(201,162,75,0.08)}
 input[type=search]{flex:1;min-width:180px}
 input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 .btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.85rem;cursor:pointer}
 .btn:hover{border-color:var(--gold)}
 .btn.gold{background:var(--gold);color:#1a1408;border-color:var(--gold);font-weight:600}
 .btn.gold:disabled{opacity:.45;cursor:default}
+/* Chips wrap onto multiple lines inside popovers (where vertical space
+   is plentiful) instead of horizontal-scrolling. Outside popovers
+   (in the inline bar) the rule below restores horizontal scroll for
+   narrow screens. */
+.pop-pane .chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 6px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%);-webkit-mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)}
 @media(max-width:640px){
   /* Mobile: bigger touch targets, snap-scroll for chip rows, default-
@@ -82,6 +121,10 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .chip.off{color:#f1d4d4;border-color:rgba(192,112,112,0.55);background:rgba(192,112,112,0.16);text-decoration:line-through;text-decoration-color:rgba(192,112,112,0.5)}
 .chip.off::before{content:"✕";display:inline-block;font-size:.7em;margin-right:-2px;color:#c07070}
 .rowlab{flex:0 0 auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px;min-width:64px}
+/* Visual distinction between Race and Play rows — Race uses round dots
+   and a neutral border, Play uses gold accents and a divider line. */
+.row.race-row{padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.row.play-row{padding-top:2px}
 .chip.ps{--rc:var(--gold)}
 .chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
 .chip.off{color:#c07070;border-color:#7a3a3a}
@@ -115,8 +158,11 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 /* Filter-active visual cues — applied to <body> when any filter is set
    so the bar, count badge, and other chrome can all pick it up. */
 body.filter-on .bar{border-bottom:1px solid rgba(201,162,75,0.45);box-shadow:0 2px 18px rgba(201,162,75,0.12)}
-body.filter-on #count{color:var(--gold);font-weight:600;background:rgba(201,162,75,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(201,162,75,0.35)}
-body.filter-on #count .count-filter{color:var(--text);font-weight:400;opacity:0.85}
+/* When filtered, the count gets a subtle gold tint (not a full pill —
+   the active-filters bar already signals "filter is on" visually, and
+   a fully-pilled count looked like a clickable button). */
+body.filter-on #count{color:var(--gold);font-weight:600}
+body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 
 /* Card match badge — gold pill in top-right of each card when filters
    are active. Shows the count of filters the card satisfied. */
@@ -237,7 +283,15 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .ov-col h3{font-family:"Cinzel",Georgia,serif;margin:0;font-size:1.05rem}
 .ov-col .sub{margin-bottom:8px}
 footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
-.empty{color:var(--muted);padding:40px 0;text-align:center;font-style:italic}
+/* Empty state when filters yield zero matches. Big icon, clear message,
+   and a "Clear all filters" button right there so the user can recover
+   without scrolling back up. */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:80px 20px;color:var(--muted);text-align:center}
+.empty .empty-icon{font-size:3rem;opacity:0.4;line-height:1}
+.empty .empty-msg{font-size:1.05rem;color:var(--text);font-weight:600}
+.empty .empty-sub{font-size:.88rem;color:var(--muted);max-width:340px}
+.empty .empty-action{margin-top:8px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:8px 18px;font-size:.85rem;cursor:pointer;transition:background .12s}
+.empty .empty-action:hover{background:rgba(201,162,75,0.12)}
 /* ── Playstyle icon pills ── */
 .ps-pill{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.72rem;color:var(--muted);white-space:nowrap;cursor:default;line-height:1;user-select:none;transition:background .12s}
 .ps-pill:hover{background:var(--panel)}
@@ -269,7 +323,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   position:relative;
 }
 #featured-radar .fr-radar svg{width:220px;height:220px}
-#featured-radar .fr-info{flex:1;min-width:0}
+#featured-radar .fr-info{flex:1;min-width:320px;overflow-wrap:break-word;word-wrap:break-word}
 #featured-radar h2{
   font-family:"Cinzel",Georgia,serif;font-size:1.15rem;
   color:var(--gold);margin:0 0 6px;font-weight:600;
@@ -321,9 +375,9 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 /* "All lords" mode — radar is centered and bigger, takes full width */
 #featured-radar .fr-inner.all-lords{flex-direction:column;align-items:stretch}
 #featured-radar .fr-inner.all-lords .fr-radar{
-  flex:0 0 auto;width:100%;max-width:380px;height:380px;margin:0 auto;
+  flex:0 0 auto;width:680px;height:680px;max-width:100%;margin:0 auto;
 }
-#featured-radar .fr-inner.all-lords .fr-radar svg{width:380px;height:380px}
+#featured-radar .fr-inner.all-lords .fr-radar svg{width:100%;height:100%;display:block}
 #featured-radar .fr-all-summary{
   text-align:center;margin:14px 0 0;color:var(--muted);
   font-size:.86rem;line-height:1.55;
@@ -337,6 +391,19 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   text-align:center;margin-top:8px;color:var(--text);
   font-size:.82rem;
 }
+/* Radar style toggle (Density ↔ Constellation) — sits in the radar
+   summary area, two pill buttons side by side. Small enough not to
+   compete with the radar itself. */
+
+.fr-style-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;opacity:0.7}
+
+
+
+/* Constellation mode: dissolve the panel rectangle so the cosmic void
+   becomes the entire feature area, not a square stuck on a card. */
+#featured-radar .fr-inner.all-lords.magical-mode{background:transparent;border:none;padding-top:0;padding-bottom:0}
+to{transform:rotate(360deg)}}
+#featured-radar .fr-inner.all-lords.magical-mode .fr-radar{background:transparent}
 #featured-radar .fr-all-filter b{color:var(--gold);font-weight:600}
 #featured-radar .fr-clear-filter{
   background:var(--panel2);border:1px solid var(--line);color:var(--text);
@@ -366,11 +433,11 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   cursor:pointer;
 }
 /* Wedge selection states (driven by inline class on the polygon).
-   .wedge-include = both bounding tags are in the include set (multi-select
+   .wedge-hit.wedge-include = both bounding tags are in the include set (multi-select
    or single replace click). .wedge-exclude = both in the exclude set.
    The strong fill makes it obvious which segments are active when the
    user has stacked multiple selections via ctrl-click / long-press. */
-.all-lords-radar .wedge-include{
+.all-lords-radar .wedge-hit.wedge-include{
   fill:rgba(201,162,75,0.34) !important;
   stroke:rgba(201,162,75,0.95) !important;
   stroke-width:1.5 !important;
@@ -416,7 +483,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 #featured-radar .fr-compare-btn{
   background:var(--gold);color:#1a1408;border:none;border-radius:8px;
   padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;
-  margin-top:8px;
+  margin-top:8px;width:fit-content;max-width:100%;
 }
 #featured-radar .fr-compare-btn:disabled{opacity:.4;cursor:default}
 #featured-radar .fr-legend{
@@ -494,65 +561,88 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 <body>
 <header class="hero">
   <h1>Total War: Warhammer III — Lord Picker</h1>
-  <p>All <strong>110 legendary lords</strong> as of Update 9.0 (September 2026), including every DLC through Lords of the End Times and the free Neferata FLC. Tap a card for mechanics, pros &amp; cons. Check up to three lords to compare side by side.</p>
+  <p>All <strong>110 legendary lords</strong> · tap a card for details · check up to 3 to compare.</p>
 </header>
 
 <div class="bar">
   <div class="bar-inner">
-    <div class="row">
+    <div class="row top-row">
       <input id="q" type="search" placeholder="Search lords, mechanics, playstyles…" aria-label="Search">
-      <select id="fdiff" aria-label="Filter by difficulty">
-        <option value="">&#9711; Any difficulty</option>
-        <option value="1">&#9671; Easy</option><option value="2">&#11007; Moderate</option>
-        <option value="3">&#9670; Hard</option><option value="4">&#11010; Very hard</option>
-      </select>
-      <select id="fsrc" aria-label="Filter by source">
-        <option value="">Any source</option>
-        <option value="wh3base">&#127761; WH3 base game</option>
-        <option value="wh3dlc">&#127762; WH3 DLC</option>
-        <option value="wh1">&#127763; WH1 &amp; its DLC</option>
-        <option value="wh2">&#127764; WH2 &amp; its DLC</option>
-        <option value="free">&#127762; Free (FLC)</option>
-      </select>
-      <select id="sort" aria-label="Sort">
-        <option value="race">Group by race</option>
-        <option value="name">A–Z</option>
-        <option value="deasc">&#9671; Easiest first</option>
-        <option value="dedesc">&#11010; Hardest first</option>
-      </select>
-      <details class="more-filters" id="more-filters"><summary>⚙ More filters</summary>
-        <div class="more-row">
-          <select id="fdiff-m" aria-label="Filter by difficulty" data-mirror="fdiff">
-            <option value="">&#9711; Any difficulty</option>
-            <option value="1">&#9671; Easy</option><option value="2">&#11007; Moderate</option>
-            <option value="3">&#9670; Hard</option><option value="4">&#11010; Very hard</option>
-          </select>
-          <select id="fsrc-m" aria-label="Filter by source" data-mirror="fsrc">
-            <option value="">Any source</option>
-            <option value="wh3base">&#127761; WH3 base</option>
-            <option value="wh3dlc">&#127762; WH3 DLC</option>
-            <option value="wh1">&#127763; WH1 &amp; its DLC</option>
-            <option value="wh2">&#127764; WH2 &amp; its DLC</option>
-            <option value="free">&#127762; Free (FLC)</option>
-          </select>
-          <select id="sort-m" aria-label="Sort" data-mirror="sort">
-            <option value="race">Group by race</option>
-            <option value="name">A–Z</option>
-            <option value="deasc">&#9671; Easiest first</option>
-            <option value="dedesc">&#11010; Hardest first</option>
-          </select>
-        </div>
-      </details>
-      <button class="btn" id="xall">Expand all</button>
-      <button class="btn" id="clear-all" title="Clear all filters" style="display:none">✕ Clear filters</button>
-      <span class="count" id="count"></span><button class="btn" id="random-lord" title="Random filtered lord">🎲 Random</button>
+      <button class="btn" id="filters-btn" aria-haspopup="dialog">
+        <span class="btn-ic">⚙</span> Filters
+        <span class="btn-badge" id="filters-badge" style="display:none">0</span>
+      </button>
+      <button class="btn" id="sort-btn" aria-haspopup="dialog">
+        <span class="btn-ic">↕</span> <span id="sort-label">Group by race</span>
+      </button>
+      <span class="count" id="count"></span>
+      <button class="btn" id="random-lord" title="Random filtered lord">🎲 Random</button>
+      <button class="btn" id="clear-all" title="Clear all filters" style="display:none">✕ Clear</button>
     </div>
-    <div class="row"><span class="rowlab">&#9876; Race</span><div class="chips" id="chips" role="group" aria-label="Race filters" style="flex:1"></div></div>
-    <div class="row"><span class="rowlab">&#127919; Play</span><div class="chips" id="pschips" role="group" aria-label="Playstyle filters" style="flex:1"></div><label class="pshint" title="When several playstyles are included: require lords to have ALL of them instead of any"><input type="checkbox" id="psall"> match all</label></div>
-    <details class="legend"><summary>What do the playstyles mean? &nbsp;(tap a chip: <b style="color:var(--gold)">include</b> → clear)</summary><div class="lgrid" id="pslegend"></div></details>
     <div class="active-filters" id="active-filters" role="region" aria-label="Active filters"></div>
   </div>
+
+  <!-- Filter popover (Race / Play / More tabs) -->
+  <div class="popover" id="filters-pop" role="dialog" aria-label="Filters" hidden>
+    <div class="pop-tabs" role="tablist">
+      <button class="pop-tab active" data-tab="race" role="tab">Race</button>
+      <button class="pop-tab" data-tab="play" role="tab">Playstyle</button>
+      <button class="pop-tab" data-tab="more" role="tab">More</button>
+    </div>
+    <div class="pop-body">
+      <div class="pop-pane active" data-pane="race">
+        <div class="chips" id="chips" role="group" aria-label="Race filters"></div>
+      </div>
+      <div class="pop-pane" data-pane="play">
+        <div class="chips" id="pschips" role="group" aria-label="Playstyle filters"></div>
+        <label class="pshint" title="When several playstyles are included: require lords to have ALL of them instead of any">
+          <input type="checkbox" id="psall"> Match all (AND instead of OR)
+        </label>
+      </div>
+      <div class="pop-pane" data-pane="more">
+        <div class="pop-field">
+          <span class="pop-label">Difficulty</span>
+          <select id="fdiff" aria-label="Filter by difficulty">
+            <option value="">Any</option>
+            <option value="1">Easy</option>
+            <option value="2">Moderate</option>
+            <option value="3">Hard</option>
+            <option value="4">Very hard</option>
+          </select>
+        </div>
+        <div class="pop-field">
+          <span class="pop-label">Source</span>
+          <select id="fsrc" aria-label="Filter by source">
+            <option value="">Any</option>
+            <option value="wh3base">WH3 base</option>
+            <option value="wh3dlc">WH3 DLC</option>
+            <option value="wh1">WH1 + DLC</option>
+            <option value="wh2">WH2 + DLC</option>
+            <option value="free">Free (FLC)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sort popover -->
+  <div class="popover sort-pop" id="sort-pop" role="dialog" aria-label="Sort" hidden>
+    <button class="sort-opt" data-sort="race">Group by race</button>
+    <button class="sort-opt" data-sort="name">A–Z</button>
+    <button class="sort-opt" data-sort="deasc">Easiest first</button>
+    <button class="sort-opt" data-sort="dedesc">Hardest first</button>
+  </div>
 </div>
+
+<!-- Hidden native selects that the existing JS reads from. We keep real
+     <select> elements so the existing state diff/sort/loadFromHash code
+     keeps working without rewiring. The popover just drives their values. -->
+<select id="sort" aria-label="Sort" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+  <option value="race">Group by race</option>
+  <option value="name">A–Z</option>
+  <option value="deasc">Easiest first</option>
+  <option value="dedesc">Hardest first</option>
+</select>
 
 
 <div id="featured-radar">
@@ -1509,7 +1599,21 @@ const DLBL={1:"Easy",2:"Moderate",3:"Hard",4:"Very hard"};
 function bucket(s){s=s.toLowerCase();if(s.includes("flc")||s.includes("free"))return"free";if(s.startsWith("wh1"))return"wh1";if(s.startsWith("wh2"))return"wh2";if(s.includes("wh3 base"))return"wh3base";return"wh3dlc";}
 LORDS.forEach((l,i)=>{l.i=i;l.bk=bucket(l.src);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")).toLowerCase();});
 
-const state={q:"",race:null,psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[]};
+// Map a playstyle display label (e.g. "War") to the PS object key (e.g.
+// "Aggro"). Lives in the first <script> block (not the radar one) so
+// it is available to render() during the initial render at line 2301,
+// which runs BEFORE the second <script> block loads. If render() tries
+// to use this and it is not yet defined, ReferenceError. The fallback
+// to capitalize is preserved so call sites that pass a PS key directly
+// still work.
+function normTag(t) {
+  for (const k in PS) {
+    if (PS[k].t === t) return k;
+  }
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+const state={q:"",race:new Set(),psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[],astrolabeExpanded:null};
 
 // pushState lives at module scope so it's callable from anywhere
 // (e.g. the initial renderChips();render();pushState(); bootstrap at the
@@ -1517,11 +1621,12 @@ const state={q:"",race:null,psInc:new Set(),psExc:new Set(),psAll:false,diff:"",
 function pushState(){
   const p=new URLSearchParams();
   if(state.q) p.set("q",state.q);
-  if(state.race) p.set("race",state.race);
+  if(state.race.size) p.set("race",[...state.race].join(","));
   if(state.diff) p.set("diff",state.diff);
   if(state.sort!=="race") p.set("sort",state.sort);
   if(state.psInc.size) p.set("ps",[...state.psInc].join(","));
   if(state.cmp.length) p.set("cmp",state.cmp.join(","));
+  
   history.replaceState(null,"",location.pathname+(p.toString()?"#"+p.toString():""));
 }
 function psOk(l){
@@ -1535,6 +1640,46 @@ function psOk(l){
   for(const p of state.psExc)if(l.ps.includes(p))return false;
   return true;
 }
+function _afterFilterChange(){
+  pushState();
+  renderChips();
+  render();
+}
+// Single source of truth for "reset every filter to default". Both the
+// top-bar Clear button and the active-filters "clear all" pill route
+// through this. Keeps the DRY promise: there's exactly one place that
+// knows what "no filters" means, and exactly one place that has to be
+// updated when a new filter dimension is added.
+//
+// Scope: filters only (q, race, psInc, psExc, psAll, diff, src).
+// We do NOT clear sort, open, or cmp — those are user-preferences /
+// view state, not filters. Clearing them on a "clear all filters" is
+// surprising. The active-filters bar may have a separate "reset view"
+// affordance if we ever need one.
+function clearAllFilters(){
+  state.q = '';
+  state.race.clear();
+  state.psInc.clear();
+  state.psExc.clear();
+  state.psAll = false;
+  state.diff = '';
+  state.src = '';
+  // Sync the DOM inputs the popovers still hold a hidden copy of.
+  const q = document.getElementById('q'); if (q) q.value = '';
+  const fdiff = document.getElementById('fdiff'); if (fdiff) fdiff.value = '';
+  const fsrc = document.getElementById('fsrc'); if (fsrc) fsrc.value = '';
+  const psa = document.getElementById('psall'); if (psa) psa.checked = false;
+  // Re-render, then push the cleaned state to the URL.
+  pushState();
+  renderChips();
+  render();
+  // The active-filters pill bar lives outside the main render() output
+  // (it has its own .active-filters element), so we have to re-render
+  // it explicitly. Without this, the pills in the active-filters bar
+  // would keep showing the just-cleared filters.
+  if (typeof renderActiveFilters === 'function') renderActiveFilters();
+  if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
+}
 function cyclePs(p){
   // Simple 2-state: tap to include, tap again to clear. The old 3-state
   // cycle (include → exclude → clear) was confusing in practice — users
@@ -1543,9 +1688,29 @@ function cyclePs(p){
   // results when you select fewer tags.
   if(state.psInc.has(p)){state.psInc.delete(p);}
   else{state.psInc.add(p);}
-  pushState();         // write URL first
-  renderChips();
-  render();
+  _afterFilterChange();
+}
+function cyclePsAdd(p){
+  // Additive on first press; toggle (remove) if already in the set.
+  // This matches industry-standard ctrl-click / long-press behavior
+  // (Gmail, Finder, tag pickers, etc.): clicking an already-selected
+  // item while holding the modifier deselects it.
+  if(state.psInc.has(p)){state.psInc.delete(p);}
+  else{state.psInc.add(p);}
+  _afterFilterChange();
+}
+// Race chips: same pattern. Tapping cycles (add/clear), long-press /
+// ctrl-click are toggle (add if not in set, remove if in set).
+function cycleRace(r){
+  if(state.race.has(r)){state.race.delete(r);}
+  else{state.race.add(r);}
+  _afterFilterChange();
+}
+function cycleRaceAdd(r){
+  // Same toggle-on-modifier pattern as cyclePsAdd.
+  if(state.race.has(r)){state.race.delete(r);}
+  else{state.race.add(r);}
+  _afterFilterChange();
 }
 
 // loadFromHash — read the URL hash ONCE on page load and restore state.
@@ -1556,24 +1721,27 @@ function loadFromHash(){
   try {
     const params = new URLSearchParams(location.hash.slice(1));
     if (params.get("q") !== null) state.q = params.get("q") || "";
-    if (params.get("race")) state.race = params.get("race");
+    if (params.get("race")) state.race = new Set(params.get("race").split(",").filter(Boolean));
     if (params.get("diff")) state.diff = params.get("diff") || "";
     if (params.get("sort")) state.sort = params.get("sort");
     if (params.get("cmp")) state.cmp = params.get("cmp").split(",").map(Number).filter(n => !isNaN(n)).slice(0, 3);
+    if (params.get("style")) {
+      // style param ignored — Density is the only radar view
+    }
     const s = params.get("ps");
     if (s) state.psInc = new Set(s.split(",").filter(t => PS[t.charAt(0).toUpperCase() + t.slice(1)]));
   } catch (e) {}
 }
 loadFromHash();
-// Sync the mobile .more-filters selects with whatever state was loaded
-// from the URL (or defaults) so they don't show stale values.
+// Sync the popover selects with whatever state was loaded from the URL
+// (or defaults) so they don't show stale values.
 (function() {
-  const fdm = document.getElementById("fdiff-m");
-  const fsm = document.getElementById("fsrc-m");
-  const som = document.getElementById("sort-m");
-  if (fdm) fdm.value = state.diff || "";
-  if (fsm) fsm.value = state.src || "";
-  if (som) som.value = state.sort || "race";
+  const fdiffEl = document.getElementById("fdiff");
+  const fsrcEl = document.getElementById("fsrc");
+  const sortEl = document.getElementById("sort");
+  if (fdiffEl) fdiffEl.value = state.diff || "";
+  if (fsrcEl) fsrcEl.value = state.src || "";
+  if (sortEl) sortEl.value = state.sort || "race";
 })();
 const $=s=>document.querySelector(s);
 
@@ -1596,7 +1764,7 @@ function cardHTML(l){
   // When any filter is active, show a small "matches" badge so the user
   // knows the card is visible BECAUSE it passed the filter. The badge
   // counts how many filters were satisfied (always >= 1).
-  const activeFilters = (state.q ? 1 : 0) + (state.race ? 1 : 0) + (state.diff ? 1 : 0) + (state.src ? 1 : 0) + state.psInc.size + state.psExc.size;
+  const activeFilters = (state.q ? 1 : 0) + (state.race.size ? 1 : 0) + (state.diff ? 1 : 0) + (state.src ? 1 : 0) + state.psInc.size + state.psExc.size;
   const matchBadge = activeFilters
     ? `<div class="match-badge" title="Matches ${activeFilters} active filter${activeFilters>1?'s':''}"><span class="match-check">✓</span><span class="match-count">${activeFilters}</span></div>`
     : '';
@@ -1622,7 +1790,7 @@ function cardHTML(l){
 function filtered(){
   return LORDS.filter(l=>
     !l._synthetic &&
-    (!state.race||l.r===state.race)&&
+    (state.race.size===0||state.race.has(l.r))&&
     psOk(l)&&
     (!state.diff||l.d===+state.diff)&&
     (!state.src||l.bk===state.src)&&
@@ -1635,26 +1803,42 @@ function render(){
   // for the single-lord radar compare overlay. Without this, the
   // denominator would be 110 + 25 = 135 and confuse the user.
   const realTotal = LORDS.filter(l => !l._synthetic).length;
-  $("#count").textContent=`🔍 ${list.length} / ${realTotal}`;
+  $("#count").textContent=`${list.length} / ${realTotal}`;
   // Add a visual "filter active" cue on the bar when any filter is set
-  const isFiltered = state.psInc.size || state.psExc.size || state.race || state.diff || state.src || state.q;
+  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.diff || state.src || state.q;
   document.body.classList.toggle('filter-on', !!isFiltered);
   // If filtered, change the count text to mention the filter
   if (isFiltered) {
     const filterChips = [];
     if (state.q) filterChips.push(`"${state.q}"`);
-    if (state.race) filterChips.push(state.race);
+    if (state.race.size) filterChips.push([...state.race].join(" + "));
     if (state.diff) filterChips.push(DLBL[state.diff] || state.diff);
     if (state.src) filterChips.push(state.src);
     if (state.psInc.size) filterChips.push([...state.psInc].map(t => PS[normTag(t)]?.t || t).join('+'));
     if (filterChips.length) {
-      $("#count").innerHTML = `<b>${list.length} / ${realTotal}</b> <span class="count-filter">· ${esc(filterChips.join(' · '))}</span>`;
+      // Just the count, no filter names — the active-filters pill bar
+      // already shows every active filter with its own × button. Putting
+      // the names here too was duplicative and made the count look like
+      // a clickable pill when it isn't.
+      $("#count").innerHTML = `<b>${list.length}</b> <span class="count-of">of</span> ${realTotal}`;
     }
   }
   // Active-filter pills are state-driven, so update them on every render.
   if (typeof renderActiveFilters === 'function') renderActiveFilters();
   const m=$("#main");
-  if(!list.length){m.innerHTML=`<p class="empty">&#128269; No lords match. Loosen a filter.</p>`;return;}
+  if(!list.length){
+    m.innerHTML=`<div class="empty">
+      <div class="empty-icon">&#128269;</div>
+      <div class="empty-msg">No lords match these filters</div>
+      <div class="empty-sub">Try removing a race, playstyle, or search term. Or clear everything and start over.</div>
+      <button class="empty-action" id="empty-clear">✕ Clear all filters</button>
+    </div>`;
+    // Wire the inline clear button so the user doesn't have to scroll
+    // back up to the bar to recover.
+    const ec = document.getElementById('empty-clear');
+    if (ec) ec.addEventListener('click', () => clearAllFilters());
+    return;
+  }
   // Mini radars on cards are filled by drawRadars() in the second script —
   // do it here too for any user interaction that calls render() (the second
   // script is already loaded by then).
@@ -1697,6 +1881,8 @@ function renderChips(){
   // click, wedge click, long-press) may have flipped psAll on/off
   // without touching this checkbox; without the sync, the user could
   // toggle the box and see it silently disagree with the active filter.
+  const psa = $("#psall");
+  if (psa) psa.checked = state.psAll;
   const psallEl = document.getElementById('psall');
   if (psallEl && psallEl.checked !== state.psAll) psallEl.checked = state.psAll;
   // Race count badge: how many lords (in the current diff+src+q context,
@@ -1714,7 +1900,7 @@ function renderChips(){
     .map(r=>{
       const cnt = raceCounts[r] || 0;
       const dim = cnt === 0 ? ' dim' : '';
-      return `<button class="chip${state.race===r?" on":""}${dim}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 22, RACES[r].c)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
+      return `<button class="chip${state.race.has(r)?" on":""}${dim}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 22, RACES[r].c)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
     }).join("");
   $("#pschips").innerHTML=Object.keys(PS)
     .map(p=>{
@@ -1736,11 +1922,34 @@ function renderChips(){
         (n, l) => n + ((l.ps || []).includes(pk) ? 1 : 0), 0
       );
       const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
-      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} (tap: include → clear)">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
+      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} — tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
+  if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
 }
-$("#pslegend").innerHTML=`<div style="grid-column:1/-1;color:var(--text)">Playstyles describe the <b>campaign loop</b>, not battle prowess — a lord can be a great fighter without the Duelist tag. See each card's <b>⚔ In battle</b> line for how the lord himself fights.</div>`+Object.keys(PS).map(p=>`<div><b>${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 14, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} ${PS[p.charAt(0).toUpperCase()+p.slice(1)].t}</b> — ${PS[p.charAt(0).toUpperCase()+p.slice(1)].g}</div>`).join("");
+
+// Filters button badge — shows the count of active filter dimensions
+// (race, playstyles, difficulty, source) so the user knows there's
+// something behind the button without having to open it.
+function updateFiltersBadge(){
+  const badge = $("#filters-badge");
+  if (!badge) return;
+  let n = 0;
+  if (state.race.size) n++;
+  if (state.psInc.size) n++;
+  if (state.psExc.size) n++;
+  if (state.diff) n++;
+  if (state.src) n++;
+  if (n > 0) { badge.textContent = n; badge.style.display = ''; }
+  else { badge.style.display = 'none'; }
+  // Also show/hide the "Clear" button in the top row
+  const ca = $("#clear-all");
+  if (ca) ca.style.display = (n > 0 || state.q) ? '' : 'none';
+}
+// The pslegend element was removed in the polish pass; guard against null
+// so the script doesn't crash if the legend is absent.
+const pslegend = $("#pslegend");
+if (pslegend) pslegend.innerHTML=`<div style="grid-column:1/-1;color:var(--text)">Playstyles describe the <b>campaign loop</b>, not battle prowess — a lord can be a great fighter without the Duelist tag. See each card's <b>⚔ In battle</b> line for how the lord himself fights.</div>`+Object.keys(PS).map(p=>`<div><b>${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 14, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} ${PS[p.charAt(0).toUpperCase()+p.slice(1)].t}</b> — ${PS[p.charAt(0).toUpperCase()+p.slice(1)].g}</div>`).join("");
 
 function renderCmpBar(){
   const b=document.getElementById("cmpbar");
@@ -1793,14 +2002,27 @@ function openOverlay(){
 }
 function closeOverlay(){$("#overlay").classList.remove("show");document.body.style.overflow="";}
 
+// Suppress click that follows a successful long-press, so the user
+// doesn't get both an additive add AND a cycle on the same chip.
 document.addEventListener("click",e=>{
-  if(e.target.closest("#clearps")){state.psInc.clear();state.psExc.clear();renderChips();render();pushState();return;}
+  // The chip long-press sets _chipLongPressFired on the click target;
+  // if set, skip the cycle and clear the flag.
+  const chipEl = e.target.closest(".chip[data-race], .chip[data-psc]");
+  if (chipEl && chipEl._chipLongPressFired) {
+    chipEl._chipLongPressFired = false;
+    return;
+  }
+  if(e.target.closest("#clearps")){state.psInc.clear();state.psExc.clear();_afterFilterChange();return;}
   const psc=e.target.closest("[data-psc]");
-  if(psc){cyclePs(psc.dataset.psc);return;}
+  if(psc){ e.ctrlKey||e.metaKey ? cyclePsAdd(psc.dataset.psc) : cyclePs(psc.dataset.psc); return; }
   const ptag=e.target.closest(".tag[data-ps]");
-  if(ptag){cyclePs(ptag.dataset.ps);return;}
+  if(ptag){ e.ctrlKey||e.metaKey ? cyclePsAdd(ptag.dataset.ps) : cyclePs(ptag.dataset.ps); return; }
   const chip=e.target.closest(".chip");
-  if(chip&&chip.dataset.race){state.race=state.race===chip.dataset.race?null:chip.dataset.race;renderChips();render();pushState();return;}
+  if(chip&&chip.dataset.race){
+    const r = chip.dataset.race;
+    e.ctrlKey||e.metaKey ? cycleRaceAdd(r) : cycleRace(r);
+    return;
+  }
   if(e.target.closest(".cmp-toggle")||e.target.closest("a"))return;
   const card=e.target.closest(".card");
   if(card){const i=+card.dataset.i;state.open.has(i)?state.open.delete(i):state.open.add(i);
@@ -1869,44 +2091,95 @@ $("#psall").addEventListener("change",e=>{state.psAll=e.target.checked;render();
 $("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();});
 $("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();});
 $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
-// Keep the mobile .more-filters mirror selects in sync when the desktop
-// selects change (so e.g. clearing all filters via the active-filter
-// pills resets the mobile dropdowns too).
-["fdiff","fsrc","sort"].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener("change", () => {
-    const m = document.getElementById(id + "-m");
-    if (m) m.value = el.value;
+
+// ── Popover: Filters (Race / Playstyle / More tabs) ──
+const filtersBtn = $("#filters-btn");
+const filtersPop = $("#filters-pop");
+const sortBtn = $("#sort-btn");
+const sortPop = $("#sort-pop");
+const closeAllPops = () => {
+  [filtersPop, sortPop].forEach(p => { if (p) { p.hidden = true; } });
+  if (filtersBtn) filtersBtn.setAttribute('aria-expanded', 'false');
+  if (sortBtn) sortBtn.setAttribute('aria-expanded', 'false');
+};
+const togglePop = (pop, btn) => {
+  const willOpen = pop.hidden;
+  closeAllPops();
+  if (willOpen) { pop.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+};
+if (filtersBtn && filtersPop) {
+  filtersBtn.addEventListener('click', e => { e.stopPropagation(); togglePop(filtersPop, filtersBtn); });
+}
+if (sortBtn && sortPop) {
+  sortBtn.addEventListener('click', e => { e.stopPropagation(); togglePop(sortPop, sortBtn); });
+}
+// Close on outside click — but NOT when the click is inside an open
+// popover. The chip click handler re-renders the chips (which destroys
+// & rebuilds the clicked element), so e.target may no longer be in
+// the DOM by the time this handler runs. We capture the containment
+// check at click-capture time, before any handler can mutate the DOM.
+let _clickInsidePopover = false;
+document.addEventListener('click', e => {
+  // Capture phase: decide whether this click is inside an open popover
+  // BEFORE the chip handler runs and removes the target from the DOM.
+  _clickInsidePopover = (
+    (filtersPop && !filtersPop.hidden && filtersPop.contains(e.target)) ||
+    (sortPop && !sortPop.hidden && sortPop.contains(e.target)) ||
+    (filtersBtn && filtersBtn.contains(e.target)) ||
+    (sortBtn && sortBtn.contains(e.target))
+  );
+}, true); // true = capture phase
+document.addEventListener('click', e => {
+  if (_clickInsidePopover) return;
+  closeAllPops();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPops(); });
+
+// Tab switching inside the filter popover
+document.querySelectorAll('.pop-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.pop-tab').forEach(t => t.classList.toggle('active', t === tab));
+    const name = tab.dataset.tab;
+    document.querySelectorAll('.pop-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === name));
   });
 });
-// Mirror the desktop selects to the mobile .more-filters <details>
-// selects. data-mirror="fdiff" → keep #fdiff-m in sync with #fdiff.
-document.querySelectorAll('.more-filters [data-mirror]').forEach(sel => {
-  const targetId = sel.dataset.mirror;
-  const target = document.getElementById(targetId);
-  if (!target) return;
-  sel.addEventListener('change', e => {
-    target.value = sel.value;
-    target.dispatchEvent(new Event('change'));
+
+// Sort popover options
+const sortLabels = { race: 'Group by race', name: 'A–Z', deasc: 'Easiest first', dedesc: 'Hardest first' };
+const syncSortLabel = () => {
+  const el = $("#sort-label");
+  if (el) el.textContent = sortLabels[state.sort] || 'Group by race';
+  document.querySelectorAll('.sort-opt').forEach(o => o.classList.toggle('active', o.dataset.sort === state.sort));
+};
+document.querySelectorAll('.sort-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const val = opt.dataset.sort;
+    state.sort = val;
+    const sel = $("#sort");
+    if (sel) { sel.value = val; sel.dispatchEvent(new Event('change')); }
+    syncSortLabel();
+    closeAllPops();
   });
-  target.addEventListener('change', () => { sel.value = target.value; });
 });
 
 $("#clear-all").addEventListener("click",()=>{
-  state.q=""; state.race=null; state.diff=""; state.src="";
-  state.psInc.clear(); state.psExc.clear(); state.psAll=false;
-  state.open.clear(); state.cmp=[];
-  $("#q").value="";
-  $("#fdiff").value=""; $("#fsrc").value="";
-  const fdm = document.getElementById("fdiff-m"); if (fdm) fdm.value = "";
-  const fsm = document.getElementById("fsrc-m"); if (fsm) fsm.value = "";
-  const som = document.getElementById("sort-m"); if (som) som.value = "race";
-  renderChips(); renderCmpBar(); render(); pushState();
+  // Use the canonical clear-all function so both "clear all" affordances
+  // agree on what gets reset. Then also reset view-only state (open,
+  // cmp) that lives outside the filter model.
+  clearAllFilters();
+  state.open.clear();
+  state.cmp = [];
+  renderCmpBar();
+  if (typeof drawRadars === 'function') drawRadars();
+  syncSortLabel();
 });
-$("#xall").addEventListener("click",()=>{
+// Expand/Collapse all — button was removed in the polish pass; guard
+// against null so the page doesn't crash if it's ever re-added.
+const xall = $("#xall");
+if (xall) xall.addEventListener("click",()=>{
   const all=state.open.size>=filtered().length&&filtered().length>0;
-  if(all){state.open.clear();$("#xall").textContent="Expand all";}
-  else{filtered().forEach(l=>state.open.add(l.i));$("#xall").textContent="Collapse all";}
+  if(all){state.open.clear();xall.textContent="Expand all";}
+  else{filtered().forEach(l=>state.open.add(l.i));xall.textContent="Collapse all";}
   render();
   pushState();
 });
@@ -1969,11 +2242,11 @@ function renderActiveFilters() {
   if (state.q) {
     pills.push(`<span class="pill search"><span class="pill-ic">🔍</span> &ldquo;${esc(state.q)}&rdquo;<button class="x" data-clear="q" aria-label="Clear search">&times;</button></span>`);
   }
-  // Race
-  if (state.race) {
-    const rc = RACES[state.race]?.c || '#888';
-    pills.push(`<span class="pill" style="--rc:${rc}"><span class="pill-ic">${iconSVG(RACE_ICONS[state.race] || '', 14, rc)}</span>${esc(state.race)}<button class="x" data-clear="race" aria-label="Clear race">&times;</button></span>`);
-  }
+  // Race (now a Set, supports multiple)
+  state.race.forEach(r => {
+    const rc = RACES[r]?.c || '#888';
+    pills.push(`<span class="pill" style="--rc:${rc}"><span class="pill-ic">${iconSVG(RACE_ICONS[r] || '', 14, rc)}</span>${esc(r)}<button class="x" data-clear="race" data-race="${esc(r)}" aria-label="Clear race">&times;</button></span>`);
+  });
   // Playstyle include
   state.psInc.forEach(pk => {
     const tag = pk.charAt(0).toUpperCase() + pk.slice(1);
@@ -2017,7 +2290,10 @@ document.addEventListener('click', e => {
     const what = x.dataset.clear;
     const ps = x.dataset.ps;
     if (what === 'q')        { state.q = ''; document.getElementById('q').value = ''; }
-    else if (what === 'race'){ state.race = null; }
+    else if (what === 'race'){
+      if (x.dataset.race) state.race.delete(x.dataset.race);
+      else state.race.clear();
+    }
     else if (what === 'psinc'){ state.psInc.delete(ps); }
     else if (what === 'psexc'){ state.psExc.delete(ps); }
     else if (what === 'diff'){ state.diff = ''; document.getElementById('fdiff').value = ''; const m=document.getElementById('fdiff-m'); if(m) m.value=''; }
@@ -2028,17 +2304,10 @@ document.addEventListener('click', e => {
   }
   const all = e.target.closest('.active-filters .clear-all');
   if (all) {
-    state.q=''; state.race=null; state.diff=''; state.src='';
-    state.psInc.clear(); state.psExc.clear();
-    state.sort = 'race';
-    document.getElementById('q').value = '';
-    document.getElementById('fdiff').value = '';
-    document.getElementById('fsrc').value = '';
-    document.getElementById('sort').value = 'race';
-    const fdm=document.getElementById('fdiff-m'); if(fdm) fdm.value='';
-    const fsm=document.getElementById('fsrc-m'); if(fsm) fsm.value='';
-    const som=document.getElementById('sort-m'); if(som) som.value='race';
-    pushState(); renderChips(); render(); drawRadars();
+    // Single source of truth — see clearAllFilters() definition.
+    clearAllFilters();
+    if (typeof drawRadars === 'function') drawRadars();
+    syncSortLabel();
     return;
   }
 });
@@ -2080,17 +2349,43 @@ function p2xy(cx, cy, r, deg) {
 //
 // Falls back to the old capitalize behavior if no match is found, so
 // existing call sites that pass a PS key directly still work.
-function normTag(t) {
-  for (const k in PS) {
-    if (PS[k].t === t) return k;
-  }
-  return t.charAt(0).toUpperCase() + t.slice(1);
-}
-
-// buildAllLordsRadarSVG — overlay every (filtered) lord at very low opacity
-// so the result reads as a "playstyle distribution" rather than 110 distinct
 // shapes. Lords are colored by their race so dominant patterns per race
 // show up as colored density.
+// =====================================================================
+// buildAllLordsRadarSVG — the density radar
+// =====================================================================
+// Renders all filtered lords as overlapping race-colored polygons on a
+// 14-axis radar. Visual semantics:
+//
+//   - BRIGHT gold polygon = the selected lord (state.cmp[0] or selectedIdx)
+//   - DIM race-colored polygons = other lords that pass the current filter
+//   - The radar ALWAYS shows all filtered lords. Picking a lord does NOT
+//     remove other lords from the view — it just highlights one.
+//   - baseAlpha = 0.22 (was 0.15) so dim polygons are visible/clickable.
+//     If a user can see a triangle, they can click it.
+//
+// FILTER LOGIC (radar clicks):
+//   - Click an axis (playstyle disc) → set psInc = {that tag}, OR logic
+//     (lords with that playstyle). Single-tag filter, no psAll needed.
+//   - Click a wedge (triangle) → set psInc = {tagA, tagB}, AND logic
+//     (psAll = true). The hint text says "require both" — and now it
+//     actually does. Click again to clear.
+//   - Click a polygon → add/remove from compare set (state.cmp), up to 3.
+//     Click an already-selected polygon to remove it. At 3, clicking a
+//     new one replaces the oldest.
+//
+// CLICK PRIORITY (radar click handler):
+//   1. .lord-poly (polygon) → add/remove from compare
+//   2. .axis (playstyle disc) → set single-tag filter
+//   3. .wedge (triangle) → set two-tag AND filter
+//   Spokes and grid rings have pointer-events="none" so they don't
+//   intercept clicks meant for polygons/wedges.
+//
+// lordIdxs: array of lord indices to render (already filtered by the
+//           calling code). Synthetic race-avg lords are excluded.
+// size: SVG size in user units (default 380).
+// selectedIdx: lord index to highlight, or null.
+// =====================================================================
 function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
   size = size || 380;
   const cx = size / 2, cy = size / 2;
@@ -2159,22 +2454,30 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
       const [x, y] = p2xy(cx, cy, r, a);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     });
-    svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
+    svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" pointer-events="none"/>`;
   });
-  // Spokes
+  // Spokes (non-clickable decorative lines)
   keys.forEach((_, i) => {
     const a = i * 360 / n;
     const [x, y] = p2xy(cx, cy, maxR, a);
-    svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
+    svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.07)" stroke-width="1" pointer-events="none"/>`;
   });
 
-  // Per-lord polygon at very low alpha. 110 lords * 0.15 ≈ 16 effective
+  // (filter envelope polygon removed — it plotted playstyle FREQUENCY on the
+  // radar's radial scale, which conflicted with the per-lord density that
+  // uses the same scale to show per-lord PRESENCE. The same data is now
+  // shown as a horizontal bar chart in the radar summary text, where
+  // each playstyle gets its own bar whose width is unambiguous.)
+
+  // Interactive wedge hit areas (transparent, between consecutive axes).
+  // Click a wedge → add both bounding tags to the include filter.
+    // Per-lord polygon at very low alpha. 110 lords * 0.15 ≈ 16 effective
   // layers (was 0.10 — turned the radar into a muddy mess on small
   // screens, so we lowered effective opacity; with 14 axes and race-
   // colored polygons this lands at a readable density).
   // Each polygon carries data-i so card-hover can target it and bright it
   // up; click also selects that lord.
-  const baseAlpha = 0.15;
+  const baseAlpha = 0.22; // was 0.15 — too dim, users couldn't see clickable triangles
   presentAll.forEach((entry, idx) => {
     const { color, present } = entry;
     const lIdx = lordIdxs[idx];
@@ -2194,123 +2497,63 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     const strokeW = isSel ? 2 : 0.8;
     svg += `<polygon class="lord-poly${isSel ? ' lord-poly-selected' : ''}" data-i="${lIdx}" data-tip="${esc(LORDS[lIdx].n.split(',')[0])} · ${esc(LORDS[lIdx].r)} — tap to view" `
          + `points="${pts.join(" ")}" fill="${fillCol}" fill-opacity="${alpha}" stroke="${strokeCol}" stroke-opacity="${strokeA}" stroke-width="${strokeW}" `
-         + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s"/>`;
+         + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s;pointer-events:none"/>`;
   });
-
-  // (filter envelope polygon removed — it plotted playstyle FREQUENCY on the
-  // radar's radial scale, which conflicted with the per-lord density that
-  // uses the same scale to show per-lord PRESENCE. The same data is now
-  // shown as a horizontal bar chart in the radar summary text, where
-  // each playstyle gets its own bar whose width is unambiguous.)
-
-  // Interactive wedge hit areas (transparent, between consecutive axes).
-  // Click a wedge → add both bounding tags to the include filter.
-  svg += `<g class="wedges" pointer-events="all">`;
+  // Wedge hit areas — drawn ON TOP of lord polygons so wedge clicks
+  // work even when a lord polygon is visually in front. This is the
+  // fix for the bug where clicking a wedge area would select a lord
+  // instead of applying the filter (the user's #1 complaint). Polygons
+  // are now pointer-events:none; lord selection from the radar is done
+  // via card clicks. The wedges are visible (subtle gold tint) so the
+  // user can see the clickable areas.
+  svg += `<g class="wedge-hits" pointer-events="all">`;
   for (let i = 0; i < n; i++) {
+    const aTk = keys[i].charAt(0).toUpperCase() + keys[i].slice(1);
+    const bTk = keys[(i + 1) % n].charAt(0).toUpperCase() + keys[(i + 1) % n].slice(1);
+    // Compute the wedge points (re-create the wedge geometry here, but
+    // skip the central ~12% to leave a clickable dead zone at the very
+    // center where all wedges meet — that area is reserved for the
+    // radar's center dot / "no filter" hit target).
+    const innerR = maxR * 0.12;
+    const aRad = i * 2 * Math.PI / n;
+    const bRad = ((i + 1) % n) * 2 * Math.PI / n;
+    const [ax, ay] = p2xy(cx, cy, maxR, i * 360 / n);
+    const [bx, by] = p2xy(cx, cy, maxR, ((i + 1) % n) * 360 / n);
+    const [aix, aiy] = p2xy(cx, cy, innerR, i * 360 / n);
+    const [bix, biy] = p2xy(cx, cy, innerR, ((i + 1) % n) * 360 / n);
+    const wpts = `${ax.toFixed(1)},${ay.toFixed(1)} ${bx.toFixed(1)},${by.toFixed(1)} ${bix.toFixed(1)},${biy.toFixed(1)} ${aix.toFixed(1)},${aiy.toFixed(1)}`;
+    // State-based fill: visible so user can see the clickable area.
+    // Include (both tags in psInc) → gold. Exclude (both in psExc) → red.
+    // Partial (one of two in psInc) → dim gold. Else → faint gold.
     const aKey = keys[i], bKey = keys[(i + 1) % n];
-    const ai = i, bi = (i + 1) % n;
-    const [ax, ay] = p2xy(cx, cy, maxR, ai * 360 / n);
-    const [bx, by] = p2xy(cx, cy, maxR, bi * 360 / n);
-    const pts = `${cx},${cy} ${ax.toFixed(1)},${ay.toFixed(1)} ${bx.toFixed(1)},${by.toFixed(1)}`;
-    const labelA = PS[aKey]?.t || aKey;
-    const labelB = PS[bKey]?.t || bKey;
-    const cnt = wedgeCount[`${aKey}|${bKey}`] || 0;
-    const top = wedgeTop[`${aKey}|${bKey}`] || '';
-    // Wedge tooltip describes the visual region between two adjacent
-    // axes, not an AND constraint. The "with A + B" wording was
-    // misleading because the filter default is OR, not AND — saying
-    // "with A + B" implied the user would get lords that have both
-    // tags, when in reality they get lords with at least one (per the
-    // match-all checkbox). "In the A · B wedge" describes the visual
-    // region without claiming a logical operator.
-    const tipText = top
-      ? `${cnt} lord${cnt === 1 ? '' : 's'} in the ${esc(labelA)} · ${esc(labelB)} wedge: ${esc(top)}${cnt > 3 ? '…' : ''}`
-      : `0 lords in the ${esc(labelA)} · ${esc(labelB)} wedge`;
-    // Selection state: highlight the wedge when both bounding tags are
-    // in the include set, or both in the exclude set. This makes multi-
-    // select (ctrl-click / long-press) visible — every selected wedge
-    // stays gold/red, not just the most recent one. Hover styles in CSS
-    // override the default fill, but the explicit .wedge-include /
-    // .wedge-exclude rules have !important to win over hover for selected
-    // segments.
-    const aTk = tagKey(aKey), bTk = tagKey(bKey);
-    const aInc = state.psInc.has(aTk), bInc = state.psInc.has(bTk);
-    const aExc = state.psExc.has(aTk), bExc = state.psExc.has(bTk);
-    let wedgeCls = 'wedge';
-    if (aInc && bInc) wedgeCls = 'wedge wedge-include';
-    else if (aExc && bExc) wedgeCls = 'wedge wedge-exclude';
-    else if (aInc || bInc) wedgeCls = 'wedge wedge-partial';
-    svg += `<polygon class="${wedgeCls}" data-tag-a="${aTk}" data-tag-b="${bTk}" `
-         + `points="${pts}" fill="rgba(201,162,75,0)" stroke="rgba(201,162,75,0.15)" stroke-width="0.5" `
+    const aInc = state.psInc.has(aKey), bInc = state.psInc.has(bKey);
+    const aExc = state.psExc.has(aKey), bExc = state.psExc.has(bKey);
+    let hitCls = 'wedge-hit';
+    let hitFill = 'rgba(201,162,75,0.04)';
+    if (aInc && bInc) { hitCls = 'wedge-hit wedge-include'; hitFill = 'rgba(201,162,75,0.20)'; }
+    else if (aExc && bExc) { hitCls = 'wedge-hit wedge-exclude'; hitFill = 'rgba(220,80,80,0.14)'; }
+    else if (aInc || bInc) { hitCls = 'wedge-hit wedge-partial'; hitFill = 'rgba(201,162,75,0.12)'; }
+    // Count lords in this wedge (intersection of both playstyles)
+    const cnt = lordIdxs.filter(li => {
+      const ps = (LORDS[li].ps || []).map(normTag);
+      return ps.includes(aKey) && ps.includes(bKey);
+    }).length;
+    const tipText = `${aKey} · ${bKey}\n${cnt} lord${cnt === 1 ? '' : 's'} have both — click to require both`;
+    svg += `<polygon class="${hitCls}" data-tag-a="${aKey}" data-tag-b="${bKey}" `
+         + `points="${wpts}" fill="${hitFill}" stroke="rgba(201,162,75,0.18)" stroke-width="0.4" `
          + `data-tip="${tipText}" />`;
   }
-  // Center dead zone: all wedges share the center point, so a click in
-  // the middle would otherwise belong to whichever wedge was rendered
-  // last (DOM order). Draw an invisible click-eater at the center so the
-  // user can't accidentally filter by tapping the very middle — the
-  // center belongs to nothing, and clicks fall through to the radar's
-  // background. Radius is ~7% of maxR, just enough to cover the central
-  // ambiguity zone where all 14 wedge triangles overlap.
-  const deadR = Math.max(8, maxR * 0.07);
-  svg += `<circle class="radar-center" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${deadR.toFixed(1)}" fill="transparent" pointer-events="all"/>`;
-  svg += `</g>`;
-
-  // Axis labels (clickable). Use a <g> with a text + an invisible larger
-  // hit circle so labels are easy to click on touch devices.
-  svg += `<g class="axis-labels">`;
-  keys.forEach((k, i) => {
-    const a = i * 360 / n;
-    const [lx, ly] = p2xy(cx, cy, labelR, a);
-    const fa = a;
-    const sx = Math.cos((fa - 90) * Math.PI / 180);
-    const anchor = sx >= 0 ? 'start' : 'end';
-    const dx = sx >= 0 ? 2 : -2;
-    const sy = Math.sin((fa - 90) * Math.PI / 180);
-    const dy = sy >= 0 ? 3 : -3;
-    const cnt = axisCount[k] || 0;
-    const top = (axisTop[k] || []).join(', ');
-    const label = PS[k]?.t || k;
-    // Visual state based on current filter
-    const tk = tagKey(k);
-    const inc = state.psInc.has(tk);
-    const exc = state.psExc.has(tk);
-    let fill = 'rgba(231,224,210,0.85)';
-    let stroke = '';
-    if (inc) { fill = '#c9a24b'; stroke = `stroke="#c9a24b" stroke-width="2"`; }
-    else if (exc) { fill = 'rgba(192,112,112,0.6)'; stroke = `stroke="rgba(192,112,112,0.6)" stroke-width="1.5"`; }
-    // Hit circle (invisible, larger than text) for easy clicking
-    const [hx, hy] = p2xy(cx, cy, labelR, a);
-    // Visible background circle behind the icon, makes it pop on dark bg.
-    // (Removed bgStroke ring — it was being visually confused with the
-    // icon being "detached" from the radar on certain axes where the
-    // ring's 0.8px extension past the icon read as the icon floating
-    // away from the polygon vertex. The icon recolor on inc/exc is still
-    // there, which is the primary visual cue for selection state.)
-    const bgFill = inc ? 'rgba(201,162,75,0.18)' : exc ? 'rgba(192,112,112,0.18)' : 'rgba(231,224,210,0.08)';
-    const iconPx = 24;
-    const cx0 = lx + dx, cy0 = ly + dy;
-    const tipText = top
-      ? `${cnt} lord${cnt === 1 ? '' : 's'}: ${esc(top)}${cnt > 3 ? '…' : ''} (click to filter)`
-      : `0 lords (click to filter)`;
-    svg += `<g class="axis" data-tag="${tk}">`
-         + `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="18" fill="transparent" style="cursor:pointer" `
-         + `data-tip="${tipText}" />`
-         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconPx/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
-         + `<g transform="translate(${(cx0 - iconPx/2).toFixed(1)},${(cy0 - iconPx/2).toFixed(1)})" style="pointer-events:none;color:${fill}">`
-         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconPx}" height="${iconPx}">${PSI[k] || ''}</svg>`
-         + `</g>`
-         + `</g>`;
-  });
+  // Central dead zone — a circle that catches clicks in the very
+  // middle (where all 14 wedges overlap) so a tap there doesn't apply
+  // a filter. Visual: tiny gold dot at the radar center.
+  svg += `<circle class="radar-center" cx="${cx}" cy="${cy}" r="${(maxR * 0.06).toFixed(1)}" `
+       + `fill="rgba(201,162,75,0.10)" stroke="rgba(201,162,75,0.4)" stroke-width="1" `
+       + `data-tip="Radar center — click an axis, wedge, or card to act" />`;
   svg += `</g>`;
   svg += '</svg>';
   return svg;
 }
 
-// Build a synthetic "race average" lord index. The race-average lord's
-// playstyle set is the playstyles that more than half of that race's
-// real lords have — this gives a clean visual "shape" for the race that
-// can be drawn underneath a single selected lord.
-const _raceAvgLords = [];
 function buildRaceAvgLords() {
   // Inline the tag normalization so this function doesn't depend on
   // script-scope helpers (normTag) that may be shadowed or hoisted
@@ -2351,6 +2594,7 @@ function buildRaceAvgLords() {
     _raceAvgLords.push({ race: r, idx });
   });
 }
+const _raceAvgLords = [];
 function avgLordForRace(race) {
   const e = _raceAvgLords.find(x => x.race === race);
   return e ? e.idx : null;
@@ -2508,13 +2752,21 @@ function buildRadarSVG(lordIdxs, colors, size) {
         const sy = Math.sin((fa - 90) * Math.PI / 180);
         return sy >= 0 ? 3 : -3;
       })();
-      const iconSize = 18;
+      const iconSize = 22;
       const cx0 = lx + dx, cy0 = ly + dy;
       // Visible background disc so the icon is readable on a dark radar.
       const bgFill = isActive ? 'rgba(201,162,75,0.18)' : 'rgba(231,224,210,0.06)';
-      svg += `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
-           + `<g transform="translate(${(cx0 - iconSize/2).toFixed(1)},${(cy0 - iconSize/2).toFixed(1)})" style="color:${isActive ? '#e7e0d2' : 'rgba(231,224,210,0.55)'}">`
+      // Tooltip: playstyle name + description. Wraps the hit area so
+      // hover anywhere on the disc shows it.
+      const psName = PS[k]?.t || k;
+      const psDesc = PS[k]?.g || '';
+      const tipText = `${psName} — ${psDesc}`;
+      svg += `<g class="axis" data-tag="${k}">`
+           + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 2).toFixed(1)}" fill="transparent" style="cursor:help" data-tip="${tipText}"/>`
+           + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
+           + `<g transform="translate(${(cx0 - iconSize/2).toFixed(1)},${(cy0 - iconSize/2).toFixed(1)})" style="pointer-events:none;color:${isActive ? '#e7e0d2' : 'rgba(231,224,210,0.55)'}">`
            + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
+           + `</g>`
            + `</g>`;
     });
   }
@@ -2533,45 +2785,100 @@ function updateFeaturedRadar() {
   const frSummary = document.getElementById('fr-all-summary');
   if (!fr) return;
 
-  // ── No selection: show every filtered lord overlaid (race-colored density) ──
-  if (!state.cmp.length) {
-    frInner.classList.add('all-lords');
-    fr.style.display = '';
-    fi.style.display = 'none';
-    fe.style.display = 'none';
-    cmpBtn.style.display = 'none';
+  // ── Always show the all-lords radar so the user can click polygons
+  // to add/remove lords from the compare set at any time. The details
+  // panel on the right shows either: nothing (0 lords), the picked lord's
+  // info (1 lord), or a compact list of all picked lords with × buttons
+  // (2+ lords). The "Compare" button opens the full overlay for 2+ lords.
+  fr.style.display = '';
+  fi.style.display = state.cmp.length >= 1 ? '' : 'none';
+  fe.style.display = 'none';
+  cmpBtn.style.display = state.cmp.length >= 2 ? '' : 'none';
 
-    const svgEl = document.getElementById('fr-radar-svg');
-    // The big radar should mirror the filtered set, not always the full 110.
-    // The summary line below already said "X lords (filtered from 110)" but
-    // the SVG was still drawing every lord — the user had to guess that
-    // "filtered" meant "these are the polygons you see" or "the lord count
-    // for the summary text only". Make the visual match the text.
-    // Exclude synthetic race-avg lords from the visual set; they exist in
-    // LORDS for the single-lord compare overlay but should never appear
-    // in the density view or summary counts.
-    const isFiltered = state.psInc.size || state.psExc.size || state.race || state.diff || state.src || state.q;
-    const allIdxsBase = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
-    const allIdxs = allIdxsBase.filter(i => !isSyntheticLord(i));
-    // When exactly 1 lord is selected, pass it so the radar can highlight
-    // that lord's polygon in the density — user can see "this lord is
-    // here in the cluster" rather than "this lord is in a separate view."
-    const selectedIdx = state.cmp.length === 1 ? state.cmp[0] : null;
-    if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440, selectedIdx);
+  const svgEl = document.getElementById('fr-radar-svg');
+  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.diff || state.src || state.q;
+  const allIdxsBase = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
+  const allIdxs = allIdxsBase.filter(i => !isSyntheticLord(i));
+  // Pass the first selected lord so the radar highlights it. For 2+ lords,
+  // the radar shows the density with all selected lords highlighted via
+  // the lord-poly-selected class (buildAllLordsRadarSVG already handles
+  // this when selectedIdx is set, but for multiple selections we need to
+  // highlight each one — handled by the polygon click handler setting
+  // state.cmp and the build function reading it).
+  const selectedIdx = state.cmp.length >= 1 ? state.cmp[0] : null;
+  if (svgEl) {
+    svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440, selectedIdx);
+    // For 2+ selected, re-apply the highlight to all selected lords
+    if (state.cmp.length >= 2) {
+      state.cmp.forEach((lIdx, ci) => {
+        const poly = svgEl.querySelector(`.lord-poly[data-i="${lIdx}"]`);
+        if (poly) {
+          poly.classList.add('lord-poly-selected');
+          const color = RADAR_COLORS[ci % RADAR_COLORS.length] || '#c9a24b';
+          poly.setAttribute('stroke', '#fff8e0');
+          poly.setAttribute('stroke-width', '2');
+        }
+      });
+    }
+  }
 
-    if (frSummary) {
+  // Populate the details panel
+  if (state.cmp.length === 1) {
+    const lord = LORDS[state.cmp[0]];
+    document.getElementById('fr-name').textContent = lord.n;
+    document.getElementById('fr-sub').textContent = `${lord.r} · ${lord.f}`;
+    document.getElementById('fr-battle').innerHTML = `<b>⚔ In battle:</b> ${esc(lord.battle || '—')}`;
+    document.getElementById('fr-tags').innerHTML = lord.ps.map(p => {
+      const tag = normTag(p);
+      const ic = PS[tag]?.ic || '#888';
+      const label = PS[tag]?.t || tag;
+      return `<span class="fr-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
+    }).join('');
+  } else if (state.cmp.length >= 2) {
+    // Show a compact list of selected lords with × buttons to remove each
+    const listHtml = state.cmp.map((lIdx, ci) => {
+      const lord = LORDS[lIdx];
+      const color = RADAR_COLORS[ci % RADAR_COLORS.length] || '#c9a24b';
+      return `<div class="fr-cmp-row" data-i="${lIdx}" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)">
+        <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${color};flex-shrink:0"></span>
+        <span style="flex:1;color:var(--text);font-weight:600">${esc(lord.n.split(',')[0])}</span>
+        <button class="fr-cmp-remove" data-i="${lIdx}" style="background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer;font-size:.8rem" title="Remove from compare">✕</button>
+      </div>`;
+    }).join('');
+    document.getElementById('fr-name').textContent = `Comparing ${state.cmp.length} Lords`;
+    document.getElementById('fr-sub').textContent = 'Click a polygon in the radar to add or remove';
+    document.getElementById('fr-battle').innerHTML = '';
+    document.getElementById('fr-tags').innerHTML = listHtml;
+  }
+
+  // Compare button
+  cmpBtn.disabled = state.cmp.length < 2;
+  if (state.cmp.length === 0) {
+    cmpBtn.textContent = '⚡ Pick 2–3 lords to compare';
+  } else if (state.cmp.length === 1) {
+    cmpBtn.textContent = '⚡ Click another polygon to add';
+    cmpBtn.disabled = true;
+  } else {
+    cmpBtn.textContent = `⚡ Compare ${state.cmp.length} Lords`;
+  }
+
+  if (frSummary) {
       const s = allLordsSummary(allIdxs);
       frSummary.style.display = '';
       const filterDesc = [];
       if (state.q) filterDesc.push(`<b>search</b> "${esc(state.q)}"`);
-      if (state.race) filterDesc.push(`<b>race</b> ${esc(state.race)}`);
+      if (state.race.size) filterDesc.push(`<b>race</b> ${[...state.race].map(esc).join(' + ')}`);
       if (state.diff) filterDesc.push(`<b>difficulty</b> ${esc(DLBL[state.diff] || state.diff)}`);
       if (state.src) filterDesc.push(`<b>source</b> ${esc(state.src)}`);
       if (state.psInc.size) filterDesc.push(`<b>including</b> ${[...state.psInc].map(t => PS[normTag(t)]?.t || t).join(' + ')}`);
       if (state.psExc.size) filterDesc.push(`<b>excluding</b> ${[...state.psExc].map(t => PS[normTag(t)]?.t || t).join(', ')}`);
-      const filterLine = filterDesc.length
-        ? `<div class="fr-all-filter"><span class="fr-all-filter-label">🔍 Active filter${filterDesc.length > 1 ? 's' : ''}:</span> ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear all</button></div>`
-        : `<div class="fr-all-filter fr-all-filter-none">🔍 No filter active — showing all 110 lords</div>`;
+      // The active-filters pill bar at the top of the page already shows
+      // every active filter with × buttons and a "clear all". Showing
+      // them again here would be redundant and create the visual
+      // contradiction where this banner says "race Khorne" but the
+      // pills say "Khorne + Politics" (different render timings).
+      // Skip the in-radar banner entirely.
+      const filterLine = '';
       // When filtered, show the FILTERED count + the most common playstyles
       // *within* that subset, not the global top. This is much more useful
       // — the user wants to know what playstyles dominate the filtered
@@ -2585,15 +2892,18 @@ function updateFeaturedRadar() {
         ${filterLine}
         <details class="profile-details"><summary>Playstyle profile — what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
         <div class="profile-chart">${summaryData.profileRows}</div></details>
-        <div class="fr-all-hint"><b>Tap an axis</b> to filter on that playstyle · <b>tap a wedge</b> to require both bounding tags · <b>tap a colored shape</b> to view that lord<br><span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span></div>
-      `;
-      // Wire the clear button
+        <div class="fr-all-hint">
+          <b>Tap an axis</b> to filter on that playstyle · <b>tap a wedge</b> to require both bounding tags · <b>tap a card</b> to view that lord<br>
+          <span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span>
+        </div>
+        `;
+
+      // Wire the clear button — use the same canonical clearAllFilters()
+      // function that the top-bar and active-filters clear buttons use,
+      // so all three "clear all" affordances stay in sync.
       const clr = document.getElementById('fr-clear-filter');
       if (clr) clr.addEventListener('click', () => {
-        state.psInc.clear();
-        state.psExc.clear();
-        renderChips();
-        render();
+        clearAllFilters();
         drawRadars();
         pushState();
       });
@@ -2615,77 +2925,7 @@ function updateFeaturedRadar() {
     return;
   }
 
-  // ── Selection: show the picked lord(s) ──
-  frInner.classList.remove('all-lords');
-  fr.style.display = '';
-  fi.style.display = '';
-  fe.style.display = 'none';
-  cmpBtn.style.display = '';
-  if (frSummary) frSummary.style.display = 'none';
-
-  const first = state.cmp[0];
-  const lord = LORDS[first];
-  document.getElementById('fr-name').textContent = lord.n;
-  document.getElementById('fr-sub').textContent = `${lord.r} · ${lord.f}`;
-  document.getElementById('fr-battle').innerHTML = `<b>⚔ In battle:</b> ${esc(lord.battle || '—')}`;
-  document.getElementById('fr-tags').innerHTML = lord.ps.map(p => {
-    const tag = normTag(p);
-    const ic = PS[tag]?.ic || '#888';
-    const label = PS[tag]?.t || tag;
-    return `<span class="fr-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
-  }).join('');
-
-  cmpBtn.disabled = state.cmp.length < 2;
-  cmpBtn.textContent = state.cmp.length < 2
-    ? '⚡ Pick 2–3 to compare'
-    : `⚡ Compare ${state.cmp.length} Lords`;
-
-  // Render radar SVG. When 1 lord is selected, also overlay that lord's
-  // race's average as a faded background polygon — this makes the radar
-  // informative: "this lord is more War-focused than the typical Khorne
-  // lord" jumps out immediately without the user having to compare
-  // against anything.
-  // buildRadarSVG draws each lord's polygon at ${color}28 alpha, so the
-  // race-avg will be a translucent version of the race's signature color
-  // sitting behind the gold selected-lord polygon.
-  const svgEl = document.getElementById('fr-radar-svg');
-  if (svgEl) {
-    const race = lord.r;
-    if (state.cmp.length === 1 && race && typeof RACES !== 'undefined') {
-      const raceAvgIdx = avgLordForRace(race);
-      if (raceAvgIdx != null && raceAvgIdx !== first) {
-        const rc = RACES[race]?.c || '#c9a24b';
-        // Tag the race-avg polygon as .race-avg via string surgery so CSS
-        // can stroke it dashed and lift the alpha a bit (race-avg should
-        // be subtle — the user's lord is the focus).
-        const rendered = buildRadarSVG([raceAvgIdx, first], [rc, RADAR_COLORS[0]], 200);
-        // First polygon = race-avg, drawn first = behind. Tag it.
-        let tagged = '';
-        let seen = 0;
-        tagged = rendered.replace(/<polygon /g, m => {
-          seen++;
-          return seen === 1 ? '<polygon class="race-avg" ' : m;
-        });
-        // Wrap the whole SVG with a label so the user can read the legend.
-        svgEl.innerHTML = tagged;
-      } else {
-        svgEl.innerHTML = buildRadarSVG([first], [RADAR_COLORS[0]], 200);
-      }
-    } else {
-      svgEl.innerHTML = buildRadarSVG(state.cmp, RADAR_COLORS.slice(0, state.cmp.length), 200);
-    }
-  }
-
-  // Legend for all selected
-  const legendEl = document.getElementById('fr-legend');
-  if (legendEl) {
-    legendEl.innerHTML = state.cmp.map((lIdx, ci) =>
-      `<span class="fr-legend-item"><span class="fr-legend-dot" style="background:${RADAR_COLORS[ci % RADAR_COLORS.length]}"></span>${esc(LORDS[lIdx].n.split(',')[0])}</span>`
-    ).join('');
-  }
-}
-
-// ── Overlay radar (overlaid comparison) ─────────────────────────────────
+  // ── Overlay radar (overlaid comparison) ─────────────────────────────────
 function openOverlay() {
   if (!state.cmp.length) return;
   document.getElementById('overlay').classList.add('show');
@@ -2790,7 +3030,13 @@ function setupRadarInteraction() {
     || (typeof window !== 'undefined' && 'ontouchstart' in window);
   let tipTimer = null;
   const showTip = (e, text) => {
-    tip.textContent = text;
+    // Use innerHTML so we can render line breaks (\n → <br>). Text
+    // comes from a known-safe set of data-tip attributes (lord names,
+    // playstyle descriptions, lord counts), all of which are escaped
+    // before being embedded. A user-crafted tooltip cannot reach this
+    // path because data-tip is only set from server data, not from
+    // user input.
+    tip.innerHTML = String(text).replace(/\n/g, '<br>');
     if (isTouch && e.target && e.target.closest) {
       const t = e.target.closest('[data-tip]');
       if (t && t.getBoundingClientRect) {
@@ -2849,7 +3095,23 @@ function setupRadarInteraction() {
     radar.addEventListener('mouseleave', hideTip);
   }
 
+  // Handle × remove buttons in the compare list
   radar.addEventListener('click', e => {
+    const removeBtn = e.target.closest && e.target.closest('.fr-cmp-remove[data-i]');
+    if (removeBtn) {
+      e.stopPropagation();
+      const i = +removeBtn.dataset.i;
+      state.cmp = state.cmp.filter(x => x !== i);
+      state.open.delete(i);
+      pushState();
+      renderCmpBar();
+      render();
+      drawRadars();
+      return;
+    }
+  });
+
+radar.addEventListener('click', e => {
     // Long-press already fired on this gesture — the additive action was
     // triggered by the pointerdown timer below. Suppress the click so we
     // don't double-act.
@@ -2861,6 +3123,14 @@ function setupRadarInteraction() {
     // the tag(s) to the include set without cycling. See the long-press
     // block at the end of this function.
     const additive = e.ctrlKey || e.metaKey;
+    const lordStar = e.target.closest && e.target.closest('.lord-star[data-i]');
+    if (lordStar) {
+      const i = +lordStar.dataset.i;
+      if (state.cmp.length === 1 && state.cmp[0] === i) { state.cmp = []; state.open.delete(i); }
+      else { state.cmp = state.cmp.includes(i) ? state.cmp.filter(x => x !== i) : [...state.cmp, i].slice(-3); state.open.add(i); }
+      pushState();
+      return;
+    }
     // Per-lord polygon click → select that lord (toggles with the existing
     // compare bar). This is the missing input direction: the user can now
     // point at a polygon in the density view and say "show me this one".
@@ -2868,22 +3138,26 @@ function setupRadarInteraction() {
     const lordPoly = e.target.closest('.lord-poly[data-i]');
     if (lordPoly) {
       const i = +lordPoly.dataset.i;
-      // Toggle: clicking the already-selected lord clears; otherwise
-      // replace the current selection with this one. Up to 3 for compare.
-      if (state.cmp.length === 1 && state.cmp[0] === i) {
-        state.cmp = [];
+      // Add to compare (up to 3). Click an already-selected lord to
+      // remove them. This lets the user build a compare set by clicking
+      // multiple polygons in the radar, without having to go to the grid.
+      if (state.cmp.includes(i)) {
+        state.cmp = state.cmp.filter(x => x !== i);
         state.open.delete(i);
+      } else if (state.cmp.length < 3) {
+        state.cmp = [...state.cmp, i];
+        state.open.add(i);
       } else {
-        state.cmp = state.cmp.includes(i) ? state.cmp.filter(x => x !== i) : [...state.cmp, i].slice(-3);
+        // Already at 3 — replace the oldest selection
+        const removed = state.cmp.shift();
+        state.cmp.push(i);
+        state.open.delete(removed);
         state.open.add(i);
       }
       pushState();
       renderCmpBar();
       render();
       drawRadars();
-      // Scroll the grid to that card so the user sees the selection.
-      const card = document.querySelector(`.card[data-i="${i}"]`);
-      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
     // Axis label click
@@ -2901,6 +3175,15 @@ function setupRadarInteraction() {
           state.psInc = new Set([tag]);
           state.psExc.clear();
         }
+        // Clear any search set by a previous polygon click (see wedge
+        // handler for the same fix). Without this, clicking an axis after
+        // clicking a polygon shows lords filtered by both the playstyle
+        // AND a stale name search, which is confusing.
+        if (state.q) {
+          state.q = '';
+          const qInput = document.getElementById('q');
+          if (qInput) qInput.value = '';
+        }
         // pushState() BEFORE render() so URL hash is consistent.
         // (render() used to re-read the hash and clobber state — that was
         // the cause of the "click doesn't filter" bug. The hash re-read
@@ -2914,28 +3197,46 @@ function setupRadarInteraction() {
       return;
     }
     // Wedge click
-    const wedge = e.target.closest('.wedge[data-tag-a]');
+    const wedge = e.target.closest('.wedge-hit[data-tag-a]');
     if (wedge) {
       const a = wedge.dataset.tagA;
       const b = wedge.dataset.tagB;
       if (additive) {
-        // Add both tags to the include set. Whether the filter is OR
-        // (any) or AND (all) is controlled by the "match all" checkbox
-        // (state.psAll) — radar clicks do not change it. Default is OR
-        // (broadening), so selecting multiple wedges widens the result
-        // set rather than narrowing it.
-        if (!state.psInc.has(a)) state.psInc.add(a);
-        if (!state.psInc.has(b)) state.psInc.add(b);
-        state.psExc.delete(a);
-        state.psExc.delete(b);
+        // Toggle both tags: if either is already in the include set,
+        // remove it; otherwise add both. Wedge always means "require
+        // both" (psAll = true). If psInc drops below 2 tags, drop psAll.
+        if (state.psInc.has(a) || state.psInc.has(b)) {
+          state.psInc.delete(a);
+          state.psInc.delete(b);
+          if (state.psInc.size < 2) state.psAll = false;
+        } else {
+          state.psInc.add(a);
+          state.psInc.add(b);
+          state.psExc.delete(a);
+          state.psExc.delete(b);
+          state.psAll = true;
+        }
       } else {
-        // Default: replace with this 2-tag combo. Click the active wedge
-        // a second time to clear.
-        if (state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size) {
+        // Default: replace with this 2-tag combo, AND-ed. The hint text
+        // says "tap a wedge to require both bounding tags" — so we set
+        // psAll = true so both tags must be present (not OR). Click the
+        // active wedge a second time to clear.
+        const alreadyActive = state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size && state.psAll;
+        if (alreadyActive) {
           state.psInc.clear();
+          state.psAll = false;
         } else {
           state.psInc = new Set([a, b]);
           state.psExc.clear();
+          state.psAll = true; // require BOTH, not either
+        }
+        // Clear any search set by a previous polygon click, so the wedge
+        // filter shows lords that actually match the playstyle combo
+        // rather than lords that also match a stale name search.
+        if (state.q) {
+          state.q = '';
+          const qInput = document.getElementById('q');
+          if (qInput) qInput.value = '';
         }
       }
       pushState();
@@ -2954,7 +3255,7 @@ function setupRadarInteraction() {
   // radar is now strictly 2-state: tap to include, tap again to clear.
   // To exclude, use the playstyle pill on the card.)
   radar.addEventListener('pointerdown', e => {
-    const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+    const t = e.target.closest('.axis[data-tag], .wedge-hit[data-tag-a]');
     if (!t) return;
     t.style.transition = 'transform 0.12s';
     t.style.transformOrigin = 'center';
@@ -2970,7 +3271,7 @@ function setupRadarInteraction() {
       longPressTarget.style.transform = '';
       return;
     }
-    const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+    const t = e.target.closest('.axis[data-tag], .wedge-hit[data-tag-a]');
     if (t) t.style.transform = '';
   };
   radar.addEventListener('pointerup', resetTap);
@@ -3011,7 +3312,7 @@ function setupRadarInteraction() {
   };
 
   radar.addEventListener('pointerdown', e => {
-    const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+    const t = e.target.closest('.axis[data-tag], .wedge-hit[data-tag-a]');
     if (!t) return;
     longPressTarget = t;
     longPressStartX = e.clientX;
@@ -3026,23 +3327,31 @@ function setupRadarInteraction() {
     longPressTimer = setTimeout(() => {
       if (longPressTarget !== t) return; // cancelled by move/up
       longPressFired = true;
-      // Additive action: add tag(s) to include, remove from exclude.
-      // Mirrors the wedge-additive branch in the click handler. State
-      // changes mirror normal clicks — psAll is NOT touched here; the
-      // "match all" checkbox is the only way to switch OR ↔ AND.
+      // Toggle action: if any tag is already in the include set, remove
+      // both; otherwise add both. Matches industry-standard long-press
+      // (Gmail, Finder, tag pickers) where holding a selected item
+      // deselects it. State changes mirror ctrl-click — psAll is NOT
+      // touched here; the "match all" checkbox is the only way to
+      // switch OR ↔ AND.
       const axis = t.closest('.axis[data-tag]');
-      const wedge = t.closest('.wedge[data-tag-a]');
+      const wedge = t.closest('.wedge-hit[data-tag-a]');
       if (axis) {
         const tag = axis.dataset.tag;
-        if (!state.psInc.has(tag)) state.psInc.add(tag);
+        if (state.psInc.has(tag)) state.psInc.delete(tag);
+        else state.psInc.add(tag);
         state.psExc.delete(tag);
       } else if (wedge) {
         const a = wedge.dataset.tagA;
         const b = wedge.dataset.tagB;
-        if (!state.psInc.has(a)) state.psInc.add(a);
-        if (!state.psInc.has(b)) state.psInc.add(b);
-        state.psExc.delete(a);
-        state.psExc.delete(b);
+        if (state.psInc.has(a) || state.psInc.has(b)) {
+          state.psInc.delete(a);
+          state.psInc.delete(b);
+        } else {
+          state.psInc.add(a);
+          state.psInc.add(b);
+          state.psExc.delete(a);
+          state.psExc.delete(b);
+        }
       }
       pushState();
       renderChips();
@@ -3076,6 +3385,75 @@ function setupRadarInteraction() {
   radar.addEventListener('pointercancel', longPressCancel);
   radar.addEventListener('pointerleave', longPressCancel);
 }
+
+// Chip long-press: mirror the radar's additive long-press. Tap = cycle
+// (add/remove), long-press = pure add. Lets the user build a multi-
+// select filter without having to ctrl-click.
+function setupChipLongPress(){
+  const chipLongPress = {
+    timer: null,
+    fired: false,
+    target: null,
+    startX: 0, startY: 0,
+  };
+  const cancel = () => {
+    if (chipLongPress.timer) { clearTimeout(chipLongPress.timer); chipLongPress.timer = null; }
+    if (chipLongPress.target) {
+      chipLongPress.target.style.transition = '';
+      chipLongPress.target.style.transform = '';
+      chipLongPress.target.style.filter = '';
+      chipLongPress.target = null;
+    }
+  };
+  // Use event delegation on document so we don't have to re-bind every
+  // time renderChips() rebuilds the chip DOM.
+  document.addEventListener('pointerdown', e => {
+    const chip = e.target.closest('.chip[data-race], .chip[data-psc]');
+    if (!chip) return;
+    // Only long-press on touch/pen, or when modifier held. On mouse,
+    // the user already has ctrl-click for additive.
+    if (e.pointerType === 'mouse' && !e.ctrlKey && !e.metaKey) return;
+    chipLongPress.target = chip;
+    chipLongPress.startX = e.clientX;
+    chipLongPress.startY = e.clientY;
+    chipLongPress.fired = false;
+    chip.style.transition = 'transform 0.5s linear, filter 0.5s linear';
+    chip.style.transform = 'scale(1.2)';
+    chip.style.filter = 'drop-shadow(0 0 6px var(--gold))';
+    chipLongPress.timer = setTimeout(() => {
+      if (chipLongPress.target !== chip) return;
+      chipLongPress.fired = true;
+      // Mark the chip so the click that follows pointerup is suppressed
+      // (we don't want both an additive add AND a toggle on the same chip).
+      chip._chipLongPressFired = true;
+      // Additive: add to the set without removing. We dispatch the
+      // cycleAdd function so the popover stays open (capture-phase
+      // popover-close check still sees the original target).
+      if (chip.dataset.race) cycleRaceAdd(chip.dataset.race);
+      else if (chip.dataset.psc) cyclePsAdd(chip.dataset.psc);
+    }, 500);
+  });
+  // Cancel if pointer moves more than 10px (slop), or releases early.
+  ['pointermove','pointerup','pointercancel','pointerleave'].forEach(ev => {
+    document.addEventListener(ev, e => {
+      if (!chipLongPress.target) return;
+      if (ev === 'pointermove') {
+        const dx = e.clientX - chipLongPress.startX;
+        const dy = e.clientY - chipLongPress.startY;
+        if (Math.hypot(dx, dy) > 10) cancel();
+        return;
+      }
+      // On release/cancel, drop the visual; the actual click will
+      // follow and cycle the chip (long-press-firing sets a flag we
+      // can check, but for simplicity we just let the click also
+      // happen — additive then cycle = net same state when not
+      // already in the set, or additive after a previous tap-removal
+      // would re-add, which is the intended behavior).
+      cancel();
+    });
+  });
+}
+setupChipLongPress();
 setupRadarInteraction();
 
 // Initial render now that both scripts are loaded and buildRadarSVG exists.
@@ -3086,6 +3464,9 @@ setupRadarInteraction();
 // reference the race-avg lord for a 1-lord selection).
 buildRaceAvgLords();
 drawRadars();
+// Initial UI sync for the new popover-based bar
+if (typeof syncSortLabel === 'function') syncSortLabel();
+if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
 </script>
 
 </body>

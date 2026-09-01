@@ -93,8 +93,13 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
    is sized to a 40px touch target on mobile. The bar itself is
    scroll-snap-friendly and only appears when at least one filter is
    active. */
-.active-filters{display:none;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 16px 10px;border-top:1px solid rgba(201,162,75,0.25);background:rgba(19,16,23,0.7);scroll-snap-type:x proximity}
-.active-filters.has{display:flex}
+/* Active-filter pills bar. Always rendered so it reserves vertical space
+   and the radar below doesn't shift when a filter gets added/removed.
+   visibility:hidden keeps layout space while hiding the (empty) content;
+   .has makes it visible. Padding is part of the reserved space, so when
+   empty the bar looks like empty vertical space (no border/bg, no pills). */
+.active-filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 16px 10px;border-top:1px solid transparent;background:transparent;scroll-snap-type:x proximity;visibility:hidden}
+.active-filters.has{visibility:visible;border-top-color:rgba(201,162,75,0.25);background:rgba(19,16,23,0.7)}
 .active-filters .pill{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:rgba(201,162,75,0.16);border:1px solid rgba(201,162,75,0.4);color:var(--text);border-radius:999px;padding:0 10px 0 12px;min-height:36px;font-size:.78rem;line-height:1;scroll-snap-align:start;cursor:default}
 .active-filters .pill .x{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);color:var(--muted);font-size:.95rem;line-height:1;cursor:pointer;margin-left:2px;border:0;padding:0}
 .active-filters .pill .x:hover{background:var(--gold);color:#000}

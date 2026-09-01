@@ -2181,9 +2181,16 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     const labelB = PS[bKey]?.t || bKey;
     const cnt = wedgeCount[`${aKey}|${bKey}`] || 0;
     const top = wedgeTop[`${aKey}|${bKey}`] || '';
+    // Wedge tooltip describes the visual region between two adjacent
+    // axes, not an AND constraint. The "with A + B" wording was
+    // misleading because the filter default is OR, not AND — saying
+    // "with A + B" implied the user would get lords that have both
+    // tags, when in reality they get lords with at least one (per the
+    // match-all checkbox). "In the A · B wedge" describes the visual
+    // region without claiming a logical operator.
     const tipText = top
-      ? `${cnt} lord${cnt === 1 ? '' : 's'} with ${esc(labelA)} + ${esc(labelB)}: ${esc(top)}${cnt > 3 ? '…' : ''}`
-      : `0 lords with ${esc(labelA)} + ${esc(labelB)}`;
+      ? `${cnt} lord${cnt === 1 ? '' : 's'} in the ${esc(labelA)} · ${esc(labelB)} wedge: ${esc(top)}${cnt > 3 ? '…' : ''}`
+      : `0 lords in the ${esc(labelA)} · ${esc(labelB)} wedge`;
     // Selection state: highlight the wedge when both bounding tags are
     // in the include set, or both in the exclude set. This makes multi-
     // select (ctrl-click / long-press) visible — every selected wedge
@@ -2858,10 +2865,6 @@ function setupRadarInteraction() {
       if (additive) {
         // Power-user: cycle include → exclude → clear (same as card pill)
         cyclePs(tag);
-        // Axis = OR semantics (any tag matches). If a previous wedge
-        // click had set psAll=true, the user just explicitly chose an
-        // axis, so the most recent click type wins.
-        state.psAll = false;
       } else {
         // Default: replace any current include filter with just this tag.
         if (state.psInc.size === 1 && state.psInc.has(tag) && !state.psExc.size) {
@@ -2870,9 +2873,6 @@ function setupRadarInteraction() {
           state.psInc = new Set([tag]);
           state.psExc.clear();
         }
-        // Axis = OR semantics. Wedge clicks may have set psAll=true; the
-        // user is now explicitly picking an axis, so reset to OR.
-        state.psAll = false;
         // pushState() BEFORE render() so URL hash is consistent.
         // (render() used to re-read the hash and clobber state — that was
         // the cause of the "click doesn't filter" bug. The hash re-read
@@ -2891,25 +2891,23 @@ function setupRadarInteraction() {
       const a = wedge.dataset.tagA;
       const b = wedge.dataset.tagB;
       if (additive) {
-        // Add both tags to existing filter (union). Wedge clicks imply
-        // AND — the wedge tooltip literally says "lords with A + B", so
-        // the filter must require BOTH, not "either". Setting psAll=true
-        // switches the include filter to ALL-of semantics.
+        // Add both tags to the include set. Whether the filter is OR
+        // (any) or AND (all) is controlled by the "match all" checkbox
+        // (state.psAll) — radar clicks do not change it. Default is OR
+        // (broadening), so selecting multiple wedges widens the result
+        // set rather than narrowing it.
         if (!state.psInc.has(a)) state.psInc.add(a);
         if (!state.psInc.has(b)) state.psInc.add(b);
         state.psExc.delete(a);
         state.psExc.delete(b);
-        state.psAll = true;
       } else {
-        // Default: replace with this 2-tag combo (require BOTH)
+        // Default: replace with this 2-tag combo. Click the active wedge
+        // a second time to clear.
         if (state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size) {
-          // Click the active wedge a second time → clear
           state.psInc.clear();
-          state.psAll = false;
         } else {
           state.psInc = new Set([a, b]);
           state.psExc.clear();
-          state.psAll = true;
         }
       }
       pushState();
@@ -2987,16 +2985,15 @@ function setupRadarInteraction() {
       if (longPressTarget !== t) return; // cancelled by move/up
       longPressFired = true;
       // Additive action: add tag(s) to include, remove from exclude.
-      // Mirrors the wedge-additive branch in the click handler. Long-press
-      // on a wedge is equivalent to Ctrl-click on a wedge (AND), long-
-      // press on an axis is equivalent to clicking the axis (OR).
+      // Mirrors the wedge-additive branch in the click handler. State
+      // changes mirror normal clicks — psAll is NOT touched here; the
+      // "match all" checkbox is the only way to switch OR ↔ AND.
       const axis = t.closest('.axis[data-tag]');
       const wedge = t.closest('.wedge[data-tag-a]');
       if (axis) {
         const tag = axis.dataset.tag;
         if (!state.psInc.has(tag)) state.psInc.add(tag);
         state.psExc.delete(tag);
-        state.psAll = false; // axis = OR
       } else if (wedge) {
         const a = wedge.dataset.tagA;
         const b = wedge.dataset.tagB;
@@ -3004,7 +3001,6 @@ function setupRadarInteraction() {
         if (!state.psInc.has(b)) state.psInc.add(b);
         state.psExc.delete(a);
         state.psExc.delete(b);
-        state.psAll = true; // wedge = AND
       }
       pushState();
       renderChips();

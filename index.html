@@ -93,13 +93,12 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
    is sized to a 40px touch target on mobile. The bar itself is
    scroll-snap-friendly and only appears when at least one filter is
    active. */
-/* Active-filter pills bar. Always rendered so it reserves vertical space
-   and the radar below doesn't shift when a filter gets added/removed.
-   visibility:hidden keeps layout space while hiding the (empty) content;
-   .has makes it visible. Padding is part of the reserved space, so when
-   empty the bar looks like empty vertical space (no border/bg, no pills). */
-.active-filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 16px 10px;border-top:1px solid transparent;background:transparent;scroll-snap-type:x proximity;visibility:hidden}
-.active-filters.has{visibility:visible;border-top-color:rgba(201,162,75,0.25);background:rgba(19,16,23,0.7)}
+/* Active-filter pills bar. Always rendered (inside .bar-inner) so it
+   reserves vertical space and the radar below doesn't shift when a
+   filter gets added/removed. visibility:hidden keeps layout space while
+   hiding the (empty) content; .has makes it visible. */
+.active-filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 0 10px;border-top:1px solid transparent;background:transparent;scroll-snap-type:x proximity;visibility:hidden;min-height:54px}
+.active-filters.has{visibility:visible;border-top-color:rgba(201,162,75,0.25)}
 .active-filters .pill{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:rgba(201,162,75,0.16);border:1px solid rgba(201,162,75,0.4);color:var(--text);border-radius:999px;padding:0 10px 0 12px;min-height:36px;font-size:.78rem;line-height:1;scroll-snap-align:start;cursor:default}
 .active-filters .pill .x{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);color:var(--muted);font-size:.95rem;line-height:1;cursor:pointer;margin-left:2px;border:0;padding:0}
 .active-filters .pill .x:hover{background:var(--gold);color:#000}
@@ -548,8 +547,8 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
     <div class="row"><span class="rowlab">&#9876; Race</span><div class="chips" id="chips" role="group" aria-label="Race filters" style="flex:1"></div></div>
     <div class="row"><span class="rowlab">&#127919; Play</span><div class="chips" id="pschips" role="group" aria-label="Playstyle filters" style="flex:1"></div><label class="pshint" title="When several playstyles are included: require lords to have ALL of them instead of any"><input type="checkbox" id="psall"> match all</label></div>
     <details class="legend"><summary>What do the playstyles mean? &nbsp;(tap a chip: <b style="color:var(--gold)">include</b> → <b style="color:#c07070">exclude</b> → clear)</summary><div class="lgrid" id="pslegend"></div></details>
+    <div class="active-filters" id="active-filters" role="region" aria-label="Active filters"></div>
   </div>
-  <div class="active-filters" id="active-filters" role="region" aria-label="Active filters"></div>
 </div>
 
 

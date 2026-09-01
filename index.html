@@ -2046,7 +2046,12 @@ const RADAR_COLORS = [
 ];
 
 const RADAR_SIZE = 200;   // viewBox size
-const LABEL_R  = RADAR_SIZE / 2 - 8;
+// Label radius is just 8px beyond the grid edge (was 18px). The larger
+// gap made icons look "detached" from the radar, especially for axes
+// in empty areas of the chart where the eye couldn't anchor them to
+// nearby polygon edges. 8px keeps icons close enough to read as part
+// of the radar, far enough to not overlap the grid line.
+const LABEL_R  = RADAR_SIZE / 2 - 10;
 const GRID_R   = RADAR_SIZE / 2 - 18;
 
 function p2xy(cx, cy, r, deg) {

@@ -46,8 +46,7 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
      inputs. The active-filter pills show the state, the .more-filters
      details the way to change it on mobile. */
   #fdiff,#fsrc,#sort{display:none}
-  .more-filters{font-size:.82rem;display:none}
-  .more-filters[open]{display:block}
+  .more-filters{font-size:.82rem;display:block}
   .more-filters summary{padding:8px 0;cursor:pointer;color:var(--muted);list-style:none;font-weight:600}
   .more-filters summary::before{content:"⚙ ";color:var(--gold)}
   .more-filters[open] summary{color:var(--text)}
@@ -89,6 +88,11 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .active-filters .pill.search .x{margin-left:6px}
 .active-filters .clear-all{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:0 14px;min-height:36px;font-size:.78rem;cursor:pointer;flex:0 0 auto}
 .active-filters .clear-all:hover{border-color:var(--gold);color:var(--gold)}
+/* .more-filters is a mobile-only <details> that wraps a second copy of
+   the difficulty/source/sort selects. Hidden on desktop where the
+   original selects are visible. The mobile media query overrides this
+   to display:block (or none if not [open]). */
+.more-filters{display:none}
 /* Floating "back to top" button — mobile only. Hidden on desktop where
    the sticky bar already keeps navigation within reach. */
 #back-to-top{display:none;position:fixed;right:16px;bottom:80px;width:44px;height:44px;border-radius:50%;background:rgba(27,23,32,.92);border:1px solid var(--gold);color:var(--gold);font-size:1rem;cursor:pointer;z-index:55;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,0.4);transition:opacity .2s, transform .2s;opacity:0;pointer-events:none}

@@ -1677,6 +1677,12 @@ function render(){
 }
 
 function renderChips(){
+  // Sync the "match all" checkbox with state.psAll. The radar (axis
+  // click, wedge click, long-press) may have flipped psAll on/off
+  // without touching this checkbox; without the sync, the user could
+  // toggle the box and see it silently disagree with the active filter.
+  const psallEl = document.getElementById('psall');
+  if (psallEl && psallEl.checked !== state.psAll) psallEl.checked = state.psAll;
   // Race count badge: how many lords (in the current diff+src+q context,
   // excluding synthetic race-avg entries) belong to this race. Zero-count
   // races are dimmed so the user can see at a glance which races are
@@ -2100,7 +2106,15 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
   // Helper to format tag for data attribute (lowercase, no spaces)
   const tagKey = k => k.charAt(0).toLowerCase() + k.slice(1);
 
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow:visible" class="all-lords-radar">`;
+  // viewBox is padded by `pad` on every side so axis-label icons (which
+  // sit at labelR distance from center, with a 13px background circle)
+  // never clip the top/bottom/left/right edges. Without this, the top
+  // label of the per-lord radar (size 200) clipped ~7px above the
+  // viewBox. The radar content is still centered at (size/2, size/2) in
+  // user space, so visually nothing changes except the icons now fit
+  // inside the SVG bounds — the SVG element is the same size on screen.
+  const pad = 12;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="all-lords-radar">`;
 
   // Grid rings
   [0.3, 0.6, 1.0].forEach(frac => {
@@ -2360,7 +2374,12 @@ function buildRadarSVG(lordIdxs, colors, size) {
   // Grid rings. For the per-card mini radar (size < 100), show just the outer
   // ring and 4 spokes (cardinal directions) for context. The featured radar
   // (size >= 100) shows the full grid + spokes for legibility.
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow:visible">`;
+  // viewBox is padded by `pad` on every side so axis-label icons don't
+  // clip the top/bottom/left/right edges. The radar content is still
+  // centered at (size/2, size/2) in user space, so visually nothing
+  // changes except the icons now fit inside the SVG bounds.
+  const pad = 12;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible">`;
   if (size < 100) {
     // Single outer ring (the polygon outline of the playstyle axes)
     const outerPts = keys.map((_, i) => {
@@ -2405,13 +2424,23 @@ function buildRadarSVG(lordIdxs, colors, size) {
       });
       return;
     }
-    // Polygon points
-    const polyPts = activeKeys.map(k => {
+    // Polygon points — fan from center to each active axis and back.
+    // Previously this drew a chord between active axes only (skipping
+    // the center for non-adjacent axes), which misrepresented the lord's
+    // playstyle set: a lord with axes A and C was drawn as a single
+    // line A-C, implying presence on the B axis in between. The fan
+    // through center is the honest representation: a lord with axes
+    // {A, C} is shown as a wedge A-center-C, with the B axis area
+    // visibly empty.
+    // (The density view in buildAllLordsRadarSVG keeps the chord form
+    // because 110 overlapping fans at low alpha would muddy the center
+    // and obscure the race-color signal.)
+    const polyPts = [`${cx.toFixed(1)},${cy.toFixed(1)}`, ...activeKeys.map(k => {
       const i = keys.indexOf(k);
       const a = i * 360 / n;
       const [x, y] = p2xy(cx, cy, maxR, a);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
+    })];
     svg += `<polygon points="${polyPts.join(" ")}" fill="${color}28" stroke="${color}" stroke-width="${size < 100 ? 1 : 1.5}"/>`;
     // Dots at each active axis
     activeKeys.forEach(k => {
@@ -2829,6 +2858,10 @@ function setupRadarInteraction() {
       if (additive) {
         // Power-user: cycle include → exclude → clear (same as card pill)
         cyclePs(tag);
+        // Axis = OR semantics (any tag matches). If a previous wedge
+        // click had set psAll=true, the user just explicitly chose an
+        // axis, so the most recent click type wins.
+        state.psAll = false;
       } else {
         // Default: replace any current include filter with just this tag.
         if (state.psInc.size === 1 && state.psInc.has(tag) && !state.psExc.size) {
@@ -2837,6 +2870,9 @@ function setupRadarInteraction() {
           state.psInc = new Set([tag]);
           state.psExc.clear();
         }
+        // Axis = OR semantics. Wedge clicks may have set psAll=true; the
+        // user is now explicitly picking an axis, so reset to OR.
+        state.psAll = false;
         // pushState() BEFORE render() so URL hash is consistent.
         // (render() used to re-read the hash and clobber state — that was
         // the cause of the "click doesn't filter" bug. The hash re-read
@@ -2855,19 +2891,25 @@ function setupRadarInteraction() {
       const a = wedge.dataset.tagA;
       const b = wedge.dataset.tagB;
       if (additive) {
-        // Add both tags to existing filter (union)
+        // Add both tags to existing filter (union). Wedge clicks imply
+        // AND — the wedge tooltip literally says "lords with A + B", so
+        // the filter must require BOTH, not "either". Setting psAll=true
+        // switches the include filter to ALL-of semantics.
         if (!state.psInc.has(a)) state.psInc.add(a);
         if (!state.psInc.has(b)) state.psInc.add(b);
         state.psExc.delete(a);
         state.psExc.delete(b);
+        state.psAll = true;
       } else {
         // Default: replace with this 2-tag combo (require BOTH)
         if (state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size) {
           // Click the active wedge a second time → clear
           state.psInc.clear();
+          state.psAll = false;
         } else {
           state.psInc = new Set([a, b]);
           state.psExc.clear();
+          state.psAll = true;
         }
       }
       pushState();
@@ -2945,13 +2987,16 @@ function setupRadarInteraction() {
       if (longPressTarget !== t) return; // cancelled by move/up
       longPressFired = true;
       // Additive action: add tag(s) to include, remove from exclude.
-      // Mirrors the wedge-additive branch in the click handler.
+      // Mirrors the wedge-additive branch in the click handler. Long-press
+      // on a wedge is equivalent to Ctrl-click on a wedge (AND), long-
+      // press on an axis is equivalent to clicking the axis (OR).
       const axis = t.closest('.axis[data-tag]');
       const wedge = t.closest('.wedge[data-tag-a]');
       if (axis) {
         const tag = axis.dataset.tag;
         if (!state.psInc.has(tag)) state.psInc.add(tag);
         state.psExc.delete(tag);
+        state.psAll = false; // axis = OR
       } else if (wedge) {
         const a = wedge.dataset.tagA;
         const b = wedge.dataset.tagB;
@@ -2959,6 +3004,7 @@ function setupRadarInteraction() {
         if (!state.psInc.has(b)) state.psInc.add(b);
         state.psExc.delete(a);
         state.psExc.delete(b);
+        state.psAll = true; // wedge = AND
       }
       pushState();
       renderChips();

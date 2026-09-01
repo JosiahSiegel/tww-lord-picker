@@ -2431,23 +2431,17 @@ function buildRadarSVG(lordIdxs, colors, size) {
       });
       return;
     }
-    // Polygon points — fan from center to each active axis and back.
-    // Previously this drew a chord between active axes only (skipping
-    // the center for non-adjacent axes), which misrepresented the lord's
-    // playstyle set: a lord with axes A and C was drawn as a single
-    // line A-C, implying presence on the B axis in between. The fan
-    // through center is the honest representation: a lord with axes
-    // {A, C} is shown as a wedge A-center-C, with the B axis area
-    // visibly empty.
-    // (The density view in buildAllLordsRadarSVG keeps the chord form
-    // because 110 overlapping fans at low alpha would muddy the center
-    // and obscure the race-color signal.)
-    const polyPts = [`${cx.toFixed(1)},${cy.toFixed(1)}`, ...activeKeys.map(k => {
+    // Polygon points — chord between active axes (legacy behavior).
+    // The fan-from-center variant was tried (commit 0b4ecd0) but the
+    // user reported the mini radars on cards vanished after clicking a
+    // playstyle pill. The chord is restored here to fix the regression.
+    // (The density view in buildAllLordsRadarSVG still uses the chord.)
+    const polyPts = activeKeys.map(k => {
       const i = keys.indexOf(k);
       const a = i * 360 / n;
       const [x, y] = p2xy(cx, cy, maxR, a);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })];
+    });
     svg += `<polygon points="${polyPts.join(" ")}" fill="${color}28" stroke="${color}" stroke-width="${size < 100 ? 1 : 1.5}"/>`;
     // Dots at each active axis
     activeKeys.forEach(k => {

@@ -2386,10 +2386,14 @@ function updateFeaturedRadar() {
       const s = allLordsSummary(allIdxs);
       frSummary.style.display = '';
       const filterDesc = [];
+      if (state.q) filterDesc.push(`<b>search</b> "${esc(state.q)}"`);
+      if (state.race) filterDesc.push(`<b>race</b> ${esc(state.race)}`);
+      if (state.diff) filterDesc.push(`<b>difficulty</b> ${esc(DLBL[state.diff] || state.diff)}`);
+      if (state.src) filterDesc.push(`<b>source</b> ${esc(state.src)}`);
       if (state.psInc.size) filterDesc.push(`<b>including</b> ${[...state.psInc].map(t => PS[normTag(t)]?.t || t).join(' + ')}`);
       if (state.psExc.size) filterDesc.push(`<b>excluding</b> ${[...state.psExc].map(t => PS[normTag(t)]?.t || t).join(', ')}`);
       const filterLine = filterDesc.length
-        ? `<div class="fr-all-filter"><span class="fr-all-filter-label">🔍 Showing filter:</span> ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear</button></div>`
+        ? `<div class="fr-all-filter"><span class="fr-all-filter-label">🔍 Active filter${filterDesc.length > 1 ? 's' : ''}:</span> ${filterDesc.join(' · ')} <button class="fr-clear-filter" id="fr-clear-filter">✕ clear all</button></div>`
         : `<div class="fr-all-filter fr-all-filter-none">🔍 No filter active — showing all 110 lords</div>`;
       // When filtered, show the FILTERED count + the most common playstyles
       // *within* that subset, not the global top. This is much more useful

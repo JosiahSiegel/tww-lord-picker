@@ -2952,6 +2952,15 @@ function setupRadarInteraction() {
     t.style.transform = 'scale(1.15)';
   });
   const resetTap = e => {
+    // Prefer longPressTarget (set on pointerdown) over e.target.closest,
+    // because pointerup can fire on an element outside the axis group
+    // (e.g. if the user drags slightly and releases between icons), and
+    // closest would fail to find the target. Using longPressTarget
+    // guarantees we always reset the element that was scaled up.
+    if (longPressTarget) {
+      longPressTarget.style.transform = '';
+      return;
+    }
     const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
     if (t) t.style.transform = '';
   };
@@ -2979,9 +2988,14 @@ function setupRadarInteraction() {
   const longPressCancel = () => {
     if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
     if (longPressTarget) {
-      // Drop the long-press transition so the existing tap-feedback reset
-      // (above) returns the element to scale(1) instantly on a short tap.
+      // Drop the long-press transition AND the transform so the element
+      // returns to scale(1) instantly on a short tap. (Previously the
+      // transform was only cleared by resetTap, which uses e.target.closest
+      // and can fail if the pointerup fires on an element outside the
+      // axis group — leaving the icon stuck at scale(1.3) and visually
+      // pulled away from the radar.)
       longPressTarget.style.transition = '';
+      longPressTarget.style.transform = '';
       longPressTarget.style.filter = '';
       longPressTarget = null;
     }

@@ -325,6 +325,18 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 }
 #featured-radar .fr-clear-filter:hover{border-color:var(--gold);color:var(--gold)}
 
+/* Jump-to-results button — appears under the radar after the user
+   applies a filter that narrows the set. Tapping scrolls to the first
+   matching card, making the radar a real navigation tool. */
+.fr-jump-to-results{display:block;width:100%;margin:10px 0 4px;padding:10px 14px;background:linear-gradient(180deg,rgba(201,162,75,0.18),rgba(201,162,75,0.08));border:1px solid rgba(201,162,75,0.5);color:var(--gold);border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .12s,transform .08s}
+.fr-jump-to-results:hover{background:linear-gradient(180deg,rgba(201,162,75,0.28),rgba(201,162,75,0.14))}
+.fr-jump-to-results:active{transform:scale(0.98)}
+
+/* Selected lord polygon in the density view. The inline style handles
+   fill/stroke, but a CSS fallback for the cursor/hover. */
+.lord-poly:hover{fill-opacity:.32!important;stroke-opacity:.7!important;stroke-width:1.2!important}
+.lord-poly-selected{fill-opacity:.55!important;stroke-opacity:.95!important;stroke-width:2!important;filter:drop-shadow(0 0 4px rgba(255,248,224,0.6))}
+
 /* ── Radar interactivity ──────────────────────────────────────────────── */
 .all-lords-radar{cursor:crosshair}
 .all-lords-radar .wedge{transition:fill .12s}
@@ -493,6 +505,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
       <div id="fr-radar-svg"></div>
     </div>
     <div class="fr-all-summary" id="fr-all-summary" style="display:none"></div>
+    <button class="fr-jump-to-results" id="fr-jump-to-results" type="button" style="display:none">↓ Jump to results</button>
     <div class="fr-info" id="fr-info" style="display:none">
       <h2>⚔ Playstyle Radar</h2>
       <div class="fr-name" id="fr-name"></div>
@@ -1984,7 +1997,7 @@ function normTag(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
 // so the result reads as a "playstyle distribution" rather than 110 distinct
 // shapes. Lords are colored by their race so dominant patterns per race
 // show up as colored density.
-function buildAllLordsRadarSVG(lordIdxs, size) {
+function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
   size = size || 380;
   const cx = size / 2, cy = size / 2;
   const maxR = GRID_R * size / RADAR_SIZE;
@@ -2057,7 +2070,7 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
   // (was 0.10 — turned the radar into a muddy mess on small screens).
   // Each polygon carries data-i so card-hover can target it and bright it
   // up; click also selects that lord.
-  const alpha = 0.07;
+  const baseAlpha = 0.15;
   presentAll.forEach((entry, idx) => {
     const { color, present } = entry;
     const lIdx = lordIdxs[idx];
@@ -2069,8 +2082,14 @@ function buildAllLordsRadarSVG(lordIdxs, size) {
       const [x, y] = p2xy(cx, cy, maxR, a);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     });
-    svg += `<polygon class="lord-poly" data-i="${lIdx}" data-tip="${esc(LORDS[lIdx].n.split(',')[0])} · ${esc(LORDS[lIdx].r)} — click to view" `
-         + `points="${pts.join(" ")}" fill="${color}" fill-opacity="${alpha}" stroke="${color}" stroke-opacity="${alpha * 1.5}" stroke-width="0.6" `
+    const isSel = (selectedIdx != null && lIdx === selectedIdx);
+    const fillCol = isSel ? '#c9a24b' : color;
+    const alpha = isSel ? 0.55 : baseAlpha;
+    const strokeCol = isSel ? '#fff8e0' : color;
+    const strokeA = isSel ? 0.95 : 0.35;
+    const strokeW = isSel ? 2 : 0.8;
+    svg += `<polygon class="lord-poly${isSel ? ' lord-poly-selected' : ''}" data-i="${lIdx}" data-tip="${esc(LORDS[lIdx].n.split(',')[0])} · ${esc(LORDS[lIdx].r)} — tap to view" `
+         + `points="${pts.join(" ")}" fill="${fillCol}" fill-opacity="${alpha}" stroke="${strokeCol}" stroke-opacity="${strokeA}" stroke-width="${strokeW}" `
          + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s"/>`;
   });
 
@@ -2386,7 +2405,11 @@ function updateFeaturedRadar() {
     const isFiltered = state.psInc.size || state.psExc.size || state.race || state.diff || state.src || state.q;
     const allIdxsBase = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
     const allIdxs = allIdxsBase.filter(i => !isSyntheticLord(i));
-    if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440);
+    // When exactly 1 lord is selected, pass it so the radar can highlight
+    // that lord's polygon in the density — user can see "this lord is
+    // here in the cluster" rather than "this lord is in a separate view."
+    const selectedIdx = state.cmp.length === 1 ? state.cmp[0] : null;
+    if (svgEl) svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440, selectedIdx);
 
     if (frSummary) {
       const s = allLordsSummary(allIdxs);
@@ -2414,7 +2437,7 @@ function updateFeaturedRadar() {
         ${filterLine}
         <details class="profile-details"><summary>Playstyle profile — what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
         <div class="profile-chart">${summaryData.profileRows}</div></details>
-        <div class="fr-all-hint"><b>Click an axis</b> to filter on that playstyle · <b>Click a wedge</b> to require both bounding tags<br><span style="opacity:0.65;font-size:0.85em">Ctrl/Cmd-click (or long-press on touch) to add to existing filter · click an active axis again to clear</span></div>
+        <div class="fr-all-hint"><b>Tap an axis</b> to filter on that playstyle · <b>tap a wedge</b> to require both bounding tags · <b>tap a colored shape</b> to view that lord<br><span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span></div>
       `;
       // Wire the clear button
       const clr = document.getElementById('fr-clear-filter');
@@ -2426,6 +2449,20 @@ function updateFeaturedRadar() {
         drawRadars();
         pushState();
       });
+    }
+    // Show / hide the "jump to results" floating button. Only show when
+    // a filter is actually narrowing the set (not the default 110 view),
+    // and when there are matches to jump to.
+    const jumpBtn = document.getElementById('fr-jump-to-results');
+    if (jumpBtn) {
+      const matchCount = allIdxs.length;
+      const isNarrowed = matchCount < 110 && matchCount > 0;
+      jumpBtn.style.display = isNarrowed ? '' : 'none';
+      jumpBtn.textContent = `↓ Jump to ${matchCount} lord${matchCount === 1 ? '' : 's'}`;
+      jumpBtn.onclick = () => {
+        const firstCard = document.querySelector('#main .card, #main .race-head');
+        if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
     }
     return;
   }
@@ -2746,43 +2783,28 @@ function setupRadarInteraction() {
     }
   });
 
-  // Long-press / hold on touch = additive (same as Ctrl on desktop).
-  // We don't preventDefault on the click that follows the long-press;
-  // the click handler still fires. To avoid double-adding, the long-press
-  // handler sets a flag the click handler checks.
-  let pressTimer = null;
-  let additiveFlag = false;
-  const PRESS_MS = 500;
-  const clearPress = () => {
-    if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
-  };
+  // Tap feedback: brief scale-up on pointerdown for any radar target, so
+  // the user gets immediate visual confirmation that the tap registered.
+  // (Previously this was wired to a 500ms long-press that synthesized
+  // Ctrl+key and triggered the 3-state include→exclude→clear cycle —
+  // users found the 2nd-tap-exclude behavior confusing, especially in
+  // the radar where the 1st tap already feels like a commitment. The
+  // radar is now strictly 2-state: tap to include, tap again to clear.
+  // To exclude, use the playstyle pill on the card.)
   radar.addEventListener('pointerdown', e => {
-    if (e.pointerType !== 'touch') return;
-    additiveFlag = false;
-    pressTimer = setTimeout(() => {
-      additiveFlag = true;
-      pressTimer = null;
-      // Visual hint that hold is active — pulse the target
-      const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
-      if (t) {
-        t.style.transition = 'transform 0.15s';
-        t.style.transformOrigin = 'center';
-        t.style.transform = 'scale(1.2)';
-        setTimeout(() => { t.style.transform = ''; }, 200);
-      }
-    }, PRESS_MS);
+    const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+    if (!t) return;
+    t.style.transition = 'transform 0.12s';
+    t.style.transformOrigin = 'center';
+    t.style.transform = 'scale(1.15)';
   });
-  radar.addEventListener('pointerup', clearPress);
-  radar.addEventListener('pointercancel', clearPress);
-  radar.addEventListener('pointerleave', clearPress);
-  // Read additiveFlag at click time (it's set synchronously in the timer
-  // callback before the click event fires on most touch platforms)
-  radar.addEventListener('click', e => {
-    if (additiveFlag) {
-      e.ctrlKey = true; // synthesize modifier for the main handler
-      additiveFlag = false;
-    }
-  }, true); // capture phase so it runs before the main handler
+  const resetTap = e => {
+    const t = e.target.closest('.axis[data-tag], .wedge[data-tag-a]');
+    if (t) t.style.transform = '';
+  };
+  radar.addEventListener('pointerup', resetTap);
+  radar.addEventListener('pointercancel', resetTap);
+  radar.addEventListener('pointerleave', resetTap);
 }
 setupRadarInteraction();
 

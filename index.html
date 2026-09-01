@@ -2119,8 +2119,10 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
   });
 
-  // Per-lord polygon at very low alpha. 110 lords * 0.07 ≈ 8 effective layers
-  // (was 0.10 — turned the radar into a muddy mess on small screens).
+  // Per-lord polygon at very low alpha. 110 lords * 0.15 ≈ 16 effective
+  // layers (was 0.10 — turned the radar into a muddy mess on small
+  // screens, so we lowered effective opacity; with 14 axes and race-
+  // colored polygons this lands at a readable density).
   // Each polygon carries data-i so card-hover can target it and bright it
   // up; click also selects that lord.
   const baseAlpha = 0.15;
@@ -2186,6 +2188,15 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
          + `points="${pts}" fill="rgba(201,162,75,0)" stroke="rgba(201,162,75,0.15)" stroke-width="0.5" `
          + `data-tip="${tipText}" />`;
   }
+  // Center dead zone: all wedges share the center point, so a click in
+  // the middle would otherwise belong to whichever wedge was rendered
+  // last (DOM order). Draw an invisible click-eater at the center so the
+  // user can't accidentally filter by tapping the very middle — the
+  // center belongs to nothing, and clicks fall through to the radar's
+  // background. Radius is ~7% of maxR, just enough to cover the central
+  // ambiguity zone where all 14 wedge triangles overlap.
+  const deadR = Math.max(8, maxR * 0.07);
+  svg += `<circle class="radar-center" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${deadR.toFixed(1)}" fill="transparent" pointer-events="all"/>`;
   svg += `</g>`;
 
   // Axis labels (clickable). Use a <g> with a text + an invisible larger
@@ -2768,7 +2779,7 @@ function setupRadarInteraction() {
     // Mouse: original behavior
     radar.addEventListener('mousemove', e => {
       const t = e.target.closest('[data-tip]');
-      if (t) showTip(e, t.dataset.tip + (e.shiftKey ? ' (shift: would also work)' : ''));
+      if (t) showTip(e, t.dataset.tip + (e.shiftKey ? ' (shift: also multi-select on desktop)' : ''));
       else hideTip();
     });
     radar.addEventListener('mouseleave', hideTip);

@@ -23,6 +23,18 @@ header.hero{padding:26px 16px 14px;max-width:1200px;margin:0 auto}
 header.hero h1{font-family:"Cinzel",Georgia,serif;font-size:clamp(1.4rem,4vw,2.1rem);margin:0;color:var(--gold);font-weight:700}
 header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch}
 .bar{position:sticky;top:0;z-index:50;background:rgba(19,16,23,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 16px}
+@media(max-width:640px){
+  /* On mobile the bar holds 5 rows (search, race chips, play chips,
+     active-pills, legend). At default sizes it can cover 600+ pixels of
+     the radar. Add extra top padding so the bar reveals more of the
+     page as you scroll, and add a top margin to the radar section so
+     it's not pinned under the bar. */
+  .bar{padding:6px 12px 8px}
+  .bar .row{gap:4px}
+  .bar .btn{font-size:.78rem;padding:5px 8px}
+  .bar input[type=search]{font-size:.85rem;padding:6px 8px}
+  .legend{font-size:.7rem;padding:4px 8px}
+}
 .bar-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 input[type=search],select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.92rem}

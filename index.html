@@ -330,68 +330,92 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 .psall-toggle:hover{background:rgba(201,162,75,.08);color:var(--text)}
 .psall-toggle input{accent-color:var(--gold);cursor:pointer}
 
-/* Mobile: single horizontal scrollable row (industry-standard filter bar
-   pattern on small screens — YouTube, Twitter, Instagram all do this).
-   The 14 chips become a fixed-height strip the user swipes through. The
-   "Match all" toggle is part of the strip, pinned to the end with a
-   vertical separator. The right-edge gradient hints there's more to
-   scroll to (same pattern as .chips mask-image). */
+/* Mobile: race chips become a 2-column grid (all 24 races visible at
+   once, no horizontal scroll), playstyle chips stay as a single
+   horizontal scroll row. The race section is non-sticky (it's a
+   one-time selection the user makes near the top of the page) and
+   the playstyle section IS sticky (it's the filter the user is
+   likely to tweak while scrolling through results).
+   This split is implemented by giving the playstyle section its own
+   sticky positioning, separate from the .ps-filter-bar container. */
 @media (max-width:640px){
   .ps-filter-bar{
-    padding:6px 0;  /* full-bleed so the scroll feels edge-to-edge */
+    padding:6px 10px 8px;
     margin:0 -10px 8px;
     border-bottom:1px solid rgba(201,162,75,.18);
-    overflow:hidden;  /* contain the inner overflow so the All pill
-                          isn't cut by the page edge */
-    /* On mobile, the top bar (title + search + group + random) is sticky
-       at z-index 50. The top bar is ~135px tall on a 390px viewport
-       (3 rows of controls). Push the chip bar below it so it doesn't
-       get hidden behind the top bar when both are stuck. */
-    top:135px;
+    position:static;  /* the container itself is not sticky on mobile;
+                          only the playstyle section inside it is */
   }
   .ps-filter-inner{
-    flex-wrap:nowrap;
-    gap:0;
-    padding:0 10px;  /* restore side padding since bar is full-bleed */
-    /* Keep the All pill on screen even if chips overflow — the inner
-       container is what defines the visible bar width. */
-    box-sizing:border-box;
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
   }
-  /* Mobile: make the two chip sections side-by-side in a single
-     horizontal scroll. Each section (RACE / STYLE) is a row, but
-     they're laid out side-by-side in the scroll. The section labels
-     stay with their chips. The user can swipe through all 38 chips
-     in one continuous scroll, with section boundaries visible. */
   .ps-filter-bar .chips-section{
     flex:0 0 auto;
+    width:100%;
   }
   .ps-filter-bar .chips-section-label{
-    /* Make the label stick to the top-left of the section, so the
-       user always sees which section they're in as they scroll. */
     font-size:.6rem;
-    padding-right:6px;
+    padding:0 2px 4px;
+    display:block;
   }
-  .ps-filter-bar .chips{
+  /* Race section: 2-column grid, all 24 races visible at once. */
+  .ps-filter-bar .chips-section--race .chips{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    overflow:visible;
+    mask-image:none;
+    -webkit-mask-image:none;
+    padding:0;
+  }
+  .ps-filter-bar .chips-section--race .chip{
+    width:100%;
+    justify-content:flex-start;
+    padding:8px 10px;
+    font-size:.78rem;
+    min-height:38px;
+  }
+  .ps-filter-bar .chips-section--race .chip .lbl{
+    /* Truncate long names like "Grand Cathay" or "Warriors of Chaos"
+       so the 2-col grid stays compact. Title attr has the full name. */
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    flex:1 1 auto;
+    min-width:0;
+  }
+  /* Style section: sticky on mobile so the playstyle filter stays
+     accessible while scrolling. Sits below the top bar. The "All"
+     toggle is inside this section and sticks with it. */
+  .ps-filter-bar .chips-section--style{
+    position:sticky;
+    top:135px;  /* below the top bar (title + search + group + random) */
+    z-index:40;
+    background:linear-gradient(180deg,rgba(27,23,32,.98) 0%,rgba(27,23,32,.94) 100%);
+    backdrop-filter:blur(8px);
+    margin:0 -10px;
+    padding:4px 10px 6px;
+    border-top:1px solid rgba(201,162,75,.18);
+    border-bottom:1px solid rgba(201,162,75,.18);
+  }
+  .ps-filter-bar .chips-section--style .chips{
     flex-wrap:nowrap;
     overflow-x:auto;
     overflow-y:hidden;
     -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;  /* Firefox */
+    scrollbar-width:none;
     flex:1 1 auto;
     min-width:0;
     gap:6px;
-    padding:4px 0;  /* vertical breathing room around scrollable chips */
-    padding-right:12px;  /* breathing room before the separator + fade */
-    align-items:center;  /* vertically center chips in the taller row */
-    /* Subtle right-edge fade to hint there's more chips off-screen.
-       Matches the gradient mask used by other .chips instances in the
-       app, so the visual vocabulary is consistent. */
+    padding:4px 0;
+    padding-right:12px;
+    align-items:center;
     mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
     -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
   }
-  .ps-filter-bar .chips::-webkit-scrollbar{display:none}  /* Chrome/Safari */
-  /* 44×44pt minimum touch target (Apple HIG / Material). Padding
-     vertical+font line-height gives ~40px total height. */
+  .ps-filter-bar .chips-section--style .chips::-webkit-scrollbar{display:none}
   .ps-filter-bar .chip{
     padding:7px 10px;
     font-size:.72rem;
@@ -1018,11 +1042,11 @@ to{transform:rotate(360deg)}}
      14 options at once with their current counts. -->
 <div class="ps-filter-bar" id="ps-filter-bar">
   <div class="ps-filter-inner">
-    <div class="chips-section" aria-label="Race filters">
+    <div class="chips-section chips-section--race" aria-label="Race filters">
       <span class="chips-section-label">Race</span>
       <div class="chips" id="racechips-bar" role="group"></div>
     </div>
-    <div class="chips-section" aria-label="Playstyle filters">
+    <div class="chips-section chips-section--style" aria-label="Playstyle filters">
       <span class="chips-section-label">Style</span>
       <div class="chips" id="pschips-bar" role="group"></div>
       <label class="psall-toggle" title="When several playstyles are selected, require lords to have ALL of them (AND) instead of ANY (OR)">

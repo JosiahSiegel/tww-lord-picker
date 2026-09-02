@@ -246,6 +246,23 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
   gap:12px;
   flex-wrap:wrap;
 }
+.ps-filter-bar .chips-section{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  flex:1;
+  min-width:0;
+}
+.ps-filter-bar .chips-section-label{
+  font-size:.65rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+  flex:0 0 auto;
+  padding:0 2px;
+}
 .ps-filter-bar .chips{
   display:flex;
   flex-wrap:wrap;
@@ -983,10 +1000,17 @@ to{transform:rotate(360deg)}}
      14 options at once with their current counts. -->
 <div class="ps-filter-bar" id="ps-filter-bar">
   <div class="ps-filter-inner">
-    <div class="chips" id="pschips-bar" role="group" aria-label="Playstyle filters"></div>
-    <label class="psall-toggle" title="When several playstyles are included: require lords to have ALL of them instead of any">
-      <input type="checkbox" id="psall-bar"> <span>Match all</span>
-    </label>
+    <div class="chips-section" aria-label="Race filters">
+      <span class="chips-section-label">Race</span>
+      <div class="chips" id="racechips-bar" role="group"></div>
+    </div>
+    <div class="chips-section" aria-label="Playstyle filters">
+      <span class="chips-section-label">Style</span>
+      <div class="chips" id="pschips-bar" role="group"></div>
+      <label class="psall-toggle" title="When several playstyles are selected, require lords to have ALL of them (AND) instead of ANY (OR)">
+        <input type="checkbox" id="psall-bar"> <span>All</span>
+      </label>
+    </div>
   </div>
 </div>
 
@@ -2299,6 +2323,23 @@ function renderChips(){
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps-bar">&#10005;</button>`:"");
   const bar = $("#pschips-bar");
   if (bar) bar.innerHTML = barHtml;
+
+  // Race chips in the same bar, before playstyle chips. Races are
+  // alphabetized for predictable order. Same .chip style as playstyle
+  // chips; cycling through (none → included → cleared) on click uses
+  // the existing cycleRace() handler. Tapping a selected race
+  // deselects it (standard chip filter pattern).
+  const raceBar = $("#racechips-bar");
+  if (raceBar) {
+    const races = Object.keys(RACES).sort();
+    raceBar.innerHTML = races.map(r => {
+      const cnt = LORDS.filter(l => l.r === r && !l._synthetic).length;
+      const st = state.race.has(r) ? " on" : "";
+      const dim = cnt === 0 && !state.race.has(r) ? " dim" : "";
+      const rc = (RACES[r] && RACES[r].c) || "#888";
+      return `<button class="chip race${st}${dim}" data-race="${esc(r)}" style="--rc:${rc}" title="${esc(r)} — ${cnt} lord${cnt===1?'':'s'}">${iconSVG(RACE_ICONS[r], 14, rc)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
+    }).join("");
+  }
   if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
 }
 

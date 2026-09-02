@@ -2499,6 +2499,41 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
          + `points="${pts.join(" ")}" fill="${fillCol}" fill-opacity="${alpha}" stroke="${strokeCol}" stroke-opacity="${strokeA}" stroke-width="${strokeW}" `
          + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s;pointer-events:none"/>`;
   });
+  // ── Axis labels (icons + playstyle names around the radar) ─────────
+  // Drawn BEFORE the wedge hits so wedges stay on top for clicks. Each
+  // axis is its own <g class="axis" data-tag="..."> group: the click
+  // handler at the bottom of the file routes .axis[data-tag] clicks
+  // through psInc/clear. The same pattern is used in buildRadarSVG
+  // (per-lord mini radar) — keep them in sync.
+  svg += `<g class="axis-labels">`;
+  keys.forEach((k, i) => {
+    const a = i * 360 / n;
+    const [lx, ly] = p2xy(cx, cy, labelR, a);
+    const icon = PSI[k] || '';
+    const isActive = presentAll.some(p => p.present.has(k));
+    const fa = a;
+    const sx = Math.cos((fa - 90) * Math.PI / 180);
+    const sy = Math.sin((fa - 90) * Math.PI / 180);
+    const anchor = sx >= 0 ? 'start' : 'end';
+    const dx = sx >= 0 ? 2 : -2;
+    const dy = sy >= 0 ? 3 : -3;
+    const iconSize = 22;
+    const cx0 = lx + dx, cy0 = ly + dy;
+    // Background disc so the icon is readable on a dark radar
+    const bgFill = isActive ? 'rgba(201,162,75,0.18)' : 'rgba(231,224,210,0.06)';
+    const psName = PS[k]?.t || k;
+    const psDesc = PS[k]?.g || '';
+    const tipText = `${psName} — ${psDesc}\n${axisCount[k] || 0} lord${(axisCount[k] || 0) === 1 ? '' : 's'} have this playstyle — click to filter`;
+    svg += `<g class="axis" data-tag="${k}">`
+         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 2).toFixed(1)}" fill="transparent" style="cursor:pointer" data-tip="${tipText}"/>`
+         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
+         + `<g transform="translate(${(cx0 - iconSize/2).toFixed(1)},${(cy0 - iconSize/2).toFixed(1)})" style="pointer-events:none;color:${isActive ? '#e7e0d2' : 'rgba(231,224,210,0.55)'}">`
+         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
+         + `</g>`
+         + `</g>`;
+  });
+  svg += `</g>`;
+
   // Wedge hit areas — drawn ON TOP of lord polygons so wedge clicks
   // work even when a lord polygon is visually in front. This is the
   // fix for the bug where clicking a wedge area would select a lord

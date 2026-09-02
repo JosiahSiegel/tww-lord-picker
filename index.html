@@ -252,6 +252,7 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
   transition:background .12s, border-color .12s, color .12s, transform .08s;
   white-space:nowrap;
   font-family:inherit;
+  flex:0 0 auto;  /* don't shrink in flex row */
 }
 .ps-filter-bar .chip:hover{
   background:rgba(201,162,75,.10);
@@ -292,12 +293,54 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
   white-space:nowrap;
   padding:4px 8px;
   border-radius:6px;
+  flex:0 0 auto;  /* don't shrink */
 }
 .psall-toggle:hover{background:rgba(201,162,75,.08);color:var(--text)}
 .psall-toggle input{accent-color:var(--gold);cursor:pointer}
+
+/* Mobile: single horizontal scrollable row (industry-standard filter bar
+   pattern on small screens — YouTube, Twitter, Instagram all do this).
+   The 14 chips become a fixed-height strip the user swipes through. The
+   "Match all" toggle is part of the strip, pinned to the end with a
+   vertical separator. */
 @media (max-width:640px){
-  .ps-filter-bar{padding:6px 10px;margin:0 -10px 8px}
-  .ps-filter-bar .chip{padding:3px 8px;font-size:.72rem}
+  .ps-filter-bar{
+    padding:6px 0;  /* full-bleed so the scroll feels edge-to-edge */
+    margin:0 -10px 8px;
+    border-bottom:1px solid rgba(201,162,75,.18);
+  }
+  .ps-filter-inner{
+    flex-wrap:nowrap;
+    gap:0;
+    padding:0 10px;  /* restore side padding since bar is full-bleed */
+  }
+  .ps-filter-bar .chips{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;  /* Firefox */
+    flex:1 1 auto;
+    min-width:0;
+    gap:5px;
+    padding-right:4px;  /* breathing room before the separator */
+  }
+  .ps-filter-bar .chips::-webkit-scrollbar{display:none}  /* Chrome/Safari */
+  .ps-filter-bar .chip{
+    padding:3px 9px;
+    font-size:.7rem;
+  }
+  .ps-filter-bar .chip .lbl{display:none}  /* icon + count only on mobile */
+  .ps-filter-bar .chip svg{width:12px;height:12px}
+  .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
+  .psall-toggle{
+    border-left:1px solid rgba(201,162,75,.2);
+    margin-left:4px;
+    padding-left:10px;
+    font-size:.7rem;
+    background:rgba(231,224,210,.02);
+  }
+  .psall-toggle span{display:none}  /* just checkbox on mobile */
 }
 @media(max-width:640px){#back-to-top{display:block}}
 .tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
@@ -413,6 +456,17 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   position:relative;
 }
 #featured-radar .fr-radar svg{width:220px;height:220px}
+@media (max-width:640px){
+  #featured-radar .fr-radar{flex:0 0 180px;width:180px;height:180px}
+  #featured-radar .fr-radar svg{width:180px;height:180px}
+  #featured-radar{padding:12px 14px}
+  #featured-radar h2{font-size:1rem}
+  #featured-radar .fr-name{font-size:.9rem}
+  #featured-radar .fr-info{min-width:0}
+  #featured-radar .fr-sub{font-size:.75rem;margin-bottom:8px}
+  #featured-radar .fr-tags{margin-bottom:8px}
+  #featured-radar .fr-tag{font-size:.65rem;padding:2px 6px}
+}
 #featured-radar .fr-info{flex:1;min-width:320px;overflow-wrap:break-word;word-wrap:break-word}
 #featured-radar h2{
   font-family:"Cinzel",Georgia,serif;font-size:1.15rem;

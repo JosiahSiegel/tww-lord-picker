@@ -1033,20 +1033,23 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
        to animate an unknown-height element. It also lets us animate
        opacity in the same transition. */
     display:grid;
-    grid-template-rows:0fr;
+    grid-template-rows:1fr;
     transition:grid-template-rows .28s ease, opacity .2s ease, margin .28s ease;
-    opacity:0;
-    margin-top:0;
+    opacity:1;
+    margin-top:8px;
   }
   #featured-radar .fr-inner.all-lords > .fr-radar > *{
     /* The grid trick: child fills the row but doesn't exceed it. */
     min-height:0;
     overflow:hidden;
   }
-  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) > .fr-radar{
-    grid-template-rows:1fr;
-    opacity:1;
-    margin-top:8px;  /* breathing room when expanded */
+  /* When user opts to collapse the radar, force the box to 0 height.
+     The radar parent has aspect-ratio:1 + width:100% which would
+     otherwise reserve a 333×333 empty box that looks like a vanished
+     radar. We also drop the grid-template-rows animation in favor of
+     a hard display:none — instant, no ghost, no choreographed reveal. */
+  #featured-radar .fr-inner.all-lords.fr-collapsed > .fr-radar{
+    display:none;
   }
   #featured-radar .fr-inner.all-lords .fr-all-summary{
     cursor:pointer;
@@ -3783,26 +3786,33 @@ function updateFeaturedRadar() {
       });
     }
 
-    // Mobile collapse toggle: tap the summary line to expand/collapse the
+    // Mobile collapse toggle: tap the summary line to collapse/expand the
     // radar SVG. Only active on mobile (the @media query hides the caret
     // on desktop). The collapsed state is preserved across re-renders via
-    // a class on the .fr-inner.all-lords wrapper. The default state is
-    // COLLAPSED on mobile so the page is focused on the cards.
+    // a class on the .fr-inner.all-lords wrapper.
+    //
+    // Default state is EXPANDED on mobile. Previous behavior (collapsed by
+    // default) created a 333×333 empty box because aspect-ratio:1 reserved
+    // the space while grid-template-rows:0fr hid the SVG inside — looked
+    // like a vanished radar and the "tap to expand" hint was below the
+    // fold. The user wants the radar visible; collapse is opt-in.
     // NOTE: there's already a `frInner` var earlier in the function
     // pointing at #fr-inner (the SINGLE-lord panel). Use a unique name
     // to avoid the redeclaration error.
     const frAllInner = frSummary.closest('.fr-inner.all-lords');
     if (frAllInner && window.matchMedia('(max-width: 640px)').matches) {
-      // Default: collapsed. Only restore the user's explicit toggle if
-      // they expanded it earlier in this session.
-      if (!frAllInner.classList.contains('fr-collapsed') &&
-          !frAllInner.dataset.userExpanded) {
+      // Default: EXPANDED. Only collapse if the user explicitly chose to
+      // earlier in this session (recorded as a data attribute so the
+      // choice survives re-renders triggered by filter changes).
+      if (frAllInner.dataset.userCollapsed === '1' &&
+          !frAllInner.classList.contains('fr-collapsed')) {
         frAllInner.classList.add('fr-collapsed');
       }
       frSummary.onclick = () => {
-        const wasCollapsed = frAllInner.classList.toggle('fr-collapsed');
-        if (!wasCollapsed) frAllInner.dataset.userExpanded = '1';
-        else delete frAllInner.dataset.userExpanded;
+        const willCollapse = !frAllInner.classList.contains('fr-collapsed');
+        frAllInner.classList.toggle('fr-collapsed');
+        if (willCollapse) frAllInner.dataset.userCollapsed = '1';
+        else delete frAllInner.dataset.userCollapsed;
       };
     }
     // Show / hide the "back to results" floating button. The radar is

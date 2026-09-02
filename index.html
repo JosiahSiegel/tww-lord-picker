@@ -170,6 +170,40 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .active-filters .clear-all{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:0 14px;min-height:36px;font-size:.78rem;cursor:pointer;flex:0 0 auto}
 .active-filters .clear-all:hover{border-color:var(--gold);color:var(--gold)}
 
+/* Pass 3: active-filters on mobile. The × dismiss buttons need to be
+   44×44 for touch. The pill itself should be slightly taller. */
+@media (max-width:640px){
+  .active-filters{
+    padding:6px 0 8px;
+    min-height:46px;
+  }
+  .active-filters .pill{
+    min-height:38px;
+    padding:0 8px 0 12px;
+    font-size:.76rem;
+  }
+  .active-filters .pill .x{
+    /* Apple's HIG says 44pt is the minimum touch target. The .x circle
+       is 22px in a 36px pill, so the clickable region around the × is
+       only 22px. Wrap it in a larger hit area. */
+    position:relative;
+    width:28px;height:28px;
+    font-size:1rem;
+  }
+  .active-filters .pill .x::before{
+    /* Inflate the hit area without changing the visible circle. */
+    content:"";
+    position:absolute;
+    inset:-8px;
+    border-radius:50%;
+  }
+  .active-filters .clear-all{
+    min-height:38px;
+    padding:0 12px;
+    font-size:.76rem;
+  }
+}
+
 /* Filter-active visual cues — applied to <body> when any filter is set
    so the bar, count badge, and other chrome can all pick it up. */
 body.filter-on .bar{border-bottom:1px solid rgba(201,162,75,0.45);box-shadow:0 2px 18px rgba(201,162,75,0.12)}
@@ -461,23 +495,37 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .race-head{margin:26px 0 10px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .race-banner{position:relative;background:var(--rc);color:#0f0c12;font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:1rem;padding:5px 22px 5px 12px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%)}
 @media (max-width:640px){
-  /* Sticky race headers on mobile so the user always knows which
-     race they're scrolling through. Sits below the playstyle chip
-     bar AND the top bar. Total: top bar (~135px) + chip bar (~50px)
-     = ~185px. Round to 185px for the race head top. */
+  /* Pass 6: race headers on mobile. Since the chip bar is no longer
+     sticky on mobile (we removed sticky to fix the horizontal scroll
+     conflict), the race head sticks to top:0 of the viewport when
+     scrolling. This way the user always knows which race they're
+     reading. The header gets a translucent background + bottom shadow
+     so it visually lifts off the cards. */
   .race-head{
     position:sticky;
-    top:185px;
-    z-index:20;
-    background:rgba(19,16,23,.92);
-    backdrop-filter:blur(6px);
+    top:0;
+    z-index:25;
+    background:rgba(19,16,23,.95);
+    backdrop-filter:blur(8px);
     margin:0 -10px 8px;
-    padding:6px 10px;
-    border-radius:8px;
-    border:1px solid var(--line);
+    padding:8px 12px;
+    border-radius:0;
+    border-bottom:1px solid var(--line);
+    /* Subtle shadow under the sticky head so cards "go behind" it
+       when scrolling. */
+    box-shadow:0 4px 12px -4px rgba(0,0,0,0.5);
   }
-  .race-banner{font-size:.85rem;padding:4px 18px 4px 10px}
-  .race-count{font-size:.7rem}
+  .race-banner{
+    font-size:.88rem;
+    padding:5px 20px 5px 12px;
+  }
+  .race-count{
+    font-size:.72rem;
+  }
+  .race-blurb{
+    font-size:.8rem;
+    line-height:1.4;
+  }
 }
 .race-blurb{color:var(--muted);font-size:.85rem;max-width:72ch}
 .race-count{color:var(--muted);font-size:.8rem}
@@ -496,6 +544,48 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .tag:hover{border-color:var(--gold);color:var(--text)}
 .tag.on{border-color:var(--gold);color:var(--gold)}
 .pick{font-size:.86rem;color:#d8cfae;font-style:italic;margin:0}
+
+/* Pass 1: mobile card density & hierarchy. The card holds lord name,
+   race · subtitle, difficulty pips, 1-2 playstyle tags, a "pick if…"
+   recommendation, and (optionally) pros/cons/mechanics in the expanded
+   state. That's a lot for a 390px viewport. Tighter type, smarter
+   spacing, and a clear top-to-bottom reading order. */
+@media (max-width:640px){
+  .card{
+    padding:12px 12px 11px;  /* tighter sides so the race-color bar still reads as a stripe */
+    border-radius:9px;
+  }
+  .card h3{
+    font-size:1.08rem;  /* slightly bigger so the lord name reads as the headline */
+    line-height:1.2;
+  }
+  .sub{
+    font-size:.78rem;
+    margin:4px 0 7px;
+  }
+  .pips{
+    font-size:.7rem;
+    letter-spacing:.5px;
+  }
+  .tags{
+    gap:4px;
+    margin-bottom:8px;
+  }
+  .tag{
+    font-size:.66rem;
+    padding:3px 7px;  /* slightly larger touch area for tapping */
+    min-height:22px;
+  }
+  .pick{
+    font-size:.85rem;
+    line-height:1.45;
+  }
+  /* Difficulty pips need to sit on the right of the lord name. They
+     shouldn't dominate the card. Smaller on mobile. */
+  .pips{
+    flex:0 0 auto;
+  }
+}
 .links{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:.78rem}
 .links a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(201,162,75,.5)}
 .links a:hover{border-bottom-style:solid}
@@ -507,6 +597,50 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .battle b{color:var(--text);font-weight:600}
 .det ul{margin:6px 0;padding-left:0;list-style:none}
 .det li{margin:4px 0;padding-left:1.25em;text-indent:-1.25em}
+
+/* Pass 4: card expand/collapse on mobile. The whole card is the tap
+   target — the user taps anywhere to expand. On mobile we add a
+   subtle "tap to expand" hint and a chevron that rotates when open.
+   When open, the card gets a stronger left border (using the race
+   color) so the user can see which lord is being examined. */
+@media (max-width:640px){
+  .card{
+    /* Subtle press feedback: scale down slightly on touch. Better
+       than border-color flash because it gives the user haptic-like
+       confirmation. */
+    transition:transform .12s,border-color .15s,background .15s;
+  }
+  .card:active{
+    transform:scale(0.99);
+  }
+  .card.open{
+    background:color-mix(in srgb,var(--rc,var(--gold)) 6%,var(--panel));
+    border-color:rgba(201,162,75,0.4);
+  }
+  /* The lord name gets a subtle chevron so the user knows it's tappable.
+     Done via ::after on h3 so we don't have to touch the render code. */
+  .card h3::after{
+    content:"▾";
+    color:var(--muted);
+    font-size:.8em;
+    margin-left:6px;
+    transition:transform .18s,color .15s;
+    flex:0 0 auto;
+  }
+  .card.open h3::after{
+    transform:rotate(180deg);
+    color:var(--gold);
+  }
+  .det{
+    margin-top:12px;
+    padding-top:12px;
+    font-size:.86rem;
+  }
+  .battle{
+    font-size:.82rem;
+    line-height:1.5;
+  }
+}
 .pc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
 @media(max-width:520px){.pc{grid-template-columns:1fr}}
 .pc h4{margin:0 0 3px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}
@@ -548,6 +682,58 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 #cmpbar .cmp-actions{display:flex;gap:8px;flex-shrink:0}
 #cmpbar .bar-inner{flex-direction:row;flex-wrap:wrap;align-items:center}
 #cmpbar .names{font-size:.85rem;color:var(--text)}
+
+/* Pass 2: compare bar on mobile. On mobile, the bar is the only way
+   to know you have selections — it has to be unmissable. Make the
+   Compare button tall, the count readable, the names visible (single
+   line, ellipsis on overflow), and add a small clear (✕) button. */
+@media (max-width:640px){
+  #cmpbar{
+    padding:10px 12px 12px;  /* respect iOS safe-area-ish bottom padding */
+    gap:8px;
+    align-items:center;
+  }
+  #cmpbar .cmp-count{
+    font-size:.85rem;  /* slightly bigger on mobile so the user can read at a glance */
+  }
+  #cmpbar .cmp-names{
+    font-size:.7rem;
+    max-width:100%;
+  }
+  #cmpbar .cmp-actions{
+    width:100%;  /* stack: compare button goes full-width below info */
+    margin-top:0;
+  }
+  #cmpbar .cmp-actions #docmp{
+    flex:1;
+    padding:11px 14px;  /* 44pt-ish touch target */
+    font-size:.92rem;
+    min-height:44px;
+  }
+  /* Small "✕" to clear all selections, on the right of the count line.
+     Without it, the only way to back out is the per-card checkbox
+     (which scrolls into view only after dismissing the bar). */
+  #cmpbar .cmp-clear{
+    background:transparent;
+    border:1px solid rgba(231,224,210,.25);
+    color:var(--muted);
+    width:36px;height:36px;
+    border-radius:50%;
+    font-size:1.1rem;
+    line-height:1;
+    cursor:pointer;
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #cmpbar .cmp-clear:hover,
+  #cmpbar .cmp-clear:active{
+    background:rgba(220,80,80,.18);
+    border-color:rgba(220,80,80,.5);
+    color:#f5b7b7;
+  }
+}
 #overlay{position:fixed;inset:0;z-index:70;background:rgba(10,8,13,.97);display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 14px 60px;opacity:0;transition:opacity .2s ease}#overlay.show{display:block;opacity:1}
 #overlay.show{display:block}
 .ov-inner{max-width:1200px;margin:0 auto}
@@ -557,6 +743,54 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .ov-col{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--rc);border-radius:10px;padding:14px}
 .ov-col h3{font-family:"Cinzel",Georgia,serif;margin:0;font-size:1.05rem}
 .ov-col .sub{margin-bottom:8px}
+
+/* Pass 5: compare overlay on mobile. Full-screen sheet with proper
+   close button, scrollable body, and stacked lord cards (not 2-col
+   which would cramp the 390px viewport). The big radar shrinks to
+   fit the available width, and there's a clear "Done" button to
+   dismiss. */
+@media (max-width:640px){
+  #overlay{
+    padding:0;  /* full-bleed on mobile; the inner sheet handles padding */
+  }
+  .ov-inner{
+    padding:14px 12px 80px;  /* bottom padding clears the back-to-top / nav */
+  }
+  .ov-head{
+    position:sticky;
+    top:0;
+    background:rgba(10,8,13,.92);
+    backdrop-filter:blur(8px);
+    z-index:2;
+    margin:0 -12px 14px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .ov-head h2{
+    font-size:1.05rem;
+  }
+  /* Stacked single-column on mobile (the 2+1=3-card grid would make
+     each column ~120px which is unreadable). */
+  .ov-cols{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .ov-col{
+    padding:12px;
+  }
+  .ov-col h3{
+    font-size:1rem;
+  }
+  .ov-radar{
+    height:280px !important;  /* override the 260px default so it's roomy */
+  }
+  /* Make sure the close button is unmistakable */
+  .ov-close{
+    min-width:44px;
+    min-height:44px;
+    font-size:1.1rem;
+  }
+}
 footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
 /* Empty state when filters yield zero matches. Big icon, clear message,
    and a "Clear all filters" button right there so the user can recover
@@ -1084,7 +1318,7 @@ to{transform:rotate(360deg)}}
   </div>
   <div class="cmp-actions">
     <button class="btn gold" id="docmp">⚡ Compare</button>
-    <button class="btn" id="clearcmp">✕</button>
+    <button class="btn cmp-clear" id="clearcmp" aria-label="Clear all selections" title="Clear all selections">✕</button>
   </div>
 </div>
 

@@ -209,6 +209,96 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 #back-to-top{display:none;position:fixed;right:16px;bottom:80px;width:44px;height:44px;border-radius:50%;background:rgba(27,23,32,.92);border:1px solid var(--gold);color:var(--gold);font-size:1rem;cursor:pointer;z-index:55;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,0.4);transition:opacity .2s, transform .2s;opacity:0;pointer-events:none}
 #back-to-top.show{opacity:1;pointer-events:auto}
 #back-to-top:hover{background:var(--gold);color:#000;transform:translateY(-2px)}
+
+/* Playstyle filter bar — sticky, always visible, industry-standard
+   filter chips pattern (Gmail labels, GitHub topics, JIRA facets).
+   The chips have icons + labels + counts, toggle on click. */
+.ps-filter-bar{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:linear-gradient(180deg,rgba(27,23,32,.98) 0%,rgba(27,23,32,.94) 100%);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(201,162,75,.18);
+  margin:0 -16px 12px;
+  padding:8px 16px;
+}
+.ps-filter-inner{
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.ps-filter-bar .chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  flex:1;
+  min-width:0;
+}
+.ps-filter-bar .chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(231,224,210,.04);
+  border:1px solid rgba(231,224,210,.12);
+  color:var(--text);
+  font-size:.8rem;
+  cursor:pointer;
+  transition:background .12s, border-color .12s, color .12s, transform .08s;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.ps-filter-bar .chip:hover{
+  background:rgba(201,162,75,.10);
+  border-color:rgba(201,162,75,.30);
+}
+.ps-filter-bar .chip.on{
+  background:color-mix(in srgb,var(--rc) 22%,transparent);
+  border-color:var(--rc);
+  color:#fff;
+  font-weight:600;
+}
+.ps-filter-bar .chip.off{
+  background:rgba(220,80,80,.18);
+  border-color:rgba(220,80,80,.5);
+  color:#f5b7b7;
+  text-decoration:line-through;
+}
+.ps-filter-bar .chip.dim{opacity:.35}
+.ps-filter-bar .chip .count{
+  display:inline-block;
+  min-width:18px;
+  padding:0 5px;
+  border-radius:8px;
+  background:rgba(0,0,0,.35);
+  font-size:.7rem;
+  text-align:center;
+  line-height:1.4;
+}
+.ps-filter-bar .chip.on .count{background:rgba(0,0,0,.4);color:#fff}
+.psall-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:.78rem;
+  color:var(--text-dim);
+  cursor:pointer;
+  user-select:none;
+  white-space:nowrap;
+  padding:4px 8px;
+  border-radius:6px;
+}
+.psall-toggle:hover{background:rgba(201,162,75,.08);color:var(--text)}
+.psall-toggle input{accent-color:var(--gold);cursor:pointer}
+@media (max-width:640px){
+  .ps-filter-bar{padding:6px 10px;margin:0 -10px 8px}
+  .ps-filter-bar .chip{padding:3px 8px;font-size:.72rem}
+}
 @media(max-width:640px){#back-to-top{display:block}}
 .tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
 .lord-poly.lord-hover{fill-opacity:.85;stroke-opacity:.95;stroke-width:2.4}
@@ -644,6 +734,21 @@ to{transform:rotate(360deg)}}
   <option value="dedesc">Hardest first</option>
 </select>
 
+
+<!-- Industry-standard playstyle filter bar (GitHub Topics / Gmail Labels pattern).
+     Always visible. Sticky to top of viewport. The 14 playstyle chips
+     show lord counts and toggle on click. AND/OR toggle right next to
+     the chips. The radar above is now pure visualization (no click
+     filtering) — filtering happens here, where the user can see all
+     14 options at once with their current counts. -->
+<div class="ps-filter-bar" id="ps-filter-bar">
+  <div class="ps-filter-inner">
+    <div class="chips" id="pschips-bar" role="group" aria-label="Playstyle filters"></div>
+    <label class="psall-toggle" title="When several playstyles are included: require lords to have ALL of them instead of any">
+      <input type="checkbox" id="psall-bar"> <span>Match all</span>
+    </label>
+  </div>
+</div>
 
 <div id="featured-radar">
   <div class="fr-inner" id="fr-inner">
@@ -1885,6 +1990,9 @@ function renderChips(){
   if (psa) psa.checked = state.psAll;
   const psallEl = document.getElementById('psall');
   if (psallEl && psallEl.checked !== state.psAll) psallEl.checked = state.psAll;
+  // Mirror to the sticky bar's toggle so the two checkboxes stay in sync.
+  const psallBar = document.getElementById('psall-bar');
+  if (psallBar && psallBar.checked !== state.psAll) psallBar.checked = state.psAll;
   // Race count badge: how many lords (in the current diff+src+q context,
   // excluding synthetic race-avg entries) belong to this race. Zero-count
   // races are dimmed so the user can see at a glance which races are
@@ -1925,6 +2033,23 @@ function renderChips(){
       return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} — tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
+  // The same chips populate the always-visible sticky bar (industry-
+  // standard filter pattern). Same data, same click handler, different
+  // location. The dropdown version is kept for users who prefer
+  // searching there, but the bar is the primary path.
+  const barHtml = Object.keys(PS)
+    .map(p=>{
+      const pk = p.charAt(0).toLowerCase() + p.slice(1);
+      const st=state.psInc.has(pk)?" on":state.psExc.has(pk)?" off":"";
+      const psCount = filtered().reduce(
+        (n, l) => n + ((l.ps || []).includes(pk) ? 1 : 0), 0
+      );
+      const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
+      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)}">${iconSVG(PSI[p], 14, "currentColor")}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
+    }).join("")
+    +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps-bar">&#10005;</button>`:"");
+  const bar = $("#pschips-bar");
+  if (bar) bar.innerHTML = barHtml;
   if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
 }
 
@@ -2012,7 +2137,7 @@ document.addEventListener("click",e=>{
     chipEl._chipLongPressFired = false;
     return;
   }
-  if(e.target.closest("#clearps")){state.psInc.clear();state.psExc.clear();_afterFilterChange();return;}
+  if(e.target.closest("#clearps") || e.target.closest("#clearps-bar")){state.psInc.clear();state.psExc.clear();_afterFilterChange();return;}
   const psc=e.target.closest("[data-psc]");
   if(psc){ e.ctrlKey||e.metaKey ? cyclePsAdd(psc.dataset.psc) : cyclePs(psc.dataset.psc); return; }
   const ptag=e.target.closest(".tag[data-ps]");
@@ -2088,6 +2213,9 @@ document.addEventListener("keydown",e=>{
 });
 $("#q").addEventListener("input",e=>{state.q=e.target.value.trim().toLowerCase();render();});
 $("#psall").addEventListener("change",e=>{state.psAll=e.target.checked;render();});
+// Mirror the sticky bar's psall toggle
+const psallBarEl = document.getElementById("psall-bar");
+if (psallBarEl) psallBarEl.addEventListener("change",e=>{state.psAll=e.target.checked;render();});
 $("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();});
 $("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();});
 $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
@@ -2523,7 +2651,7 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     const bgFill = isActive ? 'rgba(201,162,75,0.18)' : 'rgba(231,224,210,0.06)';
     const psName = PS[k]?.t || k;
     const psDesc = PS[k]?.g || '';
-    const tipText = `${psName} — ${psDesc}\n${axisCount[k] || 0} lord${(axisCount[k] || 0) === 1 ? '' : 's'} have this playstyle — click to filter`;
+    const tipText = `${psName} — ${psDesc}\n${axisCount[k] || 0} lord${(axisCount[k] || 0) === 1 ? '' : 's'} have this playstyle — use the chips above to filter`;
     svg += `<g class="axis" data-tag="${k}">`
          + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 2).toFixed(1)}" fill="transparent" style="cursor:pointer" data-tip="${tipText}"/>`
          + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
@@ -2935,7 +3063,7 @@ function updateFeaturedRadar() {
         <details class="profile-details"><summary>Playstyle profile — what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
         <div class="profile-chart">${summaryData.profileRows}</div></details>
         <div class="fr-all-hint">
-          <b>Tap an axis</b> to filter on that playstyle · <b>tap a card</b> to view that lord<br>
+          <b>Tap a card</b> to view that lord · <b>tap a playstyle chip above</b> to filter · <b>tap a polygon</b> to add to compare<br>
           <span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span>
         </div>
         `;
@@ -3046,6 +3174,18 @@ function renderCardRadars() {
 //     multi-wedge lasso; current single-click already replaces).
 // Hovering shows a tooltip with the lord count.
 function setupRadarInteraction() {
+  // The radar is now a pure visualization. Filter clicks (axis, wedge,
+  // long-press, tap feedback) were removed — they confused users because
+  // the wedge pairings were arbitrary (just adjacent PS keys in
+  // declaration order) and the axis click hid what the filter was. The
+  // industry-standard approach is to filter via the always-visible
+  // playstyle chip bar at the top of the page (Gmail labels, GitHub
+  // topics, JIRA facets). The radar still supports:
+  //   1. Click a per-lord polygon → add/remove that lord to the compare
+  //      set (the original "point at a lord in the density view" feature).
+  //   2. Click × on a compare-list item → remove it.
+  //   3. Hover/tap any element with data-tip → show the tooltip.
+  // Everything else (axis, wedge, long-press) is gone.
   const radar = document.getElementById('fr-radar-svg');
   if (!radar) return;
 
@@ -3061,56 +3201,37 @@ function setupRadarInteraction() {
     document.body.appendChild(tip);
   }
 
-  // Touch handling: on touch devices, mousemove is simulated AFTER touchend,
-  // so the tooltip pops up at the tap location and stays until the next
-  // touch. The user reports this as "the floating prompts are in the way."
-  // Fix: on touch, show the tooltip above the tapped element for a brief
-  // moment (1.5s), then auto-hide. Position it centered above the element
-  // (not following the finger) and clamp it inside the viewport.
-  // matchMedia may be missing in some test environments — guard for it.
   const isTouch = (typeof matchMedia === 'function' && matchMedia('(hover: none)').matches)
     || (typeof window !== 'undefined' && 'ontouchstart' in window);
   let tipTimer = null;
   const showTip = (e, text) => {
-    // Use innerHTML so we can render line breaks (\n → <br>). Text
-    // comes from a known-safe set of data-tip attributes (lord names,
-    // playstyle descriptions, lord counts), all of which are escaped
-    // before being embedded. A user-crafted tooltip cannot reach this
-    // path because data-tip is only set from server data, not from
-    // user input.
     tip.innerHTML = String(text).replace(/\n/g, '<br>');
     if (isTouch && e.target && e.target.closest) {
       const t = e.target.closest('[data-tip]');
       if (t && t.getBoundingClientRect) {
         const r = t.getBoundingClientRect();
-        // Center the tooltip horizontally above the element
         const cx = r.left + r.width / 2;
-        const top = r.top - 8;
-        // Measure after we set text to know its width
-        tip.style.left = '0px';
-        tip.style.top = '0px';
-        tip.style.opacity = '1';
-        const tw = tip.offsetWidth;
-        const th = tip.offsetHeight;
+        const tipEl = tip;
+        tipEl.style.left = '0px';
+        tipEl.style.top = '0px';
+        tipEl.style.opacity = '1';
+        const tw = tipEl.offsetWidth;
+        const th = tipEl.offsetHeight;
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        // Clamp horizontal so it doesn't go off-screen
         let left = cx - tw / 2;
         if (left < 6) left = 6;
         if (left + tw > vw - 6) left = vw - tw - 6;
-        // If it doesn't fit above, place below
-        let placeTop = top - th;
+        let placeTop = r.top - 8 - th;
         if (placeTop < 6) placeTop = r.bottom + 8;
         if (placeTop + th > vh - 6) placeTop = vh - th - 6;
-        tip.style.left = left + 'px';
-        tip.style.top = placeTop + 'px';
-        // Auto-hide after 1.5s on touch
+        tipEl.style.left = left + 'px';
+        tipEl.style.top = placeTop + 'px';
         if (tipTimer) clearTimeout(tipTimer);
         tipTimer = setTimeout(hideTip, 1500);
         return;
       }
     }
-    // Mouse: follow cursor (original behavior)
     tip.style.left = (e.clientX + 12) + 'px';
     tip.style.top  = (e.clientY + 12) + 'px';
     tip.style.opacity = '1';
@@ -3118,27 +3239,23 @@ function setupRadarInteraction() {
   const hideTip = () => { tip.style.opacity = '0'; if (tipTimer) { clearTimeout(tipTimer); tipTimer = null; } };
 
   if (isTouch) {
-    // Touch: show on pointerdown, auto-hide after 1.5s. The click handler
-    // below still runs (it fires on touchend/click), so the user gets the
-    // info AND the action.
     radar.addEventListener('pointerdown', e => {
       const t = e.target.closest('[data-tip]');
       if (t) showTip(e, t.dataset.tip);
     });
-    // Also hide on scroll so the tooltip doesn't drift from its anchor
     window.addEventListener('scroll', hideTip, { passive: true });
   } else {
-    // Mouse: original behavior
     radar.addEventListener('mousemove', e => {
       const t = e.target.closest('[data-tip]');
-      if (t) showTip(e, t.dataset.tip + (e.shiftKey ? ' (shift: also multi-select on desktop)' : ''));
+      if (t) showTip(e, t.dataset.tip);
       else hideTip();
     });
     radar.addEventListener('mouseleave', hideTip);
   }
 
-  // Handle × remove buttons in the compare list
+  // Click handler: only lord-polygon and compare-list ×.
   radar.addEventListener('click', e => {
+    // × on a compare-list item
     const removeBtn = e.target.closest && e.target.closest('.fr-cmp-remove[data-i]');
     if (removeBtn) {
       e.stopPropagation();
@@ -3151,20 +3268,7 @@ function setupRadarInteraction() {
       drawRadars();
       return;
     }
-  });
-
-radar.addEventListener('click', e => {
-    // Long-press already fired on this gesture — the additive action was
-    // triggered by the pointerdown timer below. Suppress the click so we
-    // don't double-act.
-    if (longPressFired) { longPressFired = false; return; }
-    // Power-user modifier: Ctrl/Cmd-click on a wedge adds both tags to the
-    // existing filter (multi-select). On an axis, Ctrl-click cycles through
-    // include → exclude → clear (same as the card pill). On touch, long-
-    // press (500ms) is the equivalent of Ctrl-click-on-wedge — it adds
-    // the tag(s) to the include set without cycling. See the long-press
-    // block at the end of this function.
-    const additive = e.ctrlKey || e.metaKey;
+    // ★ next to a lord name in the compare list
     const lordStar = e.target.closest && e.target.closest('.lord-star[data-i]');
     if (lordStar) {
       const i = +lordStar.dataset.i;
@@ -3173,16 +3277,10 @@ radar.addEventListener('click', e => {
       pushState();
       return;
     }
-    // Per-lord polygon click → select that lord (toggles with the existing
-    // compare bar). This is the missing input direction: the user can now
-    // point at a polygon in the density view and say "show me this one".
-    // The polygon's data-i is the lord's index in LORDS.
+    // Per-lord polygon in the density view → toggle that lord in compare
     const lordPoly = e.target.closest('.lord-poly[data-i]');
     if (lordPoly) {
       const i = +lordPoly.dataset.i;
-      // Add to compare (up to 3). Click an already-selected lord to
-      // remove them. This lets the user build a compare set by clicking
-      // multiple polygons in the radar, without having to go to the grid.
       if (state.cmp.includes(i)) {
         state.cmp = state.cmp.filter(x => x !== i);
         state.open.delete(i);
@@ -3190,7 +3288,6 @@ radar.addEventListener('click', e => {
         state.cmp = [...state.cmp, i];
         state.open.add(i);
       } else {
-        // Already at 3 — replace the oldest selection
         const removed = state.cmp.shift();
         state.cmp.push(i);
         state.open.delete(removed);
@@ -3202,189 +3299,8 @@ radar.addEventListener('click', e => {
       drawRadars();
       return;
     }
-    // Axis label click
-    const axis = e.target.closest('.axis[data-tag]');
-    if (axis) {
-      const tag = axis.dataset.tag;
-      if (additive) {
-        // Power-user: cycle include → clear (same as card pill)
-        cyclePs(tag);
-      } else {
-        // Default: replace any current include filter with just this tag.
-        if (state.psInc.size === 1 && state.psInc.has(tag) && !state.psExc.size) {
-          state.psInc.clear();
-        } else {
-          state.psInc = new Set([tag]);
-          state.psExc.clear();
-        }
-        // Clear any search set by a previous polygon click (see wedge
-        // handler for the same fix). Without this, clicking an axis after
-        // clicking a polygon shows lords filtered by both the playstyle
-        // AND a stale name search, which is confusing.
-        if (state.q) {
-          state.q = '';
-          const qInput = document.getElementById('q');
-          if (qInput) qInput.value = '';
-        }
-        // pushState() BEFORE render() so URL hash is consistent.
-        // (render() used to re-read the hash and clobber state — that was
-        // the cause of the "click doesn't filter" bug. The hash re-read
-        // has been removed from render(); the order here is just belt-and-
-        // suspenders in case anyone re-adds it.)
-        pushState();
-        renderChips();
-        render();
-        drawRadars();
-      }
-      return;
-    }
-    // Wedge click — REMOVED. Wedge pairings are arbitrary (just adjacent
-    // axes in the PS object order), so filtering by them doesn't match
-    // any meaningful user intent. The wedges are still visible (showing
-    // lord density between playstyles) and the tooltip on hover still
-    // shows the count, but clicks do nothing. To filter on multiple
-    // playstyles, click each axis individually — the chips build up the
-    // filter visibly so the user always knows what they're filtering on.
+    // No axis or wedge click handler — radar is pure visualization.
   });
-
-  // Tap feedback: brief scale-up on pointerdown for any radar target, so
-  // the user gets immediate visual confirmation that the tap registered.
-  // (Previously this was wired to a 500ms long-press that synthesized
-  // Ctrl+key and triggered the 3-state include→exclude→clear cycle —
-  // users found the 2nd-tap-exclude behavior confusing, especially in
-  // the radar where the 1st tap already feels like a commitment. The
-  // radar is now strictly 2-state: tap to include, tap again to clear.
-  // To exclude, use the playstyle pill on the card.)
-  radar.addEventListener('pointerdown', e => {
-    const t = e.target.closest('.axis[data-tag], .wedge-hit[data-tag-a]');
-    if (!t) return;
-    t.style.transition = 'transform 0.12s';
-    t.style.transformOrigin = 'center';
-    t.style.transform = 'scale(1.15)';
-  });
-  const resetTap = e => {
-    // Prefer longPressTarget (set on pointerdown) over e.target.closest,
-    // because pointerup can fire on an element outside the axis group
-    // (e.g. if the user drags slightly and releases between icons), and
-    // closest would fail to find the target. Using longPressTarget
-    // guarantees we always reset the element that was scaled up.
-    if (longPressTarget) {
-      longPressTarget.style.transform = '';
-      return;
-    }
-    const t = e.target.closest('.axis[data-tag], .wedge-hit[data-tag-a]');
-    if (t) t.style.transform = '';
-  };
-  radar.addEventListener('pointerup', resetTap);
-  radar.addEventListener('pointercancel', resetTap);
-  radar.addEventListener('pointerleave', resetTap);
-
-  // ── Long-press: hold an axis or wedge for 500ms to add (rather than
-  // replace) the tag(s) to the include filter. This is the touch
-  // equivalent of Ctrl/Cmd-click-on-a-wedge and makes multi-select
-  // possible without a keyboard. The visual is: element scales up further
-  // than the tap-feedback scale (1.15 → 1.3) and gains a gold glow while
-  // held; on fire, it pulses back to scale(1) and the click that would
-  // otherwise follow is suppressed.
-  // Power-user note: long-press always ADDS (it does not cycle). Cycle
-  // (include → exclude → clear) is still available via Ctrl-click on an
-  // axis, same as before.
-  let longPressTimer = null;
-  let longPressFired = false;
-  let longPressTarget = null;
-  let longPressStartX = 0, longPressStartY = 0;
-  const LONG_PRESS_MS = 500;
-  const LONG_PRESS_SLOP = 10; // px movement that cancels the hold
-
-  const longPressCancel = () => {
-    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
-    if (longPressTarget) {
-      // Drop the long-press transition AND the transform so the element
-      // returns to scale(1) instantly on a short tap. (Previously the
-      // transform was only cleared by resetTap, which uses e.target.closest
-      // and can fail if the pointerup fires on an element outside the
-      // axis group — leaving the icon stuck at scale(1.3) and visually
-      // pulled away from the radar.)
-      longPressTarget.style.transition = '';
-      longPressTarget.style.transform = '';
-      longPressTarget.style.filter = '';
-      longPressTarget = null;
-    }
-  };
-
-  radar.addEventListener('pointerdown', e => {
-    const t = e.target.closest('.axis[data-tag], .wedge-hit[data-tag-a]');
-    if (!t) return;
-    longPressTarget = t;
-    longPressStartX = e.clientX;
-    longPressStartY = e.clientY;
-    // Override the tap-feedback transition (0.12s scale to 1.15) with a
-    // slower 0.5s ease so the user can see the scale continue to grow as
-    // they hold. If they release early, the tap-feedback reset on
-    // pointerup will drop back to scale(1).
-    t.style.transition = 'transform 0.5s linear, filter 0.5s linear';
-    t.style.transform = 'scale(1.3)';
-    t.style.filter = 'drop-shadow(0 0 6px var(--gold))';
-    longPressTimer = setTimeout(() => {
-      if (longPressTarget !== t) return; // cancelled by move/up
-      longPressFired = true;
-      // Toggle action: if any tag is already in the include set, remove
-      // both; otherwise add both. Matches industry-standard long-press
-      // (Gmail, Finder, tag pickers) where holding a selected item
-      // deselects it. State changes mirror ctrl-click — psAll is NOT
-      // touched here; the "match all" checkbox is the only way to
-      // switch OR ↔ AND.
-      const axis = t.closest('.axis[data-tag]');
-      const wedge = t.closest('.wedge-hit[data-tag-a]');
-      if (axis) {
-        const tag = axis.dataset.tag;
-        if (state.psInc.has(tag)) state.psInc.delete(tag);
-        else state.psInc.add(tag);
-        state.psExc.delete(tag);
-      } else if (wedge) {
-        const a = wedge.dataset.tagA;
-        const b = wedge.dataset.tagB;
-        if (state.psInc.has(a) || state.psInc.has(b)) {
-          state.psInc.delete(a);
-          state.psInc.delete(b);
-        } else {
-          state.psInc.add(a);
-          state.psInc.add(b);
-          state.psExc.delete(a);
-          state.psExc.delete(b);
-        }
-      }
-      pushState();
-      renderChips();
-      render();
-      drawRadars();
-      // Visual confirmation: smoothly return to scale(1) with a brief
-      // overshoot. The element settles into place over 0.4s; the click
-      // event that fires on pointerup is suppressed by longPressFired.
-      t.style.transition = 'transform 0.4s ease-out, filter 0.4s ease-out';
-      t.style.transform = 'scale(1)';
-      t.style.filter = '';
-      longPressTimer = null;
-      longPressTarget = null;
-    }, LONG_PRESS_MS);
-  });
-
-  radar.addEventListener('pointermove', e => {
-    if (!longPressTarget) return;
-    const dx = e.clientX - longPressStartX;
-    const dy = e.clientY - longPressStartY;
-    if (Math.hypot(dx, dy) > LONG_PRESS_SLOP) longPressCancel();
-  });
-
-  // On pointerup: if long-press fired, the click handler will bail on
-  // longPressFired. If it didn't fire, cancel the timer and let the
-  // tap-feedback reset (above) snap the element back to scale(1).
-  radar.addEventListener('pointerup', () => {
-    if (longPressTimer) longPressCancel();
-  });
-  // On cancel/leave: drop the long-press state without firing.
-  radar.addEventListener('pointercancel', longPressCancel);
-  radar.addEventListener('pointerleave', longPressCancel);
 }
 
 // Chip long-press: mirror the radar's additive long-press. Tap = cycle

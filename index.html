@@ -22,9 +22,9 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
 .disp{font-family:"Cinzel",Georgia,serif;letter-spacing:.02em}
-header.hero{padding:26px 16px 14px;max-width:1200px;margin:0 auto}
-header.hero h1{font-family:"Cinzel",Georgia,serif;font-size:clamp(1.4rem,4vw,2.1rem);margin:0;color:var(--gold);font-weight:700}
-header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch}
+header.hero{padding:22px 16px 12px;max-width:1200px;margin:0 auto}
+header.hero h1{font-family:"Cinzel",Georgia,serif;font-size:clamp(1.25rem,3.4vw,1.85rem);margin:0;color:var(--gold);font-weight:600;letter-spacing:.01em}
+header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch;font-size:.9rem}
 .bar{position:sticky;top:0;z-index:50;background:rgba(19,16,23,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 16px}
 @media(max-width:640px){
   /* On mobile the bar holds 5 rows (search, race chips, play chips,
@@ -534,9 +534,18 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 .ov-tag{display:inline-flex;align-items:center;gap:4px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
 .ov-tag svg{width:11px;height:11px;fill:currentColor}
 
-/* ── Featured radar section ── */
+/* ── Featured radar section (Playstyle Map, below the cards) ── */
 #featured-radar{
-  max-width:1200px;margin:0 auto 18px;padding:0 16px;
+  max-width:1200px;margin:32px auto 24px;padding:0 16px;
+}
+.radar-section-title{
+  font-family:"Cinzel",Georgia,serif;
+  font-size:1.1rem;font-weight:600;color:var(--gold);
+  margin:0 0 6px;letter-spacing:.02em;
+}
+.radar-section-sub{
+  color:var(--muted);font-size:.85rem;margin:0 0 14px;max-width:720px;
+  line-height:1.45;
 }
 #featured-radar .fr-inner{
   display:flex;gap:24px;align-items:flex-start;
@@ -558,6 +567,8 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   #featured-radar .fr-info{min-width:0}
   #featured-radar .fr-sub{font-size:.75rem;margin-bottom:8px}
   #featured-radar .fr-tags{margin-bottom:8px}
+  .radar-section-title{font-size:1rem}
+  .radar-section-sub{font-size:.8rem}
   #featured-radar .fr-tag{font-size:.65rem;padding:2px 6px}
 }
 #featured-radar .fr-info{flex:1;min-width:320px;overflow-wrap:break-word;word-wrap:break-word}
@@ -683,10 +694,13 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   }
 }
 
-/* "All lords" mode — radar is centered and bigger, takes full width */
-#featured-radar .fr-inner.all-lords{flex-direction:column;align-items:stretch}
+/* "All lords" mode — radar is centered, sized to fit content width.
+   440px is a good balance: large enough to read 14 axes, small enough
+   not to dominate the page. The radar now lives BELOW the cards as a
+   "Playstyle Map" exploration section, not above. */
+#featured-radar .fr-inner.all-lords{flex-direction:column;align-items:center}
 #featured-radar .fr-inner.all-lords .fr-radar{
-  flex:0 0 auto;width:680px;height:680px;max-width:100%;margin:0 auto;
+  flex:0 0 auto;width:440px;height:440px;max-width:100%;margin:0 auto;
 }
 #featured-radar .fr-inner.all-lords .fr-radar svg{width:100%;height:100%;display:block}
 #featured-radar .fr-all-summary{
@@ -871,7 +885,7 @@ to{transform:rotate(360deg)}}
 </head>
 <body>
 <header class="hero">
-  <h1>Total War: Warhammer III — Lord Picker</h1>
+  <h1>Warhammer III — Lord Picker</h1>
   <p>All <strong>110 legendary lords</strong> · tap a card for details · check up to 3 to compare.</p>
 </header>
 
@@ -972,7 +986,11 @@ to{transform:rotate(360deg)}}
   </div>
 </div>
 
-<div id="featured-radar">
+<main id="main"></main>
+
+<section id="featured-radar">
+  <h2 class="radar-section-title">⚔ Playstyle Map</h2>
+  <p class="radar-section-sub">Every colored polygon is a lord — bigger means more playstyles. Tap a polygon to add that lord to compare. Use the playstyle chips above to filter; this map updates to show only the filtered set.</p>
   <div class="fr-inner" id="fr-inner">
     <div class="fr-empty" id="fr-empty">
       <div>⚔ Pick a lord to preview their playstyle radar</div>
@@ -982,7 +1000,7 @@ to{transform:rotate(360deg)}}
       <div id="fr-radar-svg"></div>
     </div>
     <div class="fr-all-summary" id="fr-all-summary" style="display:none"></div>
-    <button class="fr-jump-to-results" id="fr-jump-to-results" type="button" style="display:none">↓ Jump to results</button>
+    <button class="fr-jump-to-results" id="fr-jump-to-results" type="button" style="display:none">↑ Back to results</button>
     <div class="fr-info" id="fr-info" style="display:none">
       <h2>⚔ Playstyle Radar</h2>
       <div class="fr-name" id="fr-name"></div>
@@ -993,8 +1011,7 @@ to{transform:rotate(360deg)}}
       <div class="fr-legend" id="fr-legend"></div>
     </div>
   </div>
-</div>
-<main id="main"></main>
+</section>
 
 <button id="back-to-top" type="button" aria-label="Back to top" title="Back to top">▲</button>
 
@@ -3341,15 +3358,17 @@ function updateFeaturedRadar() {
         else delete frAllInner.dataset.userExpanded;
       };
     }
-    // Show / hide the "jump to results" floating button. Only show when
-    // a filter is actually narrowing the set (not the default 110 view),
-    // and when there are matches to jump to.
+    // Show / hide the "back to results" floating button. The radar is
+    // now BELOW the cards (Playstyle Map exploration section), so when
+    // the user is at the radar they may want to jump back UP to the
+    // filtered card list. Show whenever filters are narrowing the set
+    // AND there are matches to jump to.
     const jumpBtn = document.getElementById('fr-jump-to-results');
     if (jumpBtn) {
       const matchCount = allIdxs.length;
       const isNarrowed = matchCount < 110 && matchCount > 0;
       jumpBtn.style.display = isNarrowed ? '' : 'none';
-      jumpBtn.textContent = `↓ Jump to ${matchCount} lord${matchCount === 1 ? '' : 's'}`;
+      jumpBtn.textContent = `↑ Back to ${matchCount} lord${matchCount === 1 ? '' : 's'}`;
       jumpBtn.onclick = () => {
         const firstCard = document.querySelector('#main .card, #main .race-head');
         if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });

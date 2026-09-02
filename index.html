@@ -309,11 +309,16 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
     padding:6px 0;  /* full-bleed so the scroll feels edge-to-edge */
     margin:0 -10px 8px;
     border-bottom:1px solid rgba(201,162,75,.18);
+    overflow:hidden;  /* contain the inner overflow so the All pill
+                          isn't cut by the page edge */
   }
   .ps-filter-inner{
     flex-wrap:nowrap;
     gap:0;
     padding:0 10px;  /* restore side padding since bar is full-bleed */
+    /* Keep the All pill on screen even if chips overflow — the inner
+       container is what defines the visible bar width. */
+    box-sizing:border-box;
   }
   .ps-filter-bar .chips{
     flex-wrap:nowrap;

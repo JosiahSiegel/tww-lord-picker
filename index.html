@@ -2999,8 +2999,8 @@ if (psallEl) psallEl.addEventListener("change",e=>{state.psAll=e.target.checked;
 // Mirror the sticky bar's psall toggle
 const psallBarEl = document.getElementById("psall-bar");
 if (psallBarEl) psallBarEl.addEventListener("change",e=>{state.psAll=e.target.checked;render();});
-$("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();});
-$("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();});
+$("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();syncMoreSelects();});
+$("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();syncMoreSelects();});
 $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
 
 // ── Popover: Sort only. The Filters popover was removed — Difficulty

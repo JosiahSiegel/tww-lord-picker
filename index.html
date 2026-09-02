@@ -312,17 +312,21 @@ button{
 .ps-filter-inner{
   max-width:1200px;
   margin:0 auto;
+  /* Sections are always stacked vertically. RACE has 24 chips and STYLE
+     has 14, so trying to fit 3 sections in a row at any width creates
+     a 40+ row tall bar. Stacking gives every section the full bar
+     width so chips wrap to 4-5 per line naturally. */
   display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
+  flex-direction:column;
+  align-items:stretch;
+  gap:8px;
 }
 .ps-filter-bar .chips-section{
   display:flex;
   align-items:center;
   gap:8px;
   flex-wrap:wrap;
-  flex:1;
+  width:100%;
   min-width:0;
 }
 .ps-filter-bar .chips-section-label{
@@ -334,9 +338,9 @@ button{
   flex:0 0 auto;
   padding:0 2px;
 }
-/* On desktop, the .chips-scroll wrapper is transparent in the layout
-   (display:contents). It only matters on mobile where it provides
-   the horizontal-scroll container with touch-action:pan-x. */
+/* On desktop/tablet, the .chips-scroll wrapper is transparent in the
+   layout (display:contents). On mobile, it provides the horizontal-
+   scroll container with touch-action:pan-x. */
 @media (min-width:641px){
   .ps-filter-bar .chips-scroll{display:contents}
 }

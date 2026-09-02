@@ -378,9 +378,8 @@ button{
   background:color-mix(in srgb,var(--rc) 22%,transparent);
   border-color:var(--rc);
   color:#fff;
-  /* No font-weight change on toggle — that would widen the chip and
-     reflow neighbors. Visual selection is carried by background tint,
-     border color, the ✓ glyph, and box-shadow. */
+  font-weight:400;  /* explicit override — general .chip.on sets 700 which
+                       would widen the chip and reflow neighbors */
 }
 /* Override the default dark ✓ color for the chip bar — the chip-bar
    selected chip has a race-color tint background with white text, so

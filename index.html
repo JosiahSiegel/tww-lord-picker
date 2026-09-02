@@ -1478,7 +1478,7 @@ const PS_ASSIGN={
  "The Glottkin":["crafting","monsters"],
  "Neferata, the Vampire Queen":["schemes","magic"],
  };
-LORDS.forEach(l=>{l.ps=PS_ASSIGN[l.n]||[];});
+LORDS.forEach(l=>{l.ps=(PS_ASSIGN[l.n]||[]).map(t=>t.charAt(0).toUpperCase()+t.slice(1));});
 // ---- Lord combat one-liners: how the lord HIMSELF fights (battle prowess, separate from campaign playstyle tags) ----
 const LORD_BATTLE={
 "Skarbrand the Exiled":"Monster-tier blender — solos lords and small armies by himself",

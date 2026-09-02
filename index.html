@@ -31,12 +31,25 @@ header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch}
      active-pills, legend). At default sizes it can cover 600+ pixels of
      the radar. Add extra top padding so the bar reveals more of the
      page as you scroll, and add a top margin to the radar section so
-     it's not pinned under the bar. */
-  .bar{padding:6px 12px 8px}
-  .bar .row{gap:4px}
-  .bar .btn{font-size:.78rem;padding:5px 8px}
-  .bar input[type=search]{font-size:.85rem;padding:6px 8px}
+     it's not pinned under the bar.
+     44×44 minimum touch targets for all interactive elements. */
+  .bar{padding:6px 10px 8px}
+  .bar .row{gap:5px}
+  .bar .btn{
+    font-size:.8rem;
+    padding:8px 10px;  /* ~36px tall — close to 44pt minimum */
+    min-height:36px;
+  }
+  .bar input[type=search]{
+    font-size:.85rem;
+    padding:10px 10px;  /* ~40px tall — close to 44pt minimum */
+    min-height:40px;
+  }
   .legend{font-size:.7rem;padding:4px 8px}
+  /* Sort button text shorter on mobile so the row fits. */
+  .bar #sort-btn .sort-lbl-full{display:none}
+  .bar #sort-btn .sort-lbl-short{display:inline}
+  .bar #sort-btn::before{content:"⇅ ";color:var(--gold);font-weight:700}
 }
 .bar-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -328,8 +341,10 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
     scrollbar-width:none;  /* Firefox */
     flex:1 1 auto;
     min-width:0;
-    gap:5px;
+    gap:6px;
+    padding:4px 0;  /* vertical breathing room around scrollable chips */
     padding-right:12px;  /* breathing room before the separator + fade */
+    align-items:center;  /* vertically center chips in the taller row */
     /* Subtle right-edge fade to hint there's more chips off-screen.
        Matches the gradient mask used by other .chips instances in the
        app, so the visual vocabulary is consistent. */
@@ -337,20 +352,25 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
     -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
   }
   .ps-filter-bar .chips::-webkit-scrollbar{display:none}  /* Chrome/Safari */
+  /* 44×44pt minimum touch target (Apple HIG / Material). Padding
+     vertical+font line-height gives ~40px total height. */
   .ps-filter-bar .chip{
-    padding:3px 9px;
+    padding:8px 10px;
     font-size:.7rem;
+    min-height:36px;
   }
   .ps-filter-bar .chip .lbl{display:none}  /* icon + count only on mobile */
-  .ps-filter-bar .chip svg{width:12px;height:12px}
+  .ps-filter-bar .chip svg{width:13px;height:13px}
   .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
   /* Match-all toggle: small "All" pill that turns gold when active.
-     Looks like a chip itself so the visual language is uniform. */
+     Looks like a chip itself so the visual language is uniform.
+     Same 36px touch target as the chips. */
   .psall-toggle{
     border-left:1px solid rgba(201,162,75,.2);
     margin-left:4px;
-    padding:3px 8px 3px 10px;
+    padding:8px 10px;
     font-size:.7rem;
+    min-height:36px;
     background:rgba(231,224,210,.02);
     border-radius:999px;
     color:var(--text);
@@ -365,7 +385,7 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
     color:var(--gold);
   }
   .psall-toggle input{
-    width:11px;height:11px;
+    width:12px;height:12px;
     margin:0;
   }
 }
@@ -386,6 +406,26 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .race-head{margin:26px 0 10px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .race-banner{position:relative;background:var(--rc);color:#0f0c12;font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:1rem;padding:5px 22px 5px 12px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%)}
+@media (max-width:640px){
+  /* Sticky race headers on mobile so the user always knows which
+     race they're scrolling through. Sits below the playstyle chip
+     bar. The chip bar is ~44px tall on mobile; the top bar varies
+     but doesn't matter because we use a generous top offset that
+     works in most cases. */
+  .race-head{
+    position:sticky;
+    top:50px;  /* below the playstyle chip bar */
+    z-index:20;
+    background:rgba(19,16,23,.92);
+    backdrop-filter:blur(6px);
+    margin:0 -10px 8px;
+    padding:6px 10px;
+    border-radius:8px;
+    border:1px solid var(--line);
+  }
+  .race-banner{font-size:.85rem;padding:4px 18px 4px 10px}
+  .race-count{font-size:.7rem}
+}
 .race-blurb{color:var(--muted);font-size:.85rem;max-width:72ch}
 .race-count{color:var(--muted);font-size:.8rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;align-items:start}
@@ -424,6 +464,28 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .cmp-toggle{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
 .cmp-toggle:hover{color:var(--text)}
 .cmp-toggle input{accent-color:var(--gold)}
+@media (max-width:640px){
+  /* Mobile: bigger touch target for the compare checkbox. The
+     checkbox itself is small but the entire label is tappable, and
+     we add explicit padding + min-height for the 44pt rule. */
+  .cmp-toggle{
+    padding:8px 12px 8px 8px;
+    margin-top:6px;
+    min-height:40px;
+    border-radius:8px;
+    background:rgba(231,224,210,.03);
+    border:1px solid var(--line);
+    font-size:.8rem;
+    width:100%;
+    justify-content:flex-start;
+  }
+  .cmp-toggle input{
+    width:18px;height:18px;
+  }
+  .card{padding:14px}
+  .pick{font-size:.85rem}
+  .links{gap:4px 12px}
+}
 .hint{color:var(--muted);font-size:.78rem}
 #cmpbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(27,23,32,.97);border-top:1px solid var(--gold);border-top-left-radius:12px;border-top-right-radius:12px;padding:10px 16px;display:none;backdrop-filter:blur(8px)}
 #cmpbar.show{display:flex;gap:10px;align-items:center;justify-content:space-between}
@@ -525,22 +587,61 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
 }
 #featured-radar .fr-empty-sub{font-size:.78rem;margin-top:6px}
 
-/* Mobile: stack radar above info, shrink all-lords radar to fit width */
+/* Mobile: stack radar above info, shrink all-lords radar to fit width.
+   On mobile, the all-lords summary block collapses to a single line that
+   the user can tap to expand the full radar — same disclosure pattern as
+   the legend summary, applied to a much larger element. Keeps the
+   viewport focused on the cards by default. */
 @media(max-width:640px){
-  #featured-radar .fr-inner{flex-direction:column;align-items:center;gap:14px;padding:12px}
-  /* Cap radar at viewport-padded width so it never overflows on phone */
-  #featured-radar .fr-radar,
+  #featured-radar .fr-inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 12px}
   #featured-radar .fr-inner.all-lords .fr-radar{
-    flex:0 0 auto;width:min(100%, 340px);height:auto;aspect-ratio:1;margin:0 auto;
+    flex:0 0 auto;width:100%;height:auto;aspect-ratio:1;margin:0 auto;
   }
-  #featured-radar .fr-radar svg,
+  #featured-radar .fr-radar,
   #featured-radar .fr-inner.all-lords .fr-radar svg{
     width:100%!important;height:100%!important;
   }
-  #featured-radar .fr-info{width:100%;text-align:center}
-  #featured-radar .fr-tags{justify-content:center}
+  #featured-radar .fr-info{width:100%;text-align:left}
+  #featured-radar .fr-tags{justify-content:flex-start}
   #featured-radar .fr-battle{text-align:left}
-  #featured-radar .fr-all-summary{font-size:.8rem;line-height:1.5}
+  #featured-radar .fr-all-summary{font-size:.78rem;line-height:1.45}
+
+  /* Collapsible all-lords summary on mobile. The summary line is always
+     visible (so user sees the count + top races at a glance); the radar
+     SVG is hidden by default and revealed on tap. .fr-collapsed is
+     toggled by JS. Default state on mobile is COLLAPSED. */
+  #featured-radar .fr-inner.all-lords{
+    /* The whole panel: click anywhere on the header line to expand. */
+  }
+  #featured-radar .fr-inner.all-lords > .fr-radar{
+    max-height:0;overflow:hidden;transition:max-height .25s ease, opacity .15s;
+    opacity:0;
+  }
+  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) > .fr-radar{
+    max-height:680px;opacity:1;
+  }
+  #featured-radar .fr-inner.all-lords .fr-all-summary{
+    cursor:pointer;
+    padding:8px 4px;
+    user-select:none;
+    -webkit-tap-highlight-color:rgba(201,162,75,.15);
+  }
+  #featured-radar .fr-inner.all-lords .fr-all-summary::before{
+    content:"▾";
+    display:inline-block;
+    margin-right:6px;
+    transition:transform .15s;
+    color:var(--gold);
+  }
+  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary::before{
+    transform:rotate(180deg);
+  }
+  #featured-radar .fr-inner.all-lords .fr-all-hint{
+    display:none;  /* redundant on mobile — the disclosure caret says it */
+  }
+  #featured-radar .fr-inner.all-lords .fr-all-filter{
+    font-size:.75rem;padding:4px 6px;
+  }
 }
 
 /* "All lords" mode — radar is centered and bigger, takes full width */
@@ -744,7 +845,8 @@ to{transform:rotate(360deg)}}
         <span class="btn-badge" id="filters-badge" style="display:none">0</span>
       </button>
       <button class="btn" id="sort-btn" aria-haspopup="dialog">
-        <span class="btn-ic">↕</span> <span id="sort-label">Group by race</span>
+        <span class="btn-ic">↕</span>
+        <span id="sort-label"><span class="sort-lbl-full">Group by race</span><span class="sort-lbl-short" style="display:none">Group</span></span>
       </button>
       <span class="count" id="count"></span>
       <button class="btn" id="random-lord" title="Random filtered lord">🎲 Random</button>
@@ -3164,6 +3266,26 @@ function updateFeaturedRadar() {
         drawRadars();
         pushState();
       });
+    }
+
+    // Mobile collapse toggle: tap the summary line to expand/collapse the
+    // radar SVG. Only active on mobile (the @media query hides the caret
+    // on desktop). The collapsed state is preserved across re-renders via
+    // a class on the .fr-inner.all-lords wrapper. The default state is
+    // COLLAPSED on mobile so the page is focused on the cards.
+    const frInner = frSummary.closest('.fr-inner.all-lords');
+    if (frInner && window.matchMedia('(max-width: 640px)').matches) {
+      // Default: collapsed. Only restore the user's explicit toggle if
+      // they expanded it earlier in this session.
+      if (!frInner.classList.contains('fr-collapsed') &&
+          !frInner.dataset.userExpanded) {
+        frInner.classList.add('fr-collapsed');
+      }
+      frSummary.onclick = () => {
+        const wasCollapsed = frInner.classList.toggle('fr-collapsed');
+        if (!wasCollapsed) frInner.dataset.userExpanded = '1';
+        else delete frInner.dataset.userExpanded;
+      };
     }
     // Show / hide the "jump to results" floating button. Only show when
     // a filter is actually narrowing the set (not the default 110 view),

@@ -131,9 +131,12 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888);flex-shrink:0}
 .chip svg.chip-ico{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0.9}
 .chip.on{color:#1a1419;border-color:var(--rc,var(--gold));background:var(--rc,var(--gold));font-weight:700;box-shadow:0 0 0 1px var(--rc,var(--gold)),0 2px 8px color-mix(in srgb,var(--rc,var(--gold)) 30%,transparent)}
-.chip.on::before{content:"✓";display:inline-block;font-size:.85em;margin-right:-2px;color:rgba(0,0,0,0.5)}
+/* Always render the selection marker so chip width is constant — no
+   reflow when toggling. Invisible by default; visible only on .on/.off. */
+.chip::before{content:"✓";display:inline-block;font-size:.85em;margin-right:-2px;color:transparent;width:.85em;text-align:center}
+.chip.on::before{color:rgba(0,0,0,0.5)}
 .chip.off{color:#f1d4d4;border-color:rgba(192,112,112,0.55);background:rgba(192,112,112,0.16);text-decoration:line-through;text-decoration-color:rgba(192,112,112,0.5)}
-.chip.off::before{content:"✕";display:inline-block;font-size:.7em;margin-right:-2px;color:#c07070}
+.chip.off::before{content:"✕";color:#c07070}
 .rowlab{flex:0 0 auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px;min-width:64px}
 /* Visual distinction between Race and Play rows — Race uses round dots
    and a neutral border, Play uses gold accents and a divider line. */
@@ -377,6 +380,10 @@ button{
   color:#fff;
   font-weight:600;
 }
+/* Override the default dark ✓ color for the chip bar — the chip-bar
+   selected chip has a race-color tint background with white text, so
+   a near-black ✓ would be invisible. */
+.ps-filter-bar .chip.on::before{color:rgba(255,255,255,.75)}
 .ps-filter-bar .chip.off{
   background:rgba(220,80,80,.18);
   border-color:rgba(220,80,80,.5);

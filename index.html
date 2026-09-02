@@ -324,6 +324,12 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
     border-bottom:1px solid rgba(201,162,75,.18);
     overflow:hidden;  /* contain the inner overflow so the All pill
                           isn't cut by the page edge */
+    /* On mobile, the top bar (search + group + random) is sticky too.
+       The top bar is ~110px tall on a 390px viewport (3 rows of controls).
+       Push the chip bar below it so it doesn't get hidden behind the
+       top bar when both are stuck. Top bar z-index is 50; we use 40 so
+       it stays behind the top bar. */
+    top:110px;
   }
   .ps-filter-inner{
     flex-wrap:nowrap;
@@ -409,12 +415,11 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 @media (max-width:640px){
   /* Sticky race headers on mobile so the user always knows which
      race they're scrolling through. Sits below the playstyle chip
-     bar. The chip bar is ~44px tall on mobile; the top bar varies
-     but doesn't matter because we use a generous top offset that
-     works in most cases. */
+     bar AND the top bar. Total: top bar (~110px) + chip bar (~50px)
+     = ~160px. Round to 160px for the race head top. */
   .race-head{
     position:sticky;
-    top:50px;  /* below the playstyle chip bar */
+    top:160px;
     z-index:20;
     background:rgba(19,16,23,.92);
     backdrop-filter:blur(6px);

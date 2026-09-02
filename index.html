@@ -379,7 +379,7 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
      element handles horizontal pan, so the swipe isn't stolen by
      the page-scroll gesture. */
   .ps-filter-bar .chips-scroll{
-    flex:1 1 auto;
+    flex:1 1 0;  /* allow shrink but keep at least some width */
     min-width:0;
     overflow-x:auto;
     overflow-y:hidden;
@@ -394,11 +394,16 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
   }
   .ps-filter-bar .chips-scroll::-webkit-scrollbar{display:none}
   .ps-filter-bar .chips{
-    display:inline-flex;  /* single row, no wrap */
+    display:flex;  /* block-level flex; fills the .chips-scroll width */
     flex-wrap:nowrap;
     gap:5px;
     padding:4px 0;
     padding-right:12px;
+    /* Force the chips container to be at least as wide as its content
+       (so the overflow-x on the .chips-scroll has something to scroll).
+       Without width:max-content, flex items shrink to their container
+       and the scroll never activates. */
+    width:max-content;
   }
   .ps-filter-bar .chip{
     padding:6px 9px;

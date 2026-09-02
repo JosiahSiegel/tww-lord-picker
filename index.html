@@ -760,7 +760,11 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
   #cmpbar{
     padding:10px 12px 12px;  /* respect iOS safe-area-ish bottom padding */
     gap:8px;
-    align-items:center;
+    flex-direction:column;  /* stack info row above actions row */
+    align-items:stretch;
+  }
+  #cmpbar .cmp-info{
+    width:100%;
   }
   #cmpbar .cmp-count{
     font-size:.85rem;  /* slightly bigger on mobile so the user can read at a glance */
@@ -770,8 +774,10 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
     max-width:100%;
   }
   #cmpbar .cmp-actions{
-    width:100%;  /* stack: compare button goes full-width below info */
+    width:100%;  /* full-width row of action buttons */
     margin-top:0;
+    display:flex;
+    gap:8px;
   }
   #cmpbar .cmp-actions #docmp{
     flex:1;
@@ -1286,13 +1292,60 @@ to{transform:rotate(360deg)}}
 }
 #overlay .ov-lord-row{
   background:var(--panel);border:1px solid var(--line);
-  border-radius:10px;padding:10px 12px;
+  border-radius:10px;padding:12px 14px;
 }
 #overlay .ov-lord-row h4{
-  font-family:"Cinzel",Georgia,serif;font-size:.9rem;
-  margin:0 0 3px;font-weight:600;
+  font-family:"Cinzel",Georgia,serif;font-size:.95rem;
+  margin:0 0 2px;font-weight:600;
 }
-#overlay .ov-lord-row .ov-lord-sub{font-size:.75rem;color:var(--muted);margin:0 0 6px}
+#overlay .ov-lord-row .ov-lord-sub{font-size:.75rem;color:var(--muted);margin:0 0 4px}
+#overlay .ov-lord-row .ov-lord-stats{
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  font-size:.72rem;color:var(--muted);margin:0 0 8px;
+}
+#overlay .ov-lord-row .ov-stat{
+  display:inline-flex;align-items:center;gap:4px;
+}
+#overlay .ov-lord-row .ov-stars{color:var(--gold);letter-spacing:.5px;font-size:.78rem}
+#overlay .ov-lord-row .ov-section{margin:8px 0 0}
+#overlay .ov-lord-row .ov-section-label{
+  font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--gold);font-weight:700;margin:0 0 4px;opacity:.85;
+}
+#overlay .ov-lord-row .ov-mech-name{
+  font-size:.82rem;color:var(--text);font-weight:600;margin:0 0 2px;
+}
+#overlay .ov-lord-row .ov-mech-desc{
+  font-size:.74rem;color:var(--muted);line-height:1.45;margin:0;
+}
+#overlay .ov-lord-row .ov-pros-cons{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin:4px 0 0;
+}
+#overlay .ov-lord-row .ov-pc-block{
+  background:var(--panel2);border-radius:6px;padding:6px 8px;
+  font-size:.72rem;line-height:1.4;
+}
+#overlay .ov-lord-row .ov-pc-block.pros{border-left:2px solid var(--pro)}
+#overlay .ov-lord-row .ov-pc-block.cons{border-left:2px solid var(--con)}
+#overlay .ov-lord-row .ov-pc-block ul{margin:0;padding:0;list-style:none}
+#overlay .ov-lord-row .ov-pc-block li{padding:1px 0}
+#overlay .ov-lord-row .ov-pc-block li::before{
+  content:"";display:inline-block;width:8px;
+}
+#overlay .ov-lord-row .ov-pc-block.pros li::before{content:"+ ";color:var(--pro);font-weight:700}
+#overlay .ov-lord-row .ov-pc-block.cons li::before{content:"− ";color:var(--con);font-weight:700}
+#overlay .ov-lord-row .ov-battle{
+  font-size:.72rem;color:var(--text);background:var(--panel2);
+  border-radius:6px;padding:6px 8px;margin:0;line-height:1.4;
+}
+#overlay .ov-lord-row .ov-battle b{color:var(--gold);font-weight:600}
+#overlay .ov-lord-row .ov-pick{
+  font-size:.78rem;color:var(--text);font-style:italic;line-height:1.4;
+  margin:6px 0 0;padding:6px 8px;
+  border-left:2px solid var(--gold);
+  background:rgba(201,162,75,.06);
+}
 #overlay .ov-lord-tags{display:flex;flex-wrap:wrap;gap:4px}
 #overlay .ov-lord-tag{
   display:inline-flex;align-items:center;gap:3px;
@@ -1300,6 +1353,11 @@ to{transform:rotate(360deg)}}
   border-radius:999px;padding:2px 6px;font-size:.65rem;
 }
 #overlay .ov-lord-tag svg{width:9px;height:9px;fill:currentColor}
+
+/* Stack pros/cons vertically on narrow screens */
+@media (max-width:520px){
+  #overlay .ov-lord-row .ov-pros-cons{grid-template-columns:1fr}
+}
 
 </style>
 </head>
@@ -2801,21 +2859,65 @@ function openOverlay(){
     ).join("");
   }
 
-  // Lord cards sidebar
+  // Lord cards sidebar — full comparison content
   const lordsCol = document.getElementById("ov-lords-col");
   if (lordsCol) {
+    // Visualize difficulty 1-4 as filled vs empty stars (●●○○ etc.)
+    const starsFor = (d) => {
+      const n = Math.max(0, Math.min(4, d|0));
+      return '<span class="ov-stars">' + '●'.repeat(n) + '○'.repeat(4 - n) + '</span>';
+    };
+    // Shorten a long mechanic description for the compare view
+    const shortMech = (s, max = 220) => {
+      if (!s) return '';
+      return s.length > max ? s.slice(0, max - 1).trimEnd() + '…' : s;
+    };
     lordsCol.innerHTML = state.cmp.map((lIdx, ci) => {
       const lord = LORDS[lIdx];
       const color = RADAR_COLORS[ci % RADAR_COLORS.length];
+      // Top mechanic = first item in mech array, name + shortened description
+      const topMech = (lord.mech && lord.mech[0]) || null;
+      const topMechName = topMech ? topMech[0] : '';
+      const topMechDesc = topMech ? shortMech(topMech[1], 220) : '';
+      // Top 2-3 pros and cons for the compare grid
+      const pros = (lord.pros || []).slice(0, 3);
+      const cons = (lord.cons || []).slice(0, 3);
       return `<div class="ov-lord-row" style="border-left:3px solid ${color}">
         <h4 style="color:${color}">${esc(lord.n)}</h4>
         <div class="ov-lord-sub">${(RACE_ICONS[lord.r]||"")+" "+esc(lord.r)} · ${esc(lord.f)}</div>
-        <div class="ov-lord-tags">${lord.ps.map(p => {
-          const tag = p.charAt(0).toUpperCase() + p.slice(1);
-          const ic = PS[tag]?.ic || "#888";
-          const label = PS[tag]?.t || tag;
-          return `<span class="ov-lord-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
-        }).join("")}</div>
+        <div class="ov-lord-stats">
+          <span class="ov-stat" title="Difficulty 1-4">${starsFor(lord.d)}</span>
+          <span class="ov-stat">${esc(lord.src || '—')}</span>
+        </div>
+        ${lord.ps.length ? `<div class="ov-section">
+          <div class="ov-section-label">Playstyles</div>
+          <div class="ov-lord-tags">${lord.ps.map(p => {
+            const tag = p.charAt(0).toUpperCase() + p.slice(1);
+            const ic = PS[tag]?.ic || "#888";
+            const label = PS[tag]?.t || tag;
+            return `<span class="ov-lord-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
+          }).join("")}</div>
+        </div>` : ''}
+        ${topMechName ? `<div class="ov-section">
+          <div class="ov-section-label">Key Mechanic</div>
+          <div class="ov-mech-name">${esc(topMechName)}</div>
+          <p class="ov-mech-desc">${esc(topMechDesc)}</p>
+        </div>` : ''}
+        ${(pros.length || cons.length) ? `<div class="ov-pros-cons">
+          ${pros.length ? `<div class="ov-pc-block pros">
+            <div class="ov-section-label">Pros</div>
+            <ul>${pros.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${cons.length ? `<div class="ov-pc-block cons">
+            <div class="ov-section-label">Cons</div>
+            <ul>${cons.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+          </div>` : ''}
+        </div>` : ''}
+        ${lord.battle ? `<div class="ov-section">
+          <div class="ov-section-label">In Battle</div>
+          <p class="ov-battle"><b>⚔</b> ${esc(shortMech(lord.battle, 200))}</p>
+        </div>` : ''}
+        ${lord.pick ? `<div class="ov-pick">"${esc(shortMech(lord.pick, 200))}"</div>` : ''}
       </div>`;
     }).join("");
   }
@@ -3858,21 +3960,61 @@ function openOverlay() {
     ).join('');
   }
 
-  // Lord cards list
+  // Lord cards list — full comparison content (mechanics, pros/cons, pick)
   const lordsCol = document.getElementById('ov-lords-col');
   if (lordsCol) {
+    const starsFor = (d) => {
+      const n = Math.max(0, Math.min(4, d|0));
+      return '<span class="ov-stars">' + '●'.repeat(n) + '○'.repeat(4 - n) + '</span>';
+    };
+    const shortMech = (s, max = 220) => {
+      if (!s) return '';
+      return s.length > max ? s.slice(0, max - 1).trimEnd() + '…' : s;
+    };
     lordsCol.innerHTML = state.cmp.map((lIdx, ci) => {
       const lord = LORDS[lIdx];
       const color = RADAR_COLORS[ci % RADAR_COLORS.length];
+      const topMech = (lord.mech && lord.mech[0]) || null;
+      const topMechName = topMech ? topMech[0] : '';
+      const topMechDesc = topMech ? shortMech(topMech[1], 220) : '';
+      const pros = (lord.pros || []).slice(0, 3);
+      const cons = (lord.cons || []).slice(0, 3);
       return `<div class="ov-lord-row" style="border-left:3px solid ${color}">
         <h4 style="color:${color}">${esc(lord.n)}</h4>
-        <div class="ov-lord-sub">${esc(lord.r)} · ${esc(lord.f)}</div>
-        <div class="ov-lord-tags">${lord.ps.map(p => {
-          const tag = normTag(p);
-          const ic = PS[tag]?.ic || '#888';
-          const label = PS[tag]?.t || tag;
-          return `<span class="ov-lord-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
-        }).join('')}</div>
+        <div class="ov-lord-sub">${(RACE_ICONS[lord.r]||"")+" "+esc(lord.r)} · ${esc(lord.f)}</div>
+        <div class="ov-lord-stats">
+          <span class="ov-stat" title="Difficulty 1-4">${starsFor(lord.d)}</span>
+          <span class="ov-stat">${esc(lord.src || '—')}</span>
+        </div>
+        ${lord.ps.length ? `<div class="ov-section">
+          <div class="ov-section-label">Playstyles</div>
+          <div class="ov-lord-tags">${lord.ps.map(p => {
+            const tag = normTag(p);
+            const ic = PS[tag]?.ic || '#888';
+            const label = PS[tag]?.t || tag;
+            return `<span class="ov-lord-tag" style="color:${ic}">${iconSVG(PSI[tag], 12, ic)} ${esc(label)}</span>`;
+          }).join('')}</div>
+        </div>` : ''}
+        ${topMechName ? `<div class="ov-section">
+          <div class="ov-section-label">Key Mechanic</div>
+          <div class="ov-mech-name">${esc(topMechName)}</div>
+          <p class="ov-mech-desc">${esc(topMechDesc)}</p>
+        </div>` : ''}
+        ${(pros.length || cons.length) ? `<div class="ov-pros-cons">
+          ${pros.length ? `<div class="ov-pc-block pros">
+            <div class="ov-section-label">Pros</div>
+            <ul>${pros.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${cons.length ? `<div class="ov-pc-block cons">
+            <div class="ov-section-label">Cons</div>
+            <ul>${cons.map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+          </div>` : ''}
+        </div>` : ''}
+        ${lord.battle ? `<div class="ov-section">
+          <div class="ov-section-label">In Battle</div>
+          <p class="ov-battle"><b>⚔</b> ${esc(shortMech(lord.battle, 200))}</p>
+        </div>` : ''}
+        ${lord.pick ? `<div class="ov-pick">"${esc(shortMech(lord.pick, 200))}"</div>` : ''}
       </div>`;
     }).join('');
   }

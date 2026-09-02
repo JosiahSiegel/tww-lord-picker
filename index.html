@@ -330,104 +330,90 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 .psall-toggle:hover{background:rgba(201,162,75,.08);color:var(--text)}
 .psall-toggle input{accent-color:var(--gold);cursor:pointer}
 
-/* Mobile: race chips become a 2-column grid (all 24 races visible at
-   once, no horizontal scroll), playstyle chips stay as a single
-   horizontal scroll row. The race section is non-sticky (it's a
-   one-time selection the user makes near the top of the page) and
-   the playstyle section IS sticky (it's the filter the user is
-   likely to tweak while scrolling through results).
-   This split is implemented by giving the playstyle section its own
-   sticky positioning, separate from the .ps-filter-bar container. */
+/* Mobile: single horizontal scrollable row (industry-standard filter
+   bar pattern on small screens — YouTube, Twitter, Instagram all do
+   this). Both race and playstyle chips share one continuous horizontal
+   scroll. The "All" toggle is pinned to the end with a vertical
+   separator. The right-edge gradient hints there's more to scroll to.
+   IMPORTANT: the parent .ps-filter-bar must NOT have overflow:hidden,
+   or the horizontal scroll gets clipped and becomes impossible on
+   touch devices. */
 @media (max-width:640px){
   .ps-filter-bar{
-    padding:6px 10px 8px;
+    padding:6px 0;
     margin:0 -10px 8px;
     border-bottom:1px solid rgba(201,162,75,.18);
-    position:static;  /* the container itself is not sticky on mobile;
-                          only the playstyle section inside it is */
+    /* No overflow:hidden — it would clip the scrollable chips and
+       make the bar impossible to swipe. Overflow stays visible so
+       the chips can extend past the bar's right edge into the
+       scrollable inner area. */
+    overflow:visible;
+    /* Sticky below the top bar (title + search + group + random).
+       The top bar is ~135px tall on a 390px viewport (3 rows of
+       controls). */
+    top:135px;
   }
   .ps-filter-inner{
-    flex-direction:column;
-    align-items:stretch;
-    gap:10px;
+    flex-wrap:nowrap;
+    gap:0;
+    padding:0 10px;
+    box-sizing:border-box;
   }
   .ps-filter-bar .chips-section{
     flex:0 0 auto;
-    width:100%;
+    display:flex;
+    align-items:center;
+    gap:6px;
   }
   .ps-filter-bar .chips-section-label{
     font-size:.6rem;
-    padding:0 2px 4px;
-    display:block;
+    padding-right:4px;
+    flex:0 0 auto;
   }
-  /* Race section: 2-column grid, all 24 races visible at once. */
-  .ps-filter-bar .chips-section--race .chips{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    overflow:visible;
-    mask-image:none;
-    -webkit-mask-image:none;
-    padding:0;
-  }
-  .ps-filter-bar .chips-section--race .chip{
-    width:100%;
-    justify-content:flex-start;
-    padding:8px 10px;
-    font-size:.78rem;
-    min-height:38px;
-  }
-  .ps-filter-bar .chips-section--race .chip .lbl{
-    /* Truncate long names like "Grand Cathay" or "Warriors of Chaos"
-       so the 2-col grid stays compact. Title attr has the full name. */
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    flex:1 1 auto;
-    min-width:0;
-  }
-  /* Style section: sticky on mobile so the playstyle filter stays
-     accessible while scrolling. Sits below the top bar. The "All"
-     toggle is inside this section and sticks with it. */
-  .ps-filter-bar .chips-section--style{
-    position:sticky;
-    top:135px;  /* below the top bar (title + search + group + random) */
-    z-index:40;
-    background:linear-gradient(180deg,rgba(27,23,32,.98) 0%,rgba(27,23,32,.94) 100%);
-    backdrop-filter:blur(8px);
-    margin:0 -10px;
-    padding:4px 10px 6px;
-    border-top:1px solid rgba(201,162,75,.18);
-    border-bottom:1px solid rgba(201,162,75,.18);
-  }
-  .ps-filter-bar .chips-section--style .chips{
+  .ps-filter-bar .chips{
     flex-wrap:nowrap;
     overflow-x:auto;
     overflow-y:hidden;
     -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
-    flex:1 1 auto;
+    flex:0 0 auto;
     min-width:0;
-    gap:6px;
+    gap:5px;
     padding:4px 0;
     padding-right:12px;
     align-items:center;
+    /* The critical line for touch scrolling. Without `touch-action:pan-x`,
+       mobile browsers may interpret horizontal swipe as a vertical
+       page scroll (especially inside flex containers) and the chips
+       become impossible to swipe. pan-x tells the browser "this element
+       handles horizontal pan; let it through, don't steal it for page
+       scroll". */
+    touch-action:pan-x;
+    /* Subtle right-edge fade to hint there's more chips off-screen. */
     mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
     -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
   }
-  .ps-filter-bar .chips-section--style .chips::-webkit-scrollbar{display:none}
+  .ps-filter-bar .chips::-webkit-scrollbar{display:none}
   .ps-filter-bar .chip{
-    padding:7px 10px;
-    font-size:.72rem;
-    min-height:36px;
+    padding:6px 9px;
+    font-size:.7rem;
+    min-height:34px;
+    /* Don't let flex shrink the chip below its content width;
+       flex-shrink:0 + flex-basis:auto means each chip is exactly
+       as wide as its content. Combined with the parent's
+       overflow-x:auto, this gives a clean horizontal scroll. */
+    flex:0 0 auto;
   }
-  /* Keep labels visible on mobile — the user needs to know which
-     chip is which. Icon-only worked for 14 playstyles (all distinct
-     icons), but with 24 races + 14 playstyles the icons aren't
-     self-explanatory. The bar scrolls horizontally so width is fine. */
   .ps-filter-bar .chip .lbl{display:inline}
   .ps-filter-bar .chip svg{width:13px;height:13px}
   .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
+  /* Vertical separator between the RACE and STYLE sections in the
+     horizontal scroll, so the user can tell where one section ends
+     and the next begins. */
+  .ps-filter-bar .chips-section--race{
+    padding-right:4px;
+    border-right:1px solid rgba(201,162,75,.2);
+  }
   /* Match-all toggle: small "All" pill that turns gold when active.
      Looks like a chip itself so the visual language is uniform.
      Same 36px touch target as the chips. */

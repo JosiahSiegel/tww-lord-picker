@@ -2568,12 +2568,18 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     if (aInc && bInc) { hitCls = 'wedge-hit wedge-include'; hitFill = 'rgba(201,162,75,0.20)'; }
     else if (aExc && bExc) { hitCls = 'wedge-hit wedge-exclude'; hitFill = 'rgba(220,80,80,0.14)'; }
     else if (aInc || bInc) { hitCls = 'wedge-hit wedge-partial'; hitFill = 'rgba(201,162,75,0.12)'; }
-    // Count lords in this wedge (intersection of both playstyles)
+    // Count lords in this wedge (intersection of both playstyles) and
+    // the union (lords with EITHER tag) so the tooltip shows both — the
+    // user picks which to filter on.
     const cnt = lordIdxs.filter(li => {
       const ps = (LORDS[li].ps || []).map(normTag);
       return ps.includes(aKey) && ps.includes(bKey);
     }).length;
-    const tipText = `${aKey} · ${bKey}\n${cnt} lord${cnt === 1 ? '' : 's'} have both — click to require both`;
+    const cntOR = lordIdxs.filter(li => {
+      const ps = (LORDS[li].ps || []).map(normTag);
+      return ps.includes(aKey) || ps.includes(bKey);
+    }).length;
+    const tipText = `${aKey} · ${bKey}\n${cnt} lord${cnt === 1 ? '' : 's'} have both · ${cntOR} match either — click to include either`;
     svg += `<polygon class="${hitCls}" data-tag-a="${aKey}" data-tag-b="${bKey}" `
          + `points="${wpts}" fill="${hitFill}" stroke="rgba(201,162,75,0.18)" stroke-width="0.4" `
          + `data-tip="${tipText}" />`;
@@ -2928,7 +2934,7 @@ function updateFeaturedRadar() {
         <details class="profile-details"><summary>Playstyle profile — what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
         <div class="profile-chart">${summaryData.profileRows}</div></details>
         <div class="fr-all-hint">
-          <b>Tap an axis</b> to filter on that playstyle · <b>tap a wedge</b> to require both bounding tags · <b>tap a card</b> to view that lord<br>
+          <b>Tap an axis</b> to filter on that playstyle · <b>tap a wedge</b> to include either bounding tag · <b>tap a card</b> to view that lord<br>
           <span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span>
         </div>
         `;
@@ -3238,32 +3244,30 @@ radar.addEventListener('click', e => {
       const b = wedge.dataset.tagB;
       if (additive) {
         // Toggle both tags: if either is already in the include set,
-        // remove it; otherwise add both. Wedge always means "require
-        // both" (psAll = true). If psInc drops below 2 tags, drop psAll.
+        // remove it; otherwise add both. Wedge is OR (broadest match);
+        // user can flip psAll manually for AND if needed.
         if (state.psInc.has(a) || state.psInc.has(b)) {
           state.psInc.delete(a);
           state.psInc.delete(b);
-          if (state.psInc.size < 2) state.psAll = false;
         } else {
           state.psInc.add(a);
           state.psInc.add(b);
           state.psExc.delete(a);
           state.psExc.delete(b);
-          state.psAll = true;
         }
       } else {
-        // Default: replace with this 2-tag combo, AND-ed. The hint text
-        // says "tap a wedge to require both bounding tags" — so we set
-        // psAll = true so both tags must be present (not OR). Click the
-        // active wedge a second time to clear.
-        const alreadyActive = state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size && state.psAll;
+        // Default: replace with this 2-tag combo, OR-ed. A wedge click
+        // shows lords with EITHER bounding tag (broader than AND, which
+        // rarely produced matches with 14 playstyles). For "lords with
+        // BOTH tags", the user can tap the "match all" checkbox below
+        // the playstyle chips.
+        const alreadyActive = state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size && !state.psAll;
         if (alreadyActive) {
           state.psInc.clear();
-          state.psAll = false;
         } else {
           state.psInc = new Set([a, b]);
           state.psExc.clear();
-          state.psAll = true; // require BOTH, not either
+          state.psAll = false; // OR: show lords with EITHER tag
         }
         // Clear any search set by a previous polygon click, so the wedge
         // filter shows lords that actually match the playstyle combo

@@ -765,6 +765,8 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
   }
   #cmpbar .cmp-info{
     width:100%;
+    min-width:100%;  /* override the .cmp-info{flex:1;min-width:0} from desktop */
+    flex:0 0 auto;    /* don't try to grow in the column axis */
   }
   #cmpbar .cmp-count{
     font-size:.85rem;  /* slightly bigger on mobile so the user can read at a glance */

@@ -2569,8 +2569,9 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
     else if (aExc && bExc) { hitCls = 'wedge-hit wedge-exclude'; hitFill = 'rgba(220,80,80,0.14)'; }
     else if (aInc || bInc) { hitCls = 'wedge-hit wedge-partial'; hitFill = 'rgba(201,162,75,0.12)'; }
     // Count lords in this wedge (intersection of both playstyles) and
-    // the union (lords with EITHER tag) so the tooltip shows both — the
-    // user picks which to filter on.
+    // the union (lords with EITHER tag) so the tooltip shows both.
+    // Wedges no longer filter — pairings are arbitrary — but the count
+    // is useful context: "lots of lords lean between War and Builder".
     const cnt = lordIdxs.filter(li => {
       const ps = (LORDS[li].ps || []).map(normTag);
       return ps.includes(aKey) && ps.includes(bKey);
@@ -2579,7 +2580,7 @@ function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
       const ps = (LORDS[li].ps || []).map(normTag);
       return ps.includes(aKey) || ps.includes(bKey);
     }).length;
-    const tipText = `${aKey} · ${bKey}\n${cnt} lord${cnt === 1 ? '' : 's'} have both · ${cntOR} match either — click to include either`;
+    const tipText = `${aKey} · ${bKey}\n${cnt} lord${cnt === 1 ? '' : 's'} have both · ${cntOR} match either\n(tap the playstyle chips below to filter)`;
     svg += `<polygon class="${hitCls}" data-tag-a="${aKey}" data-tag-b="${bKey}" `
          + `points="${wpts}" fill="${hitFill}" stroke="rgba(201,162,75,0.18)" stroke-width="0.4" `
          + `data-tip="${tipText}" />`;
@@ -2934,7 +2935,7 @@ function updateFeaturedRadar() {
         <details class="profile-details"><summary>Playstyle profile — what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
         <div class="profile-chart">${summaryData.profileRows}</div></details>
         <div class="fr-all-hint">
-          <b>Tap an axis</b> to filter on that playstyle · <b>tap a wedge</b> to include either bounding tag · <b>tap a card</b> to view that lord<br>
+          <b>Tap an axis</b> to filter on that playstyle · <b>tap a card</b> to view that lord<br>
           <span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span>
         </div>
         `;
@@ -3237,52 +3238,13 @@ radar.addEventListener('click', e => {
       }
       return;
     }
-    // Wedge click
-    const wedge = e.target.closest('.wedge-hit[data-tag-a]');
-    if (wedge) {
-      const a = wedge.dataset.tagA;
-      const b = wedge.dataset.tagB;
-      if (additive) {
-        // Toggle both tags: if either is already in the include set,
-        // remove it; otherwise add both. Wedge is OR (broadest match);
-        // user can flip psAll manually for AND if needed.
-        if (state.psInc.has(a) || state.psInc.has(b)) {
-          state.psInc.delete(a);
-          state.psInc.delete(b);
-        } else {
-          state.psInc.add(a);
-          state.psInc.add(b);
-          state.psExc.delete(a);
-          state.psExc.delete(b);
-        }
-      } else {
-        // Default: replace with this 2-tag combo, OR-ed. A wedge click
-        // shows lords with EITHER bounding tag (broader than AND, which
-        // rarely produced matches with 14 playstyles). For "lords with
-        // BOTH tags", the user can tap the "match all" checkbox below
-        // the playstyle chips.
-        const alreadyActive = state.psInc.size === 2 && state.psInc.has(a) && state.psInc.has(b) && !state.psExc.size && !state.psAll;
-        if (alreadyActive) {
-          state.psInc.clear();
-        } else {
-          state.psInc = new Set([a, b]);
-          state.psExc.clear();
-          state.psAll = false; // OR: show lords with EITHER tag
-        }
-        // Clear any search set by a previous polygon click, so the wedge
-        // filter shows lords that actually match the playstyle combo
-        // rather than lords that also match a stale name search.
-        if (state.q) {
-          state.q = '';
-          const qInput = document.getElementById('q');
-          if (qInput) qInput.value = '';
-        }
-      }
-      pushState();
-      renderChips();
-      render();
-      drawRadars();
-    }
+    // Wedge click — REMOVED. Wedge pairings are arbitrary (just adjacent
+    // axes in the PS object order), so filtering by them doesn't match
+    // any meaningful user intent. The wedges are still visible (showing
+    // lord density between playstyles) and the tooltip on hover still
+    // shows the count, but clicks do nothing. To filter on multiple
+    // playstyles, click each axis individually — the chips build up the
+    // filter visibly so the user always knows what they're filtering on.
   });
 
   // Tap feedback: brief scale-up on pointerdown for any radar target, so

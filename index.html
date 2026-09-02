@@ -357,6 +357,20 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
        container is what defines the visible bar width. */
     box-sizing:border-box;
   }
+  /* Mobile: make the two chip sections side-by-side in a single
+     horizontal scroll. Each section (RACE / STYLE) is a row, but
+     they're laid out side-by-side in the scroll. The section labels
+     stay with their chips. The user can swipe through all 38 chips
+     in one continuous scroll, with section boundaries visible. */
+  .ps-filter-bar .chips-section{
+    flex:0 0 auto;
+  }
+  .ps-filter-bar .chips-section-label{
+    /* Make the label stick to the top-left of the section, so the
+       user always sees which section they're in as they scroll. */
+    font-size:.6rem;
+    padding-right:6px;
+  }
   .ps-filter-bar .chips{
     flex-wrap:nowrap;
     overflow-x:auto;
@@ -379,11 +393,15 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
   /* 44×44pt minimum touch target (Apple HIG / Material). Padding
      vertical+font line-height gives ~40px total height. */
   .ps-filter-bar .chip{
-    padding:8px 10px;
-    font-size:.7rem;
+    padding:7px 10px;
+    font-size:.72rem;
     min-height:36px;
   }
-  .ps-filter-bar .chip .lbl{display:none}  /* icon + count only on mobile */
+  /* Keep labels visible on mobile — the user needs to know which
+     chip is which. Icon-only worked for 14 playstyles (all distinct
+     icons), but with 24 races + 14 playstyles the icons aren't
+     self-explanatory. The bar scrolls horizontally so width is fine. */
+  .ps-filter-bar .chip .lbl{display:inline}
   .ps-filter-bar .chip svg{width:13px;height:13px}
   .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
   /* Match-all toggle: small "All" pill that turns gold when active.

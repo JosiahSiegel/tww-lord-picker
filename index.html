@@ -302,7 +302,8 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
    pattern on small screens — YouTube, Twitter, Instagram all do this).
    The 14 chips become a fixed-height strip the user swipes through. The
    "Match all" toggle is part of the strip, pinned to the end with a
-   vertical separator. */
+   vertical separator. The right-edge gradient hints there's more to
+   scroll to (same pattern as .chips mask-image). */
 @media (max-width:640px){
   .ps-filter-bar{
     padding:6px 0;  /* full-bleed so the scroll feels edge-to-edge */
@@ -323,7 +324,12 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
     flex:1 1 auto;
     min-width:0;
     gap:5px;
-    padding-right:4px;  /* breathing room before the separator */
+    padding-right:12px;  /* breathing room before the separator + fade */
+    /* Subtle right-edge fade to hint there's more chips off-screen.
+       Matches the gradient mask used by other .chips instances in the
+       app, so the visual vocabulary is consistent. */
+    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
   }
   .ps-filter-bar .chips::-webkit-scrollbar{display:none}  /* Chrome/Safari */
   .ps-filter-bar .chip{
@@ -333,14 +339,30 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
   .ps-filter-bar .chip .lbl{display:none}  /* icon + count only on mobile */
   .ps-filter-bar .chip svg{width:12px;height:12px}
   .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
+  /* Match-all toggle: small "All" pill that turns gold when active.
+     Looks like a chip itself so the visual language is uniform. */
   .psall-toggle{
     border-left:1px solid rgba(201,162,75,.2);
     margin-left:4px;
-    padding-left:10px;
+    padding:3px 8px 3px 10px;
     font-size:.7rem;
     background:rgba(231,224,210,.02);
+    border-radius:999px;
+    color:var(--text);
   }
-  .psall-toggle span{display:none}  /* just checkbox on mobile */
+  .psall-toggle span{
+    display:inline;
+    font-weight:600;
+  }
+  .psall-toggle:has(input:checked){
+    background:rgba(201,162,75,.18);
+    border-color:rgba(201,162,75,.5);
+    color:var(--gold);
+  }
+  .psall-toggle input{
+    width:11px;height:11px;
+    margin:0;
+  }
 }
 @media(max-width:640px){#back-to-top{display:block}}
 .tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}

@@ -3154,6 +3154,18 @@ function updateFeaturedRadar() {
   fe.style.display = 'none';
   cmpBtn.style.display = state.cmp.length >= 2 ? '' : 'none';
 
+  // Mark the panel as all-lords mode when no lord is picked, so the
+  // mobile collapse CSS (`.fr-inner.all-lords > .fr-radar { max-height: 0 }`)
+  // can target it. The summary block (visible only in all-lords mode)
+  // already toggles its own display, so this is just a marker for CSS.
+  if (frInner) {
+    if (state.cmp.length === 0) {
+      frInner.classList.add('all-lords');
+    } else {
+      frInner.classList.remove('all-lords');
+    }
+  }
+
   const svgEl = document.getElementById('fr-radar-svg');
   const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.diff || state.src || state.q;
   const allIdxsBase = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);

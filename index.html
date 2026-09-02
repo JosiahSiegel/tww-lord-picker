@@ -110,11 +110,10 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
   .chips{scroll-snap-type:x proximity;padding-bottom:8px}
   .chips::-webkit-scrollbar{height:0}
   .chip .count{font-size:.72rem;min-width:20px;height:20px}
-  /* The desktop selects stay visible (compact row) — the .more-filters
-     <details> block is the second-row, mobile-friendly copy of the same
-     inputs. The active-filter pills show the state, the .more-filters
-     details the way to change it on mobile. */
-  #fdiff,#fsrc,#sort{display:none}
+  /* fdiff/fsrc are now inline in the chip bar (Filters popover removed)
+     so they must be visible on mobile. The sort select is still in the
+     popover and stays hidden here. */
+  #sort{display:none}
   .more-filters{font-size:.82rem;display:block}
   .more-filters summary{padding:8px 0;cursor:pointer;color:var(--muted);list-style:none;font-weight:600}
   .more-filters summary::before{content:"⚙ ";color:var(--gold)}

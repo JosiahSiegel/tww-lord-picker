@@ -215,13 +215,6 @@ body.filter-on .bar{border-bottom:1px solid rgba(201,162,75,0.45);box-shadow:0 2
 body.filter-on #count{color:var(--gold);font-weight:600}
 body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 
-/* Card match badge — gold pill in top-right of each card when filters
-   are active. Shows the count of filters the card satisfied. */
-.match-badge{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;gap:3px;background:rgba(201,162,75,0.18);border:1px solid rgba(201,162,75,0.5);color:var(--gold);border-radius:999px;padding:2px 8px 2px 6px;font-size:.7rem;font-weight:700;line-height:1.2;z-index:2;pointer-events:none;backdrop-filter:blur(4px)}
-.match-badge .match-check{font-size:.85em;line-height:1}
-.match-badge .match-count{font-variant-numeric:tabular-nums}
-@media(max-width:640px){.match-badge{top:6px;right:6px;font-size:.65rem;padding:1px 7px 1px 5px}}
-
 /* Radar "Showing filter" line — make it a sticky-feeling header. */
 .fr-all-filter{background:rgba(96,200,200,0.08);border:1px solid rgba(96,200,200,0.3);border-radius:8px;padding:6px 10px;margin:6px 0 8px;font-size:.8rem;color:var(--text);display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .fr-all-filter-none{background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.15);color:var(--muted)}
@@ -2623,14 +2616,7 @@ function cardHTML(l){
   const rc=RACES[l.r].c;
   const open=state.open.has(l.i)?" open":"";
   const ck=state.cmp.includes(l.i)?" checked":"";
-  // When any filter is active, show a small "matches" badge so the user
-  // knows the card is visible BECAUSE it passed the filter. The badge
-  // counts how many filters were satisfied (always >= 1).
-  const activeFilters = (state.q ? 1 : 0) + (state.race.size ? 1 : 0) + (state.diff ? 1 : 0) + (state.src ? 1 : 0) + state.psInc.size + state.psExc.size;
-  const matchBadge = activeFilters
-    ? `<div class="match-badge" title="Matches ${activeFilters} active filter${activeFilters>1?'s':''}"><span class="match-check">✓</span><span class="match-count">${activeFilters}</span></div>`
-    : '';
-  return `<article class="card${open}${activeFilters ? ' has-match' : ''} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">${matchBadge}
+  return `<article class="card${open} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
     <div class="card-radar" data-i="${l.i}"></div>
     <h3>${esc(l.n)} ${pips(l.d)}</h3>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>

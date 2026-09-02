@@ -266,7 +266,9 @@ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
 /* On desktop, the .chips-scroll wrapper is transparent in the layout
    (display:contents). It only matters on mobile where it provides
    the horizontal-scroll container with touch-action:pan-x. */
-.ps-filter-bar .chips-scroll{display:contents}
+@media (min-width:641px){
+  .ps-filter-bar .chips-scroll{display:contents}
+}
 .ps-filter-bar .chips{
   display:flex;
   flex-wrap:wrap;

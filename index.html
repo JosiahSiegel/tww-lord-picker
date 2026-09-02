@@ -626,9 +626,21 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   }
   #featured-radar .fr-inner.all-lords .fr-all-summary{
     cursor:pointer;
-    padding:8px 4px;
+    padding:10px 8px;
     user-select:none;
     -webkit-tap-highlight-color:rgba(201,162,75,.15);
+    border-radius:6px;
+    background:rgba(231,224,210,.02);
+    border:1px solid rgba(201,162,75,.1);
+    /* Subtle "tap to expand" hint via the gold border. */
+    transition:background .15s, border-color .15s;
+  }
+  #featured-radar .fr-inner.all-lords .fr-all-summary:active{
+    background:rgba(201,162,75,.12);
+  }
+  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary{
+    background:rgba(201,162,75,.06);
+    border-color:rgba(201,162,75,.3);
   }
   #featured-radar .fr-inner.all-lords .fr-all-summary::before{
     content:"▾";
@@ -636,6 +648,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
     margin-right:6px;
     transition:transform .15s;
     color:var(--gold);
+    font-size:.9em;
   }
   #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary::before{
     transform:rotate(180deg);
@@ -645,6 +658,28 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   }
   #featured-radar .fr-inner.all-lords .fr-all-filter{
     font-size:.75rem;padding:4px 6px;
+  }
+  /* When collapsed on mobile, show a "tap to expand radar" mini-hint
+     so the user knows they can tap. When expanded, hide the hint. */
+  #featured-radar .fr-inner.all-lords.fr-collapsed .fr-all-summary::after{
+    content:"tap to expand";
+    display:inline-block;
+    margin-left:8px;
+    font-size:.65rem;
+    color:var(--gold);
+    opacity:.75;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary::after{
+    content:"tap to collapse";
+    display:inline-block;
+    margin-left:8px;
+    font-size:.65rem;
+    color:var(--gold);
+    opacity:.75;
+    text-transform:uppercase;
+    letter-spacing:.05em;
   }
 }
 

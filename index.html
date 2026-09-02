@@ -2732,82 +2732,47 @@ function render(){
 }
 
 function renderChips(){
-  // Sync the "match all" checkbox with state.psAll. The radar (axis
-  // click, wedge click, long-press) may have flipped psAll on/off
-  // without touching this checkbox; without the sync, the user could
-  // toggle the box and see it silently disagree with the active filter.
-  const psa = $("#psall");
-  if (psa) psa.checked = state.psAll;
-  const psallEl = document.getElementById('psall');
-  if (psallEl && psallEl.checked !== state.psAll) psallEl.checked = state.psAll;
-  // Mirror to the sticky bar's toggle so the two checkboxes stay in sync.
+  // The Filters popover was removed in 613c14b. Race + playstyle chips
+  // now live ONLY in the always-visible chip bar (#racechips-bar,
+  // #pschips-bar). The popover's #chips / #pschips containers and the
+  // #psall checkbox are gone — this function is the chip-bar render.
+  // Mirror the "match all" toggle (chip-bar version, #psall-bar) with
+  // state.psAll. The radar (axis click, wedge click, long-press) may
+  // have flipped psAll on/off without touching this checkbox; without
+  // the sync, the user could toggle the box and see it silently
+  // disagree with the active filter.
   const psallBar = document.getElementById('psall-bar');
   if (psallBar && psallBar.checked !== state.psAll) psallBar.checked = state.psAll;
+
   // Race count badge: how many lords (in the current diff+src+q context,
   // excluding synthetic race-avg entries) belong to this race. Zero-count
   // races are dimmed so the user can see at a glance which races are
-  // reachable from the current filter — same affordance as the playstyle
-  // chips below. Excludes the active race itself so dimming doesn't
-  // visually fight the "on" state when the user picks a race with a small
-  // roster and then adds a playstyle filter that wipes it.
+  // reachable from the current filter.
   const raceCounts = {};
   LORDS.filter(l => !l._synthetic).forEach(l => {
     raceCounts[l.r] = (raceCounts[l.r] || 0) + 1;
   });
-  $("#chips").innerHTML=Object.keys(RACES).sort((a,b)=>RACES[a].o-RACES[b].o)
-    .map(r=>{
-      const cnt = raceCounts[r] || 0;
-      const dim = cnt === 0 ? ' dim' : '';
-      return `<button class="chip${state.race.has(r)?" on":""}${dim}" data-race="${esc(r)}" style="--rc:${RACES[r].c}">${iconSVG(RACE_ICONS[r], 22, RACES[r].c)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
-    }).join("");
-  $("#pschips").innerHTML=Object.keys(PS)
-    .map(p=>{
-      // p is the PS key (uppercase, e.g. "Aggro"). The chip's data-psc
-      // uses lowercase ("aggro") for HTML convention, but state.psInc
-      // stores UPPERCASE so it matches l.ps (also uppercase, normalized
-      // at load time). Use `p` directly for state comparisons and
-      // `pk` only for the data-psc attribute.
-      const pk = p.charAt(0).toLowerCase() + p.slice(1);
-      const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
-      const pre=state.psInc.has(p)?"+&nbsp;":state.psExc.has(p)?"&minus;&nbsp;":"";
-      // Count badge: how many lords (in the current race+diff+src+q context)
-      // carry this playstyle. Zero-count chips are dimmed so the user can
-      // see at a glance which playstyles are reachable from the current
-      // filter — and clicking a dimmed chip filters to zero (which is a
-      // signal: "no lord in this set has that tag").
-      // filtered() already excludes synthetic race-avg lords and applies
-      // race/diff/src/q filters, so we just need to count over it.
-      // l.ps is uppercase, so compare against `p` (uppercase).
-      const psCount = filtered().reduce(
-        (n, l) => n + ((l.ps || []).includes(p) ? 1 : 0), 0
-      );
-      const dim = psCount === 0 && !state.psInc.has(p) && !state.psExc.has(p) ? ' dim' : '';
-      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} — tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
-    }).join("")
-    +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
-  // The same chips populate the always-visible sticky bar (industry-
-  // standard filter pattern). Same data, same click handler, different
-  // location. The dropdown version is kept for users who prefer
-  // searching there, but the bar is the primary path.
-  const barHtml = Object.keys(PS)
+  // Playstyle chips in the chip bar. Single source of truth (replaces
+  // the duplicated popover list).
+  const psCount = (p) => filtered().reduce(
+    (n, l) => n + ((l.ps || []).includes(p) ? 1 : 0), 0
+  );
+  const psHtml = Object.keys(PS)
     .map(p=>{
       const pk = p.charAt(0).toLowerCase() + p.slice(1);
       const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
-      const psCount = filtered().reduce(
-        (n, l) => n + ((l.ps || []).includes(p) ? 1 : 0), 0
-      );
-      const dim = psCount === 0 && !state.psInc.has(p) && !state.psExc.has(p) ? ' dim' : '';
-      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)}">${iconSVG(PSI[p], 14, "currentColor")}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
+      const cnt = psCount(p);
+      const dim = cnt === 0 && !state.psInc.has(p) && !state.psExc.has(p) ? ' dim' : '';
+      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} — tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 14, "currentColor")}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${cnt}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps-bar">&#10005;</button>`:"");
   const bar = $("#pschips-bar");
-  if (bar) bar.innerHTML = barHtml;
+  if (bar) bar.innerHTML = psHtml;
 
-  // Race chips in the same bar, before playstyle chips. Races are
-  // alphabetized for predictable order. Same .chip style as playstyle
-  // chips; cycling through (none → included → cleared) on click uses
-  // the existing cycleRace() handler. Tapping a selected race
-  // deselects it (standard chip filter pattern).
+  // Race chips in the chip bar (race row, before style row). Sorted
+  // alphabetically. Same .chip style as playstyle chips; cycling
+  // through (none → included → cleared) on click uses the existing
+  // cycleRace() handler. Tapping a selected race deselects it.
   const raceBar = $("#racechips-bar");
   if (raceBar) {
     const races = Object.keys(RACES).sort();

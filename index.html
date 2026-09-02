@@ -3273,18 +3273,21 @@ function updateFeaturedRadar() {
     // on desktop). The collapsed state is preserved across re-renders via
     // a class on the .fr-inner.all-lords wrapper. The default state is
     // COLLAPSED on mobile so the page is focused on the cards.
-    const frInner = frSummary.closest('.fr-inner.all-lords');
-    if (frInner && window.matchMedia('(max-width: 640px)').matches) {
+    // NOTE: there's already a `frInner` var earlier in the function
+    // pointing at #fr-inner (the SINGLE-lord panel). Use a unique name
+    // to avoid the redeclaration error.
+    const frAllInner = frSummary.closest('.fr-inner.all-lords');
+    if (frAllInner && window.matchMedia('(max-width: 640px)').matches) {
       // Default: collapsed. Only restore the user's explicit toggle if
       // they expanded it earlier in this session.
-      if (!frInner.classList.contains('fr-collapsed') &&
-          !frInner.dataset.userExpanded) {
-        frInner.classList.add('fr-collapsed');
+      if (!frAllInner.classList.contains('fr-collapsed') &&
+          !frAllInner.dataset.userExpanded) {
+        frAllInner.classList.add('fr-collapsed');
       }
       frSummary.onclick = () => {
-        const wasCollapsed = frInner.classList.toggle('fr-collapsed');
-        if (!wasCollapsed) frInner.dataset.userExpanded = '1';
-        else delete frInner.dataset.userExpanded;
+        const wasCollapsed = frAllInner.classList.toggle('fr-collapsed');
+        if (!wasCollapsed) frAllInner.dataset.userExpanded = '1';
+        else delete frAllInner.dataset.userExpanded;
       };
     }
     // Show / hide the "jump to results" floating button. Only show when

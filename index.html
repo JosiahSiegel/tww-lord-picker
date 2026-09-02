@@ -1791,8 +1791,11 @@ function cyclePs(p){
   // didn't know what the second tap would do, and the "exclude" state
   // was rarely useful since the default OR filter already narrows
   // results when you select fewer tags.
-  if(state.psInc.has(p)){state.psInc.delete(p);}
-  else{state.psInc.add(p);}
+  // Normalize to PS key (uppercase) so state.psInc matches l.ps shape
+  // (l.ps is uppercase because lord data was normalized at load time).
+  const pk = p.charAt(0).toUpperCase() + p.slice(1);
+  if(state.psInc.has(pk)){state.psInc.delete(pk);}
+  else{state.psInc.add(pk);}
   _afterFilterChange();
 }
 function cyclePsAdd(p){
@@ -1800,8 +1803,9 @@ function cyclePsAdd(p){
   // This matches industry-standard ctrl-click / long-press behavior
   // (Gmail, Finder, tag pickers, etc.): clicking an already-selected
   // item while holding the modifier deselects it.
-  if(state.psInc.has(p)){state.psInc.delete(p);}
-  else{state.psInc.add(p);}
+  const pk = p.charAt(0).toUpperCase() + p.slice(1);
+  if(state.psInc.has(pk)){state.psInc.delete(pk);}
+  else{state.psInc.add(pk);}
   _afterFilterChange();
 }
 // Race chips: same pattern. Tapping cycles (add/clear), long-press /
@@ -2012,11 +2016,14 @@ function renderChips(){
     }).join("");
   $("#pschips").innerHTML=Object.keys(PS)
     .map(p=>{
-      // p is uppercase (e.g. "Aggro"); state.psInc is lowercase. Normalize
-      // for the lookup so the chip "on" state matches the click handler.
+      // p is the PS key (uppercase, e.g. "Aggro"). The chip's data-psc
+      // uses lowercase ("aggro") for HTML convention, but state.psInc
+      // stores UPPERCASE so it matches l.ps (also uppercase, normalized
+      // at load time). Use `p` directly for state comparisons and
+      // `pk` only for the data-psc attribute.
       const pk = p.charAt(0).toLowerCase() + p.slice(1);
-      const st=state.psInc.has(pk)?" on":state.psExc.has(pk)?" off":"";
-      const pre=state.psInc.has(pk)?"+&nbsp;":state.psExc.has(pk)?"&minus;&nbsp;":"";
+      const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
+      const pre=state.psInc.has(p)?"+&nbsp;":state.psExc.has(p)?"&minus;&nbsp;":"";
       // Count badge: how many lords (in the current race+diff+src+q context)
       // carry this playstyle. Zero-count chips are dimmed so the user can
       // see at a glance which playstyles are reachable from the current
@@ -2024,12 +2031,11 @@ function renderChips(){
       // signal: "no lord in this set has that tag").
       // filtered() already excludes synthetic race-avg lords and applies
       // race/diff/src/q filters, so we just need to count over it.
-      // l.ps is lowercase (assigned from PS_ASSIGN in the lord data setup
-      // loop), and pk is also lowercase, so direct includes() works.
+      // l.ps is uppercase, so compare against `p` (uppercase).
       const psCount = filtered().reduce(
-        (n, l) => n + ((l.ps || []).includes(pk) ? 1 : 0), 0
+        (n, l) => n + ((l.ps || []).includes(p) ? 1 : 0), 0
       );
-      const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
+      const dim = psCount === 0 && !state.psInc.has(p) && !state.psExc.has(p) ? ' dim' : '';
       return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} — tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 20, "currentColor")}${pre}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps">&#10005; clear playstyles</button>`:"");
@@ -2040,11 +2046,11 @@ function renderChips(){
   const barHtml = Object.keys(PS)
     .map(p=>{
       const pk = p.charAt(0).toLowerCase() + p.slice(1);
-      const st=state.psInc.has(pk)?" on":state.psExc.has(pk)?" off":"";
+      const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
       const psCount = filtered().reduce(
-        (n, l) => n + ((l.ps || []).includes(pk) ? 1 : 0), 0
+        (n, l) => n + ((l.ps || []).includes(p) ? 1 : 0), 0
       );
-      const dim = psCount === 0 && !state.psInc.has(pk) && !state.psExc.has(pk) ? ' dim' : '';
+      const dim = psCount === 0 && !state.psInc.has(p) && !state.psExc.has(p) ? ' dim' : '';
       return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)}">${iconSVG(PSI[p], 14, "currentColor")}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${psCount}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps-bar">&#10005;</button>`:"");

@@ -1,30 +1,39 @@
-# Nagash, Supreme Lord of the Undead - Research Notes
+# Nagash, Supreme Lord of the Undead — Research Notes (Patch 9.0)
 
 ## Identity
-- Name: Nagash
-- Race / Faction / Source: Vampire Counts / Legions of Nagash / WH3 Lords of the End Times
-- Difficulty: 4
+- **Name:** Nagash, Supreme Lord of the Undead
+- **Race / Faction / Source:** Vampire Counts (Undead Legions) / Legions of Nagash / Lords of the End Times DLC (Patch 9.0)
+- **Difficulty:** 5
 
-## Steam Guide Verification
-Source: CA blog: Lords of The End Times - Meet Nagash (Steam rate-limited)
+## Current App Content
+- App has Nagash under "Nagash, Supreme Lord of the Undead"
 
-### Faction effects (from web search)
-- Can empower Nagash to grant him extra spells from the lores of Light, Vampires, Death, and Nehekhara
-- "Master of combat necromancy"
-- Standard Vampire Counts core + unique across-faction unification
+## Patch 9.0 / End Times Verification
+**Source:** CA blog: Lords of the End Times - Meet Nagash; YouTube Faction Mechanics video
 
-### Discrepancy flags
+### Faction effects (verified)
+- **Multi-lore magic** — can cast from Lores of Light, Vampires, Death, and Nehekhara (unprecedented)
+- **Black Pyramid at Khemri** — Nagash's central seat, skill tree
+- **Nagash Rises endgame scenario** — moves the Black Pyramid to achieve godhood
+- **Vampire Lair / Mortarch system** — part of the broader Vampire Counts rework
+- **Cross-faction Undead** — leads all undead, not just Vampire Counts
+
+### Discrepancy flags (CRITICAL)
 | Element | Flag | Note |
 |---|---|---|
-| Multi-lore magic | Confirmed | "Nagash can empower them to grant him extra spells from the lores of Light, Vampires, Death and Nehekhara" |
-| Cross-faction unification | Plausible | Standard Legions of Nagash framing |
-| Faction effects | PARTIAL | Need Steam rate limit clear |
+| Multi-lore magic (4 lores) | MISSING | Most defining feature not in app |
+| Black Pyramid | MISSING | Campaign seat |
+| Nagash Rises endgame | MISSING | Major endgame scenario |
+| Cross-faction Undead leadership | MISSING | Pulls Vampire Counts, Tomb Kings, Vampire Coast together |
 
 ### Suggested edits
-1. App is broadly accurate on the multi-lore Nagash framing.
-2. Faction effects need verification.
+1. Add multi-lore magic (4 lores) as mech[1]
+2. Add Black Pyramid as mech[2]
+3. Note Nagash Rises endgame
+4. Note cross-faction undead leadership
 
 ## Sources
-- Primary: CA blog: Lords of The End Times - Meet Nagash
-- Reddit: r/totalwarhammer Nagash discussion
-- Reddit: r/Warhammer Nagash and vampires
+- Primary: CA blog: Lords of the End Times - Meet Nagash (Aug 24, 2026)
+- YouTube: NAGASH Faction Mechanics & Roster Details
+- Fandom: Nagash
+- PCGamer: Chaos Invasion article

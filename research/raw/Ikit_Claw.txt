@@ -1,0 +1,193 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Ikit+Claw&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3006045717&searchtext=Ikit+Claw
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Ikit Claw - Skaven campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Ikit Claw - Skaven campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Ikit Claw - Skaven campaign overview, guide 
+Views: 1,402
+Time stamp: 00:01 Faction intro 00:26 Victory conditions 03:02 Starting location 04:08 Diplomacy 05:28 Mechanics of the race and faction 11:03 Province edicts and army stances 13:06 Buildings,...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Level up the Forbidden Workshop to Rank 3 - Warptech Lab;
+- Destroy the factions of Estalia, Tilea, and Carcassone.
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +3 recruit rank, which is nice to ensure your units are already good once they are recruited.
+
+Very standard short campaign actually, should be quite easy and fast to accomplish.
+
+Long victory:
+
+- Achieve the short victory conditions.
+- Occupy, loot, raze or sack 75 different settlements
+- Control at least 7 of a very long list of settlements, mainly Skaven or Dwarf main ones.
+
+The reward is +2 global recruitment capacity, not bad, but Skaven already have great recruitment overall, so it could be a bit better.
+
+Ikit is the Chief Warlock Engineer, and benefits from:
+
+- Gains access to the Clan Skryre Forbidden Workshop;
+- Research rate +20% (!);
+- Loyalty +2 for new recruits
+- Construction cost - 40% for Engineering buildings;
+
+Overall, emphasis on his strength, the Weapons Teams in particular. Research is really nice to have in every circumstance.
+
+Climate is good, other than Ulthuan and the tree areas, they can go anywhere. This helps cement the race as one of the best to try out World domination.
+
+STARTING LOCATION:
+
+
+
+Your starting location is a 1 settlement province. Although this is highly defensible, it will be a pain to recruit more troops. The few provinces nearby have at the most 3 settlements, which will help to get better military possibilities, specially considering how you gain +1 recruit slot per settlement in the province.
+
+Typical expansion is to dominate Estalia, get rid of everyone around, including the Empire Factions, Beastmen, Vampire Coast, the Dwarfs, and then proceed into Carcassone's territory and the Bretonnia lands.
+
+It is entirely possible to go South into the desert first, or even East or West. It has a very sandbox feel to the campaign overall, specially after Short victory is achieved.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomacy with the Skaven is always tricky to talk about. For your position, Greenskins will likely be your best bet for allies, although the Vampire Coast nearby may help for a while.
+
+Enemies will always be the order tide, considering how you start at war with an Empire faction and need to destroy Carcassonne. Expect Dwarfs and others to become your mortal enemies too.
+
+Therefore, outposts with the Greenskins, getting some of their monsters or good frontline is ideal, and if you can get some Vampire Counts or Coast to help out it would be nice for some cavalry or flyers; Ranged units - you got that covered;)
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+Undercities are a nice idea. They provide vision and you can generate food and income, as well as other bonuses for your faction. The biggest idea is to suddenly shift them into a Vermintide, but that costs a lot of resources and may backfire. You do have the possibility to build a nuke in the city, to effectviely raze it.
+
+Food is your unique currency, and it is important to keep finding more; this is more important to avoid penalties than to receive buffs, though. Food can be used to capture a settlement and turn it into a higher level, which ensures good strategic advantages over other factions.
+
+Skaven corruption allows you more uses of the Menace Below, and grant you bonuses on that province. It provides food and public order when low, and public order penalties when high, but nothing too detrimental.
+
+An additional mechanic is how the Skaven ambush on their natural stance, every battle you initiate has that chance to become an ambush. Some army compositions are entirely possible just because of this fact.
+
+Rites:
+
+1 - The Dominating Scheme, giving you 3 food per turn, +40 Growth, +2 control, -25% recruitment cost;
+2 - The Thirteenth Scheme, giving you +13 Diplomatic relations with other Skaven, Lords have a chance to gain 2 loyalty, hero action success +13%, enemy hero action success -13%, army ability "Skryre Clanstone", reducing enemies' spell resistance greatly in an area.
+3 - The Pestilent Scheme gives you a hero to spread plague
+4 - The Scheme of DOOOOM! gives you a specific Warlock Engineer hero, who can establish a better Undercity or cause an earthquake there.
+
+Ikit has a specific mechanic and resource linked to it, the Warp-Fuel, which is gathered mostly via battles, hero actions, and missions.
+
+The Forbidden Workshop is a great enhancer for many units. It increases stats for mostly weapons teams, and it unlocks unique regiments of renown units as well. In addition, you can get Doomrockets, which are literal nukes to use in a battle.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +3, corruption -2;
+Growth +20, construction cost -10% for all buildings;
+Recruitment cost -5%, local recruitment capacity +1 (not to be neglected initially)
+Skaven corruption +3, Food +2
+
+Army stances:
+
+Stalking replaces the normal attack one, and gives you a chance of ambushing while attacking, great to have some different options.
+Underway is a great tactical option, specially useful given your start location.
+Channeling costs 10% movement, for +15 Winds of Magic power reserve per turn.
+Encamp costs 50% movement, enables replenishment and global recruitment, as well as immunity to attrition.
+Raiding costs 50% movement, gives you food, immunity to attrition. Great if you are having some temporary food issues.
+Ambush (waiting) for 25% movement
+Forced march.
+
+Overall a great selection, specially with the stalking and underway.
+Warhammer 3 Immortal Empires Ikit Claw - Skaven campaign overview, guide and second thoughts(continuation)
+BUILDINGS, RESEARCH:
+
+
+
+- You have additional recruitment capacity with each settlement in a province. This implies your best provinces for recruitment will be 3 to 4 settlement ones, but there are very few with 4 settlements nearby, sadly.
+
+- Starting the buildings with the undercities: They have a unique requirement which is discoverability. Keep that in check, and all goes well. You also have a building to get a Nuke, to raze the city.
+
+- Skavenblight has 3 landmarks.
+
+1 - The Shattered Tower reduces the cooldown after expanding your Under-Empire by -5 turns; Skaven corruption in adjacent provinces +6 (all provinces), and gives +13 Skaven corruption
+2 - Council Chamber of the Thirteen gives you +1 control factionwide, +13 control, Lord recruit rank +2, corruption +1, global recruitment capacity (all factionwide), income from all buildings +6% (province).
+3 - Warpstone Tractor Beam gives you income, food, research rate, winds of magic, recruit rank for artillery units, skaven corruption, and more importantly, unlocks some weapons teams earlier.
+
+- You require 6 military buildings, 5 of which must be in the capital for the fullest.
+
+- They have great combinations of units at Tier 3, though, including Stormvermin, Catapults, Rattling Guns, Rat Ogres. They can be effective even at that point, and you reach it quite fast too.
+
+- All buildings generate income and Skaven corruption. Infrastructure divides into:
+
+1 - Growth, casualty replenishment rate;
+2 - Food, income from buildings
+3 - Corruption denial, recruitment cost;
+4 - Control, hero and lord and unit recruit rank;
+
+These are decent ones, which you also should consider just to unlock the necessary research.
+
+Speaking of Research, it is fairly extense, with many locked behind buildings. The technologies provide a lot of bonuses to your units, very adequate, and to your campaign as well. Many of them add units to the Vermintide mechanic too.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+The blue line does not have replenishment; however, most lords have that skill in a better way in their specific skills.
+They do have an ambush increase, which also plays with the faction, as well as upkeep decrease which always helps getting a few more armies or better ones overall.
+The redline allows some crazy cool combinations. It is definitely one of the most interesting rosters just based on that. They have quite cheap combinations, allowing you to spend skill points in other areas easily.
+
+
+
+In terms of Lords and Heroes there is a LOT of choice. 5 heroes. There are 2 heroes that provide replenishment, and pleny of them give bonuses to specific types of units, allowing further variety.
+
+Ikit Claw goes a lot into Weapons Teams and Doomwheels. You can definitely build a nice doomstack with him of solely weapons teams, but I always like to offer a little more variety. In this case, just some of the Warp Grinders (remember the Workshop buffs) to trap the enemy in place while your weapons teams keep firing away, some doomwheels as well seem a good idea. You can also go with a standard frontline with massive ranged; don't forget many players go with a second army just to act as a frontline too.
+
+
+
+Warlock Masters have some upkeep bonuses for Weapon Teams, so it makes sense to benefit from those. First army is a basic missile stack with the warp grinders.
+
+
+
+Assassins favor Night Runners and Gutter Runners, so there are a few compositions with them.
+
+
+
+Finally, I add some compositions around the Grey Seers, some plague monks and some monsters. You can of course mix weapons teams there, and the number of specific units is up to you and your playstyle.
+
+
+
+Remember that heroes are only placeholders, really. All I advise is to at least bring a caster hero and a melee/support hero. The rest is up to you.
+
+FINAL NOTES:
+
+- Ikit Claw embraces the playstyle of the Weapons Teams like no other. If you enjoy having powerful ranged units that melt everything while the enemy desperately tries to get to you, play Ikit.
+- His starting position is interesting enough, not an easy start to know exactly where to go next. This adds to the Sandbox feel though, which is always a good thing to have.
+
+- For the army:
+
+1 - Good infantry
+2 - Great missile infantry and artillery;
+3 - Good monstrous infantry and single entities;
+4 - Great heroes, and varied;
+5 - No flying units;
+6 - No real cavalry;
+
+Replenishment is great, considering the climate. You most likely will recover your army in no time to continue conquering. Note that Ikit is only slightly worse because of your eventual conquest of Ulthuan and its proximity.
+
+Time to set the world on fire, with Ikit Claw of the Skaven.

@@ -1,0 +1,184 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Teclis&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940483466&searchtext=Teclis
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Teclis - High Elves campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Teclis - High Elves campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also supports me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Teclis - High Elves campaign overview, guide 
+Views: 397
+Time stamps: 00:01 Faction intro 00:36 Victory conditions 04:45 Starting location 05:45 Diplomacy and Outposts 06:48 Mechanics of the race and faction 11:33 Province edicts and army stances 13:43...
+
+
+If you prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Destroy the factions of Sarthorael's Watchers, Clan Morbidus, Oracles of Tzeentch (Kairos), and the Bubonic Swarm;
+- Occupy, loot, raze or sack 30 different settlements.
+
+A short campaign truly, it should be rather simple to achieve, most factions are close to you. It is expected that you will have quite a solid base to continue your conquests, although a bit spread out.
+
+The reward is +3 hero capacity for all heroes, as always, one of the most frequent buffs and it always helps ensuring you have scouts and heroes in your armies without spending too much on buildings for them.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 70 different settlements;
+- Control 6 of a 9 settlement list, either directly or via vassals/allies. These appear to be the Elven colonies mostly.
+
+This will imply a bit of sea expansion in general, which Teclis certainly can do, but it may take a while to perform.
+
+Teclis is the High Loremaster, and he has the following benefits:
+
+Diplomatic relations +15 with Men, High Elves, Wood Elves, Lizardmen and Dwarfs;
+Allied recruit cost - 50%;
+Recruit rank +5 for Loremasters of Hoeth, Mages and Archmages;
+Recruitment cost -25% for Swordmasters of Hoeth and Phoenix units.
+
+These are all nice buffs to ensure some variety. You can either invest in your allies' units, into characters and magic, or into swordmasters and phoenix units, and of course into a mix of those. Great to come up with a variety of army compositions.
+
+Climate is a pain. Teclis needs to expand precisely into uninhabitable climate which will not go well easily. Most of the map is either unpleasant or uninhabitable, which makes him a rather poor choice in terms of conquering the whole map.
+
+STARTING LOCATION:
+
+
+
+Your starting location is a 3 settlement province, quite easy to defend, specially after you eliminate the initial enemies. Kairos is always an issue, of course, as his shenanigans can cause problems early on, so be ready for that.
+
+You start with a resource building, which due to the research, means you may have some better trade deals earlier on.
+
+Typical expansion will be to dominate the south of the map and then decide whether going into Lustria or the islands to the ears, or, of course, North through the desert is your best bet. Regardless of what you choose, there are climate issues galore.
+
+You are near the water, don't forget to benefit from any goodies around. Make sure you send an army to those in case you need to fight for better rewards.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically you are part of the Order tide. You enjoy bonuses with men, high elves, wood elves, lizardmen and dwarfs, to make sure you make the best of it.
+
+Enemies will most likely be chaos factions early on, followed by whoever you decide to strike next. It will depend on whether you decide to go North, Lustria, or East, but Vampire Counts, Skaven, Vampire Coast will soon become your enemies almost for certain.
+
+Outposts will definitely be in the shape of lizardmen, and maybe bretonnia if Alberic wills it. Some great single entities and armor piercing cavalry would be in order, and maybe some flyers too.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+Influence allows two things: recruitment of better lords and heroes, and to steer enemies and allies into whatever you prefer. You do have tons of options, although it may prove costly. If anyone refuses a deal, well, influence them? If anyone is close to becoming allies, incentive or detain them?
+
+Rites are very cool and rather cheap. You have the following.
+
+1 - Immune to attrition (all armies), replenish rate +8%, corruption reduction -10. This one alone almost makes it bearable to go into that uninhabitable climate...
+2 - Winds of magic increase +10, experience +50% gain for Archmages, Mages and Loremasters of Hoeth, and +200 xp per turn. Hero action success chance +40% for Mages and Loremasters of Hoeth.
+3 - Influence +2 per turn, construction cost +15% for all buildings, +4 control;
+4 - Dillema for a magic item, recruitment cost -10% , recruit rank +2, armor +5 for Swordmasters, White lions, Phoenix guard and Dragon Princes, and an army ability.
+They are very cheap overall so you definitely should have one active at all times at least.
+
+The Sword of Khaine is pretty far away, but who knows if you may wish for Teclis to wield it. Nevertheless, it is always an option and may give you a rather interesting campaign.
+
+One specific mechanic is in the skill lines of lords, where you can choose between various dedications to deities with different benefits. This allows some variety in gameplay and army building, as well as campaign ideas.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- Campaign movement range -10% for enemy armies; Enemy hero action chance +15%; Ambush success chance +10%; Chance of interception +15%;
+- Income from trade tariffs +4% and income from all buildings +3%
+- Growth +20, construction costs reduced -10%
+- Recruit rank +1 and local recruit capacity +1;
+- Corruption -5;
+
+Overall you have nearly everything, which helps you making good decisions and adapting to your playstyle.
+Army stances:
+
+- Winds of magic +20, 10% movement range penalty, experience for spellcasters, less miscast chance for spellcasters, more speed for spellcasters. You can attack in this stance, btw, so if you know they are not going to retreat, go for it.
+- Encamp costs 50% movement, enables replenishment and immunity to attrition. Pretty much a necessity whenever you go into uninhabitable climate.
+- Ambush at 25% movement;
+- Forced march
+
+Notice the absence of any raiding stance, unfortunately, not a tactic the High Elves may use.
+Warhammer 3 Immortal Empires Teclis - High Elves campaign overview, guide and second thoughts (continuation)
+BUILDINGS, RESEARCH:
+
+
+
+Fortress of Dawn has no special buildings other than a resource, which will lead to a research for more trade.
+
+Military requires 7 buildings, 2 of which can be built fully in minor settlements.
+
+Tier 3 units are quite formidable already. Great holding infantry supported by great archers and cavalry, good armor piercing infantry and cavalry, single entities, chariots... All good. Tier 4 and 5 simply enhance what you have here and give you single entities.
+
+Infrastructure:
+
+Growth and replenishment building;
+Income and resource building;
+Income and control (great);
+Income from all buildings, hero recruit for Noble.
+Influence per turn, hero action success chance, income from trade and more income from ports.
+
+Do not neglect the influence building, specially early to midgame. Have maybe one or two somewhere to have a steady income of influence going on.
+
+Research is crazy good. Plenty of campaign changes and unit upgrades overall, although it may take some time and it may cost you a bit. Your units will become super good later on though.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+Teclis has basically magical buffs, so he can improve his magic abilities, and includes great benefits to other casters. Magic is definitely a big deal with Teclis, of course, but the overall faction benefits from it.
+
+Blueline has replenishment and upkeep, as well as an interesting Research one. The problem is how you may need to really make it count for 50 skillpoints.
+
+Redline gives you some great army compositions with units for every role. Most of the time, I build armies considering the specific lord traits, which the High Elves specifically have an abundance of.
+
+
+
+Heroes are excellent, and they provide bonuses to some units such as Handmaidens to ranged units.
+
+Loremasters of Hoeth are great Hybrid heroes, and casters have plenty of lores to choose. Finally, Nobles are decent melee fighters. Both Handmaidens and Nobles have replenishment, so just ensure you can benefit from at least one of them to offset the climate issues.
+
+Teclis focus on magic also gives him a net spell, which means he greatly benefits from a stationary enemy. Having some Arcane Phoenixes should help take advantage of that. Of course, you may as well make just a basic hammer and anvil army, or have some artillery to counter enemy artillery if you wish.
+
+
+
+Typical other army compositions may go into monsters or cavalry and chariots. Of course, your lords may have specific advantages that you may try to focus, such as anyone with reduced upkeep for Lothern Sea Guard or Reavers.
+
+
+
+Finally, some interesting compositions based on the slowing aura from the Frostheart Phoenixes, a favorite of mine. Having some sweeper and cheaper armies is always nice, so here are some suggestions.
+
+
+
+Note the complete mobile force, lots of chariots and cavalry, including some flying units, just for fun. Meet them on the battlefield.
+
+FINAL NOTES:
+
+- Overall a focus in magic, and a nice unique starting location, although with terrible climate nearby.
+
+- Teclis' friendship with the lizardmen may give him a nice outpost which implies a good replay value with how cool it must be to have massive lizards, or an all out flying army. Armor piercing cavalry to add to your dragon princes is always cool too.
+
+- A breath of fresh air from the Ulthuan issues, and a different take that will make you enjoy the Loremasters. Remember, healing in all these armies enhances their fighting ability and you will have plenty of opportunities to check that out.
+
+- Your army consists of:
+
+1 - Great infantry
+2 - Great missile infantry
+3 - Good cavalry and chariots, lacking some AP
+4 - Great single entities
+5 - Average artillery
+6 - Lacking early armor piercing
+
+Replenishment is good, plenty of options for you to reinforce as well due to global recruitment too, but climate hinders this and Teclis suffers more than Tyrion due to the starting location.
+
+Still, I believe now it is time for you to play with Teclis of the High Elves. Let me know in the comments below, as always, your thoughts on the faction and gameplay.

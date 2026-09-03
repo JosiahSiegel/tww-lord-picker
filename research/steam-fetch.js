@@ -51,7 +51,13 @@ const appid = process.argv[3] || '1142710';
     let guideUrl = null;
     for (const candidate of guideUrls.slice(0, 10)) {
       await page.goto(candidate, { waitUntil: 'domcontentloaded', timeout: 30000 });
-      await page.waitForTimeout(3000);
+      // Steam Community dynamic content needs more time; wait for either
+      // a guide-content element to appear or 5s timeout.
+      try {
+        await page.waitForSelector('.guide_body_content, .guide.subSections, #guideContent', { timeout: 5000 });
+      } catch (e) {
+        // selector not found; fall through to title check
+      }
       const pageTitle = (await page.title() || '').trim();
       const lowerTitle = pageTitle.toLowerCase();
       const looksLikeGuide = (

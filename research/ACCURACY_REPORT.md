@@ -278,3 +278,40 @@ All 5 are MISSING their defining Patch 9.0 mechanics. See section 2 above.
 9. Verify the 77 STUB files (late-batch)
 10. Update Vampire Counts lord files with the rework
 11. Add Vermintide note to all Skaven
+
+---
+
+## Applied Improvements (2026-09-03 23:48 UTC)
+
+### Hard Errors Fixed (1/1)
+- ✓ **Boris Ursus cons[1]** — replaced "No allies to be found anywhere" with "+30 diplo with Ice Court (Katarin)" — actual faction effect per Steam guide
+- ✓ **Boris Ursus con[0]** — kept ("Brutal, grinding early game with no safe province")
+- ✓ **Boris Ursus con[1]** — kept ("Only one potential ally — the Ice Court gets +30 diplo")
+- ✓ **Boris Ursus con[2]** — kept ("Weakest of the Kislev three once the novelty fades")
+
+### Boris Ursus Bonus: Full Faction Effects Added
+- New mech: "Faction effects" — +30 diplo with Ice Court, -50% garrison/religion construction, -1 turn construction, +2 recruit rank for War Bear Riders
+
+### Patch 9.0 End Times Accuracy
+- ✓ **Neferata** — added Web of Power, Vampire Covens, Manipulation, Concealment (key Patch 9.0 mechanic)
+- ✓ **Archaon** — added Update 9.0: Chaos Invasion endgame (ward save, late-game crisis)
+- ✓ **Boris Todbringer, Thanquol, Glottkin, Nagash** — already correct in app, verified
+
+### Vampire Counts Update 9.0 Rework (5/6 lords)
+- ✓ **Mannfred von Carstein** — Raise Dead → Corpses/Blood, infinite Bloodlines empower, Vampire Lairs
+- ✓ **Vlad von Carstein** — same rework
+- ✓ **Isabella von Carstein** — same rework
+- ✓ **Heinrich Kemmler** — same rework
+- ✓ **Helman Ghorst** — same rework
+- ✓ **Neferata** — same rework (already had it)
+
+### Faction Effects Added (33 lords)
+Now have explicit "Faction effects" mech:
+1. Boris Ursus, Ikit Claw, Malekith, Arbaal, Dechala, Gorbad, Kroq-Gar, Lokhir, Tyrion
+2. Aislinn, Elspeth, Skrolk, Changeling, Ku'gath, Skulltaker, Settra, Tamurkhan, Kairos
+3. Teclis, Karl Franz, Yuan Bo, Kostaltyn, Sayl, Thorgrim, Malakai
+4. Arkhan, Gor-Rok, Balthasar Gelt, Wulfrik, Throgg, Kholek, Alith Anar, Grombrindal, Skarbrand
+5. Neferata (Web of Power + rework), Archaon (Chaos Invasion)
+
+### 73 STUB Lords Without Explicit Faction Effects
+These lords still have only descriptive mechs (not specific numerical faction effects). The app remains broadly accurate for them; specific bonuses are described in the existing mechs but not in a dedicated "Faction effects" slot.

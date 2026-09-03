@@ -1,0 +1,119 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Settra&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940469728&searchtext=Settra
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Settra the Imperishable -Tomb Kings overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Settra the Imperishable -Tomb Kings overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video (it also supports me):
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Settra the Imperishable -Tomb Kings overview, guide 
+Views: 538
+Time stamps: 00:01 Faction intro 00:31 Victory conditions 03:21 Starting location 04:24 Diplomacy 05:35 Mechanics of the race and faction 09:37 Province edicts and army stances 11:28 Buildings and...
+
+
+If you prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Destroy the Followers of Nagash (Arkhan), the Cult of Sigmar (Volkmar), and the Drakenhof Conclave (Mannfred).
+- Occupy, loot, raze or sack 30 different settlements.
+
+Reward is casualty replenishment +15%, very useful to ensure you can continue your conquests much faster and without spending too many times to recover.
+
+This is quite a very standard and easy campaign to do. All enemies are nearby, of course you will have additional ones while facing these ones off, but nothing out of the ordinary.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 75 different settlements;
+- Hold specific 11 settlements, mostly Desert capitals of other factions.
+- Ensure that 7 specific buildings have been constructed (all within those previous settlements).
+
+Reward is Winds of magic reserves to all armies, very good to ensure your casters will always have some way of assisting your army into the domination game.
+
+Long victory is a bit more difficult as it requires you to conquer and grow specific settlements and then build the specific buildings to win. It will take time, but it does follow the general rule of thumb of trying to conquer the whole Desert area.
+
+Settra is the Imperishable, implying he gains the following benefits:
+
+- Allegiance points gained +50% with alliances with other Tomb Kings;
+- Construction time: -1 for all buildings (minimum 1 turn) (!)
+- Growth +20 to all provinces.
+
+These are great buffs for the early game specially, and the construction time will be very useful well into the lategame. Tomb Kings do have quite an issue with growth so Settra compensates that a lot. There is an additional bonus to construction time being lower, because Tomb Kings get better units via the amount of buildings (more on that later).
+
+Climate is rather painful, as most is unpleasant or uninhabitable. Other than the initial Desert area or Southern area, expansion will be difficult and this is a rather complicated faction to dominate the map with. The bonus from the short victory does help in this regard, though.
+
+STARTING LOCATION:
+
+Your starting location is a 4 settlement province, great to get a nice base and foothold. In terms of enemies, however, you are quite surrounded and you need to be careful; Tomb Kings take a long time to obtain a 2nd army too.
+
+The Black Pyramid of Nagash is very neutral until you decide to attack it, so it does act like a bit of a buffer and natural barrier to the West.
+
+Skarbrand, Mannfred, Volkmar, Arkhan... and others, will soon attack you. You do not have many friends away from the other Tomb Kings, at least at start.
+
+DIPLOMACY:
+
+Tomb Kings are sort of into the neutral side of things. Allies will most certainly happen with the "enemy of my enemy" idea. You keep fighting, others will like you for fighting their enemy and you may have a chance for trade and alliance with that.
+
+You may have to hand out gifts or even settlements for some treaties. Considering you are not short of unpleasant or uninhabitable climates, there are several that could be taken for precisely that goal.
+
+Enemies are abundant, but unlike other factions, the same races may yet become your friends. It is one of the most difficult factions to perceive who will become your friend. Attempt to establish relations with the Ogres or the Vampire Coast, and if so, take the opportunity to get some cavalry or great missile units, or some infantry if you can.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+- No Upkeep. Zero. Zilch. Nada. Niente. Lategame, you can support as much as you can muster.
+- Instead, you have limits to the number of units considering the number of buildings you have. Research, traits, and skills may also provide you with some unit capacity.
+- Hero capacity used to be a problem but it has changed and been solved now. You can now increase the capacity for those with the Mortuary Cult.
+- Speaking of the Mortuary Cult, you can obtain a unique currency called Canopy Jars, and use those to get items for your lords and heroes. These range from simple ones to very good and even unique items.
+- Rites give you access to some nice buffs:
+
+1 - Lord recruit rank +3, recruit rank +2, Casket of Souls unit (artillery) available to recruit;
+2 - Unique Necrotect hero that can colonize ruins at level 3; (given how slowly Tomb Kings grow their settlements, do not sleep on this one;
+3 - Attrition to enemies in your lands, immune to that attrition, ambush success chance +50%, army ability (stalk); Very good defensive specially early game.
+4 - Canopic Jars +1 per turn, growth +30 to all provinces, construction time reduction, army ability (damage); This one is the most standard rite to be used at nearly all times, specially when trying to grow your faction as a whole.
+
+- You are also one of the factions collecting the Books of Nagash. These can be obtained around the world to give you great bonuses that effectively can change overall gameplay. One in particular gives you the possibility to recruit Liche Priests of Shadows, with the Lore of Shadows magic which is a great damage focused lore.
+- Lastly, a sort of a mechanic in itself, army capacity is increased via research and via the Mortuary Cult. It may prove difficult to increase it after a certain point.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- Control +5 and corruption -2;
+- Ambush success chance +15% and melee defence (defensive one) +5;
+- Casualty replenishment rate +20% and +1 recruit rank (!);
+- Construction cost reduced -10% and income from all buildings +5%;
+- Campaign movement range +10% increase and growth +25;
+
+All of these are great, sadly lacking anything giving research. Particularly good to note that you do have growth, and also replenishment, as well as some ambush one. Early game, these may prove helpful in ensuring you can withstand multiple fights with the same army or replenish a defending army much faster, so do not sleep on those.
+Army stances:
+
+- Channeling for more winds of magic, 10% movement cost;
+- Entombed beneath the sands works like the Encamp one; allows replenishment and global recruitment, immune to attrition, and the Sand Veil army ability. It also allows vanguard deployment to some units. Costs 50% movement;
+- Raiding costs 50% movement and immune to attrition. Sadly no Canopy Jars or anything different;
+- Ambush at 25% movement cost;
+- Forced march.
+
+Fairly typical ones except the Entombed stance. It allows a great possibility to defeat ambush attempts or simply to lure the enemy into attacking you, as you will have a nice stalk army ability and vanguard deployment. Learn how to use Stalk effectively and you may be able to take out important enemy units prior to the fight;)
+Warhammer 3 Immortal Empires Settra the Imperishable -Tomb Kings overview, guide and second thoughts (continuation)
+BUILDINGS AND RESEARCH:
+
+
+
+- Khemri has 2 special buildings, including a useful gold mine. The pyramid allows a variety of nice buffs including unit capacity and canopic jars generation.
+- Military requires 10 specific buildings... different than anyone else, it is intended to force you to build more to s

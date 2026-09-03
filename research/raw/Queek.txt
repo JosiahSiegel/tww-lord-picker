@@ -1,0 +1,147 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Queek+Headtaker&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940468054&searchtext=Queek+Headtaker
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Queek Headtaker - Skaven campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Queek Headtaker - Skaven campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video (it also supports me):
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Queek Headtaker - Skaven campaign overview, guide 
+Views: 534
+Time Stamps: 00:01 Faction intro 00:31 Victory conditions 03:48 Starting location 04:58 Diplomacy 06:20 Mechanics 11:23 Province edicts and army stances 13:12 Buildings and research 16:40 Lords,...
+
+
+If you prefer to read:
+
+VICTORY CONDITION:
+
+Short Victory:
+
+- Conquer Karak Eight Peaks;
+- Destroy the Crooked Moon Mutinous Gits, the Crooked Moon, Clan Angrund (your rivals in the race).
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +3 recruit rank to all units, good to ensure you always get quality troops.
+
+This objective leads you into the North and the West, and into conquering a lot of land. You are, however, the most likely to reach Karak Eight Peaks sooner and to occupy it. You should embrace the race and ensure you are the first there, to reap the rewards.
+
+Long Victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 75 different settlements;
+- Control at least 7 of several settlements. These are mainly Skaven capitals or other capital cities such as Mount Gunbad and Altdorf, spread around the Old World for the most part;
+
+The reward is +2 global recruit capacity. Not the best, particularly for when it comes into effect, but Skaven can lose some troops here and there so it kinda helps.
+
+Queek is Gnawdwell's Right Claw, and he enjoys the following buffs:
+
+- +2 hero capacity for Chieftains;
+- Upkeep -25% for Stormvermin and Clanrats;
+- Can purchase up to +5 additional levels of "The Menace Below" before each battle;
+- Food cost: -33% for additional uses of "The Menace Below".
+
+Overall average buffs, mainly focused on using some infantry and the Menace Below mechanic.
+
+Climate: actually one of the best of the Warhammer 2 initial factions. Only Ulthuan is really an issue, which is great since you do have to expand a lot even to win the long victory. It is another great campaign to do total map domination with.
+
+STARTING POSITION:
+
+
+
+Initial province has 3 settlements, but you start in a minor one.
+
+Very close to Karak Eight Peaks, implying you may receive its bonuses sooner than with other races that go for that race.
+
+Typical expansion goes into conquering Eight Peaks, and then into the North through the mountains, and then towards Clan Angrund. Plenty of threats exist from the south, so be wary.
+
+You have good relations with Skarbrand, and they can be a buffer against the south... provided they can be trusted.
+
+DIPLOMACY:
+
+In terms of diplomacy, Skaven are quite neutral more leaning towards the evil factions. Some Greenskins, Vampire Counts, Khorne may become your friends, eventually. In the meantime you start at war with Greenskins and have to war with Dwarfs.
+
+Depending on how well the war goes you may obtain enemies with those that are at war with those factions. Khorne, Ogres, and Vampire Counts thus would be my possible outpost selection (image below), if I could try it out.
+
+
+
+Some heavy infantry and cavalry would be a wonderful addition, as well as any flying units.
+
+MECHANICS:
+
+- Undercities. You can build them with a Warlock Engineer, or they expand due to a specific building you can get there. They provide vision and you can generate food and income, as well as other bonuses for your faction.
+- The biggest idea behind undercities is the Vermintide. Build a specific building there, and an army will spawn and attempt to siege the settlement and take it.
+- Food is your unique currency, and it is important to keep finding more. This is to avoid penalties rather than gain buffs, although it is nice to have a surplus overall. Food can be used when capturing a settlement to have it begin at a higher level, which ensures great strategic advantages over other factions.
+- Skaven corruption allows you more uses of the Menace Below, and grant you bonuses on that province. It provides food and public order when it is low, and public order penalties when high, but nothing too detrimental.
+- Capturing Eight Peaks gives you a tremendous bonus:
+
+1 - Lord Loyalty chance to increase on turn start;
+2 - Lord recruit rank +2;
+3 - Frenzy for clanrats and Stormvermin;
+4 - The buildings you can get there, focused around income, reduced upkeep, food and province buffs.
+
+- Menace below is an army ability that you can enhance in the beginning of any battle, and it consists basically on summoning units of clanrats anywhere you wish, for an amazing tactical advantage.
+- An additional mechanic is how the Skaven ambush on their natural army stance, so every battle you initiate has the chance to become an ambush. Some army compositions are entirely possible just because of this.
+- Rites, finally, have some variety:
+
+1 - Food per turn, growth, control, recruit cost bonus... a very good basic one to do at every chance;
+2 - Diplomatic relations with Skaven, lord loyalty, hero action success chance improved, enemy hero action chance reduced, and an army ability.
+3 - Pestilent Scheme, which gives you a plague spreading agent that you can use in any enemy settlement;
+4 - Scheme of Doom to obtain a Warlock Engineer that builds undercities or can cause an earthquake on an enemy city.
+
+All pretty decent, particularly the first one that helps ensuring good control over everything you need.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- reduced corruption -2, control +3
+- recruitment capacity +1 and recruitment cost -5%;
+- skaven corruption +3 and food per turn +2;
+- growth +20 and construction cost -10%.
+
+Very simple set, for the most part I would use the growth one, and the others are situational.
+
+Army stances:
+
+- Ambush while attacking is great. It works so well with the faction;
+- Ambush (waiting) for concealing your force and costs 25% movement;
+- Raid gives food, costs 50% movement;
+- Encamp, the basic one, costs 50% movement;
+- Underway, with all its strategy, is a nice one to have. You are able to avoid most rough terrain and surprise enemies, just like a good Skaven.
+- Channeling stance provides Winds of Magic. It is debatable whether having more Winds is better than getting an ambush, but perhaps in sieges this may be of use.
+
+Warhammer 3 Immortal Empires Queek Headtaker - Skaven campaign overview, guide and second thoughts (continuation)
+BUILDINGS:
+
+The undercities first, they have a discoverability rating. This is a chance that the undercity will be discovered, and if so, it will provide the faction with the possibility of destroying it by paying some gold.
+
+There are many buildings in the undercities, but for the most part you use them to obtain food or gold, and you can always attempt to cause a Vermintide. Be wary of the discoverability rate.
+
+
+
+- 6 military buildings, 5 of which must be in the capital for the fullest.
+- However, they have good combinations of units at tier 3 already, including Stormvermin, catapults, rattling guns, rat ogres... they can be effective early to mid-game for certain.
+- All buildings generate income and skaven corruption.
+- Infrastructure splits into:
+
+1 - Growth, casualty replenishment rate;
+2 - Food, income from buildings;
+3 - Corruption denial, recruitment costs;
+4 - Control, hero, lord and unit recruitment rank.
+
+Decent ones overall, which you should also consider just to unlock the necessary research.
+
+RESEARCH:
+
+Speaking of research, it is fairly extensive, with many of them locked behind buildings. They provide decent buffs to your units, nearly all of them, and to your campaign as

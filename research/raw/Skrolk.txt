@@ -1,0 +1,146 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Lord+Skrolk&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2965252566&searchtext=Lord+Skrolk
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Lord Skrolk - Skaven campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Lord Skrolk - Skaven campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also supports me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Lord Skrolk - Skaven campaign overview, guide 
+Views: 346
+Time Stamps: 00:01 Faction intro 00:31 Victory conditions 03:05 Starting location 04:04 Diplomacy 05:36 Mechanics of the race and faction 11:00 Province edicts and army stances 13:03 Buildings and...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Control (directly or via vassals/allies) the settlements of Itza, Hexoatl, Tlaxtlan, and Xlanhuapec.
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +3 recruit rank for your units, decent so that you can always benefit from better recruits overall as you proceed into longer victories.
+
+A straightforward campaign but lengthy; it requires you to nearly dominate the whole continent of Lustria to get it.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 75 different settlements.
+- Control at least 7 of a long list of settlements.
+
+The reward is +2 global recruitment capacity. It may arrive too late to actually provide any good benefit to it. It is entirely possible that you achieve domination before the long victory, though.
+
+The long victory takes you into the Old World, and it will be difficult for you to migrate there to achieve those necessary conquests.
+
+Skrolk gains benefits thanks to the Radiant Corruption:
+
+Chance of a plague spreading +100%;
+Plagues gives bonuses to your forces and your settlements;
+Construction cost halved for Pox Cauldron, Pestilent Nave and Plague Bailey;
+Rite cooldown -15 turns for "The Pestilent Scheme"
+
+Very thematic overall, completely around the Plagues. So guess what you should be doing? Spread those!
+
+In terms of climate, it is really good. Almost everywhere is either pleasant or unpleasant. It is nice to have a faction that is allowed in the Chaos Wastes without too many penalties. Great faction to dominate the map with.
+
+STARTING LOCATION:
+
+
+
+Your starting province is a 3 settlement province, but its location is rather average. You are in the middle, so you may suffer some attacks from different sides.
+
+Typical expansion is to control the Southern part of Lustria, and then proceed North. It is difficult to decide whether to expand to the other side of the mountains nearby, so keep an eye out for any developments there, scout ahead, and ensure there are no surprises.
+
+However, you will soon be facing attacks from the North as well, so do not leave your settlements unprotected. You may yet have to fight in all directions.
+
+Typical enemies will be Lizardmen, other Skaven, Tomb Kings, Bretonnia, Dwarfs... everyone around will definitely be attacking you, so be wary.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomacy is quite difficult for this Skaven faction. Although you are kinda neutral overall, you will soon be facing most of the island alone. Most friendlies will be either other Skaven factions and Nurgle, maybe Vampire Coast. One important note would be to not actually grant treaties with those Skaven factions so that the other enemy factions actually reach a point where they can like you.
+
+Outposts are then difficult to recommend. At least, I would try to go for a nice alliance with the Vampire Coast and get some of their flyers or single entities. Anything else is quite difficult to ascertain and will vary a lot.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+- Undercities are a nice idea. They provide vision and you can generate food and income, as well as other bonuses for your faction. The biggest idea is to suddenly shift them into a Vermintide, but that costs a lot of resources and may backfire. They have the unique plague cauldron building as well to keep spreading those plagues.
+
+- Food is your unique currency, and it is important to keep finding more, to avoid penalties rather than receive buffs. Food can be used when capturing a settlement to turn it into a higher level, which ensures good strategic advantages over other factions.
+
+- Skaven corruption allows you more uses of the Menace Below, and grant you bonuses on that province. It provides food and public order when low, and public order penalties when high, but nothing too detrimental.
+
+- An additional mechanic is how the Skaven ambush on their natural stance. Every battle you initiate has a chance to become an ambush, and some army compositions are entirely viable around just this simple mechanic.
+
+Rites:
+
+- The Dominating Scheme - Food +3 per turn; Growth +40; Control +2; Recruitment cost -25%;
+- The Thirteenth Scheme - Diplo relations +13 with Skaven; Lords have a chance of gaining 2 loyalty; Hero action success +13%; Enemy Hero success -13%; Army ability that imbues the army with poison.
+- The Pestilent Scheme - Summons a unique Plague Priest Hero.
+- The Scheme of Dooooom! - Summons a unique Warlock Engineer Hero.
+
+All of these are fairly nice, special note that the plague rite only takes 15 turns.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +3; Corruption -2;
+Growth +20; Construction costs -10% for all buildings;
+Recruit cost -5%; Local recruit capacity +1;
+Skaven corruption +3; Food generated +2;
+
+Overall, decent edicts to apply in nearly any circumstance.
+
+Army stances:
+
+Ambush while attacking is great. You do have a reduced chance of managing the ambush, though.
+Ambush for 25% movement. This is the typical ambush, where you wait to see if the enemy will pass over you.
+Raid gives food, and costs 50% movement range;
+Encampment gives the typical benefits and costs 50% movement;
+Underway has all the strategy implied to it. This is great to traverse difficult terrain, and the Jungle certainly is full of chokepoints that you may wish to travel through.
+Channeling is kinda moot, as it gives some winds of magic per turn, at the cost of 10% movement. However, ambushing while attacking is likely a better trade.
+Warhammer 3 Immortal Empires Lord Skrolk - Skaven campaign overview, guide and second thoughts (continuation)
+BUILDINGS, RESEARCH:
+
+
+
+- Starting with the undercities, you have a unique requirement which is "Discoverability". This simulates the chance of the enemy of realizing you are down there. Keep that in check, and all should go well. Skrolk also has a specific building there, the Plague building.
+
+- Oxyl settlement has a unique building on tier 1, excellent, giving you +300 gold, Food +5; Growth +13, Income from all buildings +10%;
+
+- You require 6 military buildings, 5 of which need to be built at the capital for their fullest.
+
+- They have good combinations at tier 3, though, including Stormvermin, Catapults, Rattling Guns, Rat Ogres... they can be effective even at that point.
+
+- All buildings generate some income and Skaven corruption.
+
+- Infrastructure:
+
+1 - Growth, casualty replenishment rate;
+2 - Food, income from buildings;
+3 - Corruption denial, recruitment costs;
+4 - Control, hero and lord and unit recruitment rank.
+
+These are decent ones, which you should also consider just to unlock specific necessary research.
+Speaking of research it is fairly extense, with many being locked behind buildings. They buff a lot of your units adequately, your campaign as well, and many add units to the vermintide mechanic.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+The blue line does not have replenishment, however, most lords have that skill in a better way in their specific skills. (note: Skrolk does not).
+
+They have an ambush increase in the first part, which plays into the faction, as well as upkeep decrease which helps getting more and better 

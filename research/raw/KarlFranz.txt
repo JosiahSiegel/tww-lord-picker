@@ -1,0 +1,146 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Karl+Franz&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940458194&searchtext=Karl+Franz
+GUIDE_TITLE=Steam Community :: Guide :: Karl Franz - Empire campaign patch 8.0 overview and 10 turns guide.
+GUIDE_TEXT:
+Karl Franz - Empire campaign patch 8.0 overview and 10 turns guide.
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch, here:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Karl Franz - Empire campaign overview, guide 
+Views: 1,743
+Time Stamps: 00:01 - Faction intro 00:43 - Victory conditions 02:36 - Starting location 03:42 - Diplomacy 04:50 - Mechanics of the race and faction 06:19 - Province edicts and army stances 07:37 -...
+
+
+If you wish a 10 turns opening, here:
+
+
+YouTube™ Video: Karl Franz first 10 turns! Empire Patch 6.3.3 Total War Warhammer 3 
+Views: 1,953
+Hi everyone, this is my view on Karl Franz for the first 10-12 turns. I go over my decisions and the first battles and showcase how I would do the initial stages of Karl Franz.
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short Victory:
+
+- Destroy the Empire Secessionists, The Barrow Legion (Heinrich Kemmler), Sylvania (Vlad von Carstein).
+- Occupy, loot, raze or sack 30 different settlements.
+
+Reward is +3 hero capacity for all heroes. This is a nice way to ensure you continue to have heroes for your armies or for scouting purposes without having to worry in building their respective buildings everywhere to increase the limit.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 60 different settlements;
+- Control all provinces of the empire either directly or vassals/military allies.
+
+Reward is +10 hero recruit rank, nice to ensure that your heroes are always relevant. Particularly useful for caster heroes as it will ensure they have some spells right as you recruit them.
+
+Both of these are quite brief. In the end of the long campaign you definitely have a solid base in order to continue your conquests into domination if you choose.
+
+Karl Franz is the Heir of Sigmar, and benefits from:
+
+- Has access to the Elector Counts, enabling access to state troops and anciliaries;
+- Immune to diplomatic penalties from trespassing Empire regions;
+- Allegiance points gained +25%
+- Campaign movement range +10% (all armies)
+- Growth +5 per allied faction
+
+Overall some nice small buffs in each area, although I would say campaign move range is always a nice one to have, but of course the Elector Counts mechanic is quite interesting and appealing.
+
+Climate is average at best, suffering penalties in many terrain types. It is a rather difficult faction to dominate the map with, you should stick to the empire lands for sometime before going north or risk some replenishment, control, and costs problems.
+
+STARTING LOCATION:
+
+
+
+Initial province has 4 settlements, and it allows more options of which buildings to construct. Certainly a good hybrid economy/military province.
+
+It is easy to conquer and very easy to hold on to. There are forts nearby that you should aim to control to maintain enemies at bay. Enemies will arrive from that direction, but also from the North and East. Be wary of anyone risking going through the forts while you stabilize the other fronts.
+Typical expansion should be to conquer the initial province, then move against Khazrak and Festus. Keep an eye on Kemmler, specially on turn 8, he declares war on someone and you must react to it.
+
+Back and forth will happen all the time. The more you expand the more enemies will show up, and it is a very large area to cover. Embrace that and fight through it for victory.
+
+DIPLOMACY:
+
+Part of the Order tide of Empire, Bretonnia, Dwarfs, High Elves, Kislev, Cathay. Embrace it, make friends with these factions, trade, help them versus their enemies, and get outposts from them.
+
+Early enemies will be some Empire factions, Vampires, Beastmen, Festus. Later, Chaos and Norsca should arrive in force, and whatever endgame scenario you chose.
+
+Best outposts are likely Dwarfs for heavy infantry and other missiles, High Elves and Bretonnia for air alternatives.(see image below)
+
+
+
+MECHANICS:
+
+- First, Imperial Authority. This is just the measure of how many regions in the Empire are owned by Empire factions overall. It provides some bonuses by itself, or some negative debuffs if enemies are abundant in the Empire.
+
+
+
+
+- Next we have the elector counts mechanic. Every state capital provides an assigned lord with specific buffs, an item, and elector count state troops. These are improved versions of your units. You may even wish to have an entire army composition based solely around those. Always remember to check if the lord you assigned to a specific state capital is taking optimal advantage of his buffs. NOTE: once you have all the state capitals, you can click the SUMMON THE ELECTOR COUNTS button, which gathers all Elector Counts to Karl Franz's location.
+
+
+
+- Fealty is the degree of how liked you are with each Elector Count. Basically, keep developing diplomatic relations, and answer to the proper events to try and get specific ones to 10 - they will then be able to be confederated by another mechanic, the Electoral Machinations.
+
+
+
+- The Electoral Machinations are split in two. First we have Emperor's Decrees, a series of important and useful actions that you can use as long as you have Prestige. Prestige is your unique currency, gained after every battle. One of the Emperor's Decrees is also how you can confederate other Elector Counts.
+
+
+
+- The second part is the diplomatic talks, which is a simple system to spend Prestige to improve or decrease relations with other Elector Counts.
+
+- From time to time you will have Dilemmas which usually help you gain or lose Fealty with other Elector Counts, such as the example below.
+
+
+
+- The Elector Count state troops themselves take some time to be added to the pool, but you can recruit them instantly. This may provide you with some tactical advantages to recruit someone in a hurry, and they are quite better than the usual troops you can obtain. Karl Franz has specific bonuses for these troops and I do recommend you embrace them for his army.
+
+
+
+
+Karl Franz - Empire campaign patch 8.0 overview and 10 turns guide
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- Control +4; income from trade tariffs +5%
+- Chance of a plague spreading -40%; corruption -3; corruption in adjacent provinces -1;
+- Income from all buildings +5%;
+- Growth +20 and construction cost -10% for buildings;
+- Recruit cost reduction -10% and local recruit capacity +1;
+
+It has pretty much the standards, I would love to have some research thrown in. In addition, for the forts you should have the control and factionwide income to trade to ensure you benefit from something there as they have no income.
+
+Army stances:
+
+- Channeling for winds of magic in exchange for 10% movement;
+- Encamp for 50% move, attrition immunity, enables replenish and access to Global recruit pool. (and vs Beastmen and Skaven - ambush defense chance. One of the few defenses vs their pesky ambushes);
+- Raiding for 50% move, immunity to most attrition;
+- Ambush for 25% move;
+- Forced march
+
+The default stances, everything else for every other race seems done in variations of these. Very important to remember encamp whenever in any hostile territory to replenish and have a bit more defensive capabilities. Ambush is important to hide your army, not just try the ambush, luring the enemy into a bad position.
+
+BUILDINGS, RESEARCH:
+
+
+
+Altdorf has plenty of specific buildings, including castle reikguard to recruit reikguards and giving them some nice recruit bonuses, colleges of magic to recruit better battle wizards, and the imperial palace for some nice control factionwide, lord and hero recruit rank increase, and income for that province.
+
+Military requires 5 military buildings, with 3 that are able to be built in minor settlement

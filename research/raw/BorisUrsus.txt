@@ -1,0 +1,139 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Boris+Ursus&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2972219604&searchtext=Boris+Ursus
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Boris Ursus - Kislev campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Boris Ursus - Kislev campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Boris Ursus - Kislev campaign overview, guide 
+Views: 372
+Time stamps: 00:01 Faction intro 00:32 Victory Conditions 04:08 Starting location 05:42 Diplomacy 07:00 Mechanics of the race and faction 10:37 Province edicts and army stances 12:40 Buildings,...
+
+
+If you prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Destroy the factions of the Warhost of the Apocalypse (Archaon) and the Bloody Sword.
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +3 hero recruit capacity, great to avoid having to build too many buildings as usual, but considering the specific mechanics of the Frost Maidens, it is even more helpful.
+
+The short victory seems quite easy in theory, at least in terms of width and scope. Dominate the north, take care of neighbors, very easy. However, it is quite hard given the location.
+
+Long victory:
+
+- Achieve the short victory
+- Occupy, loot, raze or sack 70 different settlements.
+- Destroy the Legion of Chaos (Daniel), Wintertooth (Throg), and the Heralds of the Tempest (Kholek).
+
+The reward is +10 hero recruit rank, perfect so that your Patriarchs can have some needed battle prayers, and for your casters to have good spells already by default.
+
+A much longer victory condition, at least deserving of the name long victory. For the most part the issue is that you have to expand into two different locations.
+
+Boris Ursus is the High Priest of Ursun, benefitting from:
+
+Diplomatic relations +30 with Ice Court (Tzarina Katarin);
+Settlements in the Chaos wastelands receive reduced climate penalties and generate Devotion;
+Construction cost -50% for garrison and religion buildings;
+Construction time -1 for Province capital/settlement buildings;
+Recruit Rank +2 for War Bear Riders units.
+
+All in all, a nice change from other Kislev campaigns simply because of the climate, but also good for faster growth with the construction costs and time benefits.
+
+Climate is slightly better overall than others Kislev factions, but the biggest issue is in the early game. It is a slightly better faction on paper to dominate the map with, but you may have such a trouble obtaining an initial solid base that another character may be better.
+
+STARTING LOCATION:
+
+
+
+Your starting location is quite difficult, actually. You are surrounded by enemies and it is difficult to consolidate a base of operations before you have to deal with even more enemies.
+
+Allies are not nearby, so for the most part, you are on your own; This does not mean you cannot hold it, but it is one of the hardest campaigns to do.
+
+You do not even start with any settlement, but the initial one is quite easy to obtain. It is a minor settlement, but the province is at least a 4 settlement province, which should help you build up a good military right away. One important detail is how, after the Tower of Torment, every territory is actually Chaos Wasteland, which is unpleasant to your faction, making this a very difficult start overall.
+
+Typical expansion should then be to take control of the initial province, then advance against the Warriors of Chaos. In the meantime, Norsca and others may attack you, since you are again completely surrounded by foes.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically you are part of the order tide. Empire, Dwarfs, Bretonnia, Cathay, High Elves, all can become your friends... but may be too far away to aid you or trade with you even.
+
+It is not unfeasible that you will only be able to obtain some outposts very late, but pehraps going into the Cathay area can yield some alliances. Therefore, getting artillery from them, and the typical artillery from the Dwarfs if they survive, should be a good complement to your forces.
+
+
+
+Enemies are pretty much everyone that is Chaos aligned; Norsca, Chaos, Monogods, etc. Chaos Dwarfs nearby are also a problem, so be wary.
+
+MECHANICS OF THE RACE AND FACTION:
+
+As for mechanics, they have Devotion, a unique currency that allows invocations, which act very similar to rites: you can use that devotion to have one invocation for:
+
+1 - Supporters gained when gaining a character rank; growth and replenishment rate increase;
+2 - Supporters gained when occupying settlements; cause attrition to enemies and an army ability;
+3 - Supporters gained when constructing a building; income gained;
+4 - Supporters gained when fighting a battle; army ability, melee attack for all;
+
+The more supporters you gain, the better buffs for campaign you get. Contrary to the other two factions, you do not automatically confederate once the race is done, but it helps that you keep good relations with whoever will win that, so later you can confederate them normally (or keep them as an ally, your wish).
+
+The Ice Court mechanic works well, ensuring that you get both Caster heroes and Caster Lords that suit your needs better. You are able to choose their starting traits, which is excellent for a varied and focused playstyle as well.
+
+The Atamans ensure that your provinces are always giving great results. You can assign one per 2 provinces, and you can also grant them the necessary traits you like to achieve that.
+
+Finally, a sort of mechanic of its own, the three main cities of Praag, Kislev and Erengrad act as the main locations for your army building, so they are excellent and almost a necessity to control to ensure a good domination of the mid to late game. Plenty of special buildings in all of them. As Boris, the main issue is that you may not have the time to invade if you are too busy in the North, but confederation options are always a possibility.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4, campaign movement range -20% for enemies;
+Income from all buildings +5%
+Recruitment cost -10%, local recruitment capacity +2 (!)
+Chance of a plague spreading -40%, Hero recruit rank +2, corruption -5, hero recruitment cost -25%;
+
+All decent, but note the lack of growth and research, which are rather useful.
+
+Army stances:
+
+Channeling for +15 Winds of Magic power reserve, at the cost of 10% movement;
+Encamp, costing 50% movement and enabling replenishment and access to global recruitment, as well as immunity to attrition.
+Raiding, costing 50% movement, immunity to attrition
+Ambush, costing 25% movement
+Forced march
+
+All the typical ones, nothing to see here really.
+Warhammer 3 Immortal Empires Boris Ursus - Kislev campaign overview, guide and second thoughts(continuation)
+BUILDINGS, RESEARCH:
+
+
+
+There are no special buildings nearby to aid Boris. Most are located in the Three main cities, which Boris will need time to reach.
+
+Military requires 6 buildings, with 4 having to be built in the capital. This implies your capital will be for a long time your main unit producing location, so your income focused buildings may have to wait for a while.
+
+In terms of infrastructure, the Kislev major cities have different buildings (although far away, I will include them here):
+
+1 - Growth and recruit cost reduction;
+2 - Growth and costruction cost reducting;
+3 - Income (crazy one);
+4 - Devotion, supporters, control, corruption, hero recruitment... a must have.
+
+Infrastructure in other settlements (note, this is not between minor and major. This is between the three main cities of Praag, Kislev and Erengrad, and every single other major or minor settlement):
+
+1 - Income, growth, and recruitment cost;
+2 - Devotion, replenishment rate, ambush chance, corruption reduction, income from farms;
+3 - Control and g

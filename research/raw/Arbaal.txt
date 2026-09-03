@@ -1,0 +1,140 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Arbaal+the+Undefeated&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3429335117&searchtext=Arbaal+the+Undefeated
+GUIDE_TITLE=Steam Community :: Guide :: Arbaal - Khorne overview, guide for Total War: Warhammer 3 Immortal Empires
+GUIDE_TEXT:
+Arbaal - Khorne overview, guide for Total War: Warhammer 3 Immortal Empires
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, here it is:
+
+
+YouTube™ Video: Arbaal - Khorne overview, guide for Total War: Warhammer 3 Immortal Empires 
+Views: 457
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Complete 8 Challenges of Khorne
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is the Chainsword, a unique Legendary item that is super focused in brutal damage, which will help your character gain even more blood and skulls. Great for Arbaal to have that extra power to ensure he is not defeated in battle.
+
+This is a rather short campaign, just depending a bit on the challenges that you go for, but usually it can be completed fairly fast.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 60 different settlements;
+- Complete 15 challenges of Khorne;
+- Perform 8 rituals in the Skull Throne;
+- Destroy the faction of the Ecstatic Legions (Azazel);
+
+The reward is lord recruit rank +10, which is always helpful, particularly good for Khorne to ensure you can get an easier Exalted Bloodthirster lord, should you wish to.
+
+A lengthy victory requirement depending on certain situations, such as the availability of the skulls, of course, but overall the short to long victory ratio is quite balanced.
+
+Arbaal is the Undefeated, and benefits from:
+
+- Access to the Challenges of Khorne, allowing Arbaal to seek out battles to increase Khorne's favor;
+- Upkeep -10% for non-daemonic units;
+- Construction cost -50% for mortal military and defense buildings;
+- Construction time -50% for mortal military and defense buildings;
+
+The opposite of Skulltaker, Arbaal is clearly a faction focused on the mortal side of the Khorne's army roster, and you should enjoy the benefits of it. Of course, nothing wrong with having a few heralds and daemons, but the likely focus is going to be your Chosen, or your Chaos warriors.
+
+Climate is great, almost without any uninhabitable locations, which means this is also a very good campaign to attempt global domination on. Clearly one that is intended on bring Khorne's glory to the whole map.
+
+STARTING LOCATION:
+
+
+
+Starting location is very good, very defensible overall. You do have powerful legendary lords nearby, so be wary of getting into multiple wars too soon.
+
+You have a slight access to the sea for any godies found there, and you have the nearby sea lane to make use for further expansion to the middle of the Ogres/Greenskins/Chaos Dwarf Lands, to try to benefit from it.
+
+DIPLOMACY:
+
+In terms of diplomacy, you are quite in a different position than other factions.
+While the main enemies should be from the order tide, you are also requested to fight chaos in your challenges, which does imply that you may have little support from your chaos "Friends".
+
+
+
+Therefore, allies will likely be other evil factions such as the Greenskins or Skaven, and you can try to gain some of their missile units to complement your own forces with any outposts.
+
+MECHANICS OF THE FACTION:
+
+Khorne has a lot of mechanics, so let's get to them:
+
+
+
+Skulls is your currency, gained by killing enemies or razing settlements. You can then use the Skulls to occupy settlements, for specific technologies, to summon Blood Hosts or give offerings to the Skull Throne.
+
+
+
+One specific Khorne mechanic happens when you raze a settlement, you have a chance for it to be colonized automatically later by your faction. All that you need is to own at least one settlement in the province, and this chance can be increased by certain buildings or techs.
+
+
+
+The Skull throne is a set of bonuses you can get by spending Skulls. Some of the more interesting effects include replenishment of movement and replenishment of the units for your Faction Leader, which is very helpful to quickly roll over your enemies. You have 4 tiers, each with stronger benefits, which are also unlocked by spending skulls.
+
+
+
+Bloodletting is a mechanic tied to your armies, and basically the more victories in a row you have, the better. Upkeep for that army can get up to -40%, replenishment up to 10%, Khorne corruption +6 and Global recruitment -2.
+
+
+
+Cults is another mechanic, which is spread by your Cultist hero, and the cult provides you with building options that can alter how you approach the enemy settlement and province. This includes the option to teleport your faction leader there, so it is great to send a Cultist Hero far away to quickly port your faction leader there and perhaps start a second front.
+
+
+
+Khorne's favor is a specific currency for Arbaal, gained from Winning battles, missions and challenges. You can then use the favor for the Challenges of Khorne, a set of specific missions (challenges) to take out armies that are either worthy, perfect, or ultimate challenges; you can also have bonuses called Boons of Khorne, which include upkeep reduction, campaign movement range, and blood hosts summoned after winning battles.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4, Chance of a Plague -40%, Khorne corruption +3, adjacent corruption +1;
+Recruitment cost -15%, recruitment rank +1, local recruitment capacity +1;
+Growth +20, construction cost -10%, winds of magic power reserve +5 per turn;
+Upkeep -10%, income from post-battle 20%, income from all buildings +10% (all effects in the province);
+
+These are a nice set of edicts, very thematic too. You should remember when you are going to recruit or to build, and chance accordingly.
+
+Army Stances:
+
+Combat Trials, giving 1 skull per turn for each unit in the army, winds of magic +15, unit XP +200 per turn, but it does give attrition to your army.
+Encamp, giving replenishment and immunity to attrition, but reducing winds of magic -5; note it requires no movement!
+Raiding, costs 50 points of movement, enables replenishment in foreign territory (!), immunity to attrition;
+Ambush, costs 25 movement points;
+Forced march;
+
+Overall a fairly typical set, remember that the combat trials is very good to quickly earn some skulls if you are not in any danger, and encamp costs no movement points.
+Arbaal - Khorne overview, guide for Total War: Warhammer 3 Immortal Empires part 2
+BUILDINGS AND RESEARCH:
+
+
+
+You need 7 military buildings for maximum military, but, more importantly, you need 2 province capitals for it.
+This is because you have two types of settlements; daemonic settlements, and mortal settlements;
+As the name suggests, each allows buildings that recruit either the Daemons or Mortal units. Therefore, depending on what units you wish, you should swap the mortal-daemonic settlement building.
+Tier 3 units are already quite insane to be honest. Exalted Bloodletters, Chosen of Khorne, Chaos Knights of Khorne, and others, and you have yourself an army in very little time. Of course, Tier 4 and 5 have the best units available to your faction, be it daemonic or mortal based, but you do not lack quality in the lower tiers by any means.
+Each military building also provides a bit of income, thus furthering the importance of keeping that military investment well fueled. Remember that you can synergize with your faction bonuses and keep strict to mortal buildings that are cheaper for a better return of investment here.
+In terms of Infrastructure:
+
+1 - Growth and casualty replenishment rate building;
+2 - Attrition to enemies, control, and upkeep reduction for your armies;
+3 - Income fro

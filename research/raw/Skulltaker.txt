@@ -1,0 +1,141 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Skulltaker&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3408663616&searchtext=Skulltaker
+GUIDE_TITLE=Steam Community :: Guide :: Skulltaker - Khorne overview Total War: Warhammer 3 Immortal Empires
+GUIDE_TEXT:
+Skulltaker - Khorne overview Total War: Warhammer 3 Immortal Empires
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Skulltaker - Khorne overview, guide for Total War: Warhammer 3 Immortal Empires 
+Views: 422
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Empower 9 skulls in the Cloak of Skulls.
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is the Chainsword, a unique Legendary item that is super focused in brutal damage, which will help your character gain even more blood and skulls. Very good for Skulltaker to take down enemy lords super fast.
+
+This is a very short campaign and should be fairly easy to obtain. If you wish a nice short Khorne campaign to get a feel for the faction, definitely the recommendation.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 60 different settlements;
+- Empower 18 skulls in the Cloak of Skulls;
+- Perform 8 rituals in the Skull Throne;
+
+The reward is lord recruit rank +10, which is always helpful, particularly good for Khorne to ensure you can get an easier Exalted Bloodthirster lord, should you wish to.
+
+A lengthy victory requirement depending on certain situations, such as the availability of the skulls, of course, but overall the short to long victory ratio is quite balanced.
+
+Skulltaker is the Slayer of Kings, and benefits from:
+
+- Access to the Cloak of Skulls, which allows benefits to the faction after defeating Powerful Lords.
+- Hero capacity +2 for Bloodreapers;
+- The Daemons are reforged +10% chance for destroyed Bloodletters to be restored (all armies)
+- Upkeep -15% for Bloodletters and Exalted Bloodletters of Khorne (all armies).
+
+These bonuses solidify the idea that Skulltaker should focus a ton on the daemonic units, although it is not exactly an exclusive deal as you can definitely have some mortal based armies for sure, which is great.
+
+In terms of Climate, it is fairly good, only Athel Loren areas are uninhabitable, and although some unpleasant climate areas exist, it is a great faction to attempt global domination with.
+
+STARTING LOCATION:
+
+
+
+
+
+Fairly good starting position, although you start surrounded by factions that will soon get to war with you, it feels that you have just the right tools and time to deal with them.
+
+Typical expansion goes into finishing the initial enemy and then proceeding towards the Lizardmen factions and Bretonnia to the North... or go to the South. This means you have this very early decision in the campaign to make, with my recommendation being to stay a bit clear from the jungle and watch as the Skaven and Lizardmen battle it out to see who comes out on top.
+
+You also gain access to the sea if you go North, which means you can obtain some of the goodies nearby to aid your campaign.
+
+DIPLOMACY:
+
+In terms of diplomacy, although Khorne may feel odd using it, you can get some nice allies. Skaven, Dark Elves, even Vampire Coast are likely to be friendly to you as you reap the skulls of the Lizardmen and other Order Tide factions.
+
+Natural enemies are of course plenty, including the entire Order Tide and other Chaos factions. Therefore, expect to be always in a war, which honestly is precisely what should happen on any Khorne campaign.
+
+
+
+Outposts with Skaven, Dark Elves or Vampire Coast should focus on missile units, or even some casters so you have a bit of magic if you wish.
+
+MECHANICS OF THE FACTION:
+
+Khorne has a lot of mechanics, so let's get to them:
+
+Skulls is your currency, gained by killing enemies or razing settlements. You can then use the Skulls to occupy settlements, for specific technologies, to summon Blood Hosts or give offerings to the Skull Throne.
+
+
+
+Unholy manifestations, which depend on the overall amount of Khorne corruption in the world. These are:
+
+1 - Eternal War, summoning a small army to fight a target army (including your own, which is actually its main use).
+2 - Khorne's glare, taking immediate control of an unoccupied ruin.
+3 - Slaughter Incarnate, which gives 150% XP gains to the target character for 3 turns.
+4 - Call of battle, which razes a target settlement.
+
+One specific Khorne mechanic happens when you raze a settlement, you have a chance for it to be colonized automatically later by your faction. All that you need is to own at least one settlement in the province, and this chance can be increased by certain buildings or techs.
+
+
+
+The Skull throne is a set of bonuses you can get by spending Skulls. Some of the more interesting effects include replenishment of movement and replenishment of the units for your Faction Leader, which is very helpful to quickly roll over your enemies.
+
+
+
+Bloodletting is a mechanic tied to your armies, and basically the more victories in a row you have, the better. Upkeep for that army can get up to -40%, replenishment up to 10%, Khorne corruption +6 and Global recruitment -2.
+
+
+
+Cults is another mechanic, which is spread by your Cultist hero, and the cult provides you with building options that can alter how you approach the enemy settlement and province. This includes the option to teleport your faction leader there, so it is great to send a Cultist Hero far away to quickly port your faction leader there and perhaps start a second front.
+
+
+
+Champion's essence is tied to the Cloak of Skulls, as it is the currency used for it. This specific mechanic of Skulltaker is gained by wounding or killing enemy Lords in battle. It allows you to have active effects on the Cloak of Skulls, which even includes another teleport feature for Skulltaker to attack enemy lords you see. Perfect for decisive action with Skulltaker.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4, Chance of a Plague -40%, Khorne corruption +3, adjacent corruption +1;
+Recruitment cost -15%, recruitment rank +1, local recruitment capacity +1;
+Growth +20, construction cost -10%, winds of magic power reserve +5 per turn;
+Upkeep -10%, income from post-battle 20%, income from all buildings +10% (all effects in the province);
+
+These are a nice set of edicts, very thematic too. You should remember when you are going to recruit or to build, and chance accordingly.
+Army Stances:
+
+Combat Trials, giving 1 skull per turn for each unit in the army, winds of magic +15, unit XP +200 per turn, but it does give attrition to your army.
+Encamp, giving replenishment and immunity to attrition, but reducing winds of magic -5; note it requires no movement!
+Raiding, costs 50 points of movement, enables replenishment in foreign territory (!), immunity to attrition;
+Ambush, costs 25 movement points;
+Forced march;
+
+Overall a fairly typical set, remember that the combat trials is very good to quickly earn some skulls if you are not in any danger, and encamp costs no movement points.
+Skulltaker - Khorne overview Total War: Warhammer 3 Immortal Empires part 2
+BUILDINGS AND RESEARCH:
+
+
+You need 7 military buildings for maximum military, but, more importantly, you need 2 province capitals for it.
+This is because you have two types of settlements; daemonic settlements, and mortal settlements;
+As the name suggests, each allows buildings that recruit either the Daemons or Mortal units. Therefore, depending on what units you wish, you should swap the mortal-daemonic settlement building.
+Tier 3 units are already quite insane to be honest. Exalted Bloodletters, Chosen of Khorne, Chaos Knights of Khorne, and others, and you have your

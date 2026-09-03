@@ -1,0 +1,134 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Tyrion&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940460867&searchtext=Tyrion
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Tyrion - High Elves campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Tyrion - High Elves campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+For those that prefer the video (it also helps support me):
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Tyrion - High Elves campaign overview, guide 
+Views: 997
+Time Stamps: 00:01 Faction intro 00:35 Victory conditions 03:40 Starting location 04:40 Diplomacy 06:10 Mechanics of the race and faction 11:05 Province edicts and army stances 13:37 Buildings and...
+
+
+For those that prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Destroy the Cult of Pleasure (Morathi) and Naggarond (Malekith).
+- Occupy, loot, raze or sack 30 different settlements.
+
+Reward is +3 hero capacity for all heroes, as always, a good way to ensure you get a steady flow of scouts and heroes to work with, without having to spend too many buildings for them.
+
+This is quite a lengthy and difficult campaign. It involves at least two places to invade, and you will most likely try to get all of Ulthuan as well, so take your time with it.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 70 different settlements;
+- Maintain control of nearly the entirety of the Ulthuan Island;
+- Destroy the Cult of Pleasure, Naggarond, Hag Graef (Malus), The Blessed Dread (Lohkir), The Thousand Maws (Rakarth).
+
+Reward is +10 hero recruit rank, decent, but uncertain it will account for anything; this campaign takes sooooo long given how at least two factions are really far away (Lohkir literally across the world) it is not unlikely you will achieve domination before that. If you have the lucky break of them being defeated before, then perhaps it takes just a long time 😜
+
+Tyrion is the majesty of Ulthuan, so he enjoys the following benefits:
+
+Diplomatic relations: +10 with High Elves;
+Construction time: -50% for Shrine of Khaine building;
+Recruitment duration: -1 turn for infantry and cavalry units (minimum 1 turn).
+
+Overall good buffs for the early game, the construction time is fairly meaningless, but it helps out to ensure you get good relations early on with other High Elves and can always recruit units fairly fast.
+
+Climate is... quite punishing, especially for a faction that should conquer so much of the world for their victory conditions. Other than the initial Ulthuan island and some nearby territories, everything else is either unpleasant or uninhabitable, making this a particular difficult faction to dominate the map with.
+
+STARTING LOCATION:
+
+It is a great starting location, one of the best. Highly defensible although it may look in the middle of the map, and it is a 4 settlement province. Most, if not all of your military is going to be possible to recruit there.
+
+Typical expansion is of course taking over Ulthuan, then going into Naggarond and the mainland to complete the victory objectives. You do suffer a bit of climate penalties already in some places there, so it may be a pain.
+
+Two extra notes: you start with a mage which is excellent, and you start near the ocean, which implies you can always take advantage of all of the goodies that are around. A great faction to start with, plenty of options, although difficult expansion path after the initial areas.
+
+DIPLOMACY:
+
+You are part of the order tide, Empire, Bretonnia, Dwarfs, they will all eventually become your allies. You are most certainly the faction that may need a bit of help to achieve this, but you do have a proper mechanic to do so.
+
+Dark Elves, N'kari of Slaanesh, Vampire Coast will be your main enemies for some time. Lizardmen, Beastmen, Skaven and others may join soon, and of course Chaos can always decide to visit your island later on.
+
+
+
+Outposts should perhaps focus on any armor piercing cavalry which you lack, and good artillery for your forces. Both Bretonnia and Empire are a good option, Dwarfs a close second behind them.
+
+MECHANICS:
+
+The Sword of Khaine is slightly less desirable for Tyrion because of all the public order and diplomacy issues it carries; however, Tyrion becomes nearly unstoppable with it, so that may be a nice playthrough option if you wish to go for it.
+
+Influence is sort of a unique currency, allowing two things: to recruit better lords and heroes, and to shift diplomacy into what you wish, steering enemies and allies into whatever you prefer. You have tons of options, so whenever someone is refusing a deal, influence them.
+
+Rites are quite powerful:
+
+1 - Immune to attrition, casualty replenish rate, corruption (excellent to at least use to capture those bad climate places);
+2 - winds of magic reserve increase, experience for caster heroes and lords, hero action success chance increased for caster heroes;
+3 - Influence per turn, construction costs reduced, control;
+4 - Dilemma for an item; recruit cost reduction, recruit rank, and armour for elite infantry, army ability for siege battles.
+Overall nice choices, some circumstantial while the 3rd option should probably be used whenever possible.
+
+A rather specific mechanic is that each lord has various dedications to choose from, and you can have different army compositions or a different approach in the campaign because of those.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- enemy campaign move range reduction; enemy hero chance reduction; ambush success chance increased, chance of intercepting an army increased;
+- income from all buildings and factionwide trade tariffs;
+- recruit rank and recruit capacity +1;
+- corruption;
+- growth and construction cost reduction;
+
+Overall good ones, so that you can have choices whenever anything bad is happening or about to happen. Flexibility is very good, which helps; nothing that provides influence is a bit unfortunate.
+
+Army stances:
+
+- encamp at 50% movement, immune to attrition, replenishment;
+- Lileath's blessing gives winds of magic, more experience and less miscast chance for casters, and speed for casters; costs 10% movement;
+- ambush is the typical 25% movement;
+- forced march;
+
+All in all, good ones, lacking raid of course, but Lileath's blessing is excellent to ensure good winds of magic when attacking.
+
+BUILDINGS AND RESEARCH:
+
+Lothern has 2 great buildings, both for income and general buffs for your faction overall. There are also plenty of special buildings in Ulthuan, you will soon learn of all of them and adapt your construction plans (I do not wish to spoil too much).
+
+Military requires 7 buildings, and 2 are able to be fully built in minor settlements. These do include cavalry, infantry and missile infantry, which is very good. Tier 3 units are already quite formidable, with tier 4 and 5 only enhancing existing roles.
+
+Infrastructure consists of:
+
+1 - Growth and replenishment;
+2 - Income and resource production;
+3 - Control and income (GREAT);
+4 - Income from buildings and Hero recruitment (Noble)
+5 - Influence per turn, hero and income buffs.
+
+Do not neglect the influence building, specially in the early to mid game. It is valuable to have at least a steady income of influence to allow recruitment of better lords and heroes or to influence other factions diplomatically.
+
+Research is crazy good. Many techs require a specific building to unlock, but are nearly all useful. Ensure you take some time checking which techs you desire for your playthrough initially, and consider that nearly every unit gets buffs to the point they can become a nightmare in the lategame vs anyone in the game.
+Warhammer 3 Immortal Empires Tyrion - High Elves campaign overview, guide and second thoughts (continuation)
+LORDS, SKILLS:
+
+- Tyrion can choose to become a campaign god, or a battlefield god, and he will be excellent at both.
+
+- The blue line

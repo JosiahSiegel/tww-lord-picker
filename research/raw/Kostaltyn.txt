@@ -1,0 +1,155 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Kostaltyn&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940484153&searchtext=Kostaltyn
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Kostaltyn - Kislev campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Kostaltyn - Kislev campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also supports me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Kostaltyn - Kislev campaign overview, guide 
+Views: 257
+Time stamps: 00:01 Faction intro 00:36 Victory condition 03:37 Starting location 04:48 Diplomacy and outposts 06:00 Mechanics of the race and faction 08:59 Province edicts and army stances 10:22...
+
+
+If you prefer to read through:
+
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- At the start of your turn, have at least 600 Supporters;
+- Destroy the factions of the Clan Moulder and the Ecstatic Legions;
+- Occupy, loot, raze or sack 30 different settlements.
+
+
+The reward is +3 hero capacity, great to avoid having to spend too many buildings but it does not affect the same since you only have 2 hero choices.
+
+Straightforward campaign, but it may take sometime, particularly the gathering of the supporters. Still a nice introduction to the faction for certain.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 70 different settlements;
+- Destroy the Warhost of the Apocalypse, the Legions of Chaos, and the Fecundities;
+
+
+Of course a longer campaign, but slightly less than Katarin's. Particularly difficult since you must seek out the Legions of Chaos (Daniel) who are much farther away.
+
+The reward is +10 hero recruit rank, excellent to continue having great heroes in your newer armies.
+
+Kostaltyn is the Cultist of Ursun, and he has the following benefits:
+
+-40 diplomatic relations with the Ice Court;
+10 Devotion generated from Patriarch hero actions;
+Ward save +20% for Patriarchs;
+Melee attack +5 and Leardership +5 for Kossars, Kossovite Dervishes, and Horse Archers units.
+
+All this implies a fairly easier early game, and still some advantage in your patriarchs overall which makes it nearly a necessity to have at least one in every army.
+
+Climate is decent, but the only issue is how you should go towards the North and uninhabitable climate soon enough. It is still better than generalized order factions, and you can certainly dominate the whole map, but not without some slowness here and there in the chaos wastes.
+
+STARTING LOCATION:
+
+
+
+Your starting province is Erengrad, and while you have a temporary border without issues with the Empire, things can change easily. For the time being, enjoy the safer Southern border and conquer the North, against both the Skaven and Warriors of Chaos.
+
+Typical expansion should be to concentrate in the Kislev area, going into the North to eliminate your nearest enemies. Slowly you may have to go south, and the proximity to some sea may yet give you the advantage of some goodies to raise some good income.
+
+You have a one settlement province, with special buildings, which will require careful planning and adaptation to the current playthrough.
+
+DIPLOMACY AND OUTPOSTS:
+
+You are part of the order tide, and definitely should embrace friendships and alliances with the Empire, Bretonnia, Dwarfs, High Elves, and Cathay.
+
+Kislev (under Katarin) is actually a main foe and possible aggressor early on, so be wary of it. Adding to this inner fighting, Skaven, Warriors of Chaos, and Norsca should be at your doorstep in no time.
+
+Outposts should be clear, Empire for Artillery, Dwarfs for Artillery and Infantry, Bretonnia for Flying units, straightforward enhancements of your already strong roster of units.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+They have devotion, a unique currency that allows invocations, which act very similar to rites; you can use that devotion to have a:
+
+1 - Supporters when gaining a character rank; growth and replenishment rate;
+2 - Supporters when occupying settlements, attrition to enemies, and an army ability;
+3 - Supporters when constructing a building, income;
+4 - Supporters when fighting a battle, army ability, melee attack bonus;
+
+The more supporters you gain, the better buffs for campaign you get as well; in the end, you can confederate your rival faction. Please note, this is automatic, so be ready to hit that mark and suddenly have a lot of land (have some money in reserve to avoid bankruptcy)
+
+The Ice Court mechanic works well, ensuring that you get both caster heroes and lords that suit your needs better. You are able to choose their starting traits, which is excellent for a varied and focused playstyle as well.
+The Atamans ensure that your provinces are always giving great results and you can grant them the necessary traits you like to achieve that.
+Finally, a sort of mechanic on its own, the three main cities of Praag, Kislev, and Erengrad act as the main locations for your army building, so they are excellent and almost a necessity to control to ensure a good domination of the mid to late game. Plenty of special buildings in all of them.
+
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4 and -20% enemy movement range;
+Income from all buildings +5%;
+Recruitment cost -10% and local recruit capacity +2 (!);
+Chance of a plague spreading -40%; hero recruit rank +2, corruption -5, hero recruit cost -25%;
+
+All decent, but note the lack of growth and research, which are always rather useful.
+
+Army stances:
+
+Channeling for Winds of Magic, -10% movement range;
+Encamp, with the basic effects and costing 50% movement;
+Raid, giving immune to attrition, costing 50% movement;
+Ambush, costing 25% movement, hidden until discovered;
+Forced march.
+
+All the typical ones. Nothing to see here, wish there was a bit of a difference from other Human ones.
+Warhammer 3 Immortal Empires Kostaltyn - Kislev campaign overview, guide and second thoughts (continuation)
+BUILDINGS, RESEARCH:
+
+
+
+Erengrad has 5 specific buildings, including the port, and they are more centered on income stuff. Immunity to storms and reefs is also a nice upgrade to have, but at quite a cost.
+
+Military requires 6 buildings, with 4 having to be built in the capital. This implies your capital will be for a long time your main unit producing location, so your income focused buildings may have to wait for a while.
+
+In terms of infrastructure, major cities have:
+
+1 - Growth and recruitment cost reduction;
+2 - Growth and construction cost reduction;
+3 - Income (crazy income);
+4 - Devotion, supporters, control, corruption, hero recruitment... a must have.
+
+In terms of infrastructure in minor settlements;
+
+1 - Income, growth and recruitment cost;
+2 - Devotion, replenishment rate, ambush chance, corruption, income from farms;
+3 - Control and growth;
+4 - Devotion, supporters, control, hero capacity, corruption denial;
+5 - Income building.
+
+Overall, it seems we have nearly one for everything, but the key problem here is that you cannot build everything and you will have to choose really well early on.
+
+There are nice options for growth for Kislev and they have the power to grow insanely fast, however, be mindful of what you may lose should go through that path.
+
+Research is rather average. Lots of stuff, but you need to have control over the three main cities to be able to research the second part; in addition, some units receive very little buffs in the research tree.
+
+LORDS, SKILLS, ARMY COMPOSITIONS (check the images while reading):
+
+Kostaltyn has nice buffs for himself, some devotion based and hero based upgrades, and his whole army benefits from Frenzy.
+
+Blue line has both upkeep and replenishment in the final part, and be mindful that Kostaltyn already has upgrades for replenishment. He can definitely reinforce better than Katarin, which may prove important to capture the north.
+
+Redline is one of the best. Plenty of interesting combinations,

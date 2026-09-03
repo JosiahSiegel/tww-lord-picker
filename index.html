@@ -1467,7 +1467,7 @@ to{transform:rotate(360deg)}}
         <div class="chips" id="pschips-bar" role="group"></div>
       </div>
       <label class="psall-toggle" title="When several playstyles are selected, require lords to have ALL of them (AND) instead of ANY (OR)">
-        <input type="checkbox" id="psall-bar"> <span>All</span>
+        <input type="checkbox" id="psall-bar"> <span>Require All</span>
       </label>
     </div>
     <div class="chips-section chips-section--more" aria-label="Advanced filters">
@@ -3886,7 +3886,7 @@ function updateFeaturedRadar() {
     // pointing at #fr-inner (the SINGLE-lord panel). Use a unique name
     // to avoid the redeclaration error.
     const frAllInner = frSummary.closest('.fr-inner.all-lords');
-    if (frAllInner && window.matchMedia('(max-width: 640px)').matches) {
+    if (frAllInner && typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 640px)').matches) {
       // Default: EXPANDED. Only collapse if the user explicitly chose to
       // earlier in this session (recorded as a data attribute so the
       // choice survives re-renders triggered by filter changes).

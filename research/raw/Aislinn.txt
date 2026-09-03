@@ -1,0 +1,267 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Aislinn&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3650498161&searchtext=Aislinn
+GUIDE_TITLE=Steam Community :: Guide :: Aislinn faction overview
+GUIDE_TEXT:
+Aislinn faction overview part 1
+Hello everyone. In this guide I will cover:
+
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you wish to check it on YouTube, here is the link for it:
+
+
+YouTube™ Video: Aislinn - High Elves campaign overview Total War: Warhammer 3 
+Views: 440
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short victory:
+- Occupy, loot, raze or sack 30 different settlements;
+- Unlock 3 Dragonships
+- Establish 3 Colonies
+- Destroy the faction of the Dread Rock Privateers (starting enemy)
+- Restore the 3 Elven Colonies of Tower of the Sun, Tower of the Stars, and Tor Elasor (starting province)
+
+The reward is +3 hero capacity for all heroes, something that actually aids the High Elves well as their agent capacity is quite high in terms of building tiers.
+
+A fairly long short victory condition, it does require a lot of work so it is not exactly the quickest to achieve due to the Dragonship requirements which can take sometime.
+
+Long victory:
+- Achieve the short victory
+- Destroy the Dread Rock Privateers (starting enemy), The Awakened (Luthor Harkon), Pirates of Sartosa (Aranessa Saltspite), and the Blessed Dead factions (Lokhir Fellheart)
+- Restore 9 Ancient Elven Colonies (located around the world)
+- Win the Final battle called The Lost Cache.
+
+The reward is +20% movement range to all armies, hero recruit rank +10, and Dragonship supply construction cost -20% for Dragonship buildings. Quite a nice reward, although it might be a bit late to provide the needed benefit, but still useful should your aim be domination for example.
+
+This is quite a very long campaign and it is not impossible that you might be very close to domination by the time you finish it. You may have the luck of the enemies being destroyed by someone else, but if you have to do it yourself, it will take time.
+
+Aislinn is tempered in storms, and has the following benefits:
+
+- Asur Domination, having access to powerful Dragonships, establishing colonies and gifting conquered regions to other high elf factions, as well as having access to asur domination advancements which is his unique mechanic.
+- Can issue provincial commandments without owning the full province.
+- Improved sea navigation, with Immunity to high seas, reef and storm attrition, as well as sea lanes having no journey duration for all armies, and no movement costs when travelling between sea and land, and having access to the Mist Landing army stance, which allows instantly to move from the sea to land, ignoring impassable terrain.
+- Local recruitment duration -1 turn for Ocenanids, Sea Elementals, and Merwyrm units.
+
+If it is not clear, Aislinn is truly a master of the seas. His campaign is all about exploiting the vulnerabilities of your enemies' coastlines and to strike fast and swiftly before they can become a threat. With its improved navigation you will feel completely at home at sea, and you will definitely have the upper hand in any sea-based engagements.
+
+Climate is simply great for Aislinn, as he suffers no penalties whatsoever, also due to how his faction works, as it will become clear later on.
+
+STARTING POSITION:
+
+
+
+You start without any settlement, just your initial army/fleet, and all the sea in front of you. Unlike other factions, you do not have immediate threats to speak of after the first enemy, just the decision of where to engage first.
+
+Typical expansion is of course to dominate the closest islands of the Eastern Colonies. Once you do it, you are pretty much set for whatever you prefer to do since you will have unlocked one of your mechanics in the form of hte specific unique sea lanes for your faction, one that goes to Ulthuan, another for Lustria, another for the Southlands. Of course, since you are at sea, you can enjoy a great deal of encounters and goodies at sea that it provides.
+
+
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically you are part of the Order tide. Because of the nature of your campaing, you will be set against a variety of enemies, but you can count on having to at least deal with the Pirate nations, be it the Vampire Coast or Lokhir, because of those Victory Conditions.
+
+Typical allies will be anyone from the Order tide, including Empire, Bretonnia, Dwarfs... Therefore, obtaining some artillery or cavalry is always a good idea if you like to have some allied units in your armies.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+There are several unique currencies that are tied to mechanics, and plenty of mechanics to go through. Let's go one by one:
+
+- Influence is gained mainly by winning battles. You can spend it on heroes and lords that will have better initial traits, or on the Patrons of the Realm mechanic to increase your Patronage on a province. You can also use Influence in the Intrigue at the Court mechanic, to either improve relations or decrease relations between any two known factions (including yourself).
+
+
+
+- Patrons of the Realms is a mechanic shared with other High Elf factions. You can assign a lord to become patron of a specific province of Ulthuan. All you need for that to happen is for the Province Capital to be owned by any High Elf faction. Assigning a Lord grants specific buffs, and increases the favor of the Phoenix King. This is another smaller currency which mainly helps you to confederate other High Elf Legendary Lords later on.
+
+
+
+- Court Unity provides you with a simple way of Confederating other Legendary Lords. Just fulfill the conditions required and you will be able to select that faction for confederation. Other Minor factions are only able to be confederated normally via the diplomacy screen. Should be noted that for Aislinn specifically you will only gain access to the Legendary Lords, not their settlements, as Aislinn has this limited form of ownership.
+
+
+
+- You have 2 types of settlements, Outposts and Elven Colonies. Well, 3 if you count the Dragonships. They are all a bit intertwined in terms of the currencies they generate and how you use them.
+
+- Outposts are basically gifted regions to other High Elf Factions. You have some limited options of construction there which generate mostly Elven Trade and Dedication currencies. Elven Trade is used for Buildings, technologies, and is later transformed into Dragonship Supplies on Elven Colonies. Dedication currency is strictly used in the Asur Domination mechanic.
+
+- Elven Colonies are limited to construct, but are key to provide you with Dragonship supplies. You should focus this as there are not many ways of generating the needed supplies to build up your Dragonship's horde style buildings.
+
+- Dragonships themselves are like any horde style settlement. You require Dragonship supplies to build anything, thus the need to keep transforming Elven Trade into Dragonship supplies. You can have a maximum of 5 of these Dragonships, unlocked via the next mechanic, Asur Domination.
+
+
+
+
+Aislinn faction overview part 2
+(Mechanics, continue)
+
+- Asur Domination is Aislinn specific mechanic. There are 2 ideas for it:
+
+1 - First you are using the Dedication currency, gained via outposts, to spend in either Outpost, Colony, or Dragonship dedication. These provide numerous buffs, and usually and more importantly unlock some buildings, on the specific settlement type. Therefore, it is recommended that you spend some time thinking on what you aim to build in your colonies, outposts, and dragonships, so that you are able to dedicate to unlock those buildings as soon as possible.
+
+
+
+2 - Secondly, you can see the current outposts you have given to each of the specific High Elf Legendary Lords, and that gives you specific bonuses when you choose the option to "Consult Leaders". Each lord provides you with 4 possibilities:
+- joint training exercises, a simple 3 turn buff for experience and recruit rank of specific units;
+- specific equipment that they can provide for some gold;
+- a specific timed ability linked to the lord itself, like replenishment bonuses from Alarielle;
+- A unique buff to specific units, for example, vanguard deployment for Sisters of Avelorn if you request Alarielle, in exchange for 1000 dedication.
+
+
+
+- Rites is a simple set of possible bonuses that you acquire, with a cooldown and spending some gold for them. These range from having immunity to attrition, a more building focus with control and reduced construction costs, specific bonuses to units like the Invocation of Mathlaan, as well as a dilemma for a powerful item with also bonuses to swordmasters, white lions, and dragon princes.
+
+
+
+- Finally, you are also one of the few factions that can build the Shrine of Khaine to unlock the Sword of Khaine, and the item is very powerful for any lord carrying it, with its own specific mechanics tied to it. An example below (thanks to Skarbrand for showing it up).
+
+
+
+- Just a quick note that as mentioned before Aislinn has the Sea Navigation unique idea, with immunity to high seas, reef and storm attrition, sea lanes that have no journey duration to all armies, no movement costs when traveling between the sea and land, and the access to the Mist Landing unique stance.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+In terms of province edicts, you have:
+
+- Growth +30, income from all buildings -10% (negative, note)
+- Control +3, corruption -5;
+- Control -3 (negative), income from all buildings +5%
+
+In essence, you really have to choose wisely what your edict should be depending on your necessities. Be careful not to leave it on growth for too long and hindering your income, for example. Check on those every few turns.
+
+In terms of army stances, you have:
+
+- Lileath's Blessing, consuming 10 movement, granting bonuses to spellcasters and winds of magic reserves
+- Encamp, consuming 50 movement, enabling replenishment and immunity to most attrition
+- Ambush, consuming 25 movement, hiding your army and creating the possible ambush battle
+- Forced March, giving 50% movement while giving some penalties including not allowing you to attack.
+
+For Sea stances, you have:
+
+- Mist Landing, allowing you to move just like an underway stance, bypassing terrain, and going sea-to-land without penalties.
+- Dragonship expansion, providing recruitment options for armies within the circle of influence, enabling replenishment in foreign territory.
+- Flank speed, similar to forced march, not able to initiate a battle.
+
+Overall you have some tactical options as the High Elves, although you lack a raiding stance which would be nice. Should be noteworthy that Mist Landing allows you to bypass any terrain, while your normal movement allows you to move sea-to-land via PLACES YOU CAN ACTUALLY LAND AT. (basically treats all shores as if they had ports in it).
+
+BUILDINGS AND RESEARCH:
+
+There are 3 unique buildings in your initial province:
+- Loremaster's Watch, unlocking recruitment of Loremasters of Hoeth, and providing some spell resistance for all spear units.
+- Rebuilt Citadel, giving unbreakable during siege battles vs Dark Elves only.
+- Pilgrimage Grounds, which gives recruitment of Moon Dragons and recruit rank +1 for Dragon units, as well as global recruit for moon dragons -1.
+
+Military is mainly done in your Dragonships, with Colonies having only 3 possible buildings for recruitment. All of those buildings go either to tier 4 or 5.
+
+
+
+As for infrastructure:
+Outposts:
+- Sea patrol outposts, providing dedication, influence, control and corruption reduction
+- Outpost defense, just a set of possible defensive buildings
+- Elven trade, giving elven trade per turn
+
+
+
+Colonies:
+- Basic income building
+- Income from trade tariffs and tradeable resources at the cost of Elven Trade per turn
+- Income at the cost of Elven Trade per turn
+- Dragonship supplies and some income, at the cost of Elven Trade
+
+
+
+Dragonships:
+- Recruit capacity increased, circle of influence increased, reduced construction costs for dragonships, enemy hero action reduced.
+- Campaign movement range and campaign line of sight increase.
+- Dragonship crew growth increase and casualty replenishment.
+- Allegiance points and diplomatic relations increase at the cost of Dragonship supplies.
+
+All of these buildings then provide specific alternatives depending on what you prefer to do. Some provide more income, others more elven trade, others dragonship supplies... so be careful with the buildings that have negative elven trade, as you can limit yourself fairly early on unless you do the math (ugh)
+
+To simplify, as long as you gain income and are stabilizing the growth of all currencies, you should be fine and not too worried about maximizing the effects. Just check periodically if you are losing any specific currency and respond to it.
+
+Research is great and split between 3 areas or tech trees:
+
+- The hosts, with boons to specific units across the unit roster, including some very powerful abilities for your units.
+
+
+
+- The realms, with benefits mainly focusing on your campaign, but it does include some bonuses to units.
+
+
+
+- sea patrol, with specific bonuses for Aislinn, great bonuses for Sea Company units, for example
+
+
+
+Overall, you can do a lot by focusing specific units from the start and granting the bonuses from the tech trees, to roll over the enemies quickly and decisively.
+
+
+
+
+Aislinn faction overview, part 3
+SKILLS, HEROES:
+
+There is a lot to speak of in terms of Skills and heroes, so I will go very briefly on an overview on these.
+
+As always, skills are split between the blue line for campaign effects, redline or army effects, yellow line or melee/casting, and the legendary or unique skills.
+
+
+
+Blue line has replenishment and upkeep reduction but only in the final part of the line. Of course, should you go there, you can also grab Lightning Strike. A few lords with upkeep reduction should be sufficient to grant the possibility of supporting some extra armies later on, so think first if you are going for a short, long, or domination victory before choosing this route.
+
+Redline is good, but does split units between their roles and between early/lategame units. More on this later, but do choose wisely if you are going to have an army focusing on lategame power, or early game power.
+
+Most lords now assist their army in one way or another, so keep an eye out for those skills from your lords that can allow some different army compositions. I have some examples later on.
+
+Heroes are excellent, and they provide some bonuses to units like the Handmaiden's for example. There are 2 heroes with the replenishment ability, so just ensure you can benefit from at least one to ease your recovery from each battle. Loremasters of Hoeth are great hybrids, while Nobles are decent melee fighters to bring along.
+
+ARMY COMPOSITIONS:
+
+Here are the redline skills for the High Elves. As I said before, they are splint among their role, and their tier, with elite units together:
+
+
+
+Aislinn focuses on the sea theme, benefitting Ship's Company, Oceanids, Lothern Sea Guards, Sea Elementals and Merwyrms. Therefore, I included some compositions with those, of course, nothing wrong with upgrading into higher tiers of infantry units later on, as your power increases.
+
+
+
+NMext, Princes, Princesses, Archmages and Sea Helms can all have their own thematic armies, or you can simplify it by just going a very standard elite infantry frontline with Sisters of Avelorn and some monsters to assist. At one point, of course, if you want diversity, try some of the options given.
+
+
+
+There is a LOT of variety in terms of the specific units that you bring, but the High Elves can nearly excel with anything. Specially very late game, after all buffs are given to the units. Just have fun and try to use at least a few synergies between the redline skills and the specific bonuses from the lord, and have at least a melee/support hero and a caster hero for additional flexibility in battle as I typically recommend.
+
+FINAL CONCLUSION:
+
+- Aislinn has quite a complex campaign in terms of mechanics. He needs a bit of an understanding of all the necessary currencies, but once you realize how it all works, it becomes very simple to pull off and you will soon just have battle after battle with very powerful units buffed by everything you could find.
+- It is a great campaign to try out different army compositions versus a variety of enemies given your mobility and ability to move quickly between continents.
+- Your army consists of:
+1 - Great infantry
+2 - Great missile infantry
+3 - Good cavalry and chariots
+4 - Great flyers
+5 - Great single entities
+6 - Average artillery (skycutters do become a bit more powerful but lack some range)
+7 - Lacks a bit of early armor piercing
+
+Replenishment is great, since you have tons of options to increase it and the climate could not be better. You should have no problems compared to other High Elf lords which were fairly limited because of the terrain.
+
+It is time to clear the Seas (and lands) of all enemies and liberate Ulthuan as Aislinn, the Sea Lord.
+
+
+

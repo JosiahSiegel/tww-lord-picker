@@ -1,0 +1,231 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Gorbad&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3435073360&searchtext=Gorbad
+GUIDE_TITLE=Steam Community :: Guide :: Gorbad Ironclaw - Greenskins overview, guide for Total War: Warhammer 3 Immortal Empires
+GUIDE_TEXT:
+Gorbad Ironclaw - Greenskins overview, guide for Total War: Warhammer 3 Immortal Empires
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Gorbad Ironclaw - Greenskins overview, guide for Total War: Warhammer 3 Immortal Empires 
+Views: 385
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Maintain control of 5 provinces, mainly in the badlands area;
+- activate 5 unique "Da Plan" tactics;
+- Occupy, loot, raze or sack 30 different settlements;
+
+The reward is +3 recruit rank to all armies, which is great to ensure that all your units are just that bit better as you obtain them and following you well into the lategame.
+
+This is quite a cool short campaign. It should be done fairly quickly, but not without its fair challenge, which makes it quite a nice introduction to the Greenskins.
+
+Long victory:
+
+- achieve the short victory;
+- occupy, loot, raze or sack 60 different settlements;
+- maintain control of Wissenland, Reikland, and Solland;
+- activate 10 unique "Da Plan" tactics;
+- destroy the factions of Reikland (Franz) and Wissenland & Nuln (Elspeth)
+
+The reward is +2 global recruitment capacity, which is always great to get your lategame armies pumping out much earlier and giving you some good control of your borders into the lategame and domination ideas.
+
+This is a fairly longer campaign, and it does force you to go straight into the Empire lands. Lore based, for sure, but it does hinder a bit of the sandbox element; still, at least you have the feel of a bit of a narrative here by going vs the Empire.
+
+Gorbad has the "Invasions done Propa", and benefits from:
+
+- Access to "Da Plan", allowing powerful tactics to be applied to your armies;
+- Improved rewards after successfully completing a Waagh!
+- Income from razing settlements +15% to all armies;
+- Global recruitment duration -1 turn factionwide;
+
+Overall a nice set of bonuses and into a bit of a raze/fast recruitment style. Gorbad is a faction that plays well on the move with the global duration recruitment reduced, and the income from razing helping you to keep recruiting your best troops.
+
+Climate is actually quite good, specially considering where you are most likely to be heading towards. There are only a few locations, the Chaos Lands and Ulthuan, that are truly uninhabitable.
+
+This can be quite an awesome campaign to try and get domination with, specially following the long victory as you are mostly surrounded by good climate.
+
+STARTING LOCATION:
+
+
+
+Your starting location is a 3 settlement province, and you already start with 2 settlements. You are surrounded by both Greenskins and Dwarfs, and you will likely have some wars against both.
+
+Of course, due to how confederation works for Greenskins, this is quite a nice position so you can quickly grab some land if you defeat many leaders; however, pushing too much against other Greenskins may facilitate other enemies' growth, so be careful.
+
+You have good resources nearby specially with the mines, and important locations. Karak Eight Peaks, for example, can be easily taken early on, but you have to be aware it can lead to wars with the Skaven, for example.
+
+Typical expansion is therefore to control the nearby provinces and proceed North, dealing with the Dwarfs as you aim to get to the Empire lands eventually for your long victory objectives. Going south is possible too, although it is perhaps best to limit your advance there as the amount of enemies will only increase.
+
+DIPLOMACY/OUTPOSTS:
+
+Diplomatically, you are part of the Evil tide. You will have your own race as both friend and foe, but there are some possibilities for alliances nearby.
+
+Most likely you will always end up fighting Dwarfs and thus the Order tide that follows. Chaos Dwarfs are also a very likely foe to show up soon if they become powerful, and later on Empire is likely to become your main enemy.
+
+
+
+Alliances with the Skaven and the Ogres, given your mutual enemies, are most likely to happen. Therefore, try to gain some of their missiles units or single entities to complement your forces.
+
+MECHANICS OF THE RACE/FACTION:
+
+In terms of mechanics:
+
+Confederation is quite easy, defeat an enemy Greenskins faction leader and voila, you get a chance to confederate the whole faction. Waiting for them to grow a bit can thus be a good tactic.
+
+
+
+Waagh! is a great mechanic, basically you keep fighting and winning until the bar above fills in. While this is ongoing, you get some debuffs and buffs, which include growth, control, recruitment cost reduction, winds of magic, and leadership, all things you actually do lack a bit.
+
+
+
+Once you start a Waaagh, you select a target, set to Mork or Gork, and you then have a period of time to reach that settlement. In the mean time, every army you have will have a secondary Waagh! army with it. Should you succeed, you are granted a nice banner, that will give you some cool buffs for your campaign and armies.
+
+
+
+The Scrap mechanic is basically a special currency, you obtain it from battles mostly. You can spend it to improve your units significantly, in some choices. Previously you could only choose one option, while now it has improved a lot by allowing you to use every single choice, which is MASSIVE. This allows you some nice compositions as the units can vary drastically.
+
+
+
+Waagh! based regiments are also great, and provide you with some niche options such as Wyverns and Hydras, which are good complements of your forces.
+
+
+
+In terms of Gorbad's specific mechanic, "Da Plan", it is a very cool way of having an incentive to play out with different army compositions. Once you meet the requirements in terms of units and the unlock conditions, you get access to a specific plan that you can use for your army. This can create a very cool way of enhancing the units you already have or create a new synergy possibility, and you can have up to 3 active. You need planz to do this, which are gained by fighting with Gorbad.
+
+
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+In terms of edicts, we have:
+
+- Control +2, growth +20, corruption -3;
+- construction cost -10% for all buildings; income from all buildings +5%;
+- recruitment cost -10%; local recruitment capacity +1;
+
+Overall, a very simplified list, but you can get what you need with them. Just remember to switch whenever you are building up income or recruiting units.
+
+As for your army stances:
+
+- Raiding camp, giving you Scrap, income, costing no movement, replenishment, and immunity to attrition.
+- Tunneling, your underway stance, giving you immunity to attrition and also a nice defense vs ambushes (easy to forget)
+- Ambush, costing 25 movement
+- Forced march
+
+Also a fairly typical bunch, remember to use Underway when approaching Skaven territory to fight against those nasty ambushers, and to be in raiding camp most of the time for that Scrap and income.
+Gorbad Ironclaw - Greenskins overview, guide for Total War: Warhammer 3 Immortal Empires part 2
+BUILDINGS/RESEARCH:
+
+With the Greenskins, something that is not spotted immediately is that you obtain additional recruitment capacity as you advance your province capital, as well as with your boss' camp building, which is rather useful to have in any military focused province.
+
+
+
+Black Crag provides you with a nice landmark building, great for recruitment purposes, so it is of course recommended to build up the province for military purposes overall.
+
+You have 7 military buildings, with 4 requiring a province capital settlement. Overall, your tier 3 units are already quite capable, with Black orcs and Big uns, archers, cavalry, trolls and even giants, as well as some artillery pieces. Your tier 4-5 consists of your better single entities, so it is still recommended to reach for it whenever possible.
+
+The division between Goblin units and Orc units solidifies the decision in the beginning of which troop type to choose, and is great for roleplay as well.
+
+As for Infrastructure, we have:
+
+- caster recruitment, as well as reduced corruption building;
+- control, lord and hero recruit rank, global and local recruitment capacity increased;
+- growth and replenishment
+- income
+- income from post battle loot, raiding, sacking and looting
+
+Note that the last two are mutually exclusive, so you have to choose a bit. It is still recommended you have a few of each, specially if you are combining with blue line skills to overall increase your rewards from sacking or looting.
+
+
+
+Research has now been split a bit, and you have a specific section concerning Scrap upgrades for units, which costs Scrap themselves. It is recommended you unlock particularly those you are planning to use in the very moment, as Scrap is early on a difficult currency to have.
+
+The main division of the research line is between the top and bottom, with top dedicated to Goblins, squigs and spiders, and the bottom to orcs, chariots, cavalry and monsters. The middle section is for generalized campaign bonuses, worthy to check out too.
+
+It is a nice split, and you have decent upgrades for your units, but it is recommended that you specialize a bit to ensure that you get the most out of your research time. Overall, the biggest decision you will always have is to whether go for Goblins or Orcs.
+
+LORDS/SKILLS/ARMY COMPOSITION:
+
+Blue line or campaign skill line has upkeep reduction, but no replenishment. In fact, Greenskins used to have lousy replenishment until the Hag hero was introduced.
+
+It is still great to focus on razing or sacking or looting, and if you choose one path, be sure to always use it to maximize your income that way.
+
+Redline is one of the best in the game, not only it organizes units well, but on what it buffs them. You can get a wide variety of units benefitting from a small number of redline skills used.
+
+
+
+Gorbad has an interesting set of bonuses on his special skills. Mostly, all your armies greatly benefit from heavy melee forces, and he can also go into nearly an endless variety of styles. Adding "Da Plan" changes and you can fight nearly any foe with ease. I leave you with 3 possibilities, including one with the Legendary Spider hero, for some fun.
+
+
+
+Some specific armies with the Goblin Great Shaman and the Night Goblin Warboss are definitely focusing of course goblins and night goblins, with some Squig support. The addition of the Collossal Squig gives these armies perfect power while retaining the speed of the army overall.
+
+
+
+For your Orc Warboss we can certainly embrace the new black orc shields-gw combination with some tier 3 giants, and some cavalry if you prefer more mobility.
+
+
+
+With the new Savage Orc lord, you can definitely for for those Savage orc units and have some combinations, specially depending on what specific skill you select from him. Here are 3 choices for you.
+
+
+
+I believe it is also nice to have some options for your two lords from the research paths. First for Spiderclaw, with of course a Spider focused army specially worthy with the Legendary Spider hero I hate to pronounce, and Oglok the Horrible, the best contender for a cavalry based army given the speed bonus and charge bonus he gives them.
+
+
+
+At last I leave some combinations with non-DLC units for those that prefer it that way, stuff that just works on a more basic level.
+
+
+
+ARMY PROGRESSION:
+
+
+
+Gorbad starts with access to some basic infantry and some squigs. Embrace it. The mobility and armor piercing of the Squigs, plus Da Plans focusing on either the Orc Boyz or the Squigs, should be enough to guarantee victory vs most enemies early on.
+
+Once you obtain barracks tier 2, of course you can get some archers to complement the forces, but it is on tier 3 that I definitely recommend you switch to a brutal Black Orc and Stone Troll composition. At this point, make sure you get a Hag too for your army, as it will help with the replenishment as well as the lore of Death.
+
+That army has the advantage of only using 2 early redline skills, so you have enough to use for other stuff such as blue line or his specific skill line. It also implies that you only really need 1 advanced military building, so your initial province can have some income to aid your advances.
+
+Finally, once you reach tier 5 of course the new Spiders come in handy. At that point, it is also good to have a spider based army, highly mobile and very deadly vs specific opponents, so all in all the synergy is just there for the taking.
+
+As always, add your own flavor with RoR and outposts, but try to have a bit of a plan of progression like this which helps tremendously from early to lategame. I recommend doing this in your mind (or you can use this template idea) at least for your top 3 Lords.
+
+FINAL NOTES:
+
+Gorbad returns to the origins of the Greenskins to Black Crag, and has the most "take out Dwarfs, take out Empire" campaign of all the Greenskins. If you fought in Warhammer 1, you will enjoy just that, let alone the unique mechanic.
+
+Da Plan allows you to even try and counter the enemy as they approach. Scout their troops, combine your forces for a specific plan, and unleash them. It is such a rewarding experience and lets you do something more than just fighting the same battle all over again. I recommend this approach if you are feeling it is always the same army or idea you use.
+
+You are very much surrounded by enemies and too close for comfort to some Legendary Lords (Thorgrim for ex). Once you get through those challenges, it is a great campaign experience.
+
+Your army consists of:
+
+1 - Great damage dealing infantry
+2 - good missiles and artillery
+3 - great monsters and single entities
+4 - good chariots
+5 - cheap units in all categories
+6 - lacks anti-large halberd infantry
+7 - average cavalry
+
+Replenishment is good, you do have some options for it, but the main idea is the climate that you will fight the most being good for you.
+
+I believe now it is the time to get your intricate battle plans working, with Gorbad Ironclaw!

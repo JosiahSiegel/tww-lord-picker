@@ -1,0 +1,2945 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Golgfag+Maneater&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2768270534&searchtext=Golgfag+Maneater
+GUIDE_TITLE=Steam Community :: Guide :: Legendary Lore Guide
+GUIDE_TEXT:
+Introduction
+This guide will show you how to trigger all the lore events in the Legendary Lore mod for Total War: Warhammer III.
+
+GUIDE LAST UPDATED: 1 JUNE 2026.
+
+There are seven separate ways to trigger the lore events in this mod:
+
+Taking a Legendary Lord to a region.
+
+Defeating a Legendary Lord in combat.
+
+Upgrading the level of a settlement.
+
+Occupying or razing settlements.
+
+Building a landmark or certain buildings.
+
+Recruiting a unit or agent.
+
+Reaching a certain turn.
+
+How many events are in the mod? (05/05/2024)
+
+329 versus events.
+
+288 landmark events.
+
+379 settlement events.
+
+921 unit, agent and regiments of renown events.
+
+452 occupation events.
+
+1043 legendary lord (exploring) events.
+
+273 generic lore events.
+TOTAL = 3685
+
+This guide is split by factions. Since nearly every unit and landmark triggers lore, they won't be included unless to note that they're still under construction. If you see the letters IME or RoC next to region names - that is to denote whether they're Immortal Empires or Realm of Chaos campaign.
+Canon
+The mod's goal is to ensure every Legendary Lord, Legendary Hero, unit, Regiment of Renown and settlement triggers lore pop ups, as well as providing many Legendary Lord v Legendary Lord events and occupying cultural capitals events.
+
+The Warhammer Fantasy universe spans decades of rulebooks, novels, and White Dwarf magazines. Some Legendary Lords have entire trilogies dedicated to them; others have only a few paragraphs of official text to their name. Some Legendary Lords had climatic battles in the End Times, but the vast, vast majority never even encountered one another, let alone fought one another. Therefore, a substantial amount of original content is required to achieve the mod's goal.
+
+I do not have any plans or interest to make a strictly 'canon only' mod or feature to separate or differentiate canon and original content. If you want to strictly read official lore then go to the official sources - not the Steam Workshop.
+
+Original Content Writing Policy:
+I aim to ensure all original content respects canon as much as possible. This is achieved with an additive, rather than a transformative, approach. Examples:
+
+
+No major original characters eg Karl Franz's long-lost brother or a brand new Cathayan Dragon Child. However, minor, inconsequential characters (like a Cathayan local guide assisting Markus Wulfhart hunt Nakai) can be created purely to drive the narrative of that particular lore event.
+
+No self-inserts like Oh_Man was the king of all the realms, or aliens came down and started probing everyone, or entire new continents, etc. No silliness - the canon is treated with respect.
+
+Retcons - I try my best to harmonise retcons when I encounter them. I use techiques similar to those you would see from apologetics re: biblical inerrancy as I find that gets the best results. But, of course, once you take contradicting official source A and contradicting official source B and harmonise them with your original content source C it's no longer canon, is it?
+
+Truncation - sometimes official material is way too large for a lore pop-up. So of course this involves transformation either splitting them then modifying openings and closings to each sub-story or radically truncating the story into a summary. Of course this means it's no longer canon, but neither is it original content, is it?
+
+Favouring the video game over the board game - often I encounter situations of lore mismatches ie. Arnheim being intact in Total War but a ruin in the Dark Elf book. I always favour the game's lore over board game lore because this mod is for the game.
+
+End Times - I treat End Times not as the canonical ending but only one of many possible futures in the game. If you are playing as Archaon, of course you make End Times happen. But if you play as Karl Franz, you are averting the End TImes. I do not treat it as an inevitable outcome for every character. However, I have "Vision of the End Times" events (triggers on turn 100 or go to the Chamber of Visions) which are used to show the player what happens to their character in the canonical End Times. If they weren't in the End Times, original content is written for the Vision event.
+
+Typos/bad English - When I see them I fix them.
+
+In conclusion, and as food for thought, I leave you with these quotes re canon from past and present GW employees:
+
+"With Warhammer and 40k, the notion of canon is a fallacy. [...] Warhammer exists as tens of thousands of overlapping realities in the imaginations of game developers, writers, readers and gamers. None of those interpretations is wrong."
+- Gave Thorpe, Lead Designer GW
+
+"It all stems from the assumption that there's a binding contract between author and reader to adhere to some non-existent subjective construct or 'true' representation of the setting. There is no such contract, and no such objective truth."
+- Andy Hoare, Game Designer GW
+
+"There is no canon. There are several hundred creators all adding to the melting pot of the IP."
+- Aaron Dembski-Bowden, Co-Author of the Horus Heresy series
+
+"Here's our standard line: Yes, it's all official, but remember that we're reporting back from a time where stories aren't always true, or at least 100% accurate. If it has the 40k logo on it, it exists in the 40k universe. Or it was a legend that may well have happened. Or a rumour that may or may not have any truth behind it."
+- Marc Gascogne, Chief Editor of the Black Library
+Beastmen
+
+
+Exploration Lore
+Khazrak the One-Eye
+The Black Pit
+
+Carroburg
+
+Middenheim
+
+Wrecker's Point
+
+Weismund
+
+Middenstag
+
+Gorssel
+
+Kemperbad
+
+Chamber of Visions
+Malagor the Dark Omen
+Floating Village
+
+Morgheim
+
+Ostland
+
+***
+
+***
+
+Chamber of Visions
+Morghur the Shadowgave
+Montenas
+
+Bilbali
+
+Brionne
+
+The Oak of Ages
+
+Vaul's Anvil (Athel Loren)
+
+King's Glade
+
+Waterfall Palace
+
+Parravon
+
+Gisoreux
+
+Castle Bastonne
+
+Castle Artois
+
+Laurelorn
+
+Chamber of Visions
+Taurox
+Venom Glade
+
+Talabheim
+
+Clar Karond
+
+The Witchwood
+
+Hexoatl
+
+Chamber of Visions
+Versus Lore
+Khazrak v Boris
+
+Khazrak v Grimgor Ironhide
+
+Khazrak v Skarsnik
+
+Khazrak v Karl Franz
+
+Khazrak v Archaon
+
+Khazrak v ***
+
+Malagor v Karl Franz
+
+Malagor v Wurrzag
+
+Malagor v ***
+
+Malagor v ***
+
+Malagor v ***
+
+Morghur v Sisters of Twilight
+
+Morghur v ***
+
+Morghur v ***
+
+Morghur v ***
+
+Taurox v Oxyotl
+
+Taurox v Markus Wulfhart
+
+Taurox v Morathi
+
+Taurox v ***
+
+Taurox v ***
+Razing/Erecting Herdstone Lore
+Altdorf
+
+The Oak of Ages
+
+Couronne
+
+Lothern
+
+The Moot
+
+King's Glade (Morghur only)
+
+Castle Drakenhof
+
+Karaz-a-Karak
+
+Black Crag
+
+Naggarond
+
+Hexoatl
+
+Itza
+
+Khemri
+
+The Awakening
+
+Galleon's Graveyard
+
+Skavenblight
+
+Palace of Princes
+
+Ubersreik
+
+Wolfenburg
+
+Brass Keep
+
+Carroburg
+
+Mighdal Vongalbarak
+
+Eilhart
+
+Castle Artois
+
+Grenzstadt
+
+Salzenmund
+
+
+Generic Lore
+Hunting the Blood-Grounds
+
+The Beast-Paths
+
+The Gaze of the Dark Gods
+
+Morrslieb
+
+Encampments
+
+Herdstones
+
+The Realm of Chaos
+
+The Challenge
+
+Call of the Doombull
+
+The Dark Forest
+
+The Enemy Within
+
+Honouring the Dead
+
+The Empire of the Beast
+
+The Winds of Change
+
+The Transformation of Heinrich Oncemann
+
+The Origins of the Beastmen
+
+The Long War
+
+The Unmakers
+
+The Nature of the Beast
+
+The Fury of the Beast
+
+The Thrill of the Hunt
+
+The Rewards of Ruin
+
+The Unnatural Order
+
+The Blasphemy of Blood-Gorge
+
+Kloven’s Ambush
+
+The Endless Hunt
+
+Calling the Brayherd
+
+Fell Rituals
+
+The Horde Rises
+
+The Beast Tongue
+
+Chaos Magic
+Bretonnia
+
+
+Exploration Lore
+King Louen Leoncoeur
+The Prince of Altdorf (turn-based)
+
+Marches of Couronne
+
+Coast of Lyonesse
+
+Forest of Arden
+
+Bastonne
+
+River Brienne
+
+Forest of Chalons
+
+Carcassonne
+
+Barrows of Cuileux
+
+Northern Grey Mountains
+
+Gisoreux Gap
+
+Axe Bite Pass
+
+The Wasteland / Reikland
+
+Chamber of Vision
+Alberic de Bordeleaux
+Bregonne
+
+Vampire Coast
+
+Sacred Pools
+
+***
+
+***
+The Fay Enchantress
+The Affair of the False Grail (turn-based)
+
+Carcassonne
+
+Forest of Chalons
+
+River Brienne
+
+Coast of Lyonesse
+
+The Wasteland / Reikland
+
+Barrows of Cuileux
+
+Bastonne
+
+Forest of Arden
+
+Chamber of Vision
+Repanse de Lyonesse
+Couronne / Copher
+
+Castle Carcassonne / Al-Haikk
+
+Lyonesse
+
+Fyrus
+
+Black Tower of Arkhan
+
+Black Pyramid of Nagash
+
+Chamber of Visions
+Henri le Massif
+Norsca / Naggarund
+
+Lyonesse
+
+Land of Assassins
+
+The Cracked Land
+
+Chamber of Visions
+The Green Knight
+Marches of Couronne
+
+Coast of Lyonesse
+
+Forest of Arden
+
+Bastonne
+
+River Brienne
+
+Forest of Chalons
+
+Carcassonne
+
+Barrows of Cuileux
+
+Northern Grey Mountains
+
+Gisoreux Gap
+
+Axe Bite Pass
+
+Athel Loren
+
+Chamber of Visions
+Versus Lore
+Louen v The Red Duke
+
+Louen v Karl Franz
+
+Louen v Ku'gath
+
+Louen v ***
+
+Louen v ***
+
+The Fay Enchantress v Ikit Claw
+
+The Fay Enchantress v Khazrak
+
+The Fay Enchantress v Orion
+
+Fay Enchantress v ***
+
+Fay Enchantress v ***
+
+Alberic v Cylostra
+
+Alberic v Count Noctilus
+
+Alberic v Luthor
+
+Alberic v Lokhir
+
+Alberic v Aranessa Saltspite
+
+Alberic v The Red Duke
+
+Alberic v Grom the Paunch
+
+Alberic v ***
+
+Alberic v ***
+
+Repanse v Arkhan
+
+Repanse v Aranessa
+
+Repanse v ***
+
+Repanse v ***
+Occupation Lore
+Marienburg
+
+Mousillon
+
+Massif Orcal
+
+Albion
+
+Black Pyramid
+
+The Oak of Ages (or raze)
+
+Skavenblight
+
+Galleon's Graveyard
+Generic Lore
+The Lady of the Lake
+
+Seek, And Ye Shall Find
+
+The Grail
+
+The Lady’s Blessing
+
+The Land of the Bretonni
+
+A Warrior Elite
+
+The Code Chivalric
+
+The Rules of Knightly Honour
+
+Knightly Penance
+
+The Exile’s Vow
+
+Peasant Uprisings
+
+Vows of Bretonnia
+
+The First Sighting
+
+The Lance Formation
+
+Leonhard’s Charge
+
+Trial by Combat
+
+Bretonnian Tournaments
+
+The Bretonnian Warhorse
+
+Oriel
+
+A Peasant’s Duty
+
+The White Hart
+
+Pomp and Circumstance
+
+The Dark Age of Bretonnia
+
+Gilles le Breton
+
+Their Darkest Hour
+
+The Leader of Battles
+
+The Passing of Gilles le Breton
+
+The Founding of the Kingdom
+
+The Birth of Chivalry
+
+The Crusades
+
+The Errantry Wars
+
+Castle in the Air
+
+The Dead Walk the Lands...
+
+The Land of Despair
+
+The Doom of Mousillon
+
+Crusading Knights
+
+The Princes of the Borderlands
+Chaos Dwarfs
+
+
+Exploration Lore
+Astragoth Ironhand
+Uzkulak
+
+Zharr-Naggrund
+
+Temple of Heimkel
+
+Fort Dorzyne Vort
+Drazhoath the Ashen
+Black Fortress
+
+Pigbarter
+
+The Daemon's Stump
+
+Darkhold
+
+The Fortress of Vorag
+
+Zhufbar (RoC) / Iron Rock (IME)
+
+Haunted Forest (RoC) / Forest of Gloom(IME)
+
+Konigstein Tower (RoC) / Pfeildorf(IME)
+
+Waldenhof (RoC) / Steingart(IME)
+
+Nuln
+
+Grissenwald (RoC) / Grunburg(IME)
+
+Altdorf
+Zhatan the Black
+The Gates of Zharr
+
+***
+
+***
+
+***
+Gorduz Backstabber
+The Tower of Gorgoth
+
+***
+
+***
+
+***
+
+
+Versus Lore
+Astragoth v Greasus
+
+Astragoth v Grimgor Ironhide
+
+Astragoth v Ungrim Ironfist
+
+Astragoth v Katarin Bokha
+
+Astragoth v Drazhoath the Ashen
+
+Drazhoath v Tamurkhan
+
+Drazhoath v ***
+
+Drazhoath v ***
+
+Drazhoath v ***
+
+Zhatan v ***
+
+Zhatan v ***
+
+Zhatan v ***
+
+
+Occupation Lore
+Karaz-a-Karak
+
+
+Generic Lore
+The Shadowed Past
+
+Darkling Transformation
+
+The Father of Darkness
+
+An Empire of Smoke, Blood and Ash
+
+The Slow Burn
+
+Slavery and Slaughter
+
+The Life of a Labourer
+
+The Black Orcs
+
+The Forges of Hell
+
+War Machines of Woe
+
+The Curse of Stone
+
+Machines, Madness and Massacre
+
+Slagfist’s Lament
+Daemons of Chaos
+Exploration Lore
+The Godslayer
+Sons of Kislev (turn-based lore)
+
+***
+
+***
+
+***
+
+***
+
+Chamber of Visions (IME), Crystal Spires (RoC)
+
+
+Versus Lore
+Daemon Prince v Katarin
+
+Daemon Prince v Kostaltyn
+
+Daemon Prince v Boris Ursus
+
+Daemon Prince v Boris Todbringer
+
+Daemon Prince v Archaon
+
+Daemon Prince v Ungrim Ironfist
+
+Daemon Prince v Miao Ying
+
+Daemon Prince v Zhao Ming
+
+Daemon Prince v Be'lakor
+
+Daemon Prince v Karl Franz
+Occupation Lore
+Kislev
+
+Karak Kadrin
+
+Wei-Jin
+
+Nan-Gau
+
+Castle Drakenhof
+
+Middenheim
+
+Altdorf
+
+
+Generic Lore
+Marks of Chaos
+
+The Path to Glory
+
+The Gifts of the Gods
+
+Chaos Armour
+
+The Dark Tongue
+
+The Dread Art
+
+The Trials of Might
+
+The Crimson River
+
+The Dark Feast
+
+The Doom of Elder Wood
+
+The Battle of the Monolith
+
+The Carnival of Chaos
+
+Tzeentch
+
+Nurgle
+
+Slaanesh
+
+Khorne
+
+The War Legions of Khorne
+
+The Devotees of Slaanesh
+
+The Dread Hosts of Nurgle
+
+The Disciples of Tzeentch
+
+The Realm of Chaos
+
+Eternal Conflict
+
+The Blood God’s Domain
+
+The Skull Throne
+
+The Realm of the Sorcerer
+
+The Impossible Fortress
+
+The Riddle of the Mortal World
+
+Land of the Plaguelord
+
+The Garden of Blight
+
+The Dark Prince’s Realm
+
+The Six Circles of Seduction
+
+Daemonic Incursions
+
+The Bastion Stair
+
+The Drifting Castle
+
+The Garden of Decay
+
+The Inevitable City
+
+The Birth of Chaos
+
+The Summoning
+
+The Dark Moon
+
+The Naming of Daemons
+
+The Time of Woe
+
+Winged Horror
+
+Daemonic Magic
+
+The Great Game
+Dark Elves
+Exploration Lore
+Malekith
+Shrine of Asuryan
+
+Angerrial
+
+Tor Anlec
+
+Tor Saroir
+
+Marienburg
+
+Karaz Kadrin
+
+Karaz-a-Karak
+
+Varenka Hills
+
+Kislev
+
+L'Anguille
+
+King's Glade
+
+Ghrond
+
+Shrine of Khaine
+
+Palace of Princes
+
+The Frozen City
+
+Tor Dranil
+
+Tor Anroc
+
+Vaul's Anvil (Ulthuan)
+
+Tor Elyr
+
+Hotek's Column
+
+Lothern
+
+Griffon Gate
+
+Talabheim
+
+Hag Graef
+
+Har Ganeth
+
+Karond Kar
+
+Ancient City of Quintex
+
+Tor Finu
+
+Ashrak
+
+Spite Reach
+
+Mount Squighorn
+
+Kraka Drak
+
+Khazid Bordkarag
+
+Dringorackaz
+
+Forest of Gloom
+
+Chamber of Visions
+Morathi
+Hualotal
+
+Palace of Ruin
+
+Fortress of the Damned
+
+Ancient City of Quintex
+
+Tor Anlec
+
+Shrine of Khaine
+
+Vaul's Anvil (Ulthuan)
+
+Evershale
+
+Gaean Vale
+
+Marienburg
+
+Arnheim
+
+Tor Anroc
+
+Shrine of Asuryan
+
+Tor Achare
+
+Tower of Hoeth
+
+Naggarond
+
+Lothern
+
+Ghrond
+
+Har Kaldra
+
+King's Glade
+
+The Oak of Ages
+
+The Frozen City
+
+Tor Finu
+
+Clar Karond
+
+Tor Dranil
+
+Tlanxla
+
+Ashrak
+
+Har Ganeth
+
+The Awakening
+
+The Black Pyramid of Nagash
+
+Chamber of Visions
+Crone Hellebron
+Har Ganeth
+
+Marienburg
+
+Spite Reach
+
+The Black Pillar
+
+Ghrond
+
+Tor Koruali
+
+Tor Anlec
+
+Hag Graef
+
+Shrine of Khaine
+
+Temple of Khaine
+
+L'Anguille
+
+Gronti Mingol
+
+Khemri
+
+Chamber of Visions
+Lokhir Fellheart
+The Sea Lord's Downfall (turn-based lore)
+
+Tor Elasor
+
+Zandri
+
+Karond Kar
+
+Lothern
+
+Chupayotl
+
+Shrine of Khaine
+
+Zhizhu
+
+Haichai
+
+Chamber of Visions
+Malus Darkblade
+The Palace of Ruin
+
+Palace of Princes
+
+Troll Fjord
+
+Karond Kar
+
+Har Ganeth
+
+Ghrond
+
+Chamber of Visions
+Beastlord Rakarth
+Karond Kar
+
+Clar Karond
+
+Spite Reach
+
+Weismund
+
+Great Turtle Isle
+
+Ghrond
+
+The Witchwood
+
+Brionne
+
+Chamber of Visions
+Versus Lore
+Malekith v Grombrindal
+
+Malekith v Tyrion
+
+Malekith v Alith Anar
+
+Malekith v Imrik
+
+Malekith v Sisters of Twilight
+
+Malekith v N'Kari
+
+Malekith v Valkia
+
+Morathi v Hellebron
+
+Morathi v Mazdamundi
+
+Morathi v Alith Anar
+
+Morathi v Sisters of Twilight
+
+Hellebron v Alarielle
+
+Hellebron v ***
+
+Hellebron v ***
+
+Hellebron v ***
+
+Lokhir v Luthor
+
+Lokhir v Nakai
+
+Lokhir v ***
+
+Malus v Snikch
+
+Malus v Tyrion
+
+Malus v Kholek
+
+Malus v Morghur
+
+Malus v ***
+
+Malus v ***
+
+Malus v ***
+
+Rakarth v Nakai
+
+Rakarth v Wulfrik
+
+Rakarth v ***
+Occupation Lore
+Lothern
+
+Gaean Vale
+
+Shrine of Asuryan
+
+Witchwood
+
+Hexoatl
+
+Itza
+
+The Awakening
+
+Sartosa
+
+Khemri
+
+Black Pyramid
+
+Couronne
+
+Altdorf
+
+Kislev
+
+Castle Drakenhof
+
+Karaz-a-Karak
+
+The Oak of Ages
+
+Skavenblight
+
+Black Crag
+
+Ghrond (Hellebron only)
+
+Ancient City of Quintex (Hellebron only)
+
+Fortress of Dawn (Malus + Lokhir only)
+
+Nagrar
+
+Ssildra'Tor
+
+Hag Hall
+
+The Twisted Glade
+
+
+Generic Lore
+Hekarti – Mistress of Magic
+
+Ancient Traditions
+
+Names of Power
+
+Defence of the Hold
+
+The Fate of the Body
+
+The Fate of the Spirit
+
+Death Night
+
+The Contest of Claws
+
+Ferond’s Folly
+
+The Nauglir
+
+The Reapers’ Bloody Toll
+
+The Prophecy of Demise
+
+'Tis But A Scratch
+
+Sins of the Father
+
+Khaine, the Bloody-Handed God
+
+Anath Raema, the Savage Huntress
+
+Ellinill, Lord of Destruction
+
+Addaioth, Bringer of Wrath and Fire
+
+Ereth Khial, the Pale Queen
+
+Eldrazor, Lord of Blades
+
+Athari, Lady of Desire
+
+Nethu, Keeper of the Last Door
+
+Mathlann, Lord of the Deeps
+
+Drakira, Queen of Vengeance
+
+The Founding of Naggaroth
+
+Aenarion and the First War Against Chaos
+
+The Glory of Nagarythe
+
+The First War of Betrayal
+
+The Great Ritual
+
+The Construction of the Six Cities and the Dwarf Wars
+
+The War in the North
+
+The Age of Hateful Peace
+
+The Day of Blood and Renewed War
+
+The New Age and our Glorious Future
+Dwarfs
+
+
+Exploration Lore
+Thorgrim Grudgebearer
+Karak Norn
+
+The Moot
+
+Kraka Drak
+
+Kislev
+
+Akendorf
+
+Karak Eight Peaks
+
+Black Crag
+
+Nagashizzar
+
+Zhufbar
+
+Valaya's Sorrow
+
+Karaz-a-Karak
+
+Grenzstadt
+
+Karak Azul
+
+The Pillars of Grungni
+
+Altdorf
+
+Karak Izor
+
+Praag
+
+Crooked Fang Fort
+
+Dringorackaz
+
+Karag Dron
+
+Iron Rock
+
+Skavenblight
+
+Chamber of Visions
+Grombrindal the White Dwarf
+L'Anguille
+
+Drackla Spire
+
+Eldar Spire
+
+Naggarond
+
+Lothern
+
+Zhufbar
+
+Oakenhammer
+
+Rackdo Gorge
+
+Altar of Ultimate Darkness
+
+Shroktak Mount
+
+Temple of Khaine
+
+Hag Graef
+
+Tor Anlec
+
+Har Kaldra
+
+Chamber of Visions
+Belegar Ironhammer
+Karak Eight Peaks
+
+Karak Azul
+
+Karak Izor
+
+Karaz-a-Karak
+
+Iron Rock
+
+Karak Bhufdar
+
+Zarakzil
+
+Valaya's Sorrow
+
+Chamber of Visions
+Ungrim Ironfist
+Gnashrak's Lair
+
+Zhufbar
+
+Karaz-a-Karak
+
+Karak Kadrin
+
+Karak Irkulaz
+
+Seep Gore
+
+Silver Pinnacle
+
+Karak Vlag
+
+Fester Spike
+
+Red Eye Mountain
+
+Worlds Edge Archway
+
+Chamber of Visions
+Thorek Ironbrow
+Karak Zorn
+
+Lost Plateau
+
+Mount Arachnos
+
+Karag Orrud
+
+Karak Azul
+
+Karag Dron
+
+Karaz-a-Karak
+
+Black Crag
+
+Karak Eight Peaks
+
+Karak Izor
+
+Chamber of Visions
+Malakai Makaisson
+Gianthome Mountains
+
+Goromadny Mountains
+
+Mountains of Hel
+
+Karak Kadrin
+
+Northern World's Edge Mountains
+
+Trollheim Mountains
+
+Kislev
+
+Nuln/Altdorf
+
+Chamber of Visions
+Garagrim Ironfist
+Karak Kadrin
+
+Northern World's Edge Mountains
+
+The Blasted Wastes
+
+***
+
+Chamber of Visions
+
+
+Versus Lore
+Thorgrim v Queek
+
+Thorgrim v Grimgor
+
+Thorgrim v Snikch
+
+Thorgrim v Settra
+
+Thorgrim v Archaon
+
+Thorgrim v Ku’gath
+
+Thorgrim v Astragoth
+
+Thorgrim v ***
+
+Thorgrim v ***
+
+Thorgrim v ***
+
+Ungrim v Throgg
+
+Ungrim v Kholek
+
+Ungrim v Sarthorael
+
+Ungrim v Throt
+
+Ungrim v Azhag
+
+Ungrim v Durthu
+
+Ungrim v Nakai
+
+Ungrim v Zhao Ming
+
+Ungrim v Skarbrand
+
+Ungrim v Skrag
+
+Belegar v Queek
+
+Belegar v Skarsnik
+
+Belegar v Ikit Claw
+
+Belegar v Sigvald
+
+Belegar v ***
+
+Belegar v ***
+
+Grombrindal v Malekith
+
+Grombrindal v Grom
+
+Grombrindal v Mazdamundi
+
+Grombrindal v Morathi
+
+Grombrindal v Kholek
+
+Grombrindal v Wurrzag
+
+Grombrindal v Grimgor Ironhide
+
+Grombrindal v Alith Anar
+
+Grombrindal v Khatep
+
+Grombrindal v Sisters of Twilight
+
+Thorek v Lokhir
+
+Thorek v Queek
+
+Thorek v Imrik
+
+Thorek v Malus
+
+Thorek v Teclis
+
+Thorek v Khalida
+
+Thorek v Ikit Claw
+
+Thorek v Markus Wulfhart
+
+Thorek v Kroq-Gar
+
+Malakai v Tamurkhan
+
+Malakai v Throt
+
+Malakai v Throgg
+Occupation Lore
+Naggarond (or raze)
+
+Hell Pit (or raze)
+
+Skavenblight (or raze)
+
+The Oak of Ages (or raze)
+
+Castle Drakenhof (or raze)
+
+Khemri (or raze)
+
+The Awakening (or raze)
+
+Sartosa
+
+Galleon's Graveyard
+
+Itza
+
+Hexoatl
+
+Kislev
+
+Couronne
+
+Altdorf
+
+L'Anguille
+
+Karak Azgal
+
+Silver Pinnacle
+
+Karak Vlag
+
+Kraka Drak
+
+Karak Zorn
+
+Karak Eight Peaks
+
+Black Crag
+
+Red Eye Mountain
+
+Ekrund
+
+Lothern
+
+Mount Gunbad
+
+Mount Silverspear
+
+Zhar-Naggrund
+
+Great Hall of Greasus
+
+Wei-Jin
+
+
+Generic Lore
+The Dwarf Navy
+
+Stubbornness Given Form
+
+The Dwarfs and Magic
+
+With Hearts Full of Wrath
+
+The Throne of Power
+
+Underground Warfare
+
+The Coming of Chaos
+
+First Contact with the Elves
+
+The Doom of Grimnir
+
+The Golden Age
+
+The Time of Woes
+
+Dawn of a New Age
+
+An Era of Invention
+
+Grandeur Beyond Imagination
+
+Smells Like Victory
+
+Engineer’s Guild
+
+Dwarf Names
+
+Dwarf Ale
+
+Death Before Dishonour
+
+Slayers of Legend
+
+Runic Might
+
+Gromril Superiority
+
+Veneration of Craft
+
+Clan Hierarchy
+
+Guilds
+
+The Gates of Karaz-a-Karak
+
+The Unbreakable
+
+Gudrun and Furgil
+
+Redmane on Runesmithing
+
+Redmane on Thunderers
+
+Redmane on Rangers
+
+Redmane on Mining
+
+Redmane on the Engineering Guild
+
+The Invention of the Organ Gun
+
+A Rune Rite of Forging
+
+Defence of the Hold
+
+Bugman’s Gift
+
+Dwarf Treasure
+
+A Brewmaster’s Reflection
+
+Dwarf Music
+
+Expatriate Dwarfs
+
+Stonemasons
+
+Jewelsmiths
+
+War on a Thousand Fronts
+
+The War of Vengeance
+
+A Clash of Empires
+
+Fate of the Crown
+
+Grimm the Great
+
+The Magnificent Armour of Borek Beetlebrow
+
+The Chaos Dwarfs
+
+Let Sleeping Dragons Lie
+
+Dramar Hammerfist
+
+Halkenhaf Stonebeard
+
+A Slayer’s Tale
+The Empire
+
+
+Exploration Lore
+Karl Franz
+Grunburg
+
+Eilhart
+
+Ubersreik
+
+Castle Drachenfels / Northern Grey Mountains
+
+Karak Azgaraz
+
+Pfeildorf
+
+Marienburg
+
+Wissenland
+
+Chamber of Visions
+Balthasar Gelt
+Temple of Elemental Winds
+
+Village of the Tigermen
+
+Zvorak
+
+Marienburg
+
+Nuln
+
+Tobaro
+
+Salzenmund
+
+Talabheim
+
+Altdorf
+
+Schwartzhafen
+
+Dok Karaz
+
+Chamber of Visions
+Volkmar the Grim
+Plain of Tuskers
+
+Middenheim / Sudenburg
+
+Weismund / Antoch
+
+Erengrad / Bhagar
+
+Bechafen / Ka-Sabar
+
+Fort Oberstyre
+
+Temple of Khaine / Shrine of Khaine / Black Pyramid of Nagash
+
+Altdorf / Black Tower of Arkhan
+
+Zandri
+
+Great Desert of Araby
+
+Wizard Caliph's Palace
+
+Galleon’s Graveyard
+
+Khemri
+
+Springs of Eternal Life
+
+Chamber of Visions
+Markus Wulfhart
+The Creeping Jungle
+
+Altdorf / Aymara Swamps
+
+Stirland / The Gwangee Valley
+
+Ostermark / Piranha Swamps
+
+Middenland / Isthmus of Lustria
+
+Northern Worlds Edge Mountains / Mosquito Swamps
+
+Marienburg / The Awakening
+
+Helmgart / River Qurveza
+
+Mountains of Hel / The Isthmus Coast
+
+Pox Marsh / Tlax
+
+Chamber of Visions
+Elspeth von Draken
+Wissenland
+
+Reikland
+
+Winter's Teeth Pass
+
+Ostermark
+
+Chamber of Visions
+Boris Todbringer
+Hochland
+
+Middenheim
+
+Middenland
+
+Reikland
+
+Chamber of Visions
+Theodore Bruckner
+Wissenland
+
+The Wasteland
+
+Norsca
+
+Sylvania
+
+Chamber of Visions
+
+
+Karl Franz (Turn-based Lore)
+The Emperor Karl Franz
+
+A Statesman Supreme
+
+A Defender of the Realm
+
+A Warrior of Renown
+
+The Battle of Bloodpine Woods
+
+Here Comes the Cavalry
+
+The Third Battle of Black Fire Pass
+
+The Prince of Altdorf
+
+The Königswald Affair
+
+Hammer of Sigmar
+
+An Audience with the Emperor
+
+The Edict of Karl Franz
+
+Chosen of Sigmar
+
+Return of the Warhammer
+Balthasar Gelt (Turn-based Lore)
+The Challenger
+
+The Duel
+
+Triumph
+
+The Accident
+
+Slaughter at the Six Spikes
+Volkmar the Grim (Turn-based Lore)
+Into the Darkness
+
+A Gruesome Welcome
+
+The Road to Oberstyre
+
+The Long March
+
+Dark Horizons
+
+The Battle of the Barrows
+
+Volkmar's Challenge
+
+Dark Rebirth
+
+Bloodied and Unbowed
+
+Faith of the Heart
+
+
+Versus Lore
+Karl Franz v Archaon
+
+Karl Franz v Isabella
+
+Karl Franz v Vlad
+
+Karl Franz v Louen Leoncoeur
+
+Karl Franz v ***
+
+Karl Franz v ***
+
+Balthasar Gelt v Volkmar the Grim
+
+Balthasar Gelt v Karl Franz
+
+Balthasar Gelt v Ku'gath Plaguefather
+
+Balthasar Gelt v ***
+
+Balthasar Gelt v ***
+
+Volkmar v Helman
+
+Volkmar v ***
+
+Volkmar v ***
+
+Volkmar v ***
+
+Boris Todbringer v Khazrak
+
+Boris Todbringer v ***
+
+Boris Todbringer v ***
+
+Markus v Taurox
+
+Markus v Nakai
+
+Markus v Luthor Harkon
+
+Markus v Cylostra Direfin
+
+Markus v Thorek Ironbrow
+
+Markus v ***
+
+Markus v ***
+
+Elspeth v Mannfred
+
+Elspeth v The Changeling
+
+Elspeth v Skrag
+
+Elspeth v Vlad & Isabella
+
+Elspeth v Tamurkhan
+
+
+Occupation Lore
+Marienburg
+
+Castle Drakenhof
+
+Miragilano
+
+Har Ganeth / Temple of Khaine / Shrine of Khaine
+
+
+Generic Lore
+Battle Wizards
+
+The Holy Temple of Sigmar
+
+The Imperial Engineers School
+
+The Hall of Duels
+
+The Old Alliance
+
+The Order of the Silver Hammer
+
+A Land of Faith
+
+Sigmar’s Heirs
+
+The March of Doom
+
+The Elector Counts
+
+The Runefangs
+
+The Emperor’s Capital
+
+The Old Soldier’s Song
+
+The Pride of the Empire
+
+Endless Invention
+
+The Crusades
+
+Into The Fray
+
+The Orbs of Sorcery
+
+The Rise of Sigmar
+
+Founder of a Nation
+
+The Founding of the Empire
+
+The Man, the Myth, the Legend
+
+The Age of Anarchy
+
+The Skaven Wars
+
+The Empire Divided
+
+The Time of the Three Emperors
+
+The Destruction of Solland
+
+The First Vampire War
+
+The Second Vampire War
+
+The Third Vampire War
+
+The Great War Against Chaos
+
+Magnus the Pious
+
+The Fight for Kislev
+
+The Hill of Heroes
+
+The Empire Endures
+Gotrek, Felix & Ulrika
+
+
+Exploration Lore
+Gotrek
+Karaz a Karak
+
+Konquata
+
+Red Eye Mountain
+
+Ubersreik
+
+Karak Zorn
+
+Karak Kadrin
+
+Darkhold
+
+Karak Izor
+
+Karak Irkulaz
+
+Karak Vlag
+
+Desolation of Drakenmoor
+
+Cragmere
+
+Albion
+
+Lair of the Troll King
+
+Chamber of Visions
+Felix
+Altdorf
+
+Karak Eight Peaks
+
+Karak Kadrin
+
+Kraka Drak
+
+Karak Izor
+
+Chamber of Visions
+Ulrika
+Middenheim
+
+Fort Straghov
+
+Kislev
+
+Fort Jakova
+
+Hell Pit
+
+Fort Ostrosk
+
+Karak Kadrin
+
+Karak Ungor
+
+Castle Drakenhof
+
+Nuln
+
+Waldenhof
+
+Bechafen
+
+Altdorf
+
+Gristle Valley
+
+Erengrad
+
+Praag
+
+Silver Pinnacle
+
+Brass Keep
+
+Chamber of Visions
+Grand Cathay
+
+
+Exploration Lore
+Miao Ying, the Storm Dragon
+Storm Over Westerland (turn-based lore)
+
+The Shadow of Chaos (turn-based lore)
+
+Altdorf
+
+Shang-Yang
+
+Wei-Jin
+
+Shang-Wu
+
+Shi-Long
+
+Gunpowder Road
+
+Chamber of Visions
+
+
+Zhao Ming, the Iron Dragon
+Altdorf
+
+Nan-Gau
+
+Wei-Jin
+
+Xen Wu
+
+City of Monkeys
+
+Broken Lands of Tian Li
+
+Chamber of Visions
+
+
+Yuan Bo, the Jade Dragon
+Master of the Meteor Winds (turn-based lore)
+
+***
+
+***
+
+***
+
+***
+
+Chamber of Visions
+
+
+Bhashiva, the White Tiger
+Exodus (turn-based lore)
+
+The Children of Kamau (turn-based lore)
+
+Bone Road
+
+Village of the Tigermen
+
+Shang-Yang / Warpstone Desert
+
+Eastern Steppes
+
+The Dark Lands
+
+Eastern Provinces of Cathay
+
+Chamber of Visions
+
+
+Saytang the Watcher
+Kunlan
+
+The Great Bastion or Nan-Gau
+
+Mountains of Mourn
+
+Darklands
+
+Lustria
+
+Mountains of Heaven
+
+Chamber of Visions
+
+
+Taoyan the Merciless
+Central Provinces of Cathay
+
+Western Provinces of Cathay
+
+Mountains of Mourn
+
+The Dark Lands
+
+Chamber of Visions
+
+
+Versus Lore
+Miao Ying v Kairos
+
+Miao Ying v Zhao Ming
+
+Miao Ying v Tzarina Katarin
+
+Miao Ying v Imrik
+
+Miao Ying v Deathmaster Snikch
+
+Miao Ying v Vilitch
+
+Miao Ying v Kholek Suneater
+
+Miao Ying v Lokhir Fellheart
+
+Zhao Ming v Deathmaster Snikch
+
+Zhao Ming v Kairos Fateweaver
+
+Zhao Ming v Miao Ying
+
+Zhao Ming v Tzarina Katarin
+
+Zhao Ming v Tretch Craventail
+
+Zhao Ming v Skarbrand
+
+Zhao Ming v the Daemon Prince
+
+Zhao Ming v Greasus Goldtooth
+
+Zhao Ming v Helman Ghorst
+
+Zhao Ming v Drazhoath
+
+Yuan Bo v Changeling
+
+Yuan Bo v Khatep
+
+Yuan Bo v Mazdamundi
+
+Yuan Bo v Rakarth
+
+Bhashiva v Archaon
+
+Bhashiva v Deathmaster Snikch
+
+Bhashiva v Greasus Goldtooth
+
+Bhashiva v Astragoth Ironhand
+
+Bhashiva v Grimgor Ironhide
+
+
+Occupation Lore
+Altdorf
+
+Castle Drakenhof
+
+Hell Pit
+
+Kislev
+
+Great Hall of Greasus
+
+Couronne
+
+Karaz-a-Karak
+
+Naggarond
+
+Skavenblight
+
+Khemri
+
+Black Crag
+
+Lothern
+
+Zharr-Naggrund
+
+Sartosa
+
+The Galleon's Graveyard
+
+Itza
+
+Hexoatl
+
+
+Generic Lore
+The Coming of the Old Ones
+
+The Shadow of Chaos
+
+The Cataclysm
+
+Unity in Chaos
+
+An Empire in the East
+
+Ruled by Dragons
+
+The Folly of Shiyama
+
+The Spirit Dragon
+
+Wrath of the Celestial Dragon
+
+A Great Undertaking
+
+Growth & Prosperity
+
+Wisdom of the Celestial Dragon
+
+Harmony of the Dragons
+
+An Absent Emperor
+
+Disdain of the Dragon
+
+Doom of the Sky Titans
+
+Across Land & Sea
+
+Of Priests & Kings
+
+Evil Awakens in Nehekhara
+
+New Alliances
+
+An Empire in the West
+
+Harmony of East & West
+
+The Great Bastion
+
+The Dragon Emperor
+
+Strangers in a Strange Land
+
+Cathayans in the Old World
+
+The Great Trade Routes
+
+The Jade Fleet
+
+The Elves of Ulthuan
+
+Shield Against The Darkness
+
+Allies From The East
+
+Prosperity & Unity
+
+By Land & Sea
+
+Disharmony In The Realm
+
+The Threat Of Chaos
+
+Strategy & Reinforcement
+
+Armed & Ready
+
+The Elements of Yang
+
+The Elements of Yin
+
+Refined Sorcery
+
+The Magic Of Dragons
+
+The Wu Xing Compass
+
+The Astromantic Court
+
+Provincial Forces
+
+War On All Fronts
+
+Commanders & Strategists
+
+Honour & Duty
+
+The Jade Host
+
+Astromancers & Engineers
+
+In The Service Of Dragons
+
+Armies Of Wind & Field
+Greenskins
+
+
+Exploration Lore
+Grimgor Ironhide
+Sabre Mountain
+
+Karak Kadrin
+
+Kislev
+
+Red Eye Mountain
+
+Hell Pit
+
+The Challenge Stone
+
+Ice Spewer
+
+Blizzard Peak
+
+Chamber of Visions
+Skarsnik
+Karak Eight Peaks
+
+Averheim
+
+Valaya's Sorrow
+
+Karak Norn
+
+Fester Spike
+
+Karak Izor
+
+Galbaraz
+
+Karaz-a-Karak
+
+Black Crag
+
+Barak Varr
+
+Karag Dron
+
+Fort Soll
+
+Tor Yvresse
+
+Nagashizzar
+
+Karag Orrud
+
+Skavenblight
+
+Iron Rock
+
+Chamber of Visions
+Wurrzag da Great Green Prophet
+Golden Tower of the Gods
+
+Numas
+
+Mount Silverspear
+
+Agrul Migdhal
+
+Galbaraz
+
+Zandri
+
+Misty Mountain
+
+Chamber of Visions
+Grom the Paunch
+Elessaeli
+
+Misty Mountain
+
+Karag Dron
+
+Grenzstadt
+
+Nuln
+
+Altdorf
+
+Middenheim
+
+Marienburg
+
+Shrine of Loec
+
+Tralinia
+
+Tor Yvresse
+
+Grom Peak
+
+Chamber of Visions
+Azhag the Slaughterer
+Erengrad
+
+Red Eye Mountain
+
+Bechafen
+
+Khemri
+
+Zoishenk
+
+Kislev
+
+Castle Von Rauken
+
+Wolfenburg
+
+Black Pyramid
+
+Nagashizzar
+
+Chamber of Visions
+Gorbad Ironclaw
+Iron Rock
+
+The Moot
+
+***
+
+***
+
+***
+Gorbad Ironclaw (turn-based)
+A Bloody History
+
+The Empire in Flames
+
+Attack on Nuln
+
+The Battle of Solland’s Crown
+
+The Battle of Grunberg
+
+The Siege of Altdorf
+
+Collapse and Retreat
+Snagla Grobspit
+***
+
+***
+
+***
+
+***
+
+***
+
+
+Versus Lore
+Grimgor v Archaon
+
+Grimgor v Skrag the Slaughterer
+
+Grimgor v Kholek Suneater
+
+Grimgor v Greasus Goldtooth
+
+Grimgor v Bhashiva
+
+Azhag v Arkhan
+
+Azhag v ***
+
+Azhag v ***
+
+Azhag v ***
+
+Skarsnik v Belegar
+
+Skarsnik v Queek
+
+Skarsnik v Karl Franz
+
+Skarsnik v Balthasar Gelt
+
+Skarsnik v Thorgrim
+
+Skarsnik v ***
+
+Skarsnik v ***
+
+Wurrzag v Imrik
+
+Wurrzag v Kholek Suneater
+
+Wurrzag v ***
+
+Wurrzag v ***
+
+Wurrzag v ***
+
+Grom v Eltharion
+
+Grom v Grombrindal
+
+Grom v ***
+
+Grom v ***
+
+Grom v ***
+
+Gorbad v Thorgrim
+
+Gorbad v ***
+
+Gorbad v ***
+
+
+Occupation/Razing Lore
+Karaz-a-Karak
+
+Karak Eight Peaks
+
+Altdorf
+
+Couronne
+
+Lothern
+
+Gaean Vale
+
+Naggarond
+
+Hexoatl
+
+Itza
+
+Khemri
+
+Black Pyramid
+
+Sartosa
+
+Galleon's Graveyard
+
+The Awakening
+
+Kislev
+
+Castle Drakenhof
+
+Skavenblight
+
+Hell Pit
+
+The Oak of Ages
+
+Tor Yvresse
+
+Zhar-Naggrund
+
+Wei-Jin
+
+Fire Mouth
+
+Maw Gate
+
+
+Generic Lore
+Change ov’ Planz
+
+Waaagh!
+
+The Greenskin Gods
+
+The Waaagh! That Wasn’t
+
+Slaughter at Grimspike Pass
+
+Wot’s on da Menu?
+
+The Idol of Zak-Aloooog
+
+Hero for a Day
+
+Chain-Squigs Unleashed
+
+Waaagh! Nogdrod
+
+Slaughter at Frozen Heath
+
+Tribes Beyond Number
+
+A Natural (and Violent) Order
+
+Their Own Worst Enemy
+
+Brute Aggression
+
+Iron-Hard and Angry
+
+Wild Fury
+
+Wicked Green Hordes
+
+Spite from Below
+
+A Bloody History
+
+Orcs
+
+Goblins
+High Elves
+
+
+Exploration Lore
+Tyrion
+Angerrial / Tower of Lysean
+
+Gaean Vale
+
+Shrine of Khaine
+
+Shrine of Asuryan
+
+Skeggi
+
+Tor Koruali
+
+Lothern
+
+Tor Finu
+
+Chamber of Visions
+Teclis
+Dawn's Light / Tor Surpindar
+
+Gaean Vale
+
+Altdorf
+
+Tower of Hoeth
+
+Swamp Town
+
+Talabheim
+
+Kislev
+
+Essen
+
+Tor Finu
+
+Chamber of Visions
+Alarielle the Radiant
+Tor Saroir
+
+Evershale
+
+Tor Finu
+
+White Tower of Hoeth
+
+Tower of the Sun
+
+Lothern
+
+Gaean Vale
+
+Phoenix Gate
+
+Tor Anlec
+
+Shrine of Khaine
+
+Chamber of Visions
+Alith Anar
+Tor Anlec
+
+Bleak Hold Fortress
+
+Ancient City of Quintex
+
+Tor Dranil
+
+Shrine of Khaine
+
+Tor Anroc
+
+Tor Elyr
+
+Tor Sethai
+
+Evershale
+
+Tor Saroir
+
+Gaean Vale
+
+Waterfall Palace
+
+King's Glade/Crag Halls/Vaul's Anvil
+
+Griffon Gate
+
+Har Ganeth
+
+Ghrond
+
+Naggarond
+
+Shrine of Asuryan
+
+Parravon/Quenelles
+
+Chamber of Visions
+Eltharion the Grim
+Naggarond
+
+Tralinia
+
+Shrine of Loec
+
+Lothern
+
+Tor Achare
+
+Tor Yvresse
+
+King's Glade
+
+Elessaeli
+
+White Tower of Hoeth
+
+Gaean Vale
+
+Shrine of Asuryan
+
+Galbaraz
+
+Spektazuma
+
+Karrag Orrud
+
+Port Elistor
+
+Chamber of Visions
+Imrik
+Vaul's Anvil (Ulthuan)
+
+Couronne
+
+Tor Sethai
+
+Lothern
+
+Darkhold
+
+Ash Ridge Mountains
+
+Pigbarter
+
+Tor Anlec / Griffon Gate
+
+White Tower of Hoeth
+
+Flayed Rock
+
+Shrine of Khaine
+
+L'Anguille
+
+Shrine of Asuryan
+
+Nagashizzar
+
+Wei-jin
+
+Chamber of Visions
+Sea Lord Aislinn
+The Sea Lord's Downfall (turn-based lore)
+
+Marienburg
+
+Tower of the Stars
+
+Tower of the Sun
+
+***
+
+***
+
+Chamber of Visions
+Caradryan
+***
+
+***
+
+***
+
+Caledor
+
+Chamber of Visions
+Alastar the White Lion
+Shrine of Asuryan
+
+Tor Achare
+
+Lothern
+
+White Tower of Hoeth
+
+Angerrial
+
+Chamber of Visions
+Versus Lore
+Tyrion v Malekith
+
+Tyrion v Orion
+
+Tyrion v Imrik
+
+Tyrion v Malus
+
+Tyrion v N'Kari
+
+Tyrion v Count Noctilus
+
+Teclis v N'Kari
+
+Teclis v Malekith
+
+Teclis v Luthor Harkon
+
+Teclis v Be'lakor
+
+Teclis v ***
+
+Teclis v ***
+
+Teclis v ***
+
+Alarielle v Hellebron
+
+Alarielle v Morathi
+
+Alarielle v N'kari
+
+Alith Anar v Malekith
+
+Imrik v Shackolot
+
+Imrik v Bruwor
+
+Imrik v Lamoureux
+
+Imrik v Gordinar
+
+Imrik v Ymwrath
+
+Imrik v Malekith
+
+Imrik v Malus
+
+Imrik v Snikch
+
+Imrik v Queek
+
+Imrik v Grimgor
+
+Imrik v Tiktaq'to
+
+Imrik v ***
+
+Imrik v ***
+
+Eltharion v Malekith
+
+Eltharion v Grimgor
+
+Eltharion v Aranessa
+
+Eltharion v Mannfred
+
+Eltharion v Grom
+
+Eltharion v ***
+
+Eltharion v ***
+
+Aislinn v Lokhir
+
+Aisli

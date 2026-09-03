@@ -27,26 +27,51 @@ const appid = process.argv[3] || '1142710';
     await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
     await page.waitForTimeout(1500);
 
-    const guideUrl = await page.evaluate(() => {
+    const guideUrls = await page.evaluate(() => {
       const links = document.querySelectorAll('a[href*="sharedfiles/filedetails"]');
+      const out = [];
       for (const l of links) {
         const href = l.getAttribute('href');
         if (href && /id=\d+/.test(href) && !href.includes('editguide')) {
-          return href.startsWith('http') ? href : 'https://steamcommunity.com' + href;
+          out.push(href.startsWith('http') ? href : 'https://steamcommunity.com' + href);
         }
       }
-      return null;
+      return out;
     });
 
-    if (!guideUrl) {
+    if (!guideUrls || guideUrls.length === 0) {
       console.log('NO_GUIDE_FOUND');
+      await browser.close();
+      return;
+    }
+
+    // Try each candidate URL until we find one whose page is actually a guide
+    // (title contains 'Guide' and body has substantial text). Many sharedfiles
+    // pages are workshop items / mods, not guides.
+    let guideUrl = null;
+    for (const candidate of guideUrls.slice(0, 10)) {
+      await page.goto(candidate, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await page.waitForTimeout(3000);
+      const pageTitle = (await page.title() || '').trim();
+      const lowerTitle = pageTitle.toLowerCase();
+      const looksLikeGuide = (
+        pageTitle.includes('Guide') &&
+        (lowerTitle.includes('overview') || lowerTitle.includes('campaign') || lowerTitle.includes('total war'))
+      );
+      if (looksLikeGuide) {
+        guideUrl = candidate;
+        break;
+      }
+    }
+
+    if (!guideUrl) {
+      console.log('NO_GUIDE_FOUND_AFTER_FILTER');
       await browser.close();
       return;
     }
     console.log('GUIDE_URL=' + guideUrl);
 
-    await page.goto(guideUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForTimeout(2500);
+    await page.waitForTimeout(2000);
 
     const title = await page.title();
     console.log('GUIDE_TITLE=' + title);

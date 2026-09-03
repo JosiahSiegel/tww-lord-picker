@@ -1,0 +1,222 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Sayl+the+Faithless&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3650978275&searchtext=Sayl+the+Faithless
+GUIDE_TITLE=Steam Community :: Guide :: Sayl the Faithless - Norsca overview
+GUIDE_TEXT:
+Sayl the Faithless - Norsca overview part 1
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch it on YouTube, here is the link, and it also helps me carry on:
+
+
+YouTube™ Video: Sayl - Norsca campaign overview Total War: Warhammer 3 
+Views: 798
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go.
+
+VICTORY CONDITIONS:
+
+Short victory:
+- Occupy, loot, raze or sack 30 different settlements
+- Perform 6 unique Manipulations
+- Win the battle of the Elven Meddlers (after 10 chaos altars)
+
+The reward is +3 recruit rank to all units, excellent to make your units that extra strong just out of the gate, and it really helps you to get into the lategame with some stronger monsters, for example.
+
+Short victory does deserve its name, being a very easy to achieve victory condition and providing you with everything you need to know about Norsca and Sayl. It should feel quite simple to navigate the initial enemies and suddenly being very close to the short victory for a quick run for it.
+
+Long victory:
+- Achieve the short victory
+- Occupy, loot, raze or sack 60 different settlements
+- Perform 12 unique Manipulations
+- Win the final battle: The Night of Revelation.
+
+The reward is +2 global recruitment, decent enough to ensure you keep rolling into the lategame with an edge that allows faster armies and thus to go into that domination just a bit faster.
+
+This is very much a nice upgrade to the short victory, without going too out of the way, and ensuring that it is a decent steady flow through objectives. After the short victory it is basically just doubling down the activity and having a final battle feels very conclusive. If you wish to go domination, the reward is decent.
+
+Sayl has the Rule of the Faithless, and benefits from:
+- Access to Manipulations that affects his enemies or strengthen your forces, his unique mechanic
+- +2 Lord and Hero recruit rank for Shaman-Sorcerers
+- Winds of Magic power reserve +10 (all armies)
+- Weapon strength +20% for Kurgan Horsemen (all armies)
+
+In essence, some mix of magic and other bonuses, giving a bit of an edge to the Kurgan Horsemen, so the early to midgame really benefit from those, and later on it is the Manipulations that become the most important of the benefits Sayl receives. It is very balanced without being overpowered necessarily.
+
+In terms of climates, it is one of the best as you can nearly get everywhere without any penalties. One of the best to dominate the whole map with.
+
+STARTING LOCATION:
+
+
+
+Your starting province is a 4 settlement province, great to ensure you have a solid base to recruit from.
+
+It has the advantage of being quite hidden from other enemies, so you only have 2 other directions to go from here, making the campaign quite easy at least for the early part of the game, without too many locations to defend.
+
+Typical expansion is to control this North of the wall position, and then decide whether to continue conquering the Chaos Wastes or go South into the Cathay area.
+
+It will take a while before reaching any port, so you are pretty much a landlocked raiding nation, which is unique when comparing to Wulfrik or Throgg.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically, you are part of Chaos. However, it will not be as easy to make alliances as some other factions. You will have some options to get Chaos Dwarfs or Warriors of Chaos as friends, but they can equally become enemies if they deny your expansion, specially early on with Zlatan the Black. I have both got him as friend and foe, so be careful.
+
+The order tide will definitely be an issue for you, starting with the presence of Miao Ying and later Zhao Ming.
+
+There are some possibilites of good outposts with the Dark Elves if Lokhir is kept alive, and Skaven if you are lucky, but it is one of those campaigns that you can just have to solo alone. This is mainly because how manipulations can actually get you in trouble of getting alliances or keeping them.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+- The Monstrous Arcanum, which is split into Glory Hunts, Taming Hunts, and Trophy Hunts.
+
+
+
+- Glory hunts provide you with Regiment of Renown units, as well as some items and temporary effects.
+- Taming hunts provide you with units for the Mounstrous Arcanum recruitment panel, as well as items, resources and effects. These can be completed several times.
+- Trophy hunts provide more unique items related to the prey, as well as resources and effects.
+- After completing a specific number of hunts you can become a supreme hunter, granting you several bonuses, specially to monstrous arcanum units.
+
+
+
+- The Dark ritual is the main history mechanic for Sayl. You will progress through several stages by constructing chaos altars whenever you conquer a settlement. You will have to defeat specific enemies that will spawn on each stage, and this will also allow you to progress in your Manipulations by unlocking them.
+
+
+
+- The Manipulations mechanic is a series of effects you can have on both enemies and friends, who can significantly impact your progress. If you use it too much, though, you will gain the Attention of the Gods, who will challenge you with a dilemma and an army you will have to fight against.
+
+
+
+- Spoils is a unique currency for Norsca. You acquire it once you raze settlements, and it creates an army that you must then return to one of your settlements in order to receive those spoils of war. You can use spoils to conquer settlements outside of the Norscan territories, some specific techs, and specially to build buildings on a lower tier than usually required. This is an excellent way of growing much faster than required, and incentive you to play aggressively.
+
+
+
+- You can use spoils for the Marauding effects of provinces, shown below. These are various effects for your provinces (including those with enemy settlements) that have a duration of 5 turns, and include bonuses to spellcasting abilities, income and movement range, or debuffing enemies in the province you are conquering.
+
+
+
+
+Sayl the Faithless - Norsca overview part 2
+PROVINCE EDICTS AND ARMY STANCES:
+
+For your province edicts, you have:
+
+- Control +4, Chaos undivided corruption +3, all other types of corruption -3
+- Campaign movement range -20% for enemy armies, attrition -20% when under siege, melee defense +5;
+- Income from post-battle loot +15%, recruitment cost -10%, local recruitment capacity +1;
+- Growth +20, construction cost - 10%
+
+Decent edicts, should take the opportunity to get a fast 20 stack or even a second army in detriment of growth early on just because of how chaotic the early game can be.
+
+For your army stances, you have:
+
+- Raiding camp, consumes 25 movement, reduces upkeep -20%, provides replenishment and immunity to most attrition.
+- Raiding, costs NO movement, gives income, upkeep -30%, winds of magic +10, some penalties like winded for your army.
+- Ambush, costing 25 movement, hiding your forces to try to ambush the enemy.
+- Forced march.
+
+Overall, it is very important to keep using that raiding camp and raiding stance as the upkeep reduction alone is enough to accumulate and allow you to support more armies. It gives a better experience as Norsca as well.
+
+BUILDINGS AND RESEARCH:
+
+In terms of special buildings, you do not really have anything in the near area.
+
+You require 6 buildings for your maximum military, although 4 of those are able to be built in your minor settlements because of the spoils currency mechanic.
+
+
+
+This gives you a lot of versatility on how you build up your settlements in order to obtain your better units, and overall allows Norsca to get elite armies just a bit earlier compared to most foes.
+
+In terms of infrastructure, you have:
+- recruit rank and recruit cost building
+- income, control, and chaos corruption building
+- income from sacking and post battle loot (factionwide), as well as some variations with Spoils income.
+- income and growth building.
+
+Overall, Norsca can grow quite fast due to the Spoils, and it is recommended that you keep razing and conquering and pillaging to ensure your home Norscan regions can grow super fast into higher tiers, so you benefit from those better buildings as soon as possible.
+
+Research is now split into three main trees:
+
+- First is War customs, giving you benefits to your units, subdivided between Marauders, Beasts, and Monsters.
+
+
+
+- Second is Tribal Strength, giving you bonuses to your campaign actions, including ambush success chances, economy and upkeep, construction costs, etc.
+
+
+
+- Third is Conquests, giving you specific bonuses the more you fight vs specific foes. For example, fighting Chaos Dwarfs gives you more casualties post battle and gives unwielding assault for giant units. Should you focus on these, it is important to synergize with, of course, obtaining those units fast to get the most out of the bonuses acquired.
+
+
+
+SKILLS, HEROES:
+
+There is a lot in terms of Skills and heroes, so let me just give you the very basics here, as a full guide would take twice as long.
+
+You have your lord specific skills, yellow line skills (casting/melee), redline skills (army), blue line skills (campaign).
+
+In the blue line, you have 2 casualty replenishment skills for great replenishment, and they cost a single skill point each. Because Norsca is very aggressive and keeps fighting, it is great to have at least one point spent here to replenish more easily and go to the next fight.
+
+Redline skills can be a bit expensive to buff an entire army. There are some great combinations, but it does split the Marauders from the Beasts and the Monsters. This means sometimes you may have to choose just 2 of those to save skill points for other stuff.
+
+Heroes are overall very good. You have 2 different caster types, 2 different melee types, one of them hybrid. Balefiends provide replenishment, but do remember that Norsca already has some nice replenishment options and tools available, so it is not a super requirement to have (plus Balefiends arrive a bit later in the building tiers).
+
+ARMY COMPOSITIONS:
+
+Here are the redline skills for Norsca. It has split up Infantry/Monstrous infantry/Single entity monsters throughout the tree, which makes it difficult to use those three elements in an army without using too many skill points.
+
+
+
+Therefore, I would honestly just choose 2 of them and maybe flyers/missile units for army composition, but of course that is a playstyle for you to choose.
+
+Sayl himself focuses on the Kurgan Horsemen units, and a bit in the new Curs D'ettin units. Kurgan horsemen, while good for flanking, really lose in melee to enemy anti-large cavalry quite easily, so you have to be careful when engaging enemies with some stronger flank units.
+
+I still wanted to provide a bit of a theme approach, but consider changing those Kurgan Horsemen later on to other monsters when you feel appropriate (like, you can always just mass monsters like Mammoths, for example). The initial army is more an attempt to make a tier 3 and under army, easy to obtain for a quick short victory.
+
+
+
+Marauder Chieftains have quite some interesting choices to make from the start, as you have to choose from 4 branches which can alter their army, and thus composition.
+
+
+
+For example, Noxious vessel and above allows your army to be much more resilient, which may be great for a monster heavy army.
+
+Great Shaman Sorcerers benefit the whole army without really choosing any specific unit, so you can benefit a lot of different army compositions here. I do like to have a monster heavy or a marauder heavy army, depending on the upkeep possibilities of course, so here are some suggestions:
+
+
+
+Overall armies with marauders and mammoths are always quite effective, and relatively cheap, but you can go monster spam if you have the income for it... and poor enemies of yours ;)
+
+
+
+FINAL CONCLUSION:
+
+- Sayl is quite a nice Norscan experience, with enough to make it a different one, while remaining true to the Norsca identity of raiding, sacking and pillaging.
+
+- Sayl allows you to carefully manipulate the enemies into different situations that would otherwise not be possible with the likes of Wulfrik or Throgg, making it a more interesting campaign with some subterfuge and cunning available. It is sort of a mix between the raging battles of Khorne and the cunning of Tzeentch, which should give fans of both a nice set of roleplay possibilities.
+
+- In addition, you can create some different army compositions specially with so many monsters, so your battles can feel different nearly every time. This allows you to not feel as one dimensional as some other chaos factions, and are instead pulled into this game of trying yet another army composition to see how well it does.
+
+- Your army consists of:
+1 - Damage dealing infantry
+2 - Short-ranged missiles
+3 - Average cavalry and chariots
+4 - Great monstrous infantry
+5 - Great monsters and single entities, more than nearly every other faction
+6 - Lack of artillery
+7 - Relatively small roster
+
+Replenishment is great, and climate helps a ton, so you should keep going, raiding, razing, sacking, pillaging, fighting, and just Norsca-ing all around. It is time to raid and play with Sayl, the Faithless, of Norsca.
+
+

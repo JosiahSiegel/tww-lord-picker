@@ -1,0 +1,275 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Dechala&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3651577360&searchtext=Dechala
+GUIDE_TITLE=Steam Community :: Guide :: Dechala the Denied One - Slaanesh overview
+GUIDE_TEXT:
+Dechala Slaanesh part 1
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch on YouTube, here is the link:
+
+
+YouTube™ Video: Dechala - Slaanesh campaign overview Total War: Warhammer 3 
+Views: 375
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short campaign victory:
+
+- Destroy or vassalise the factions of the Burning Wind Nomads and the Jade Custodians
+- Maintain 4 provinces out of a list of 5, all in the southern Cathay area.
+- Occupy, loot, raze or sack 30 different settlements
+- Establihs a Pleasure Palace and construct the Wing of Perfection building (upgrade to tier 3, basically)
+
+The reward is +30 winds of magic for all armies, perfect to ensure you always have some spells available to fight with, giving you some flexibility in the midgame onwards.
+
+This is a nice short victory condition, easily achievable, very straight forward, and the only thing that can hinder you is the amount of enemies to the North of you. Still, because of how Dechala thrives in an aggressive style, you should be fine obtaining this victory.
+
+Long campaign victory:
+
+- Achieve the short victory
+- Destroy the factions of Clan Eshin (Snikch), The Northern Provinces (Miao Ying), The Western Provinces (Zhao Ming)
+- Maintain control of 7 provinces out of a list of 13 which are pretty much all around the area of Cathay
+- Occupy, loot, raze or sack 60 different settlements
+- Win the final battle called Breaking Point
+
+The reward is +10 lord recruit rank, great to ensure your lords have some skills right upon recruitment, but also to allow you to upgrade those lords (from heralds to exalted keeper of secrets, for example) much faster.
+
+This is quite a nice long campaing, it builds on the short campaign goals, allows you to proceed with a very normal and natural path of conquest. It is great to just continue with your conquests as you were and soon complete the long campaign victory.
+
+Dechala is the Denied One, and benefits from:
+
+- Tormentor's tributes, which is her specific mechanic, I will explain later.
+- Can corrupt enemy units before battles (replaces Seduction), weakening the enemy before the fight.
+- Character experience +10% for all characters.
+- Physical resistance to every marauder unit +10%.
+- Upkeep -15% for all devoted marauder units.
+
+Overall, a really good set of buffs for the Early game. This is a campaing where you get going really fast and abuse those benefits to the point that your lategame is built upon how fast you were initially and how expansionist you were able to be. Your initial troops being cheaper and more solid is always a very nice set of buffs.
+
+Climate is great. Just really struggling in the desert, but there will be plenty of great territory to take before that even becomes a problem, leaving Dechala as a great character to conquer the map with easily.
+
+STARTING LOCATION
+
+
+
+Your starting province is a 4 settlement province, great for your military build-up early on. It is really well positioned as you are in the Southeastern corner of the map. It is very difficult for any enemies to arrive by surprise there, which gives you a defensible position, so you can expand without too much trouble.
+
+Typical expansion is to defeat the initial Greenskin faction and nearby Lizardmen (Nakai), and then there is a big choice on whether you fight the early Wood Elf faction or you contend with the Empire (Balthazar Gelt). You should be able to capitalize on any fights already ongoing, so pay attention to who is fighting with whom, to decide your best course of action.
+
+The existence of the sea lanes nearby and sea goodies is of course well in your interest, should you decide to expand into other locations. Just remember that your victory conditions are pretty much set for Cathay expansion.
+
+DIPLOMACY AND OUTPOSTS.
+
+Diplomatically, you are part of Chaos. However, because of vassalization, it is interesting how you may yet have alliances with those that dislike you.
+
+Your enemies will be anyone and everyone, but in particular the Order tide. Cathay, Empire, etc.
+
+A normal possibility of allies should be the Ogres or even Skaven, regardless of whether you intend to kill them later on. Try to get some missile units from either of them to enhance your forces.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+There are several mechanics for Dechala, including an interesting way of how her settlements work. Let's begin:
+
+- First you have 3 different types of settlements. Thrall camps, which mainly generate Thralls, one of your currencies. Tormentor's Holds, which allow the recruitment of some units early on. Pleasure Palaces, your main settlements, which allow every advanced military building and provide you with another currency, Decadence.
+
+- Thralls are a specific currency that you have, gathered from Thrall camp settlements. They have a variety of uses, including most of the important buildings of your Pleasure Palaces, to Proliferate Cults, for Pleasurable Acts, and for the Boons of Slaanesh.
+
+
+
+- When you decide to conquer a settlement and turn it into a thrall camp, the thrall population slowly diminishes and gives you those thralls to the grand pool seen above. You can then spend those on anything that requires them.
+
+
+
+- Pleasurable Acts are actions that you can take, like diktats, affecting the whole province. Ranges from a nice growth and control boost, recruitment bonuses, or research and income bonuses. Only one can be active at a given time, and they cost Thralls.
+
+
+
+- Boons of Slaanesh are simple actions to take with your army, giving you either experience, ambush chance and stalk to your whole army, or AP damage and wayfarer for your whole army. They cost Thralls.
+
+
+
+- Cults work like any other cult from the monogods. Once set up in an AI territory, you have specific buildings that can benefit your overall plans of conquest, including the option to teleport your Legendary Lord there, or just provide some ongoing bonuses. You can spend Thralls to Proliferate cults, giving you up to 3 cults randomly in AI settlements.
+
+
+
+- Dechala can also corrupt enemy units when she attacks, reducing their fighting capacity so the enemy is easier to defeat.
+
+
+
+- Thralls are also used, after a specific technology is completed, to instantly recruit Daemonic units, helping you quickly raise an army should you require it. These also give your whole army some small bonuses.
+
+
+
+- Pleasure Palaces produce Decadence, another currency you can use for several benefits. You can only build a Pleasure Palace after reaching tier 3 with the previous one.
+
+- Tormentor's tributes provide with 3 different types of benefits, and cost Decadence.
+
+- The first is the Marks of Vindictiveness, which grant specific army abilities that you can equip on the pre-battle screen.
+
+
+
+- The second is called Opulent Gifts, and are powerful anciliaries that can be granted to your characters.
+
+
+
+
+Dechala Slaanesh part 2
+- The third is called Exquisite Spoils, and are basically upgrades to the Pleasure Palaces, to enhance those settlements' effects.
+
+
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+For your province edicts, we have:
+
+- Control +5, campaign movement range +1% (faction leader), corruption -4, corruption in adjacent provinces -2 (excluding Slaanesh).
+- Character experience per turn +200, income from Pleasure Palaces +15%
+- Regional Thrall population depletion rate +20% (negative effect), control -6 (negative), Income from Thrall camps +30%.
+- Proliferate Cults -2%, growth +15, casualty replenishment rate +6%.
+
+Overall, a nice synergy idea between the edicts and the Thrall currency, you should however make sure that you keep checking your edicts to enhance what is required in the short-term and avoid losing Thralls too fast if you use the negative effects for income.
+
+For your army stances, we have:
+
+- Channeling, costing 10 movement points, giving +15 Winds of Magic power reserve per turn
+- Encamp, costing 50 movement points, enabling replenishment and giving immunity to most attrition
+- Raiding, costing 50 movement points, giving immunity to most attrition, but giving some penalties in combat
+- Ambush, costing 25 movement points, hidding your army to attempt to ambush the enemy
+- Forced march
+
+Fairly typical set of stances for you, nothing out of the ordinary, just pay attention to the movement costs and use as necessary.
+
+BUILDINGS AND RESEARCH:
+
+As mentioned before, you have 3 types of settlements, each focusing on a specific part.
+
+- Thrall camps provide Thralls to the Global Pool and give you a nice source of income as well.
+
+
+
+Their infrastructure includes:
+- More Thralls added to the Global Pool
+- Thrall population depletion rate decrease, growth and casualty replenishment building
+- Income building
+
+Fairly standard, this should be your main type of settlement to ensure a very healthy income of both gold and Thralls for your Global Pool.
+
+- Tormentor's Hold provides you with a minor settlement's military capacity, basically. It has 3 possible military buildings, with mostly marauders, early cavalry, and some daemonic units available. It also has infrascture and the ability to sally out with a garrison in case needed.
+
+
+
+Infrastructure:
+
+- Unit experience per turn, slaanesh corruption, income from pleasure palaces, local recruit capacity building
+- more range to sally attack order, income from post battle, loot, raze or sack for all armies, melee attack and defense bonus for the garrison.
+
+A strictly military based location, intended on keeping your conquered places well defended. Ideal for map chokepoint locations.
+
+- Pleasure Palaces are your main settlements, giving you all possibilities for recruitment. You have 7 military buildings, but of course the important ones are the 4 advanced military ones, since you already have the choice for the smaller ones in your Tormentor's Holds.
+
+
+
+Infrastructure (they all produce decadence per turn):
+
+- income, income from tariffs, unlock hero cultists building
+- income, lord and hero recruit rank +5, hero capacity for all heroes building
+- hero action success chance, unlocks the hero chaos sorcerer of slaanesh, winds of magic power reserve and spell resistance to all armies building
+- upkeep reduction for faction leader, slaanesh corruption, and weapon strength for your faction leader building.
+- research rate, slaanesh corruption, unit experience gain for all armies.
+
+These buildings really enhance your possibilities as Slaanesh, so I recommend you really balance between their infrastructure and military build up accordingly, so you benefit from the building slots as much as possible.
+
+- Research is now split into two, the typical way CA likes right now. They are focuse on campaign or mechanic based techs, or focused on army benefits.
+
+
+
+I recommend you quickly get some early bonuses for your marauder units, to ensure you can use those early game units for a longer time, and then go for campaign focus a bit. As you face better enemies, go back to techs that augment units, and rinse and repeat.
+
+SKILLS, HEROES
+
+There is so much to talk about heroes alone that it would not fit here. Instead, I will just breeze a bit through the basics to give you some information and tips.
+
+
+
+As always, we have Lord specific skills, yellow line or Combat/casting skills, redline or army skills, blue line or campaign skills.
+
+You have both casualty replenishment and upkeep reduction on the last part of the blue line. On the first part, one particularly good set of skills provides more casualties captured post-battle, which enhances post battle loot too.
+
+There are 2 redline sets of skills, for Heralds and for Chaos Lords. More on this a bit later, as they have specific differences, just make sure that you are benefitting your intended army as possible.
+
+In terms of Heroes, now you have nearly everything you need. Special attention to the Druchii Annointed for giving replenishment to the army, as well as some bonuses to devotee units.
+
+Cultists of Slaanesh can also establish cults where you tell them to, and they can be good scouts as well (or aid your armies).
+
+Of course, all heroes have their uses, I always recommend you have at least one caster hero and one melee/support focused hero in every army, but there are many possibilities for you to explore.
+
+ARMY COMPOSITIONS:
+
+- Here are the redline skills for Heralds, which splits units mainly into Daemonic and Mortal units. There are a lot of benefits focusing on speed and charge and melee attack overall, favoring a very fast overwhelmingly offensive army, instead of a defensive one.
+
+
+
+- The redline skills for Chaos Lords change it a bit, focusing a bit more into armor and defense, still with a bit of a split between Daemonic and Mortal units. It is, however, much better for Mortal units, so I would recommend a focus of Chosen and other mortals when under a Chaos Lord.
+
+
+
+- Dechala early on can have quite an army just based on Marauders, which I try to illustrate here. Mostly you will get infantry, but you can just add a few Spawn of Slaanesh and cavalry units there, and it will give you an army that can handle a lot of different foes fast.
+
+- You can always upgrade that army for a very highly armored Chosen with Champions and Pleasureseekers, very good against anything that crosses your path.
+
+
+
+- Chaos Lords give you some extra bonuses for Chosen and Chaos Mortals, so combinations of those are in order.
+
+
+
+- Heralds, on the other hand, give you a bit extra speed and melee defense for Daemonettes, enough to justify that focus on Daemonic units.
+
+
+
+- Chaos Sorcerer Lords can benefit from the melee attack and perfect vigor to have some cheap Forsaken and Spawn armies. If you wish to keep it thematic, of course, you can always go the Chosen route with these lords too).
+
+
+
+- As for the upgrade to the Heralds, the Exalted Keeper of Secrets benefits Pleasureseekers and Fiends, or Keepers of Secrets. Therefore, some template for both can be found here.
+
+
+Dechala Slaanesh part 3
+
+As always, remember the hero considerations here, as the disclaimer goes, are placeholders. I only ever recommend getting a melee/support hero, and a caster hero, but you can choose as you like given your own considerations (do think about their uses, of course).
+
+FINAL CONCLUSION:
+
+Dechala is a crazy good campaign to just swarm your enemies really fast in the early game. Your mechanics favor fast expansion to keep the thrall population flowing, and you will quickly have access to your more expensive units through your Pleasure Palaces.
+
+Dechala herself can become super proficient in combat, specially after some Pleasure Palaces are fully built. Ensure that you keep her fighting versus the greater enemy armies and you should be fine.
+
+It is difficult to keep checking the best bonuses that affect your army, so just ensure you play it simple. Focuse on one bonus at a time, one synergy at a time, and you should be fine, instead of trying to maximize stuff and losing the thread of it.
+
+Your army consists of:
+
+- Great infantry
+- Great cavalry
+- Great chariots
+- Great single entities
+- Very few missile options
+- No artillery
+
+Replenishment is now much better thanks to having a hero that focuses on providing replenishment to your army, and the climate really helps.
+
+I believe now it is time to play with Dechala, the Denied One, and turn the whole world into your Thralls.

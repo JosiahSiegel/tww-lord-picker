@@ -1,0 +1,195 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Yuan+Bo+Cathay&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3030900277&searchtext=Yuan+Bo+Cathay
+GUIDE_TITLE=Steam Community :: Guide :: Total War: Warhammer 3 Immortal Empires Yuan Bo - Grand Cathay campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Total War: Warhammer 3 Immortal Empires Yuan Bo - Grand Cathay campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Yuan Bo - Grand Cathay overview, guide and second thoughts 
+Views: 658
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Construct any two of the four Astromantic Relay buildings and empower the Wu Xing Compass;
+
+The reward is +3 hero capacity for all heroes, which is good although Cathay still only has 2 heroes to choose from and thus loses a bit of its potential value.
+
+A really quick and straightforward campaign, it should give you a good idea of the faction and its playstyle. In addition, it is somewhat good at allowing you different choices in terms of early expansion.
+
+Long victory:
+
+- Achieve the short victory;
+- Construct every single one of the four Astromantic Relay buildings;
+- Defend in the final battle for the Wu Xing Compass;
+
+The reward is +10 hero recruit rank, excellent to ensure you have better heroes as you proceed into domination goals.
+
+Again a very good long campaign victory, very simple, you will have a very solid base to expand from into domination or other goals.
+
+Yuan Bo has the Dragon's Might, and benefits from:
+
+- All regions that you have a trade agreement with are visible to you;
+- Diplomatic relations +20 with Grand Cathay factions;
+- Research rate +5% for each province capital;
+- Hero capacity +2 for Astromancers;
+
+Overall decent bonuses, encouraging expansion and trade.
+
+Climate is average to good; a bit better than other Cathay lords, but this is still a hard campaign to try and dominate the whole map with.
+
+STARTING LOCATION:
+
+
+
+You have a dual starting location. You have a settlement back in Cathay, while having 2 settlements starting in Lustria. In Cathay you are in a 4 settlement province, while in Lustria you start as part of a 3 settlement province.
+
+You have access to the sea, which encourages you to seek out some goodies there too, or to even use the sea lane to get back to Cathay.
+
+Typical expansion is to go through Lustria, towards any of the goals that you choose; you can either focus on the Dark Elves or the Lizardmen initially but your first enemy is the nearby Greenskins. You later can decide whether your position in Cathay is to be maintained or not.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically, you are part of the Order tide, but you will engage against Lizardmen for certain, which can destabilize that same order.
+
+Typical enemies will be Lizardmen, Chaos, Dark Elves and Skaven. You are likely to continue in Lustria and find the Vampire Coast as well.
+
+Allies will arrive in many shapes. With the connections in Cathay you may obtain Ogres, Empire and Bretonnia, High Elves being a more likely target. Try to obtain some monstrous infantry and cavalry, just ensure that you check out those outpost possibilities.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+Yin and Yang are now province based, as this is a significant exchange from the previous system that was factionwide.
+
+This is now a balance between Yin and Yang buildings in a province, and you have 7 possible settings depending on its balance. At level 0, in balance, you have:
+
+- campaign movement range 20% for all armies in the territory;
+- upkeep -15% for armies in the province
+- income from all buildings +15%;
+
+Yin benefits go further into Growth, Control, Construction costs; Yang benefits go further into Research Rate, Recruitment cost, Recruit rank and local recruitment capacity. This allows you to easily specialize provinces into either Military or Economic focus.
+
+The Ivory road keeps being a magnificent mechanic. You use it for gold but also to end up exploring far away lands. Caravans have a cargo that you decide the amount, and the more they end up with, the better reward you have. May fall under attack, so be aware of their path.
+
+The Compass is basically a set of buffs that you can choose for a specific duration. However, once you align to one location, it decreases the others, so focusing on one part will make you weaker on the others.
+
+
+
+An added mechanic there is for Yuan Bo is how he has 4 additional directions for the Compass with various effects that will unlock in your campaign, depending on whether or not you have conquered a specific location and build a specific building there.
+
+Yuan Bo also has the Matters of the state; this mechanic allows you to spend two unique resources, Stone and Steel. You gain one resource every 5 turns, and winning battles decreases the time by one turn; In addition, each time you declare a fortress city or commercial district., you gain an additional Steel or Stone token.
+
+
+
+These tokens are used for a variety of actions, ranging from immediate recruitment or construction, to diplomatic or income advantages and loaning a neutral or allied army. It allows you plent of opportunities to gain an advantage over your foes.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4; Chance of a plague spreading -40%;
+Research rate +7%;
+Enemy movement range -20%; corruption -5; melee defense +5;
+Income from trade tariffs +5%;
+Recruitment cost -5% and local recruitment capacity +1.
+
+Overall decent ones, should be noted that there is no basic income increase or growth mainly because they are tied into the Yin-Yang mechanic instead.
+Army stances:
+
+Channeling gives +15 Winds of magic per turn, at a cost of 10% movement range;
+Encamp costs 50% movement, enables global recruitment and replenishment, as well as immunity to attrition.
+Raiding costs 50% movement, gives immunity to attrition as well;
+Ambush costs 25% movement;
+Forced march
+
+The fairly typical ones, be mindful when progressing into uninhabitable or unpleasant areas and ensure you have that encamp or raid stance ready.
+Total War: Warhammer 3 Immortal Empires Yuan Bo - Grand Cathay campaign overview, guide and second thoughts(continuation)
+BUILDINGS, RESEARCH:
+
+
+
+There are no special buildings in the initial province in Lustria; Shang Wu, on the other side in your Cathay province, has the Palace of Scrolls. This gives +25% allegiance points, +20 diplomatic relations with Cathay, Lord recruit rank +2 and 10% income from all buildngs in the province.
+
+Military requires 6 buildings, with only one being able to be built fully in a minor settlement.
+
+At tier 3 you now have a few more options, with Jade Units, Halberds, infantry, crossbowmen and lancers, as well as some armies that are definitely able to cause trouble to the enemy. Bringing in some Lions should be optimal too.
+
+Infrastructure follows the Yin and Yang.
+
+For Yang you have:
+
+- Growth, reduced construction costs;
+- Income;
+- Control and extra ranks for Peasant Spears and Peasant Archers;
+
+For Yin you have:
+
+- Growth and income;
+- Income and trade tariffs;
+- Control, replenishment rate, and recruitment cost -80% for Peasant Spears and Archers.
+You have to keep in mind all the changes and its effect on your province, considering you wish to get a specific yin or yan outcome.
+
+Finally, research is very cool. It turns the low peasants into actually solid units by the endgame. I will not show many in the following army compositions but rest assured they are still valuable late game.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+Blue line may prove expensive in terms of skills, since it does have replenishment and reduced upkeep but on the second part of the line. Nothing really interesting in the first part, a shame, as you have plenty of stuff to select from and the 50 points might not be enough for everything.
+
+Redline is also quite expensive; it is good to spend some time deciding what units you will bring if you are planning on benefitting those with redline skills.
+
+
+
+Yuan Bo gives advantages to Onyx Crowmen and Lion units, as well as giving the War Compass some more spells charges. Some combinations of missiles and infantry should give you some nice progress. As always, artillery is a possibility even though I have not mentioned it.
+
+
+
+In terms of other compositions, I have mentioned there is no wrong with Jade Warriors, specially for those cheaper armies you may wish for minor battles; however, for the most part, you should go around the celestial units as they are very good specially lategame.
+
+
+
+The Celestial General can grant specific advantages in armor, weapon strength, or charge bonus, so here is 1 army to focus on each of those in order. The Charge bonus focus can make a formidable sweeper army, great for ambushes and clearing out the enemy or even just reinforcing your main armies.
+
+
+
+Remember that even low peasant units become powerful. Definitely room for some armies to have those well into mid to even lategame.
+
+Lord Magistrates have interesting support abilities to use, while your casters have some different lores of magic, specific to your faction. There is no replenishment hero, sadly, which always hinders progress a bit, specially in uninhabitable terrain.
+
+Always remember I only recommend having a caster hero and a support/melee hero. Whatever combination you can use that works better is up to you.
+
+FINAL NOTES:
+
+Yuan Bo's faction feels very good to play specially because of the added mechanics and the location being so different. It is a breath of fresh air if you have played Cathay before, to have new foes and in a different area.
+
+It is likely to become one of the easiest factions overall in the game to play as it, perfect for beginners, but veterans will enjoy it too with some more variety.
+
+Your army consists of:
+
+1 - Good holding infantry
+2 - Great missiles and artillery
+3 - Good flying units
+4 - Good single entities
+5 - Good magic users
+6 - Still weak in anti-large outisde of infantry.
+
+Replenishment ias average specially concerning climate nearby. It is still a bit of a struggle to get a full map completion with them.
+
+I believe now it is the time for you to play with Yuan Bo, of Grand Cathay.

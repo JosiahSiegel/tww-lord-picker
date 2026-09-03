@@ -1,0 +1,182 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Kairos+Fateweaver&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940470557&searchtext=Kairos+Fateweaver
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Kairos Fateweaver-Tzeentch campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Kairos Fateweaver-Tzeentch campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video (it also supports me):
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Kairos Fateweaver-Tzeentch campaign overview, guide 
+Views: 440
+Time stamps: 00:01 Faction intro 00:35 Victory conditions 02:54 Starting location 03:49 Diplomacy 05:08 Mechanics 10:06 Province edicts and army stances 13:00 Buildings and research 17:30 Lords,...
+
+
+If you prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Destroy the factions of Zlatlan, Order of Loremasters (Teclis), Last Defenders (Kroq-Gar), and Fortress of Dawn (which starts defeated already;P);
+- Occupy, loot, raze or sack 35 different settlements;
+
+The reward is quite adequate for Tzeentch: winds of magic reserves to all armies is so helpful specially at this stage.
+
+Other than the Last Defenders everything is quite close, making this a very good example of a nice short campaign. You should be able to reach it without any trouble.
+
+Long victory:
+
+- Achieve the short victory conditions;
+- Occupy, loot, raze or sack 80 different settlements;
+- Destroy the factions of Poxmakers of Nurgle (Ku'gath) and Bubonic Swarm;
+
+Reward is +10 Lord recruit rank, decent to continue your conquests into domination and other objectives with good lords leading your armies.
+
+This is a much lengthier campaign, unless you have the luck of someone else destroying Nurgle, you may have to travel there.
+
+Kairos is the keeper of the destiny scrolls, and he has -50% battle reinforcement time and +15% hero action success chance.
+
+One of the most lackluster buffs compared to other lords, but you may yet do something with this. The hero action success in itself plays into the continuous disruption idea from Tzeentch, so perhaps going a bit loreful in here may yet give you a nice playstyle.
+
+In terms of climate, it is one of the best factions in the game, really only having a minor unpleasant penalty in the mountains. Still, have fun conquering the whole map as Tzeentch for certain!
+
+STARTING LOCATION:
+
+
+
+Your starting province is great, very defensible, very low initial threats, and easy to decide where to go next.
+
+You have a 4 settlement province, with a gold mine. Pretty good for a solid foothold.
+
+Typical expansion should be to dominate the entirety of the South Chaos wastes, and start going into the Southern areas of the map.
+
+You also have the ocean nearby so lots of goodies and encounters at sea to prey upon. It should give you a nice edge in both the early and midgame, always worth to have a lord looking for those.
+
+DIPLOMACY:
+
+Really, really, really hard to talk about diplomacy with Tzeentch. This is one of the factions that can drastically change this.
+
+Basically, you are in control of some of this, of course, being chaos everyone hates you. Although, some Skaven and Ogres can help, maybe even Vampire Counts and Coast. The rest will definitely try to destroy you at any point.
+
+Use your mechanics and faction wisely and you may have fun destroying what is the natural way of things. Get rid of the Order tide from within, for example 😉 hehe.
+
+Good outposts would be for better missile and artillery, maybe Vampire Coast, Ogres and Skaven choices. I added a few possibilities in the end (pics below).
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+- Manipulation of the Winds of Magic. You can augment or diminish the Winds of Magic in your controlled provinces, to ensure you are always fighting in your own terms. Do note that specific buildings give you more bonuses in higher Winds of Magic, remember this.
+- Grimoires are your unique currency, and they grant access to the Changing of the Ways. This has ridiculously overpowered omg stuff. Go crazy with this one, it is just really nice to be able to change everything. Transfer Settlement, Force War, Break Alliance, Halt faction, Force Rebellion, Reveal Shroud... so many possibilities, so little time...
+- Go really into that last Changing of the Ways mechanic. Transfer settlements. Sell them back. Purchase them again. Start distant wars. Thrive in the Chaos.
+- Unholy manifestations work like the other Monogod factions, there are four levels, depending on the amount of global Tzeentch corruption across the world:
+
+1 - Sriverners of Insanity gives you 250 grimoires after two turns, but movement is disabled for that army;
+2 - Mutagenic Energies enables attrition for an army regardless of immunities. This is great to ensure a pesky enemy does not replenish (Vlad giving you trouble?)
+3 - Magic Flare gives +25% barrier hit points and +20% range for your army. Simple and effective
+4 - Night of Madness gives Winds of Magic, -50 control to the enemy province, and +25 Tzeentch corruption; it does need you to be stationary, though.
+
+- You also have cults, which can apply several different buffs to your faction in that region via the buildings, mainly generating grimoires or giving you tons of Winds of Magic there for your conquest.
+- One final aspect is the barrier, the "Protoss Shields", basically. Every Tzeentch unit has this, so it encourages a lot of "hit-and-run" tactics, as to ensure you do not lose health and lose shields instead. Plenty of other stuff in the game affecting how the barrier works too, so be on the lookout for any buffs for your units in this combat ability.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- Tzeentch corruption +3 (and in adjacent provinces +1);
+- Grimoires from buildings +50%;
+- Control +4, enemy campaign move range -20%;
+- Chance of plague reduced -40%, research rate +10% (!), chance of Winds of Magic changing +25%;
+
+No growth; no income. It is all about the magic and the grimoires. Focus on that, embrace that. Research rate is excellent to pop a few provinces and see if it lowered the research time, and just leave it at that. Confirm after each research if it is useful or not.
+
+Army stances:
+
+- Teleport is so unique, allowing you to teleport your army to any location. This seems like the underground, but the uniqueness is that you can actually attack with it 😉 Surprise!; It does cost Winds of Magic, so be careful.
+- Channeling for winds of magic reserve per turn at the cost of 10% movement;
+- Encamp for 50% movement and granting the usual replenishment, global recruitment, immunity to attrition;
+- Raiding for 50% movement, immunity to attrition;
+- Ambush for 25% movement;
+- Forced march.
+
+The usual ones, and the twist with the teleport which should suffice to make it quite a different idea for the faction.
+
+Warhammer 3 Immortal Empires Kairos Fateweaver-Tzeentch campaign overview, guide and second thoughts (continuation)
+BUILDINGS, RESEARCH:
+
+
+
+- Your capitals have two main buildings. One is about less constructions costs for military buildings and less recruitment costs; the other is about more growth and reduced costs for infrastructure buildings;
+- You have 5 military buildings, 4 required in the capital. A good mix of units already at tier 3, which helps out a lot.
+- It is one of the easiest factions to build up without too much complexity honestly.
+- Infrastructure:
+
+1 - Control, defensive supplies, campaign line of sight;
+2 - Income and growth;
+3 - Growth and barrier replenishment rate in the region +35%;
+4 - Grimoires per turn, research rate, income from all buildings;
+
+They are all quite good, but the best is their effects when Winds of Magic are stronger. You can get massive benefits so you should really pay attention to the Winds of Magic to solidify the outcome from these buildings, instead of leaving it just to chance.
+
+Research is... a bit lacking. It has lots of campaign and army bonuses involving magic and magical abilities. However, it is lacking in terms of what buffs can you give to your troops, and it is by far the worst faction to enhance troops. Some units do not get anything from it, just be mindful of this factor.
+
+It does, however, change a lot the playstyle and the campaign buffs are very useful.
+
+LORDS, SKILLS:
+
+- Kairos has a unique blue line for Changing of the Ways, as well as control for the whole faction. He then has upkeep reduction and replenishment in the end of that line, with lightning strike in the middle, interesting.
+- Other lords have some upkeep reduction and replenishment in the blue line, which is good and helps overall. Not a lot of other interesting effects other than raiding/sacking income.
+- There are two different sets of redline skills. These allow for different combinations. They are somewhat inexpensive which is great.
+- However, it is difficult to ascertain what units are actually buffed by which skills, as there is no mention of Chosen and sometimes the buffs do not work, so I made some assumptions but there is something off with the redline for Tzeentch. Possible bug here, honestly (which has been reported).
+- There is no replenishment hero, so the faction does lack in that department. Still, climate helps a lot which is a boon.
+- Magic, finally, is really good. The lores they can have are decent and allows a lot of damage and buffs/debuffs for your/enemy troops.
+
+ARMY COMPOSITIONS (see pictures below):
+
+- Here you can check the redline skills for both Heralds and Chaos Sorcerer lords. Note once more that Marauders and Chaos warriors are in both initial skills. Chosen nowhere to be seen. It needs to be checked in-game whether or not they are being affected by these specifics (appears fixed in 3.1).
+
+
+
+- The redline for the Chaos Sorcerer lords focuses a lot in durability, with armor and melee defence buffs all around.
+
+
+
+- Kairos buffs nothing other than Lord of Change units, but has barrier upgrades to the whole army. So here are some combos of a solid frontline of chosen with pinks for missiles and chaos knights or single entities, as you prefer.
+
+
+
+As for other lords, similar chosen with pinks supported by flamers and cavalry is an interesting choice. The last pictured here is an attempt of having a more missile heavy composition.
+
+
+
+Note overall how the redline skills spent are below average, which is great considering the faction's need to spend some skill points in your caster lords spells.
+
+FINAL NOTES:
+
+- The whole faction revolves around magic and changing what is happening to your whim. It is less about the battlefield, but do not be mistaken, they are powerful there as well.
+- This is a campaign that I definitely would advise just one thing: BE TZEENTCH. Do chaotic stuff, change settlements to incite far away wars, put friends against friends, enemies against enemies, while slowly you build and build until you reach the point your armies are ready, and you march against everyone.
+- A seriously great campaign due to replay value alone.
+- Your army consists of:
+
+1 - Great infantry;
+2 - Good missiles;
+3 - Average monstrous infantry (squishy);
+4 - Good cavalry;
+5 - Great flyers;
+6 - Lacks research buffs (for units);
+7 - Relies heavily on magic;
+
+Replenishment is good, mostly because of the climate though.
+
+I believe now it is time for you to play with Kairos Fateweaver of Tzeentch. Let me know your thoughts in the comments below.

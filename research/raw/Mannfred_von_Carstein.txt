@@ -1,0 +1,206 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Mannfred+von+Carstein&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940471971&searchtext=Mannfred+von+Carstein
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Mannfred von Carstein - Vampire Counts overview, guide, second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Mannfred von Carstein - Vampire Counts overview, guide, second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also supports me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Mannfred von Carstein - Vampire Counts overview, guide, 
+Views: 533
+Time stamps: 00:01 Faction intro 00:30 Victory conditions 04:15 Starting location 06:29 Diplomacy 08:10 Mechanics of the race and faction 12:56 Province edicts and army stances 14:17 Buildings and...
+
+
+If you prefer to read:
+
+VICTORY CONDITION:
+
+Short victory:
+
+- Destroy the factions of Khemri (Settra) and Cult of Sigmar (Volkmar).
+- Control the Black Pyramid of Nagash settlement.
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +15% casualty replenishment rate, excellent to ensure your armies are always at their best as quick as possible and to counter any negative climate issues for it.
+
+A very quick short campaign. In fact, the tricky part may be getting the Black Pyramid, not because it is difficult, but because it may force some resources from you while you are fighting in multiple fronts.
+
+Long victory:
+
+- Achieve the Short victory;
+- Occupy, loot, raze or sack 75 settlements;
+- Control all provinces of the Empire directly or via vassals/allies;
+- Destroy Reikland (Karl Franz);
+
+The reward is Winds of Magic capacity, good as the Vampire Counts benefit a lot from their magic capabilities and it will ensure a smooth transition to dominating the whole map.
+
+This is a ... weird victory. Well, they have given just the same long victory to each Vampire Count lord, but now that you start in the South, it no longer makes a lot of sense. I can let you know that I achieved domination victory before I even achieved long victory, but you can always go towards the North to rush this one.
+
+Mannfred commands the Legions of the Dead, and he enjoys the following benefits:
+
+- He is able to collect the Books of Nagash;
+- Gains access in Castle Drakenhof to a unique building that doubles the effects of the Books (!);
+- Starts with 1 Blood Kiss;
+- Diplomatic relations +20 with Vampire factions and Followers of Nagash;
+- Research rate +20% (!);
+
+These are all very good buffs, they ensure you have at least an ally nearby, research is great, and the Books of Nagash mechanic give it a nice flavor to the campaign.
+
+Climate is somewhat lacking, specially farther North. Too many places are either unpleasant or uninhabitable, even in your close vicinity. Not the easiest faction to play for whole map domination for certain.
+
+STARTING LOCATION:
+
+
+
+You start on a 3 settlement province and surrounded by enemies. In fact, probably the most difficult location to start in terms of enemies alone.
+
+Volkmar, Skarbrand, Settra, the Lizards, the Wood Elves, the Dwarfs.... everyone will declare soon. Expansion will only bring you in contact with more enemies, but you should be able to go through your initial short victory conditions at least before being dragged into too many wars.
+
+One of THE campaigns to follow the mantra: "play to finish off enemies, so they do not continue to get you in trouble".
+
+Typical expansion is of course to dominate the whole Southlands and then proceed wherever you wish. North into the long victory, but you can always control the Southern Chaos Wastes if you like it too.
+
+DIPLOMACY:
+
+Diplomatically you are one of the most hated factions in the game. Skaven, Vampire Coast, Arkhan... and that is it. They are most likely going to be your friends. Everyone else will hate you and will likely declare sooner or later.
+
+You may try to change this by gifting settlements or bribing other factions, but it is not the easiest faction to do it with.
+
+It is quite vulnerable specially early/mid game to a massive order tide alliance against you. High Elves, Empire, Bretonnia, Dwarfs... they can send armies to you for certain, so be wary of the sea if they start declaring.
+
+As for outposts (see image below), Vampire Coast is the alliance to get. Tomb Kings and Skaven may gift you some unis, and the answer to which ones is nearly always: "Missiles".
+
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+Raise the dead is going to be a top means if not THE means of recruitment. The units you can recruit vary in accordance to the Vampiric corruption level, traits, skills, research, etc. In addition, after a large battle with a lot of casualties you will get sites that allow for the additional raising dead of specific units. Memorize those locations as great spots to raise more powerful units.
+
+Books of Nagash are a sort of treasure hunt mechanic. Around the known world there are Rogue armies to defeat or settlements to conquer that will give you a book, and with it, specific buffs to your faction as a whole. These can be doubled once you capture Castle Drakenhoff and build a specific building there.
+
+Blood Kisses are a unique currency used to obtain Bloodline lords. You gain a Blood Kiss for every assassinated character (get your Banshee's assassinating). You also gain from Faction leaders killed in battle, and Factions vassalised. Events and Quests may also provide those.
+
+Bloodlines grant 2 things: One, a series of direct buffs for your faction, and which one you choose should be related to your playstyle. Research rate is a common first choice, but I like casualty replenishment too. It also grants you, more importantly, access to unique lords from all 5 variants:
+
+1 - Blood Dragons, focusing on Grave Guards and Blood Knights;
+2 - Von Carstein, focusing on Fell Bats, Dire Wolves, Vargheists and Sylvanian units;
+3 - Lhamian, focusing on Vampires and hero actions;
+4 - Necrarch, focusing on a different magic approach with some Beasts lore.
+5 - Strigoi, focusing on Crypt Ghouls and Crypt Horrors.
+
+All of these should provide some interesting different army compositions or playstyle.
+
+Vampiric corruption is another mechanic of importance. You require corruption so you do not take attrition. You should always try to corrupt places before you attack. In addition, it helps with the Dead Rise again mechanic, a unique way of units coming back to life even if destroyed in combat.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+- Control +4 and corruption +1;
+- Growth +20 and construction cost reduction -10%
+- Recruitment rank +1 and recruitment capacity +1;
+- Income from all buildings +5%;
+
+A good varied deal, although it does miss a plague controlling one or more defensive one which could be useful. Still, for the most part, Growth and income should be priorities and the rest situational.
+
+Army stances:
+
+- Channeling gives winds of magic and allows replenishment in foreign territory, at the cost of 10% movement;
+- Raiding costs 50% movement and it is the one that allows immunity to attrition;
+- Ambush costs 25% movement;
+- Forced march;
+
+Note that it is similar to how the Dark Elves work, you do not have an Encamp stance so you cannot both replenish and be immune to attrition at the same time. This may prove to be an issue when conquering uninhabitable locations.
+Warhammer 3 Immortal Empires Mannfred von Carstein - Vampire Counts overview, guide, second thoughts (continuation)
+BUILDINGS AND RESEARCH:
+
+
+
+
+Ka-Sabar has two specific buildings, important for the early game with income and control, as well as recruitment time bonuses.
+
+7 military buildings are required for full military, 5 of which in a capital province. It used to require the armory for other units, but no more; now that building is for cavalry and Wight Kings.
+
+Tier 3 units are decent, but may prove difficult to build an army around. Grave Guards, Black Knights, Vargheists are still useful, but Tier 4 and 5 include your best troops, from Varghulfs, Mortis Engines, Blood Knights and Terrorgheists.
+
+Growth is rather weak, or further, expensive. It is difficult to grow so be mindful of it.
+
+Infrastructure:
+
+1 - Growth, Necromancer recruitment building, local recruitment capacity. Expensive for what it does, though.
+2 - Income and control;
+3 - Corruption (and adjacent corruption).
+
+There is a possible fourth building, the Awakened Battlefield (Defense) that can count as infrastructure. This reduces enemy campaign movement range in the region, as well as giving them +50% more attrition from Vampiric territory, and hero action success chance reduced. More importantly, it reduces Raise the dead cost by 30%, while giving some garrison.
+
+This is perhaps an overlooked building that can add greatly to your defensive capacity, although an expensive building...
+
+Research is now very useful. It is divided into four main categories, concerning infantry, monsters, ethereal units and crypt ghouls/horrors, Knighs and chariot units. There are plenty of campaign wide buffs too, I suggest checking the whole research tree to plan out a few specific ones that you should aim for to maximize your troops and army composition ideas.
+
+LORDS, SKILLS:
+
+Mannfred has a crazy difficult skill tree. He has two lores of magic to choose or combine, plus his own combat abilities, and redline and blue line to use. I suggest planning him out (tool: https://totalwarhammerplanner.com/) before the game to ensure you do not sidetrack as 50 skill points nearly cover half what he can get.
+
+Blue line has replenishment and upkeep reduction right at the start of the blue line. Unless you are going for lightning strike, I suggest sticking with those initial ones, as nothing later is that inviting.
+
+The redline skill tree has good combinations, even though a small roster. It is easy to synergize those with the specific skills from the bloodline lords too. Only issue is how every lord is also a caster, so you may have to decide earlier what you wish to ensure you have enough skill points for it.
+
+Heroes are among some of the best in the game. Two melee focused heroes, caster than can hold its own, and a necromancer that replenishes and is a nice support hero in battle. Two of those heroes give you replenishment, which is excellent to ensure your armies are nearly always full.
+
+ARMY COMPOSITIONS (see images below):
+
+Redline skills before, notice how they have such a short but effective roster.
+
+It is worth noting that most are divided into categories, allowing you to upgrade low quality troops and benefit from that skill until the elite troops.
+
+
+
+Mannfred has mostly upkeep buffs for Grave Guards and Blood Knights, hence why some combinations are in order. One with Flying units, the other with Mortis engines, use whichever fits your playstyle.
+
+
+
+A few examples follow of what you can do with the specific skills from those Bloodlines. Note that you have Free bats and -40% upkeep Vargheists, implying you can have a great flying army (so nice for sieges) that can also be a supporting army for great battles, or as a basic sweeper.
+
+
+
+The Ghouls have some advantages for Crypt Ghouls and Horrors, so nothing wrong with using those for interesting armies that can actually fight against most foes.
+
+
+
+
+Finally, some combinations around Ethereal units. Remember they do get the Barrier from Research, making them even more deadly. Just watch out for any magic damage focused armies like Tzeentch or most Daemonic armies (or massive doomstacks of magic damage units of any faction);
+
+
+
+Notice how overall they have a reduced costs of skill points in the redline. Nothing wrong with having Blood Knights and Grave guards everywhere or some Mortis Engines around (or hero spam armies, up to you).
+
+FINAL NOTES:
+
+- One of the factions that may prove difficult in the early game. You must rely on good tactics, good magic, and some patience while you get a feel for the faction.
+- It is however one of the most amazing experiences and the aesthetic alone gives this faction such a nice value. While you may think it is one dimensional, due to lack of ranged, you will enjoy being the rusher and swarming the enemy with undead troops while focusing on your lords and heroes like an RPG idea.
+- Lords and heroes are among the best in the entire game, with access to spells and great fighting abilities.
+
+Army consists of:
+
+1 - Good infantry;
+2 - Great cavalry;
+3 - Great flying units;
+4 - Good chariots;
+5 - No missile units;
+6 - Relies on magic early on;
+
+Replenishment is good, but climate will cause issues. It helps to achieve the short victory and to have a few replenishment heroes with your army, as well as merging units and raising the dead to recover.
+
+Overall, time for you to follow Mannfred von Carstein in his conquests!

@@ -1,0 +1,186 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Lokhir+Fellheart&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3006974680&searchtext=Lokhir+Fellheart
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Lokhir Fellheart - Dark Elves campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Lokhir Fellheart - Dark Elves campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Lokhir Fellheart -Dark Elf campaign overview, guide 
+Views: 543
+Time stamps: 00:01 Faction intro 00:25 Victory conditions 03:36 Starting location 04:50 Diplomacy and outposts 05:31 Mechanics of the race and faction 10:03 Province edicts and army stances 12:19...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITION:
+
+Short victory:
+
+- Control at least 5 of the coastal regions of Cathay;
+- Occupy, loot, raze or sack 30 different settlements;
+
+The reward is +3 recruit rank to all units, which is always great to ensure your units are far better as you recruit them.
+
+A very simple campaign, stay around Cathay and control those coastal areas, great to give you a glimpse of the faction and its Legendary Lord.
+
+Long victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 75 different settlements;
+- Control the Shrine of Khaine;
+- Destroy the factions of Avelorn (Alarielle), Eataine (Tyrion), Nagarythe (Alith Anar), Order of Loremasters (Teclis), Yvresse (Eltharion), Knights of Caledor (Imrik).
+- Control the province of Eataine.
+
+The reward is +15% income from slaves, which is nice to have a better economy into the lategame... however, you may already have achieved domination campaign before the long campaign, so...
+
+This victory condition is utterly crazy. It implies going across the world and dominate several areas of the map, including Ulthuan, when you start in a completely different area. Not one I would advise to follow for a beginner.
+
+Lokhir is the Menace of Mathlann, and he benefits from:
+
+- Sacrifice to Anath Raema: Improves Corsairs and Kharibdyss units;
+- Income from slaves +5%;
+- Every owner Major port will allow the recruitment of a Black Ark.
+
+The last one is so impactful. Black Arks are very powerful and will allow you to take the seas and dominate them if you wish.
+
+Climate is rather an issue. It is interesting that Lokhir has only unpleasant climate in the Chaos Wastelands... but Mountains are uninhabitable, which ensures he has one of the worst domination attempts if you try to go through the mountains. It is unfortunately a rather poor faction to try and dominate the map with.
+
+STARTING LOCATION:
+
+
+
+Your starting position is a 2 settlement province only. You do start with a Black Ark, which gives you already a unique position in terms of recruitment, since you can easily grow and recruit from there, instead of focusing so much on military in your settlements.
+
+Typical expansion will be to go into the coastal areas around Cathay, and then further inland and try to dominate Cathay for a solid base. After that point, every other possibility becomes viable, including using the sea lanes to go into other areas if you wish to try that long victory campaign somehow.
+
+DIPLOMACY AND OUTPOSTS:
+
+In terms of diplomacy, you are part of the Evil tide, and there are not a lot of possible friends nearby. Mostly you will be at war with Cathay and thus other order factions will dislike you.
+
+An alliance with Greenskins is indeed possible, as well as with the Skaven, so getting some of their ranged units and artillery, as well as some monsters here and there may prove useful.
+
+
+
+As for enemies, be ready as you will likely face nearly everything in your campaign, from Order to Chaos.
+
+MECHANICS OF THE RACE AND FACTION:
+
+Slaves. A currency, of sorts, it was modified from Warhammer 2 and it now globally generates income, with some nice buffs if you can obtain vast numbers of slaves.
+
+Slaves are used for Diktats, which provide lots of Control, Treasury, or Growth, whichever you select.
+
+Slaves can also be used now to rush construction, which is great.
+
+You also use Slaves for Rites. These include:
+
+1 - Sacrifice to Atharti, giving you a chance for Lords to gain 2 loyalty, and +8 control;
+2 - Sacrifice to Anath Raema, giving you +20% campaign movement range, income from razing settlements +50%, income from sacking settlements +50%, Black Ark growth +10, Armor +20 for Kharibdyss, Armor piercing missile damage +100% for Black Ark Corsairs units, and Corsairs can cause Fear and have Stalk.
+3 - Sacrifice to Khaine, giving you +25% casualties captured post-battle, +50% income from post-battle loot, +20% casualty replenishment rate, and the Dark Conduit army ability.
+4 - Sacrifice to Hekarti, giving you +10 Winds of Magic power reserve, +50% experience and +200 XP per turn for Sorceresses and Supreme Sorceresses, hero action success +40% for Sorceresses.
+
+All of these are quite significant, choose which one to apply wisely to benefit from it to the fullest.
+
+All your lords have Loyalty, which always has to be higher than 0 or the Lord will revolt and take his army with him, becoming a rival faction.
+
+Black Arks are mobile horde factions at sea, really. They assist in recruitment, replenishment, and have Bombardment abilities for armies that are in their range. Staying close to them will give you a nice edge on the battlefield inland.
+
+You are one of the few factions that can build the Shrine of Khaine and claim the Sword of Khaine naturally. It would actually be interesting for Lokhir, since he is already hated by many later on.
+
+One of the best mechanics is actually the Names of Power. At level 10, you can choose a Name of Power, with drastic implications to your Lord and army composition, as well as overall playstyle.
+
+
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4;
+Income from all buildings +5%
+Income from post-battle loot +5% (Factionwide!); recruit rank +1; Weapon strength +10%;
+Rush construction slave cost -10%; growth +20;
+Enemy hero action success chance -25%, ambush success chance +20%, chance of intercepting an army +25%;
+
+These were vastly improved from the previous ones before the latest patch. Now they are quite impactful and help you a lot, so be sure you use the best one for the current situation and adapt. Do not forget the factionwide income from post-battle loot, particularly when you are about to go to a string of battles.
+
+Army stances:
+
+Channeling gives you Winds of Magic +15 power reserve, and enables replenishment, at the cost of 10% movement;
+Raiding costs 25% movement, gives immunity to attrition, and slaves gained based on the strength of the army;
+Ambush costs 25% movement
+Forced march
+
+Note the lack of encampment, which implies you are never both replenishing and being immune to attrition. This further hinders conquests in uninhabitable terrain, for example.
+Warhammer 3 Immortal Empires Lokhir Fellheart - Dark Elves campaign overview, guide and second thoughts(continuation)
+BUILDINGS, RESEARCH:
+
+
+
+No Special buildings in your initial provinces. You do start with a Black Ark, though.
+
+7 Military buildings, where 3 of them can be built in minor settlements, though, and tier 3 units are quite excellent already: Shades, heavy infantry, artillery, cavalry, monsters... you have decent units to pick some fights.
+
+Infrastructure has an added effect when the number of slaves is higher than "X", which typically also includes reducing the number of slaves at that point:
+
+1 - Growth, casualty replenishment rate;
+2 - Income;
+3 - Control;
+4 - Control reduced; slaves used by buildings and diktats reduced;
+5 - Campaign movement range increased, income from trade tariffs, income from all buildings, income from slaves.
+
+Overall, good options and plenty of different choices to go in terms of armies.
+Research has a great tree that adds tons of nice bonuses for your units, and your campaign. Just ensure that you beline to the specific ones you wish to obtain to benefit from them very early on.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+Blue line includes upkeep reduction and replenishment rate reduced, as well as minus attrition, in the last part of the line. You have casualties captured bonuses in the first part, which could play out well.
+
+The redline proves to be rather average to expensive, mostly because you have Elite units separated from Low tier units, and cavalry split up from monsters. When you wish to have some variety in your armies, you might have to spend too many redline skills to buff the whole force.
+
+
+
+Lokhir enhances Corsairs a huge deal. Therefore, going with the ranged ones for me it seems a no brainer, but you can also use a combination of the ranged and melee variants. The first composition I showcase is incredibly good even into the lategame, and a nice change of pace with every unit being tier 3 or less. The other variants go more into a traditional composition with heavy infantry and monsters. Tons of firepower at close range, including the breath attacks.
+
+
+
+I then provide some combinations that go into the basic infantry with shades and cavalry, or with monster support.
+
+
+
+Beastmasters provide a lot of bonuses for monsters, so you can have some nice combinations with them for variety.
+
+
+
+FINAL NOTES:
+
+A nice change of pace from the other Dark Elves, and an interesting start position, if only a bit twarted by the climate issues.
+
+Lokhir proves to be a nice campaign to take advantage of the Sea Lanes mechanic, which I definitely advise you to do, in particular if you wish to accomplish long victory. The mountains will be a pain to dominate, so perhaps you should leave them for a later time.
+
+The focus on Black Arks and Corsairs proves to be a deadly combination and your faction is very powerful to control the seas. You can build up enough money from that control to continue building up armies and dominate even further.
+
+Your army consists of:
+
+1 - Great infantry
+2 - Great missiles
+3 - Great cavalry, but expensive;
+4 - Great single entities
+5 - Good Flyers
+6 - Armor piercing emphasis;
+7 - Lacks health;
+8 - Lacks some range;
+
+Replenishment is good, but climate is a pain really. Black Arks and Death Hags assist in this replenishment, but everything else seems to be an issue for you.
+
+Time to be the best pirate in the seas, with Lokhir Fellheart of the Dark Elves.

@@ -1,0 +1,169 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Ku+gath+Plaguefather&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940466023&searchtext=Ku+gath+Plaguefather
+GUIDE_TITLE=Steam Community :: Guide :: Warhammer 3 Immortal Empires Ku'gath Plaguefather - Nurgle overview, guide and second thoughts
+GUIDE_TEXT:
+Warhammer 3 Immortal Empires Ku'gath Plaguefather - Nurgle overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+For those that prefer to watch the video (and support me):
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Ku'gath Plaguefather - Nurgle overview, guide 
+Views: 870
+Time stamps: 00:01 Faction intro 00:34 Victory conditions 03:50 Starting location 05:14 Diplomacy 06:19 Mechanics 10:01 Province edicts and army stances 11:56 Buildings and research 15:11 Lords,...
+
+
+For those that prefer to read:
+
+VICTORY CONDITIONS:
+
+For our short victory conditions, we will be required to destroy the factions of Clan Helhein, Karak Azul, and the Caravan of Blue Roses (Ghorst). They are pretty far from one another, so this may take a bit of time.
+
+In addition, we need to control our initial province (a bit pointless, perhaps to force you to stay there instead of migrating), and to occupy, loot, raze or sack 35 different settlements.
+
+The reward is quite important, as winds of magic for a daemonic faction not only allows more magic but considerable buffs in battle.
+
+The long victory condition is quite lenghty. Achieve the short victory, occupy, loot, raze or sack 80 settlements, and destroy the Oracles of Tzeentch and Flaming Scribes located in the South Chaos Wastes.
+
+Should we achieve this, reward is +10 Lord recruit rank, decent to have better lords right as they start while you continue to domination or other victory types.
+
+Ku'gath is the Foetid Brewmaster, and has +10 growth, less recruit cost for Nurglings and recruit health increase for nurgling units. Basically he loves the little fellas.
+
+Climates are nearly all acceptable, he is just like Anakin and does not like sand, apparently. The main issue is how much terrain is mountain, which it is unpleasant to him, a shame in otherwise a great faction to dominate the map with.
+
+STARTING POSITION:
+
+Your starting province is a 4 settlement province, but you start on a minor one. It does have an unique building that gives some nice income and bonuses.
+
+It is really the best to defend, though, and the sea nearby implies you can benefit from any goodies at sea. You have to be careful from sea invasions, though, so keep an eye on it.
+
+Typical expansion will be to go towards Helman Ghorst and then proceed into the mountains and into the west. The lands of Cathay are a possibility, but it may delay the completion of your victory objectives.
+
+DIPLOMACY:
+
+Like most daemonic factions, everyone hates you. You can get some Skaven and some Ogres to like you if you swing their favor, though, and you totally should try that approach as soon as possible.
+You will have to fight vs Vampire Counts, Dwarfs, High Elves, Greenskins, Ogres, Tzeentch... etc.
+
+
+
+Outposts should then focus on anyone with missiles and good anti-large units, which you lack. Skaven with Stormvermin Halberds alongside their missile units, as well as Ogres with some Anti-large monstrous infantry/cavalry and missiles should be a wonderful addition to your armies.
+
+MECHANICS:
+
+- The cyclical buildings are an interesting mechanic. They are constantly upgrading, however, the initial building costs a lot. Take this into consideration, as careful planning is required.
+
+- Infections are a unique currency, used to summon cultists and to concoct plagues.
+
+- Plagues are your bread and butter. You need to combine some to benefit your armies and counter the enemy. If the enemy approaches and it is not plagued... reconsider your play and actions 😉 Ague is crazy good because attrition is so powerful.
+
+- Your units recruit instantly, although at half health. Nothing stops you from merging them, but that would imply a very costly roster indeed. However, this creates an amazing potential, as you have plenty of ways to replenish fast. You can literally create a 20 stack provided you have the gold for it.
+
+- Unholy manifestations allow some options:
+1- Casualty replenishment rate increase. The army cannot move, but this is excellent for a new army staying in a settlement just to recruit;
+2 - Plague spreading helps in every way;
+3 - Growth +350 is insane, and recruit costs?
+4 - Every settlement with a plague is amazing although costly. Perfect, however, to start a war against someone with a large empire, though.
+
+- Cults are rather interesting too, allowing some nice changes here and there when they show up, as well as giving you always line of sight of distant lands.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Province edicts are:
+
+corruption;
+plague chance and duration, which is crazy good in the right moment;
+control and reduced movement for enemies;
+cycle time for infrastructure is great, but keep an eye on it as you may wish to slow it down once they reach optimal income levels;
+
+Army stances are the typical ones, channeling costing 10%, encamp and raid at 50%, ambush at 25%. Kinda sad there is nothing specific for Nurgle.
+
+BUILDINGS:
+
+- Hands down has one of the most interesting concepts in the game with the cyclical buildings.
+
+- Growth and income are actually awesome, although it fluctuates. You never really ever run out of growth, but the income from every building keeps varying to insane degrees, between 50 and 500 sometimes. This is also something often overlooked, perhaps, because one turn you are earning a lot of money and the other turn it goes down because most buildings cycled to a lower income building. Keep an eye on them, or try to construct at a time that will imply you always have a great income building at least.
+
+- You have 5 military buildings, 3 of which can be built in minor settlements. Nearly no other faction has this ratio. They will allow their best units to be recruited once they cycle through them. Keep an eye out.
+
+The infrastructure goes like this:
+- Growth and income;
+- Control and income;
+- Replenishment, corruption, and income;
+- Cycle time reduction (!), enemy hero action chance reduced, reduced attrition and more leadership when under siege, and income.
+
+Note that these cycle as well. Your faction will have a ton of variation between turns, specially as you grow over 5+ provinces and it may become an issue trying to manage all of this. Be careful with it.
+
+Research is lengthy, but gives you better plagues, acts with the cycling mechanics, gives growth and other campaign bonuses, and also some needed upgrades for your units. Can't ask for more, really.
+
+
+Warhammer 3 Immortal Empires Ku'gath Plaguefather - Nurgle overview, guide and second thoughts (continuation)
+LORDS, SKILLS:
+
+- Ku'gath is insane both in melee and as caster/support. As you level him up, your army will have a distinct flavor compared to other armies that you may conscript.
+
+- He has replenishment, although other Herald Lords do not have it...
+
+- Blue line skills have upkeep, replenishment and growth in the last part, but are somewhat underwhelming in the first part of the line.
+
+- Redline is rather average; some good compositions without spending too many skills here are possible. There are differences between Heralds and chaos Sorcerer Lords in the Redline skills, so pay attention to ensure you get the finest troops you can.
+
+
+
+- Your heroes are available through the main building of a province. Plagueridden offer replenishment for your armies, which is great.
+
+- For a generalization, the Heralds have a typical focus on Armor and Melee Defense, so your units will always become harder and harder to kill. Chaos Sorcerer Lords have a much more rounded, with focus on Armor, Melee Defense, but also Melee attacks and damage. Note that they also buff Forsaken and Chaos Spawn, which may be of use.
+
+ARMY COMPOSITIONS:
+
+- Ku'gath gives so many advantages to Nurglings that you can just as well use them even throughout the game, specially because he can carry so well. Nothing wrong with having better units later, but it means he can keep going with some cheap units until much later. Some decent cavalry or infantry combos, and having those sweet Great Unclean ones are in order.
+
+
+
+- Heralds can perhaps go with something more thematic with Plaguebearers and Forsaken, supported by flyers or toads.
+
+
+
+- Finally, Chaos Sorcerer lords can lead your more elite armies of chosen and chaos knights, for quite a battlefield sight. The other advantage is that mortal units rout, which makes it so they can survive a battle in the end, unlike daemons who vanish.
+
+
+
+FINAL NOTES:
+Quite a wonderful faction to play as. Like every faction, difficulty lies in the beginning, so deal with the initial province as quick as possible, deal with Ghorst as soon as an opportunity presents itself.
+Income may be an issue to get a grasp of. However, raiding, sacking, and the nearby sea should be enough to at least give you the necessary options to overcome any bad moments.
+Growth is crazy good. You will most likely grow faster than anyone else, so go for it and capitalize on it.
+For the army:
+
+1 - Great Infantry;
+2 - Good cavalry;
+3 - Poor missile choices;
+4- Good single entities;
+5 - Good flying units;
+6 - Lacks good anti-large units;
+7 - Very, very slow.
+
+Replenishment is excellent, one of the best factions in the game for it. This should be your focus: take losses? Do not care. Lost units? Do not care. Keep going. Build and regrow and recruit and fight and the enemies will fall, like a garden of bad weeds that cannot be consumed.
+
+DEALING WITH GHORST:
+
+- Fire damage would be great. There are some heroes and lords that start with fire damage, if you can get one, great.
+
+-His strength is the Mortis engine and mass heals. So, prevent him and the other Mortis engine from getting there quickly. Slow them. Fire missiles at them. Cast magic on them. Sure, Ghorst can heal, but he cannot be everywhere.
+
+- Magic and Ku'gath range is excellent. The screenshots below show a battle vs Ghorst very early. Plague Drones attacked the Mortis Engine before it could be in melee, as well as Ku'gath; All the rest of his army is dealt with easily, just ensure that there is not a single blob of units. Spread out. Your units will singlehandedly win nearly 1v1 or even 1v2, so ensure you fight on your terms.
+
+- Any flyers were dealt with by my flyers, so that there is nothing to take out the Plague drones. They put down the Mortis Engine to nearly half health before it could even reach my army.
+
+- Once the Mortis engine is down, Ghorst is the next target. Spirit leech, and other direct spells work well, but keeping him busy by throwing your flyers to delay him supporting his army is a nice trick.
+
+Of course, this is subjective. The point is to try and work it out away from the pain, which is, when Mortis engine and Ghorst are both in melee surrounded by the undead army. That is death to your army as well, avoid that at all costs.
+
+Hope it helps. Please comment, let me know if you need a link for this.

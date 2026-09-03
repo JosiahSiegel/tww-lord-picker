@@ -1,0 +1,224 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Thorgrim+Grudgebearer&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=2940453404&searchtext=Thorgrim+Grudgebearer
+GUIDE_TITLE=Steam Community :: Guide :: Thorgrim Grudgebearer - Dwarfs 8.0 overview and 10 turns guide
+GUIDE_TEXT:
+Thorgrim Grudgebearer - Dwarfs patch 8 overview and 10 turns guide
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+For those that prefer to see the video:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Thorgrim Grudgebearer - Dwarfs overview, guide 
+Views: 693
+00:01 Faction intro 00:47 Victory conditions 03:27 Starting location 04:27 Diplomacy 05:36 Mechanics of the faction 07:39 Province edicts and army stances 08:53 Buildings and research 11:06 Lords,...
+
+
+If you wish to check out the new First 10 turns guide:
+
+
+YouTube™ Video: Thorgrim first 10 turns! Dwarfs Patch 6.3.3 Total War Warhammer 3 
+Views: 1,629
+Hi everyone, this is my view on Thorgrim for the first 10-14 turns. I go over my decisions and the first battles and showcase how I would do the initial stages of Thorgrim.
+
+
+For those that prefer to read:
+
+VICTORY CONDITION:
+
+Less than long victory:
+
+- Complete 2 Legendary Grudges.
+- Destroy the faction of the Crooked Moon (Skarsnik).
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +3 hero capacity for all heroes. Great to ensure you do not need a lot of buildings to have some scouts and heroes within your armies.
+
+This is a fairly welcome change in terms of less than long victory objectives, simply because it is quite open and in a sort of sandbox idea, which I love.
+
+Long victory:
+
+- Achieve the short victory conditions;
+- Occupy, loot, raze or sack 60 different settlements;
+- Complete 4 Legendary Grudges.
+
+The reward is +10 hero recruit rank, good to ensure our heroes continue to be strong as you recruit them for higher tier armies.
+
+In general, the campaign feels quite good because of its replay value, but do not by any means think that you will have no directions. The grudges will do that, and it will feel less sandbox; still better in that regard that other campaigns, though.
+
+Thorgrim has the Age of Retribution and has:
+
+- Diplomatic relations +20 with Dwarfs
+- Upkeep -15% for Longbeards and Hammerers
+- Recruit rank +3 for Hammerers
+- All commandments have more powerful effects
+- Gains extra High King Decrees
+- High King decrees +1
+
+All are very good, specially liking the High King decrees, which allows you to build the Deeps which is insanely powerful.
+
+Climate is average to good, basically, there are a lot of unpleasant and uninhabitable climates nearby, so be wary of your intended expansion going into those types. For the most part you can stick to the badlands and mountains for a great sprawling empire.
+
+STARTING LOCATION:
+
+
+
+Your initial province is comprised of 3 settlements, and it is highly defensible with nearly 2 avenues of attack.
+
+There are almost no 4 settlement provinces nearby. This implies you may always have to use two provinces for access to your full military.
+
+Typical expansion will go into the north to fight Skarsnik. Be careful with Gorbad to the South though. Most other options run the risk of overexpansion or just creating more issues, so be mindful. There are also great mines in the mountains that you should take advantage of for good income.
+
+First enemy is rather easy, and then Skarsnik and Gorbad will become the main threats. As you expand so will the number of enemies, so be careful with overextending and plan wisely. It is highly defensible, so exploit that if you can by luring the enemy to your position, then counterattacking as their armies are depleted.
+
+DIPLOMACY:
+
+You are part of the order tide. Empire, Bretonnia, Kislev, Cathay, and even the High Elves, will prove to be good allies.
+
+Your typical enemies will be Greenskins and Skaven early on, with Tomb Kings, Vampire Counts and others as you expand.
+
+Most Greenskins and Skaven will naturally declare war the second you meet them. Be prepared and have none of them as neighbors.
+
+As for Outposts, anything with cavalry is good. Try Empire, Bretonnia for it, but Kislev may prove interesting too.
+
+
+
+MECHANICS:
+
+You have some specific resources to use for specific mechanics, as usual.
+
+Oathgold allows you to purchase items at the forge. You collect this via different means, but mostly fighting or through buildings.
+
+
+
+- The Forge is basically a crafting mechanic, using your unique currency, Oathgold. You can craft items that reshape your heroes and lords. One of the main types of items is runes, either for characters or for units. These can drastically change a unit encouraging different compositions and more variety.
+
+
+
+- The Age of Reckoning mechanic asks you to destroy enemies and conquer settlements to accumulate Grudges. After some turns, the age ends, and you can either gain bonuses or penalties to growth, control, and upkeep for grudge settler units.
+
+
+
+- The Great book of grudges includes some specific missions to gain bonuses such as a "sea-lane" teleport function, confederation possibilities, or just informing you of the potential units of Grudge Settlers that you can earn via the Age of Reckoning.
+
+
+
+- The Deeps mechanic is basically a building that allows you a second tier of buildings to be unlocked. These have drastic effects on your overall campaign, and it is quite often the very reason why players can choose to play wide or tall with the Dwarfs. It uses High King Decrees to be built, and you can update the initial building to receive it back, thus continuing to build everywhere you want.
+
+
+
+- Another specific "mechanic" of sorts is how the Dwarfs have no magic but a specific lore of Runes. Instead of costing Winds of Magic it just has cooldowns, and you should study the effects to ensure that you can use it effectively.
+
+
+Thorgrim Grudgebearer - Dwarfs patch 8 overview and 10 turns guide part 2
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts (Note for Thorgrim these are buffed by his specific effect):
+
+- Control +4 and corruption -8;
+- Income from all buildings +10%; Oathgold from all buildings +10%
+- Recruitment cost reduced -25% and local recruit capacity increased +1;
+- Growth +25, construction cost reduced -10% and trade resources increased (factionwide) +5%;
+
+All are very good and balanced so you can use in a variety of circumstances very well.
+
+Army stances:
+
+- Underway is excellent, requires your full movement, but allows great tactical advantages since you ignore terrain; It also gives you some ambush defense chance.
+- Encamp requires 50% movement and enables replenishment and access to Global recruitment. It also denies attrition;
+- Raiding requires 50% movement and gives immunity to most attrition;
+- Ambush cost 25% movement
+- Forced march, exactly as all;
+
+BUILDINGS AND RESEARCH:
+
+
+
+Karaz-a-Karak has 3 special buildings, including a mine, with buffs to Gyrocopters and factionwide stuff like control and lord recruit rank.
+
+You need 7 buildings for maximum military, and 3 can be built in minor settlements. Most likely you need two provinces for full military;
+
+The only tier 5 unit is the Thunderbarge, which implies that the Dwarfs actually reach their elite top units much earlier than other factions.
+
+In addition, they have great tier 2 and 3 choices, including Grudge throwers, Longbeards, Thunderers, Gyrocopters and Irondrakes... Very good alternatives here.
+
+Infrastructure:
+
+1 - Growth and replenishment;
+2 - Income (great one); construction cost reduction;
+3 - Income (smaller one); oathgoald per turn;
+3 - Control and corruption reduction, resource (beer) producing
+
+All of these are great solutions and alternatives for your provinces to keep controlled and productive.
+
+Mount Gunbad's (close, to the North) special building might provide a great place to recruit artillery from, while Karak Eight Peaks should act as a nice replenishment area as you conquer the surrounding area.
+
+Research is one of the best around, but time consuming. It is now split between Campaign bonuses and Battle bonuses for your units. Study it well to ensure you always get the desired bonus for your current situation.
+
+
+
+LORDS, SKILLS:
+
+The blue line is rather expensive and has little to offer besides replenishment in the late part, and the very last one with research (!) and upkeep. You may just wish Lightning Strike and research, though, and that is still a good idea overall.
+
+Redline is one of the best in the game, offering great alternatives for unit compositions without having to spend too many skill points.
+
+
+
+As for other lords, the fact that Runelords require their Rune Magic to be effective implies some more skills being allocated; therefore, a Runesmith and using a Lord may yet be the better alternative, but nothing wrong with you choosing one or another.
+
+Slayer heroes offer that sweet replenishment now, although all of them have specific abilities that help specific units or the entire army. Master Engineers, for example, can replenish your units' ammunition, and give buffs to their damage, ammunition and accuracy. Perfect to stand them in the middle of your artillery or gunline.
+
+ARMY COMPOSITIONS:
+
+This is the army progression I used for Thorgrim, and you can check the video linked above to watch it being recruited and how to use it.
+
+
+
+I typically like to have a runesmith and a master engineer in my armies, but you can adapt to your own playstyle, of course.
+
+Thorgrim gets hammerers, and artillery; we can also go with a more standard line of Ironbreakers with some Thunderers and artillery for anything large coming up.You can also go the aerial route with Gyros and Thunderbarges.
+
+
+
+
+Lords provide some bonuses for melee units, so of course you can have some fun with this:
+
+
+
+As for Runelords, they have some choices to do, but nothing too important. Still, some options for you, ranging from low tier units to high tier units of course.
+
+
+
+Daemon Slayers have of course a nice focus on Slayer units, that is well complemented with some artillery or flyers.
+
+
+
+Of course, nothing wrong with having some basic templates here and there. I like to diversify, and while I usually either go thunderers or irondrakes, please note you can definitely use both if you want it ;)
+
+
+
+FINAL CONCLUSION:
+
+One of the richest factions in the game, due to the nearby mines early on, and the Deeps mechanic. Take the mines early, enhance with the edicts, start getting those deeps on, and bam, you can call yourself Uncle Scrooge.
+Thorgrim's start is quite the typical " fight Greenskins" start, but that makes it such a nice thematic one that I just love to play it out.
+Rune magic is quite interesting, cool buffs and debuffs, but does lack some damage unfortunately.
+The army itself suffers from being quite slow. It is difficult to flank, and if you have to advance on the enemy you may take casualties. One of the best armies to benefit from outposts.
+
+Your army consists of:
+
+Tough and reliable infantry;
+Good artillery and missiles;
+Powerful flying units;
+No cavalry;
+No typical magic;
+
+Plenty of replay value just because of the location and somewhat sandbox oriented faction, as you can always replay and go into another location. Certainly one that shall give you guys plenty of fun for many hours. Now, go play with Thorgrim Grudgebearer, people.

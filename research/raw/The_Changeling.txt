@@ -1,0 +1,187 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=The+Changeling&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3031244234&searchtext=The+Changeling
+GUIDE_TITLE=Steam Community :: Guide :: Total War: Warhammer 3 Immortal Empires The Changeling - Tzeentch campaign overview, guide and second thoughts
+GUIDE_TEXT:
+Total War: Warhammer 3 Immortal Empires The Changeling - Tzeentch campaign overview, guide and second thoughts
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Total War: Warhammer 3 Immortal Empires Changeling - Tzeentch overview, guide and second thoughts 
+Views: 639
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read:
+
+VICTORY CONDITION:
+
+Short victory:
+
+- Unlock and Win 2 Grand Scheme battles
+
+The reward is +30 Winds of Magic power reserve, which is of course is excellent for any Tzeentch faction overall.
+
+This is a very easy and very quick short campaign, great to get used to the playstyle too.
+
+Long victory:
+
+- Achieve the short victory
+- Unlock and Win 5 Grand Scheme battles
+- Win the Ultimate Scheme battle
+
+The reward is +10 lord recruit rank, of course excellent to ensure your new armies are lead by competent generals as you proceed into domination focus.
+
+The Changeling has a collection of faces, and benefits from:
+
+- Immunity to diplomatic penalties from trespassing;
+- Establishes trickster cults instead of occupying territory;
+- Can replenish and recruit in foreign territory;
+- Armies are hidden in regions with Trickster cult buildings;
+
+All of this combined gives the Changeling one of the more unique campaigns there is, perfect for those seeking a change.
+
+In terms of climate... there is no climate. No worries about it, go anywhere and enjoy the landscapes that you like the most to fight on. However, this is not the faction to dominate the whole map with, given its mechanics, more on that later.
+
+STARTING LOCATION:
+
+
+
+Your starting location is a 3 settlement province, right in the middle of the Empire. However, considering your mechanics, it is unfair to say you are surrounded; you can hide and conceal everything easily so that you can proceed wherever you wish to go.
+
+Typical expansion is therefore... difficult to say. You can of course dominate the Empire lands, but you can proceed further into the North, South, East... As you wish, really. It also depends which theatres you choose to go first.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically you are Chaos, but Tzeentch has way too many options available to change everything. Still, for the most part you are going to be friends with other Chaos factions, Norsca, Beastmen, with Greenskins and Ogres joining ideally.
+
+Order factions such as the Empire, Bretonnia, Dwarfs, will likely be your main enemies.
+
+Thus for outposts you can count on some good monstrous units from Norsca or the Ogres and some nice artillery and infantry from the Greenskins.
+
+
+
+MECHANICS OF THE RACE AND FACTION:
+
+Wrap around the main idea of this mechanic and faction: you do NOT own provinces; you own Cults. Each settlement can either become a military, simbiotic, or parasitic cult, where you can draw income from and other stuff from the enemy presence. Or lack of it, as you can have your cults in razed settlements and they are NOT destroyed whenever anyone razes the place.
+
+To construct buildings you not only need gold but also Cult Supplies, a unique currency. This is what will be hindering you from building too fast, almost as if working as a growth mechanic of sorts (it is not, but it is easier to think of it that way).
+
+Because the buildings may leech from the enemy settlement, it is often in your best interest for the enemy to actually develop their settlements well. However, if the settlement is razed, be sure to actually benefit a bit from it by having buildings that produce your own income (parasitic).
+
+You have a discoverability factor that is very important to notice, as currently it is the ONLY way you can ever lose a cult. If it is too high, you are discovered and the enemy can take you out.
+
+You have access to Changing of the Ways, powerful effects that you unlock with research and that costs Grimoires, your second currency. These effects are what makes the faction feel in control of all the Chaos you wish to unleash.
+
+
+
+Schemes are a series of missions that end up in battles, and they all give you rewards upon completion. These are tied into the victory objectives. There are minor and grand schemes, and you have 9 theatres of war all over the world to decide to interact with. You later have the ultimate Scheme, a final battle for victory.
+
+
+
+A wonderful specific mechanic with tons of replay value is how the Changeling can shapeshift in battle into any Legendary Lord you have defeated or allied with. This alone is another level of trolling in the world, worthy of Tzeentch indeed.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts: none. You do not actually own the provinces, only have cults there.
+
+Army stances:
+
+- Teleport, which allows you to go anywhere in range regardless of terrain and still attack whatever is nearby. Costs 40 Winds of Magic to activate. It also makes you immune to attrition.
+- Channeling, costing 10% movement for +15 Winds of Magic per turn;
+- Encamp, giving you global recruitment, replenishment and immunity to attrition for 50% movement;
+- Raiding, costing 50% movement, giving immunity to attrition;
+- Ambush, costs 25% movement
+- Forced march
+
+Another "stance" of sorts is how all your armies are hidden if present in a region with a Trickster cult. Adding to this, the Teleport is an excellent way to surprise any enemies since you can move closer to your target undetected and just teleport to it.
+Total War: Warhammer 3 Immortal Empires The Changeling - Tzeentch campaign overview, guide and second thoughts(continuation)
+BUILDINGS AND RESEARCH:
+
+
+
+Buildings are rather different for the Changeling. You have Military, Symbiotic, and Parasitic buildings.
+
+Military you have 5 buildings, and they can all be built in any of your settlements. They all, however, have some discoverability, so be careful.
+
+Symbiotic provide reduced discoverability (not all, be wary), and leech upon the enemy settlement.
+Parasitic grant greater rewards but also make the enemy settlement worse by adding negative stats to them, such as reduced control. They also increase discoverability.
+
+Both of these include buildings that have a tier 5 possibility with a grand effect, such as an army spawning in the location or plundering the settlement upon completion.
+
+Each building costs Gold (Favor) and Cult Supplies, and it is unlikely you will have every single building constrcuted on any given province because of the discoverability rating.
+
+Symbiotic infrastructure includes:
+
+- Cult supplies, grimoires per turn, control and reduced discoverability;
+- Income from local settlement, income from all buildings, reduced discoverability;
+- Chance to expand the cult to adjacent regions, maintenance cost and increased discoverability;
+- Diplomatic relations improved with the owner, winds of Magic increasing, reduced discoverability;
+
+Parasitic Infrastructure includes:
+
+- Cult supplies, grimoires per turn, reduced control, Tzeentch corruption, increased discoverability;
+- Income per turn, Tzeentch corruption, reduced income from buildings, increased discoverability;
+- Chance to expand the cult to adjacent regions, maintenance cost, increased discoverability;
+- Diplomatic relations with Chaos, Norsca, Beastmen and Tzeentch improved, casualty replenishment, Tzeentch corruption, maintenance cost and increased discoverability.
+
+Just keep an eye out for that discoverability and you should be fine.
+
+In terms of research, it is unique and gives you Army or Unit benefits, Changing of the Ways unlocks, Trickster Cultists unlocks, Trickster Rifts unlocks, and Winds of Magic focus, all very neatly organized.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+Blue line has replenishment and upkeep reduction in the last part, as well as more Grimoires per turn.
+
+Redline is quite good, allowing different combinations. Be mindful that this changes between Herald redline and Chaos Lord redline, with drastic results depending on which unit (check my spreadsheet for it).
+
+
+
+Magic is very good, even though you have only 3 lores of magic available. They still allow you a lot of flexibility on the battlefield and tons of damage if you need.
+
+The Changeling gives some bonuses to Spawn, Forsaken, and Mutalith Vortex Beast, as well as debuffs for the enemy. An interesting skill is how it gives bonuses to units from Outposts, so be encouraged to take a few and benefit from it.
+
+
+
+For the most part, armies led by Heralds are more focused on Daemonic units, while armies under Chaos lords give better stats to Human units such as Chosen or Chaos Knights.
+
+
+
+The variety in combinations is very possible because of how many units are actually buffed by the redline skills alone. Chosen and Exalted Pinks with cavalry or monster support is what I consider very balanced and solid, but you can have plenty of doomstacks with this roster if that is your take. Cockatrices are good for the poison, and flying power is never something to underestimate.
+
+
+
+There is no hero that gives you replenishment, even though the Changeling has its own ways to increase in campaign overall.
+
+FINAL NOTES:
+
+The Changeling has a unique campaign in that it... never actually ends. This is not a campaign to own the entire world or raze everything. You can certainly aim to have a cult everywhere, but the world will still exist alongside you.
+
+You can of course try to raze the whole world but that would be a monumental task (challenge anyone?). Instead, this is a campaign to have fun and troll around with the world, influence the other factions, create the most absurd scenarios, play as Tzeentch and create chaos among the world, basically. Just as planned.
+
+You will find some strange happiness being in this sort of alternate reality where your enemies are near your forces and cannot see them. Casually moving closer until you decide to strike.
+
+Your army consists of:
+
+1 - Great infantry
+2 - Good missiles
+3 - Good monstrous infantry
+4 - Great cavalry
+5 - Great flyers
+6 - Great single entities
+7 - Lacks research bonuses
+8 - Relies a bit on magic overall
+
+Replenishment is great due to the climate and because of the Changelings mechanics, replenishing in foreign territory should not be underestimated.
+
+So now, "you can be anything you want to be", as the Changeling of Tzeentch.

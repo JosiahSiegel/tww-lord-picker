@@ -1,0 +1,218 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Malakai+Makaisson&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3249889122&searchtext=Malakai+Makaisson
+GUIDE_TITLE=Steam Community :: Guide :: Malakai Makaisson - Dwarfs overview Total War: Warhammer 3 Immortal Empires
+GUIDE_TEXT:
+Malakai Makaisson - Dwarfs overview Total War: Warhammer 3 Immortal Empires
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, here it goes:
+
+
+YouTube™ Video: Malakai Makaisson - Dwarfs overview Total War: Warhammer 3 Immortal Empires 
+Views: 936
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read, here we go:
+
+VICTORY CONDITIONS:
+
+Short Victory:
+
+- Complete 4 legendary battles in Malakai's adventures;
+- Destroy the factions of the Warhost of the apocalypse (Archaon) and the Disciples of Hashut (Astragoth);
+- Occupy, loot, raze or sack 30 different settlements.
+
+The reward is +3 hero capacity for all heroes, which is great as always to ensure you have a healthy number of agents on the map or heroes in your armies without having necessarily to build a ton of buildings for them.
+
+This is somewhat an average to long short victory, really, as it may take some time to achieve it and you do start nearly surrounded by enemies.
+
+Long Victory:
+
+- Achieve the short victory;
+- Occupy, loot, raze or sack 70 different settlements;
+- Complete all Legendary Battles (7) in Malakai's adventures;
+- Destroy the factions of The Legion of Azgorh (Drazhoath), Servants of the Conclave and Grimgor's 'Ardboyz (Grimgor);
+
+The reward is +10 hero recruit rank, useful to get those heroes really powerful on the get go, particularly nice for getting their specific army bonuses.
+
+This is a lengthy long victory, with the only advantage being that it sets you up truly into the Chaos Dwarfs lands for further conquests. The Chaos presence in the North might be a big problem if you continuously only defend against it, hence why it may take time to achieve.
+
+Malakai is the Slayer Engineer Extraordinaire, and has the benefits of:
+
+- Access to Malakai's adventures, enabling powerful war machine and artillery modifications and unique legendary battles;
+- Starts the campaign with Gotrek and Felix (!)
+- Upkeep -15% for artillery and flying war machine units;
+- Recruit rank +3 for artillery and flying war machine units;
+
+Overall, a huge amount of bonuses for creating all kinds of fireworks from the early to the lategame. Gotrek and Felix starting with you gives you a formidable campaign already. If you are struggling early on, consider giving them to your second army as Malakai can handle things himself a bit.
+
+Climate is good, considering your location and goals. It is not that advisable to move towards the Chaos Lands, but Norsca, even Empire and Kislev lands are good for you. Thus, following the long victory conditions you shall see mostly good climate, perfect to later get a nice domination victory.
+
+STARTING LOCATION:
+
+
+
+Your starting location is a 3 settlement province, and you have access to the sea so there is a chance of acquiring some goodies there. You also have a sea lane nearby that you may use for some variety and choice.
+
+However, the presence of very few allies and tons of enemies make this a very tough campaign to beat. You have the mechanics for it, but for certain you should count on having multiple wars and multiple fronts right from the start, and you have to prepare for it. A second army very early is quite important.
+
+Typical expansion is to dominate the early enemies, go after Throt, to avoid him later on, and proceed into the Chaos Dwarf lands and against Archaon. However, be mindful of Norsca and Chaos attacks, and potentially even Kislev (Kostaltyn might dislike if you have any relationship with Katarin), so be careful.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically you are part of the order tide. Empire, Kislev, Bretonnia, eventually Cathay, all can become your close allies if you nurture them.
+
+Enemies are clearly all of Chaos and Norsca, including Chaos Dwarfs, and also Skaven and Greenskins. Depending on your chosen path of conquest later on you might find Dark Elves or Ogres, so prepare for it.
+
+
+
+Outposts therefore should be awesome in gaining some cavalry units from those friendlies, maybe some of their single entities or flyers!
+
+MECHANICS OF THE RACE AND FACTION:
+
+
+
+The Forge is a crafting mechanic. You collect Oathgold after battles and via some buildings, as well as quests, and use that to improve your characters by obtaining items. You also obtain runes which can grant specific units some abilities or stat increases.
+
+
+
+The Age of Reckoning is a new addition to the Dwarf mechanics. You have several tiers requiring each a certain amount of Grudges to be settled. You acquire these by fighting your enemies, taking over their settlements. The worse they have conducted against you, the more grudges they will have incurred.
+
+After 15 turns, the result is checked and you obtain either the penalties or the rewards given by that tier that you have arrived to. This encourages you to go against high value targets and to continuously be on the offensive with your faction.
+
+You have Grudge Settler units, which are special versions of basic units. These can be formidable additions in combat, you are encouraged to check all their abilities to come up with different possibilities in battle.
+
+
+
+There is also the Book of Grudges, now reformed. You have Legendary Grudges available, which are a series of great missions, almost like victory conditions. The rewards are very good, including the possibility of restoring the Underway Network, a special teleporting system. You can also confederate the other Dwarf lords by spending Grudges.
+
+
+
+Malakai himself has his adventures, which are also part of his Victory conditions. These are a series of missions that you may choose to embark upon, that will significantly improve your artillery and war machines in the process. There are specific rewards provided by the legendary battles that are completed too.
+
+Lastly, Malakai has a horde style building for himself with his Spirit of Grungi Airship, so you can use him as a horde faction of sorts. Because he has an area of influence around him you can provide some benefits to your other armies, depending on what buildings you have completed.
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Control +4 Corruption -3
+Oathgold from buildings +10%, income from buildings +5%
+Recruitment cost -10%, local recruit capacity +1
+Growth +15, construction costs -10%, Tradable resources +5%
+
+Army stances:
+
+Underway (Malakai has a special one with the airship that does not have any negatives);
+Encamp, costing 50% movement, enabling replenishment and immunity to attrition. (Malakai has a special one without Ambush defense);
+Raiding, costing 50% movement, granting immunity to attrition;
+Ambush, costing 25% movement;
+Forced march
+
+Overall some great choices and perfect for the race itself, just sad that there is nothing concerning research in the edicts. Remember to use the Underway stance to navigate difficult terrain.
+Malakai Makaisson - Dwarfs overview Total War: Warhammer 3 Immortal Empires part 2
+BUILDINGS, RESEARCH:
+
+
+
+Kraka Drak has a special building and a nice resource building for Gemstones. The Silver Hall provides income, Thane recruitment bonuses, as well as recruit capacity +1;
+
+Gemstones resource building gives income and tradable resources as well as reduced upkeep for hammerers and ironbreakers factionwide, which is always good, in addition to recruit bonuses for those units in the province.
+
+You require 7 military buildings for full military, of which 4 are required to be built fully in the capital. There have been some changes in the Thrones of Decay patch and many units now only require tier 2, making Dwarfs really powerful already by tier 3. Upper tiers of units including of course the better Slayer units, Ironbreakers, and Thunderbarges.
+
+In terms of Infrastructure, you have:
+
+Growth and replenishment building
+Income and reduced construction building
+Income and Oathgold generated per turn building
+Control, Dwarf Beer production, and less corruption building
+
+Perfect set of buildings to ensure you get to keep your provinces growing, happy, and profitable.
+
+
+
+As per Malakai's unique horde buildings, he can recruit most units, and particularly the better Slayer units at tier 3. In terms of Infrastructure, he has:
+
+Unit experience in armies nearby
+Upkeep reduction and recruitment cost nearby
+Airship recruit capacity +2 and circle of influence size increase
+Campaign movement and army ability for nearby armies
+Less attrition for nearby armies, casualty replenishment increase and airship crew growth.
+
+This is a perfect set to conduct invasions in uninhabitable climate, so if you are considering attacking Chaos lands, make sure you bring Malakai along together with other armies to gain these benefits.
+
+
+
+In terms of research, it has been modified into two sets: One is focused in campaign, with growth, income, and diplomacy improvements, while another is focused on untis and the army. It is not smaller but much more powerful at the same time, because you can quickly upgrade the specific units you desire for better battle capabilities, or swiftly increase your economy or growth if needed.
+
+LORDS, SKILLS:
+
+Blue line does have replenishment in the second part of the line, lacking upkeep reduction. The last skill is important to note has research rate increase and some upkeep reduction, so very worth your time.
+
+
+
+Redline is probably one of the best in the game, allowing solid compositions and a lot of variety. It has been modified slightly, with Bolt Throwers now in the artillery side, for example. Of particular note is that all Slayers are in one single redline skill, which is perfect for Malakai.
+
+The new Slayer Lord and hero are great additions too, mainly because they embrace the playstyle very well and provide enough benefits to a Slayer based army to allow you that focus.
+
+As for Lords, Runelords require their Runemagic to be more effective, so you may prefer to run hero Runesmiths instead.
+
+One of the finest recent changes is how the Slayer hero has replenishment, finally, which helps a lot in ensuring your armies keep pushing the enemy away.
+
+
+ARMY COMPOSITIONS:
+
+See below all the templates while reading for better understanding.
+
+
+
+Malakai heavily implies a Slayer based style with war machines and artillery support. It is entirely up to you to embrace this or not, and also if you wish to bring Gotrek and Felix along or use them in a second army.
+
+I use some combinations of Slayers and Airships as well as a more typical Dwarf army with ranged units. Slayer pirates become quite good hybrids, although somewhat squishy, but you can use them together with the more sturdy Ironbreakers for a really solid frontline.
+
+
+
+Lords can be used to have some basic straight up combinations or you can embrace the slayers too. Whenever I bring any good range, I like to include an Engineer hero in the army at least. Slayer hero is very much fundamental due to the anti-large and replenishment capacity.
+
+
+
+Runelords have some choice concerning given your army some melee attack or physical resistance or casualty replenishment, so you can have quite some varied armies with them.
+
+
+
+As for the Daemon Slayers, the theme is very simple, and you have guessed it: Slayers armies. Whether you prefer to use artillery or war machines together with them, it is up to you. Special note for the third army I present there, being a fully vanguard deployable army by the lategame, which can create a nice rush army for the Dwarfs. Not useful vs all opponents, but should give you some options for variety.
+
+A good note: the more buffs you have for Slayers, the more it is important to have them all in order to actually be able to field some of these armies. However, given the war machines and artillery focus of Malakai, you should always have a few of those to greatly reduce the enemy numbers before contact is made.
+
+
+
+FINAL NOTES:
+
+Malakai's unique mechanics really help to combat the mid to lategame decision making situations that I mentioned sometimes. You will always have something to do, either one more adventure, one more victory condition goal to achieve, one more legendary grudge. While you are on your way for your own goals for your campaign, you will have plenty to do.
+
+Adding to this, the unique location creates a lot of early challenges specially concerning how you will deal with so many nearby enemies. Expect this campaign to be seriously action packed. If you find yourself struggling early on, consider having Gotrek and Felix on a secondary army so they shine on their own, while Malakai can have his Slayers and war machines to continue the fight elsewhere.
+
+The army has changed quite a bit, from a slow and cumbersome army, to one much faster and with more options. It is great to heavily modify the playstyle of the Dwarfs and allow much more variety.
+
+Your army consists of:
+
+1 - Great infantry
+2 - Great missiles and artillery
+3 - Good flyers (Thunderbarge OP;))
+4 - No cavalry
+5 - Specific rune magic
+
+Replenishment is now great, including mechanics, lord skills and slayer hero. It should be a decent campaign to try domination with.
+
+It is time now to get to the workshop and engineer your way to victory with Malakai Makaisson, of the Dwarfs.

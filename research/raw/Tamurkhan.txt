@@ -1,0 +1,202 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Tamurkhan&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3251093077&searchtext=Tamurkhan
+GUIDE_TITLE=Steam Community :: Guide :: Tamurkhan - Nurgle overview Total War: Warhammer 3 Immortal Empires
+GUIDE_TEXT:
+Tamurkhan - Nurgle overview Total War: Warhammer 3 Immortal Empires
+Hello everyone. In this guide I will cover:
+- Victory conditions, faction and climate;
+- Starting location;
+- Diplomacy and outposts;
+- Mechanics of the race and faction;
+- Province edicts and army stances;
+- Buildings and research;
+- Lords and skills;
+- Army compositions;
+And give you my final notes on the specific faction. Hope you enjoy it.
+
+If you prefer to watch the video, it also helps to support me:
+
+
+YouTube™ Video: Tamurkhan - Nurgle overview Total War: Warhammer 3 Immortal Empires 
+Views: 789
+Hello everyone. This is what I check out for when I wish to play a campaign, a very brief overview of what I believe will happen during the campaign, as well as my initial thoughts on matters such as...
+
+
+If you prefer to read:
+
+VICTORY CONDITIONS:
+
+Short victory:
+
+- Complete 6 (or3?) chieftain devoted battles (tooltip may be wrong on this one)
+- Destroy the factions of the Heralds of the Tempest (Kholek), Grimgor's 'Ardboyz (Grimgor) and Goldtooth (Greasus Goldtooth);
+
+The reward is +30 Winds of MAgic power reserve to all armies, really good for Nurgle to ensure you always have some casting possibilities when fighting.
+
+A relatively short campaign, and mainly giving you one direction to proceed into. Just perfect.
+
+Long Victory:
+
+- Achieve the short victory
+- Complete 6 chieftain devoted battles (likely implying the short needs 3)
+- Control the settlement of Nuln either directly or via vassals/allies
+
+The reward is +10 lord recruit rank, useful as always to ensure your lords are much better as you recruit new armies to continue your expansion.
+
+Long victory takes a turn and kinda forces you to go into the Empire lands. This implies a little bit of a detour concerning what the Short victory goes for, which is why it may take quite a while to succeed.
+
+Tamurkhan is the chosen maggot, and benefits from:
+
+- Access to Chieftains providing unique heroes, units and abilities.
+- Campaign movement range +10% for all armies
+- Recruitment health +10% for all non-daemonic armies.
+
+A nice set of benefits, and one that sets you on a non-daemonic, mortal units path. It should be embraced, so you have a different Nurgle playthrough than with other lords.
+
+Climate is very good. Uninhabitable desert is really the only issue, but the rest of it is quite nice and as always a great campaign to try domination or full map clearance with.
+
+STARTING LOCATION:
+
+
+
+Your starting location is a 2 settlement province, and there are a few 3 and 4 settlement provinces nearby should you wish to have some better military provinces.
+
+You are quite in the middle of the corridor, but for the most part it is a secure position as most threats will be in your own path of conquest.
+
+Typical expansion is therefore to go south of your position right against Kholek and through the mountains to get Grimgor and Greasus too. Should you wish to prolong the fight and go into Cathay it is up to you, but a reminder that Nuln, in the Empire lands, is a target for your long campaign goals.
+
+DIPLOMACY AND OUTPOSTS:
+
+Diplomatically you are part of Chaos. Kind of. Norsca, Chaos factions, Chaos Dwarfs, are likely to be your allies for the most part. Skaven and Ogres are a possibility, but a reminder that you have to defeat Greasus for the victory goals.
+
+Enemies will be varied then, because you also have enemies within Chaos forces. Expect to fight Warriors of Chaos, Norsca, Greenskins and Ogres just for your short victory, but also the Order tide including the Empire and Kislev when you try to go for the long victory. Dwarfs may become a threat too.
+
+
+
+Outposts will likely come in the form of the Skaven, possibly some of the Ogre factions too. I would recommend getting their missile units to consolidate your forces.
+
+MECHANICS OF THE RACE AND FACTION:
+
+
+
+Nurgle factions revolve around plagues, and these have been reworked. You have infections, gained mainly via battles, which you use then for your plague generation. You have to select the target settlement or army then choose three symptoms to create a plague. You can modify these by paying a few more infections to extend their duration, for instance.
+
+
+
+You can also spend infections to summon a cultist, who will spread plagues to enemy settlements and armies.
+
+Nurgle forces are recruited from a pool of units that keeps replenishing. When they are recruited, they are not in full strength and need to replenish first, with the advantage that you can recruit plenty at once. Embrace this to create vast armies quickly when you need them only.
+
+Nurgle buildings are also cyclical, meaning that they cost infections the first time and then evolve alone at no further cost. Depending on different factors that affect cycle time. With each cycle comes a different effect or units available to recruit. You can also use infections to instantly cycle to the next level of a building if you need.
+
+
+
+Tamurkhan has the chieftains mechanic. You gain dominance, a unique currency, via winning battles, and you can spend those to purchase units from each chieftain or their abilities. Each different chieftain has also a fealty level which increases via actions you take in the campaign and gives you better bonuses the more you complete the tasks they want. This allows some great variety, some nice units in Nurgle's gameplay which is really welcoming.
+
+
+
+PROVINCE EDICTS AND ARMY STANCES:
+
+Edicts:
+
+Plague duration +1, chance of a plague spreading +10%;
+Control +4, Growth +20;
+Rush cycle cost -10%, recruitment cost -10%;
+Infections +5 per turn, Nurgle corruption +2, adjacent provinces +1;
+
+Army stances:
+
+Channeling, costing 10% movement, granting +15 Winds of Magic reserves per turn.
+Encamp, costs 50% movement, grants replenishment, global recruitment, and immunity to attrition
+Raiding, costing 50% movement, immunity to attrition
+Ambush, costs 25% movement
+Forced march
+
+Overall very thematic, if unfortunately slightly modified from the previous system that included an edict to reduce cycle time. Currently it is more set into extending the duration of plagues and their chance of spreading instead.
+Tamurkhan - Nurgle overview Total War: Warhammer 3 Immortal Empires part 2
+BUILDINGS, RESEARCH:
+
+
+
+You have a specific building in the Gallows Tree that gives plague immunity duration -1, chance of a plague spreading +5% factionwide, as well as +5 Nurgle corruption. A must, to ensure all your plagues keep spreading well.
+
+
+
+You have 5 military buildings, and only two are required in a capital. In addition, defensive buildings are the ones providing heroes and hero capacity.
+
+Because of how buildings are cyclical, you are not always able to recruit the specific units and must be on alert to ensure you recruit when they are available.
+
+As per infrastructure:
+
+1 - Infections per turn, control
+2 - Income
+3 - Growth and Nurgle corruption
+4 - Recruitment cost reduced, recruitment health increased
+
+A decent set of infrastructure buildings, but should be noted that you also have effects if your growth is more than 200 or if you are with 5 population surplus. Keep an eye on your growth to ensure you benefit from these.
+
+Research has now been reworked and it is much better. It is split into two areas:
+
+
+
+Faction, with benefits for plagues, diplomacy, income, growth, etc.
+
+
+
+Military, with benefits to your forces, split into three branches of Infantry, cavalry-flyers, beasts. It is now much easier and better to obtain early benefits for the units you aim to field right from the start.
+
+LORDS, SKILLS, ARMY COMPOSITIONS:
+
+Blueline skills include upkeep reduction in the first part, and replenishment combined with growth in the last part. A note for renowned and feared (last skill) is how it provides upkeep reduction and +1 recruit rank for all units, which is something Nurgle was lacking.
+
+The redline skills are split into two different redlines depending which lord is used. One for the Heralds, and another one for the Chaos Lords. Should be noted Tamurkhan has the Herald redline, although going heavily into Mortal units.
+
+
+
+They have some differences as to how a unit will become later on after all benefits, but typically with Heralds you might want to invest into Daemonic units, while with Chaos Lords you might want to invest in Mortal units.
+
+Heralds have mostly units split according to their role, whether it is infantry, cavalry, flyers, beasts... as you can see below, good combinations of benefits across melee attack and defense as well as some resistances.
+
+
+
+Chaos Lords redline skills splits units more into Mortal and Daemonic units, and there is a certain favoring of more armor and survivability, while still having some nice melee attack and weapon damage benefits overall.
+
+In terms of Heroes, remember that Plagueridden are the ones with the replenishment ability, while cultists have the summons. The Exalted hero also has the possibility of some extra replenishment for your forces if you wish.
+
+
+
+Tamurkhan can have a variety of armies considering the Chieftain mechanic, so I decided to get some choices using only one of them, first with the chaos dwarf chieftain, and then with the Chaos lord, and finally with the Nurgle Chieftain.
+
+He focuses well on mortal units and Plague Ogres, so why not trying out some of those armies. If you prefer to run only Rot Knights and Toad Dragons instead of some Plague Ogres, by all means. Of course, also fine if you like having some combinations of the Chieftain units.
+
+
+
+Chaos Lords typically work best with the mortal units giving them an extra 10% physical resistance combined with the already good redline skills they have for those mortal units.
+
+
+
+Chaos sorcerer lords have the possibility of trying to run some basic armies with Forsaken and chaos spawn, mainly to allow some flexibility and variety. Although perfectly fine that you eventually evolve into the Chosen-Chaos Knight armies, remember Forsaken will get Perfect vigour, perfect for siege-laddering 😉
+
+
+
+Finally, Heralds can have some armies based further in the Daemons of Nurgle, which is always great to keep it thematic. You can attempt the last army I show as a reinforcing army, specially great for sieges with all the flyers, but very fast overall, which is not something Nurgle is known for.
+
+FINAL NOTES:
+
+Tamurkhan is a perfect lord for something different. The unique mechanic of the Chieftains allows so much variety in the gameplay that one could not write down all of the possibilities.
+
+Therefore, the aim here is to just have fun with a Nurgle faction that can easily and seamlessly adopt other playstyles in battle given the units it has access to. I recommend using each chieftain on a different army just to have a ton of variety, but that is up to you, as always.
+
+Your army (Nurgle units only!) consists of:
+
+1 - Great infantry
+2 - Great cavalry
+3 - Average missiles
+4 - Great single entities
+5 - Good flyers
+6 - Very slow
+7 - Cycling recruitment system
+
+Replenishment is great. One of the best factions for it, actually, however., be mindful that units start lower in health and accomodate for that factor. Note that no matter what your losses are you are easily able to gather a full force if you have money for it, really fast, so use it to your advantage.
+
+I believe now it is time to set on a campaign of conquest, with Tamurkhan of Nurgle!

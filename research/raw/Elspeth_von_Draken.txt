@@ -1,0 +1,141 @@
+SEARCH_URL=https://steamcommunity.com/app/1142710/guides/?searchText=Elspeth+von+Draken&browsefilter=trend
+GUIDE_URL=https://steamcommunity.com/sharedfiles/filedetails/?id=3576220499&searchtext=Elspeth+von+Draken
+GUIDE_TITLE=Steam Community :: Guide :: [L/VH] Elspeth von Draken Guide (Immortal Empires)
+GUIDE_TEXT:
+First 20 Turns
+In the first 20 turns, your main objective is to:
+1. Take starting province
+2. Take Pfeildorf province and Fort Soll
+3. Kill Vlad
+4. Start building up Castle Drakenhof as your main city.
+
+Taking the starting province, the Pfeildorf province, and Fort Soll at the start of the game is probably something you should do in every Elspeth campaign.
+
+Your main army comp at first will be Spearmen for frontline, and 3x Master Engineer Lord for damage. Each Master Engineer can get hundreds of kills per battle with their grenade launcher weapon, and bringing 3x of them in each fight will ensure you win every field and siege battle.
+
+Once you've taken these regions, it's time to take on Vlad. You want to rush him as soon as possible, otherwise bad things can happen like him taking over other empire lands and becoming very strong, or other factions like Dwarves taking over Vlad's territory, denying you profitable green territory.
+
+Before taking on Vlad, I HIGHLY recommend building a Gardens of Morr in Pfeildorf, building a Militia of Morr in it, and recruiting 4x Knights of the Black Rose. Getting this excellent T3 cav unit with 50 melee defense AND anti-infantry attack bonus before turn 10 is pretty OP and will make sure you can inflict a lot of damage on Vlad's forces. The Militia of Morr will also give you -25% upkeep cost in adjacent provinces, allowing you to recruit 1.5 full stacks for the initial battle with Vlad, while still having positive income.
+
+Once you have your 1.5 stacks with 4x Knights of the Black Rose, head over to Akendorf (get military access with him) and try to take a favorable fight against Vlad. Vlad will nearly always try to capture The Moot with 2-3 full stacks, so your objective is to get a good engagement (lay ambush, or try to pick off one army first), and then try to clean up the rest. Note that most of Vlad's strength is his initial army. Even if you lose the initial few fights, if you can kill all of his high-tier units, the next armies he recruits will be way weaker, and you will eventually beat him.
+
+Some battle tips:
+1. Vlad's armies have a lot of scary single entities (including Isabella and Vlad himself), but you can counter them with 4-6 handgunners, and Elspeth's Spirit Leech skill.
+2. Vlad also has many bat and fast cavalry units that can completely disable your guns/artillery if you are not careful, but you can counter this with Knights of the Black Rose.
+3. Blobs of vampire infantry can be countered by the Master Engineer Lord's grenade launcher weapon.
+
+Once you've beaten the initial 2-3 armies of Vlad, you've basically won the whole campaign! You can then easily win the siege battles against Templehof/Drakenhof using your Helstorm Rocket Battery, and then take all of his lands for a huge amount of income. Drakenhof is also 10-slot, so I recommend making that your "capital" and building a lot of recruitment buildings there.
+
+With regard to Research, I like to go Grain Silos first for the replenishment and growth, then the +2 control tech. After that, you can really just take whatever you want.
+Main Campaign Strategy
+Once you've killed Vlad, you've entered the peaceful part of the campaign where you can kind of just sit back, build tall, and decide what you want to do next.
+
+You have many options here, but I think the most consistent line of play is to ally with Kislev, the Dwarves, and the Wood Elves, and try to push south at some point. First, I would recommend helping Ungrim take out Azhag, if Azhag is getting big. After that, I would avoid trying to push north because there's nothing there except the chaos wastes, which is red territory, and you can end up getting dragged into endless wars that really suck. Whereas if you go south, yes there is an initial area where it's red territory, but after you push past that, it's nothing but green.
+
+Going south, you mainly have to worry about Gorbad Ironclaw, Clan Mors, Clan Rictus, Skarbrand, and eventually Kairos. The main bad thing that can happen is Gorbad declaring war on you early and sending many full stacks into your territory with Waagh's, but other than that, it should be pretty straightforward to push forwards and kill everyone.
+
+Regarding Karl Franz - I would definitely try to Confederate him at some point for the massive land grab, but I don't think it's good to do it too early, because then your borders will be super exposed. But, if you wait too long, he could become so big that he will never confederate you for the whole game. The main idea, I think, is to Military Ally him, wait until you're pretty strong and have relatively secure borders, drag him into several wars, and then confederate him when you're ready. But there is absolutely no rush - AI Karl Franz is pretty darn good at securing the entire top half of the map against Norsca, Chaos, etc.
+
+Note that at some point you should do Felix+Gotrek quest battle, and also the quest battle for Elspeth's Weapon "Death's Timekeeper". These are pretty easy if you know what to do, and you can deterministically beat them as soon as you get Carmine Dragon at Lv. 16 on Elspeth.
+
+Felix+Gotrek:
+The main strategy here is to win the initial engagement by killing all the Slanesh forces. Send Elspeth and any single entities you have to fight in melee next to Felix + Gotrek so they can absorb damage, use your melee units to lock down the Slanesh units, and use gun units to kill the Enemy Lord and then the rest of the stuff. Once you've wiped out the majority of the initial enemy forces, you want to tag the three portal lords one by one, so they walk forwards and stop summoning. You DON'T want to tag them all at the same time! If they all come forwards at the same time, it could be too hard to kill them all at once, and Felix and Gotrek could die. You can either use your artillery to shoot the portal lords to tag them, or you can just fly Elspeth near them.
+
+Death's Timekeeper:
+The main strategy here is to fly Elspeth around the map and kill all the portal lords. Carmine Dragon breath and Spirit Leech spam makes short work of all of them. That's about it...
+Army Comps
+Empire has many flexible army comps, and you can basically do whatever you want, but in this section I'll just list a few that really worked for me. Note that Elspeth's faction gives you insane bonuses to gun units, so I'll be focusing a lot on those. Also, I believe every army lord should be Master Engineer, because not only can it deal a lot of damage, but also he has skills that give +movement speed, +gun units range, +10 research rate, etc. I also recommend having 1x Engineer hero in every army for the movement speed buff, and missile damage buff. You can also swap the Imperial Gunnery School 4-piece set onto each engineer hero (or lord) every time you begin a fight, if you want.
+
+"The early game comp"
+
+1-3x Master Engineer Lords
+
+2-4 Knights of the Black Rose
+
+4-6 Handgunners (optional)
+
+Rest Spearmen
+The main idea of this comp is to hold the line with cheap Spearmen, and kill everything using Master Engineer Lord grenades. Only bring handgunners if you anticipate needing to kill single entities.
+
+"The main comp"
+
+Some front line (2-6 Spearmen/Halberds, Heroes, Tanks, Land Ship, etc.)
+
+Some cavalry (2-4 Knights of the Black Rose/Demigryph Knights Halberds)
+
+Some artillery (2-4 Helblaster Volley Gun, 1x Helstorm Rocket Battery)
+
+Rest Nuln Ironsides and Hochland Long Rifles
+The main idea of this comp is to tank with the front line, and allow the Elspeth-buffed gun units and artillery to kill everything from a safe distance. The cavalry is there mainly to counter enemy cavalry, artillery, and other fast units that can rush and disable your gun units.
+
+"The AI cavalry stack"
+
+19x Knights of the Black Rose/Demigryph Knights
+This stack is really expensive but is extremely effective against Skaven (due to being ambush-immune) and other enemies that like to spam ranged units or artilery. I call it the "AI Cavalry Stack" because you can use this army to reinforce another army, toggle "AI Control", and then sit back and watch the AI perfectly micro the cavalry and dish out a ridiculous amount of damage, lol. Sometimes the AI cavalry stack can even take out 2-3 enemy armies before they even get to your main army. Maybe you can even do this with Flagellants or Greatswords, idk.
+
+"The Invincibles Heroes Stack"
+
+1x Felix
+
+1x Gotrek
+
+1x Ulrika
+
+1x Bruckner
+
+1x Elspeth
+In the mid-late game, you can gear up these legendary heroes to be nigh-unkillable with high amounts of armor, ward save, physical resistance, regeneration, etc. Then, you can basically win any fight, even 1v4, by sending these invincible heroes in to tank, and spamming Purple Sun with Elspeth. Bonus points if you have Nemesis Crown as well.
+Full Unit Tier List
+This Tier List is for Elspeth specifically and takes into consideration the gun unit buffs. It's also my personal opinion and everyone may have a different play style and be good with different units.
+
+S TIER (powerful, core unit of faction)
+Helstorm Rocket Battery - extremely high damage output, can be upgraded with +3 proj
+Helblaster Volley Gun - extremely high damage output, and also good range
+Nuln Ironsides - good armor, decent melee stats, high damage output. the go-to damage unit
+Handgunners - this unit is worse offensively and defensively than the Nuln Ironside, but it's still very good and deals AP damage. Also, you can recruit this out of Gardens of Morr, which makes it pretty readily available.
+Hochland Long Rifles - while this unit has less damage than Nuln Ironside, it has insane range, allowing you to counter enemy ranged units that would otherwise be pretty annoying to deal with.
+Demigryph Knights (Halberds) - high armor, AP damage, and anti-large bonus allows this unit to destroy basically all enemy cavalry, making it the go-to endgame cavalry unit
+Knights of the Black Rose - worse than Demigryphs, but still very good due to 50 defense stat, and you get access to it on Turn 6 via Garden of Morr mechanic, which is a very early turn to get a T3 unit.
+Spearmen - very cheap and recruitable anywhere without a military building, and also globally in 1 turn, means that you can always have a cheap disposable front line
+Amethyst Landship - this unit is insane! it has a cannon, a mortar, a mortis engine effect, spells and ability to cast, and also magical damage on top of all of that. however, it's pretty expensive, and you only have access to it in the very late game. If you put 5 of these in any army, it will just steamroll everything.
+
+A TIER (good unit, but less readily available to recruit)
+Spearman (Shields) and Halberdier - these units are objectively better than the Spearman, but are more expensive and less readily available to recruit due to being locked behind buildings.
+Cannon - always a decent unit capable of doing good damage to large units at range, but falls off somewhat in the late game
+Steam Tank - this unit is the optimal endgame frontline unit of empire. Put some of these in the front, and put some gun units in the back, and everything will die. This unit is extremely tanky and also has high missile block, making it extremely difficult to bring down. However, this unit is tier 5, so by the time you unlock this unit, you probably already won the game. I think the Cannon variant is better than the machine gun variant because it's better at sniping large units from far.
+Landship - this unit is very similar to Steam Tank. a little more damage output, but less durability.
+
+B TIER (decent unit, but situational)
+Mortar - this unit is okay in the early game and very cheap, but I feel that it's worse than just recruiting a Master Engineer lord and farming XP on him.
+Flagellants - this unit is actually pretty good at frontlining due to having Unbreakable, but it's very awkward to recruit it due to requiring one specific building that you don't really want to build.
+Amethyst Ironsides - this unit is slightly better than Nuln Ironsides, but it's very expensive, and schematics are probably better spent elsewhere
+Amethyst Outriders - this unit is pretty good at outputting damage due to magical damage AOE grenades, but also requires a lot of micro
+Amethyst Helstorm Rocket Battery - this unit is slightly better than its normal variant in terms of dealing damage to units, but worse at doing damage to walls.
+
+C TIER (mediocre unit)
+Free Company Militia - this unit has 120 entities and fire whilst moving, making it a decent unit in the early game. But, it's potential is very limited due to not having AP damage.
+Pistoliers/Outriders - these units are pretty fast and can kite well, and when upgraded have OK damage output as well, but they're really annoying to micro so I don't really like them.
+Outrider Grenade Launcher - this unit can deal pretty good damage, but is very squishy and requires constant micro, and also will definitely friendly fire your own units. Use with caution
+
+D TIER (bad units, but can still serve a purpose in extreme conditions)
+War Wagons (both variants) - this unit is terrible due to having extremely low damage output, but can be recruited globally in 1 turn, meaning that they could be serve as a filler unit if an army is over-extended and you just need some filler units that turn
+
+F TIER (never recruit these!!!)
+All archery units - Elspeth's faction mechanics buffs gun units, so why use unbuffed archers? Also, archery units will not give you schematics on kill - only gun units will, so you really never want to intentionally recruit these.
+All other cavalry units - With Knights of the Black Rose being recruitable from Gardens of Morr, and Demigryph Knights (Halberds) being optimal late game unit, you never really have a need to recruit any other cavalry unit
+Swordsman/Greatswords - lower melee defense than Spearman/Halberdier makes them useless, expensive units that you don't need because your damage dealers are gunnery units and cav, not these
+Luminark of Hysh - this unit is trash! it deals a pitifully small amount of damage, and is a Tier 5 unit. it basically serves no purpose.
+
+Note: I didn't include regiments of renown or empire state troops - you can basically just get these whenever, they're all generally good
+Alternative Campaign Strategies
+So, in this guide I presented what I think is the easiest way to play this campaign, which is to kill Vlad first, spend a few turns building up, and then expand to the south. But there are a LOT of different ways you can play this campaign, which I think is really interesting. A lot of them revolve around rushing the technology that reveals all empire factions capitals, allowing you to see the capitals of Gelt, Volkmar, and Markus Wulfhart. Then, you can put a Garden of Morr in their capitals, teleport elspeth there, capture some enemy city, but another Garden of Morr there, and start pumping out units and go from there. This opens up some interesting campaign possibilities:
+
+- You can teleport to Wulfhart in Lustria and then capture all of Lustria, which is all green territory, and also 100% safe borders once you capture the entire continent
+- You can teleport to Gelt in Cathay, declare war on him, and kill him all the Cathayan factions and eventually take all of Cathay, which is also all green territory, and relatively safe borders due to being at the edge of the map
+- Teleporting to Volkmar, however, I think is bad because you really don't want to fight Khorne or Tzeench too early.
+
+Note that you can also send a hero halfway across the map to discover these factions as well. But then you run the risk of that hero being assassinated and you losing all your progress. You will also discover many enemy factions in this process, who could grief your campaign by declaring war on you. Also, this strategy requires you to commit Elspeth into a different continent, which leaves your homeland somewhat vulnerable. You'll either have to sacrifice your homeland, or have armies at home defending, or get lucky that all your enemies to the south die to other factions.
+
+Another possibility in Elspeth's campaign is to ignore vlad completely, and expand to the southwest instead. The main idea is to take your first two provinces, then attack the Karak Hirn Dwarves and then Belegar, and then eventually expand to the southeast and kill Aranessa (Pirates of Sartosa), Ikit Claw, Skrag, etc. Then, once you have done that and farmed some XP and stronger armies, you can return to the empire homeland and crush Vlad when he starts to creep up on your territory, which should not be difficult at that point because vampires don't scale well into the mid game. Pros of this strategy are that you will be drowning in Schematics due to fighting Dwarves and Skaven, and you will also ally with the Wood Elves because they don't like the Dwarves. Cons of this strategy are that early battles against dwarves and ikit claw might be more challenging, and if you attack the dwarves, you are losing a potential mid-game ally.
+
+All in all, there are many ways to play this campaign! Yep

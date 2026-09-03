@@ -7,7 +7,7 @@
 //   SEARCH_URL=<url>
 //   GUIDE_URL=<url>
 //   GUIDE_TITLE=<title>
-//   GUIDE_TEXT=<text> (up to 8000 chars)
+//   GUIDE_TEXT=<text> (up to 32000 chars)
 
 const { chromium } = require('playwright');
 
@@ -61,10 +61,10 @@ const appid = process.argv[3] || '1142710';
       for (const sel of candidates) {
         const el = document.querySelector(sel);
         if (el && el.innerText && el.innerText.length > 200) {
-          return el.innerText.slice(0, 8000);
+          return el.innerText.slice(0, 32000);
         }
       }
-      return document.body ? document.body.innerText.slice(0, 8000) : '';
+      return document.body ? document.body.innerText.slice(0, 32000) : '';
     });
     console.log('GUIDE_TEXT:');
     console.log(text);

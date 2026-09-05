@@ -3894,7 +3894,16 @@ function updateFeaturedRadar() {
           !frAllInner.classList.contains('fr-collapsed')) {
         frAllInner.classList.add('fr-collapsed');
       }
-      frSummary.onclick = () => {
+      frSummary.onclick = (e) => {
+        // The play style profile is a <details> element nested INSIDE
+        // this same .fr-all-summary. Native details toggle fires on its
+        // own when the user taps the summary or a row - we must NOT
+        // also collapse/expand the radar in response, or the radar will
+        // hide/show unexpectedly every time the user is just trying to
+        // reveal the horizontal bars. (Symptom: "tap to expand/tap to
+        // collapse for the play style bars feels inverted" — the labels
+        // are for the radar, but the user thinks they're for the bars.)
+        if (e.target.closest('.profile-details')) return;
         const willCollapse = !frAllInner.classList.contains('fr-collapsed');
         frAllInner.classList.toggle('fr-collapsed');
         if (willCollapse) frAllInner.dataset.userCollapsed = '1';

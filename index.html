@@ -150,9 +150,9 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
    background gets a faint wash of the same color so the chip reads
    as "tinted with the parent quadrant" rather than as a generic grey
    pill. */
-.chip.ps{color:var(--rc);border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);box-shadow:inset 0 0 0 1px var(--rc),inset 0 0 0 2px rgba(0,0,0,0.4)}
-.chip.ps:hover{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.18)}
-.chip.ps .count{background:rgba(255,255,255,0.10);color:var(--rc)}
+.chip.ps{color:var(--rc) !important;border:2px solid var(--rc) !important;background:color-mix(in srgb,var(--rc) 14%,var(--panel2));font-weight:600}
+.chip.ps:hover{background:color-mix(in srgb,var(--rc) 26%,var(--panel2));filter:brightness(1.1)}
+.chip.ps .count{background:color-mix(in srgb,var(--rc) 30%,transparent);color:var(--rc);font-weight:700}
 .chip.off{color:#c07070;border-color:#7a3a3a}
 .chip.off .lbl{text-decoration:line-through}
 .chip.dim{opacity:0.42}

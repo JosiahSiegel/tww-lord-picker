@@ -2159,10 +2159,10 @@ function iconSVG(p, size, color) {
 // grouping is community-researched (see research/PLAYSTYLE_4SEGMENT_RADAR.md)
 // and the canonical answer is Rush / Build / Quest / Horde.
 const PS_SEGMENTS = {
-  Rush:  { lbl: "Rush",  hint: "War, magic, duels, defense, monsters, strike - all forms of military projection",  col: "#e05050", keys: ["Aggro","Magic","Duelist","Defense","Monsters","Strike"] },
-  Build: { lbl: "Build", hint: "Builder, politics, crafting, schemes - campaign-map planning and economy",            col: "#c9a24b", keys: ["Builder","Politics","Crafting","Schemes"] },
+  Rush:  { lbl: "Rush",  hint: "War, magic, duels, defense, monsters, strike - all forms of military projection",  col: "#ef4444", keys: ["Aggro","Magic","Duelist","Defense","Monsters","Strike"] },
+  Build: { lbl: "Build", hint: "Builder, politics, crafting, schemes - campaign-map planning and economy",            col: "#4ade80", keys: ["Builder","Politics","Crafting","Schemes"] },
   Quest: { lbl: "Quest", hint: "Built-in missions, narrative arcs, and weird-rule campaigns",                        col: "#22d3ee", keys: ["Quest","Weird"] },
-  Horde: { lbl: "Horde", hint: "Few or no settlements - mobile, off-map, or nomadic play",                            col: "#a0784a", keys: ["Horde","Raider"] },
+  Horde: { lbl: "Horde", hint: "Few or no settlements - mobile, off-map, or nomadic play",                            col: "#a855f7", keys: ["Horde","Raider"] },
 };
 const PS_SEGMENT_ORDER = ["Rush","Build","Quest","Horde"];
 // Reuse existing axis icons for each segment so the visual vocabulary is
@@ -3281,21 +3281,18 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
     const pad = mode === 'overlay' ? 24 : 6;
     let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="segment-radar segment-radar-${mode}">`;
 
-    if (mode === 'overlay') {
-      // Concentric reference rings
-      [0.33, 0.66, 1.0].forEach(frac => {
-        const r = maxR * frac;
-        svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>`;
-      });
-    }
-
-    // Background quadrant tints (for averaged only; overlay relies on the
-    // wedge outlines alone)
-    if (mode === 'averaged') {
+      if (mode === 'averaged') {
+      // Background quadrant tints (drawn FIRST, so they sit behind everything)
       PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
         const seg = PS_SEGMENTS[segName];
         const d = wedgePath(-90 + sIdx * 90, -90 + sIdx * 90 + 90, maxR);
         svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.05" stroke="none" pointer-events="none"/>`;
+      });
+    } else if (mode === 'overlay') {
+      // Concentric reference rings for overlay
+      [0.33, 0.66, 1.0].forEach(frac => {
+        const r = maxR * frac;
+        svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>`;
       });
     }
 
@@ -3312,11 +3309,13 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
         // Binary: 1 if ANY lord in the set has any axis in this segment
         const hasAny = fills.some(f => f > 0);
         if (hasAny) {
-          const a1 = -90 + sIdx * 90 + 2;
-          const a2 = a1 + 90 - 4;
+          // 0.5° gap on each side so adjacent segments don't bleed
+          // into each other when fully filled (rounding artifacts)
+          const a1 = -90 + sIdx * 90;
+          const a2 = a1 + 90;
           const r = maxR;
           const d = wedgePath(a1, a2, r);
-          svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.55" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
+          svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.55" stroke="${seg.col}" stroke-opacity="0.9" stroke-width="0.6" pointer-events="none"/>`;
         }
       });
     } else {
@@ -3353,12 +3352,13 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
       });
     }
 
-    // Cardinal dividers
-    for (let i = 0; i < 4; i++) {
-      const a = -90 + i * 90;
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      svg += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.18)" stroke-width="${mode === 'overlay' ? 1.2 : 0.8}" pointer-events="none"/>`;
-    }
+    // Faint reference rings (NOT cardinal lines - those create a "cross"
+    // artifact at small sizes and don't add information when the 4 wedges
+    // already show the segments)
+    [0.5, 1.0].forEach(frac => {
+      const r = maxR * frac;
+      svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" pointer-events="none"/>`;
+    });
 
     // Segment labels - small for mini, full for overlay
     if (mode === 'overlay') {
@@ -3398,28 +3398,29 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
     return svg;
   }
 
-  // ── per-axis mode (featured radar) ──────────────────────────────────
-  const fill = {};
-  const axisAngle = {};
-  PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
-    const seg = PS_SEGMENTS[segName];
-    const keys = seg.keys;
-    const segStart = -90 + sIdx * 90;
-    const slice = 90 / keys.length;
-    keys.forEach((k, kIdx) => {
-      if (N === 0) { fill[k] = 0; return; }
-      const hits = presentAll.filter(p => p.has(k)).length;
-      fill[k] = hits / N;
-      axisAngle[k] = segStart + kIdx * slice;
-    });
+  // ── averaged mode (featured radar) ─────────────────────────────────
+  // 4 averaged wedges, one per segment. Wedge size = fraction of
+  // filtered lords who have ANY axis in this segment. Per-axis detail
+  // is shown in the profile bars below the radar, not crammed into
+  // 14 tiny slices inside the circle (which was unreadable).
+  // Selected lord gets a gold border around the wedges they're in.
+
+  // Per-segment fill: fraction of filtered lords with any axis in segment
+  const segFill = {};
+  PS_SEGMENT_ORDER.forEach(segName => {
+    const keys = PS_SEGMENTS[segName].keys;
+    if (N === 0) { segFill[segName] = 0; return; }
+    const hits = presentAll.filter(p => keys.some(k => p.has(k))).length;
+    segFill[segName] = hits / N;
   });
 
-  const lordHas = {};
+  // Selected lord: which segments they have any axis in
+  const lordSeg = {};
   if (selectedIdx != null) {
     const present = presentAll[lordIdxs.indexOf(selectedIdx)] || new Set();
     PS_SEGMENT_ORDER.forEach(segName => {
       const keys = PS_SEGMENTS[segName].keys;
-      keys.forEach(k => { lordHas[k] = present.has(k); });
+      lordSeg[segName] = keys.some(k => present.has(k));
     });
   }
 
@@ -3427,47 +3428,56 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
   const labelR = maxR + 6;
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="segment-radar">`;
 
+  // Reference rings
   [0.33, 0.66, 1.0].forEach(frac => {
     const r = maxR * frac;
     svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>`;
   });
 
+  // Background quadrant tints
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
-    const d = wedgePath(-90 + sIdx * 90, -90 + sIdx * 90 + 90, maxR);
-    svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.05" stroke="none" pointer-events="none"/>`;
+    const d = wedgePath(-90 + sIdx * 90 + 1, -90 + sIdx * 90 + 89, maxR);
+    svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.06" stroke="none" pointer-events="none"/>`;
   });
 
+  // 4 averaged wedges: size = fraction of filtered lords with any axis in segment
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
-    const keys = seg.keys;
-    const slice = 90 / keys.length;
-    keys.forEach((k, kIdx) => {
-      const a1 = -90 + sIdx * 90 + kIdx * slice + 1.0;
-      const a2 = a1 + slice - 2.0;
-      const f = fill[k] || 0;
-      const r = Math.max(maxR * f, 0.6);
-      if (f > 0.01) {
-        const d = wedgePath(a1, a2, r);
-        svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
-      }
-      const tickD = wedgePath(a1, a2, maxR);
-      svg += `<path d="${tickD}" fill="${seg.col}" fill-opacity="0.05" stroke="${seg.col}" stroke-opacity="0.25" stroke-width="0.4" pointer-events="none"/>`;
-    });
+    const f = segFill[segName];
+    const a1 = -90 + sIdx * 90 + 1;
+    const a2 = a1 + 90 - 2;
+    const r = Math.max(maxR * f, 0.6);
+    if (f > 0.01) {
+      const d = wedgePath(a1, a2, r);
+      svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.55" stroke="${seg.col}" stroke-opacity="0.9" stroke-width="1" pointer-events="none"/>`;
+    }
+    // Faint full-track so empty segments still show their location
+    const trackD = wedgePath(a1, a2, maxR);
+    svg += `<path d="${trackD}" fill="${seg.col}" fill-opacity="0.04" stroke="${seg.col}" stroke-opacity="0.2" stroke-width="0.4" pointer-events="none"/>`;
   });
 
+  // Selected-lord highlight: bright gold ring on the OUTER arc of
+  // segments the lord plays in. Drawn at the wedge's actual radius
+  // (so it sits ON the wedge, not in empty space beyond it) with
+  // a thicker stroke that's visible at 440px.
   if (selectedIdx != null) {
     PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
-      const seg = PS_SEGMENTS[segName];
-      const keys = seg.keys;
-      const slice = 90 / keys.length;
-      keys.forEach((k, kIdx) => {
-        if (!lordHas[k]) return;
-        const a1 = -90 + sIdx * 90 + kIdx * slice + 1.0;
-        const a2 = a1 + slice - 2.0;
-        const d = wedgePath(a1, a2, maxR);
-        svg += `<path d="${d}" fill="none" stroke="#fff8e0" stroke-opacity="0.9" stroke-width="1.8" pointer-events="none"/>`;
-      });
+      if (!lordSeg[segName]) return;
+      const a1 = -90 + sIdx * 90 + 2;
+      const a2 = a1 + 90 - 4;
+      // Draw at the wedge's actual outer radius (maxR), with a gold
+      // ring on the outside. Stroke is thick (3) and opaque (1.0) so
+      // it reads as a clear "selected" indicator.
+      const d = wedgePath(a1, a2, maxR);
+      svg += `<path d="${d}" fill="none" stroke="#fbbf24" stroke-opacity="1" stroke-width="3" pointer-events="none"/>`;
+      // Also draw a thinner ring at the wedge's actual radius
+      const segF = segFill[segName] || 0;
+      if (segF > 0.05) {
+        const wr = Math.max(maxR * segF, 8);
+        const d2 = wedgePath(a1, a2, wr);
+        svg += `<path d="${d2}" fill="none" stroke="#fff8e0" stroke-opacity="0.9" stroke-width="1.5" pointer-events="none"/>`;
+      }
     });
   }
 

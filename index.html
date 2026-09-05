@@ -2549,7 +2549,7 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
   // Background quadrant tints
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
-    const d = wedgePath(-90 + sIdx * 90 + 1, -90 + sIdx * 90 + 89, maxR);
+    const d = wedgePath(-90 + sIdx * 90, -90 + sIdx * 90 + 90, maxR);
     svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.06" stroke="none" pointer-events="none"/>`;
   });
 
@@ -2557,8 +2557,8 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
     const f = segFill[segName];
-    const a1 = -90 + sIdx * 90 + 1;
-    const a2 = a1 + 90 - 2;
+    const a1 = -90 + sIdx * 90;
+    const a2 = a1 + 90;
     const r = Math.max(maxR * f, 0.6);
     if (f > 0.01) {
       const d = wedgePath(a1, a2, r);
@@ -2576,8 +2576,8 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
   if (selectedIdx != null) {
     PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
       if (!lordSeg[segName]) return;
-      const a1 = -90 + sIdx * 90 + 2;
-      const a2 = a1 + 90 - 4;
+      const a1 = -90 + sIdx * 90;
+      const a2 = a1 + 90;
       // Draw at the wedge's actual outer radius (maxR), with a gold
       // ring on the outside. Stroke is thick (3) and opaque (1.0) so
       // it reads as a clear "selected" indicator.

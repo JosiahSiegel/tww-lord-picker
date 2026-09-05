@@ -144,6 +144,15 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
 .row.play-row{padding-top:2px}
 .chip.ps{--rc:var(--gold)}
 .chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
+/* Unselected playstyle chips: tint the border and text with the
+   segment color (set via inline --rc). Makes it obvious at a glance
+   which segment (Rush/Build/Quest/Horde) each axis belongs to. The
+   background gets a faint wash of the same color so the chip reads
+   as "tinted with the parent quadrant" rather than as a generic grey
+   pill. */
+.chip.ps{color:var(--rc);border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);box-shadow:inset 0 0 0 1px var(--rc),inset 0 0 0 2px rgba(0,0,0,0.4)}
+.chip.ps:hover{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.18)}
+.chip.ps .count{background:rgba(255,255,255,0.10);color:var(--rc)}
 .chip.off{color:#c07070;border-color:#7a3a3a}
 .chip.off .lbl{text-decoration:line-through}
 .chip.dim{opacity:0.42}
@@ -2165,6 +2174,17 @@ const PS_SEGMENTS = {
   Horde: { lbl: "Horde", hint: "Few or no settlements - mobile, off-map, or nomadic play",                            col: "#a855f7", keys: ["Horde","Raider"] },
 };
 const PS_SEGMENT_ORDER = ["Rush","Build","Quest","Horde"];
+// Lookup: axis-key (lowercase) → parent segment name. Used so each
+// playstyle chip can be tinted with its parent quadrant's color, making
+// it easy to see at a glance which segment (Rush/Build/Quest/Horde) a
+// given axis belongs to. Built once at load time.
+const _axisSeg = {};
+PS_SEGMENT_ORDER.forEach(segName => {
+  PS_SEGMENTS[segName].keys.forEach(axisName => {
+    const pk = axisName.charAt(0).toLowerCase() + axisName.slice(1);
+    _axisSeg[pk] = segName;
+  });
+});
 // Reuse existing axis icons for each segment so the visual vocabulary is
 // consistent: Rush = Aggro, Build = Builder, Quest = Quest, Horde = Horde.
 const PS_SEGMENT_ICONS = {
@@ -2735,7 +2755,13 @@ function renderChips(){
       const st=state.psInc.has(p)?" on":state.psExc.has(p)?" off":"";
       const cnt = psCount(p);
       const dim = cnt === 0 && !state.psInc.has(p) && !state.psExc.has(p) ? ' dim' : '';
-      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${PS[p].ic}" title="${esc(PS[p].g)} - tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 14, "currentColor")}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${cnt}</span></button>`;
+      // Color the chip with its parent segment's color (a "flavor" of
+      // the quadrant) so the user can see at a glance which segment
+      // (Rush/Build/Quest/Horde) each playstyle axis belongs to. Falls
+      // back to the axis's own color for any axis not in PS_SEGMENTS.
+      const _segName = _axisSeg[pk];
+      const _segCol = _segName ? PS_SEGMENTS[_segName].col : PS[p].ic;
+      return `<button class="chip ps${st}${dim}" data-psc="${pk}" style="--rc:${_segCol}" title="${esc(PS[p].g)} - tap to include, tap again to clear. Ctrl/⌘-click or long-press to add without removing; click a selected one to deselect">${iconSVG(PSI[p], 14, "currentColor")}<span class="lbl">${esc(PS[p].t)}</span><span class="count">${cnt}</span></button>`;
     }).join("")
     +((state.psInc.size||state.psExc.size)?`<button class="chip" id="clearps-bar">&#10005;</button>`:"");
   const bar = $("#pschips-bar");

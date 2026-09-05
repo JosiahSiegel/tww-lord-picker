@@ -1450,7 +1450,7 @@ to{transform:rotate(360deg)}}
 
 <section id="featured-radar">
   <h2 class="radar-section-title">⚔ Playstyle Map</h2>
-  <p class="radar-section-sub">Every colored polygon is a lord - bigger means more playstyles. Tap a polygon to add that lord to compare. Use the playstyle chips above to filter; this map updates to show only the filtered set.</p>
+  <p class="radar-section-sub">Each box is a playstyle segment (Rush / Build / Quest / Horde). Bars show what fraction of the filtered lords have that playstyle. Tap a lord card to highlight their axes.</p>
   <div class="fr-inner" id="fr-inner">
     <div class="fr-empty" id="fr-empty">
       <div>⚔ Pick a lord to preview their playstyle radar</div>
@@ -2155,6 +2155,25 @@ function iconSVG(p, size, color) {
   color = color || 'currentColor';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${size}" height="${size}" style="color:${color};vertical-align:-2px;display:inline-block;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round">${p}</svg>`;
 }
+// 4-segment grouping: each segment aggregates 2-6 axes from PS. The
+// grouping is community-researched (see research/PLAYSTYLE_4SEGMENT_RADAR.md)
+// and the canonical answer is Rush / Build / Quest / Horde.
+const PS_SEGMENTS = {
+  Rush:  { lbl: "Rush",  hint: "War, magic, duels, defense, monsters, strike - all forms of military projection",  col: "#e05050", keys: ["Aggro","Magic","Duelist","Defense","Monsters","Strike"] },
+  Build: { lbl: "Build", hint: "Builder, politics, crafting, schemes - campaign-map planning and economy",            col: "#c9a24b", keys: ["Builder","Politics","Crafting","Schemes"] },
+  Quest: { lbl: "Quest", hint: "Built-in missions, narrative arcs, and weird-rule campaigns",                        col: "#22d3ee", keys: ["Quest","Weird"] },
+  Horde: { lbl: "Horde", hint: "Few or no settlements - mobile, off-map, or nomadic play",                            col: "#a0784a", keys: ["Horde","Raider"] },
+};
+const PS_SEGMENT_ORDER = ["Rush","Build","Quest","Horde"];
+// Reuse existing axis icons for each segment so the visual vocabulary is
+// consistent: Rush = Aggro, Build = Builder, Quest = Quest, Horde = Horde.
+const PS_SEGMENT_ICONS = {
+  Rush:  PSI.Aggro,
+  Build: PSI.Builder,
+  Quest: PSI.Quest,
+  Horde: PSI.Horde,
+};
+
 const RACE_ICONS={'Khorne':'<path d="M3 13l4-4M5 11l-1 3 3-1M11 3l4 4M13 5l1 3-3-1M3 13l-1 1M15 3l1-1M8 5v6M5 8h6"/>','Tzeentch':'<path d="M8 2l1.5 4 4 .5-3 2.5 1 4-3.5-2-3.5 2 1-4-3-2.5 4-.5z"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/>','Nurgle':'<circle cx="8" cy="8" r="5"/><circle cx="6" cy="6" r="0.8" fill="currentColor"/><circle cx="10" cy="7" r="0.8" fill="currentColor"/><circle cx="7" cy="10" r="0.8" fill="currentColor"/><circle cx="11" cy="10" r="0.8" fill="currentColor"/>','Slaanesh':'<path d="M2 8 Q 4 4 6 8 T 10 8 T 14 8"/><path d="M2 11 Q 4 7 6 11 T 10 11 T 14 11"/>','Kislev':'<path d="M8 1v14M3 4l5-3 5 3M2 8h3M11 8h3M4 13l4 2 4-2"/>','Grand Cathay':'<path d="M5 13c-2-2-2-5 0-7M11 13c2-2 2-5 0-7M8 3v10M5 6c0 4 6 4 6 0M3 10c0 3 10 3 10 0"/>','Empire':'<path d="M2 13h12M2 13V8l3-1V5l3-2 3 2v2l3 1v5M6 8h4"/>','Dwarfs':'<path d="M3 5h10M4 5v6l-1 2h10l-1-2V5M6 5V3h4v2M7 9l1 1 1-1M10 9l-1 1-1-1"/>','Greenskins':'<path d="M5 4c-2 0-3 2-3 4 0 3 2 4 2 4M11 4c2 0 3 2 3 4 0 3-2 4-2 4M3 8h2M11 8h2M6 6l1 1M10 6l-1 1M6 13h4"/>','Vampire Counts':'<path d="M5 3L4 5v4c0 2 1 3 4 3s4-1 4-3V5L11 3M6 8v3M10 8v3M8 7v4"/>','Warriors of Chaos':'<path d="M5 14L8 2l3 12M3 9l2-2M13 9l-2-2M5 12h6"/>','Beastmen':'<path d="M2 11c1-3 3-5 6-5s5 2 6 5M5 8c0-2 1-3 3-3s3 1 3 3M4 12l-2 2M12 12l2 2M7 9l1 1 1-1"/>','Bretonnia':'<path d="M2 12l6-4 6 4M5 12V8M11 12V8M8 8V3M6 5l2-2 2 2"/>','Wood Elves':'<path d="M8 2L4 14h8zM5 9h6M6 12h4"/>','High Elves':'<path d="M2 13V8l3-2 3 3 3-3 3 2v5zM5 6V4h2v2M9 6V4h2v2M3 10h2M11 10h2"/>','Dark Elves':'<path d="M2 13L6 5l2 2 2-2 4 8M5 9h6M7 11l1 1 1-1"/>','Lizardmen':'<path d="M2 8c2-3 4-3 6 0s4 3 6 0M4 8c0 2 1 3 2 3M8 5v3M8 11c0 1 1 2 2 2"/>','Skaven':'<path d="M2 10l3-3 1 1 1-1 1 1 1-1 1 1 1-1 3 3M5 10v3M11 10v3M6 13h4"/>','Tomb Kings':'<path d="M5 3h6v3l-1 1v5l-1 1H7l-1-1V7L5 6zM4 6h2M10 6h2"/>','Vampire Coast':'<path d="M4 4h8v6c0 2-2 3-4 3s-4-1-4-3zM4 4l-2-2M12 4l2-2M6 7h4M8 5v3"/>','Ogre Kingdoms':'<path d="M3 13V8c0-3 2-5 5-5s5 2 5 5v5M3 13h10M6 9h1M9 9h1M8 11v1"/>','Norsca':'<path d="M3 13h10M5 13l3-9 3 9M6 9h4M4 7l1-1 1 1M10 7l1-1 1 1"/>','Chaos Dwarfs':'<path d="M3 14l5-10 5 10M3 14h10M5 11h6M6 8h4M7 5h2"/>','Daemons of Chaos':'<path d="M8 2l2 4 4-1-2 4 3 3-4 1-1 4-2-3-2 3-1-4-4-1 3-3-2-4 4 1z"/>'};
 const SRC_ICONS={'WH3 base':'🟡','Omens of Destruction':'🟠','Shadows of Change':'🟠','Lords of the End Times':'🟠','Bhashiva Character Pack':'🟢',FLC:'🟢',free:'🟢',wh3dlc:'🟠',wh3base:'🟡',wh1:'🟣',wh2:'🔵'};
 /* ASSIGNMENT CRITERIA (mechanics audit):
@@ -3217,6 +3236,115 @@ function p2xy(cx, cy, r, deg) {
 // shapes. Lords are colored by their race so dominant patterns per race
 // show up as colored density.
 // =====================================================================
+function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
+  const W = 360, H = 280;
+  const padX = 8, padY = 8;
+  const cellW = (W - 3 * padX) / 2;
+  const cellH = (H - 3 * padY) / 2;
+
+  const presentAll = lordIdxs.map(i => {
+    const l = LORDS[i];
+    return new Set((l.ps || []).map(normTag));
+  });
+  const N = lordIdxs.length;
+
+  const fill = {};
+  PS_SEGMENT_ORDER.forEach(segName => {
+    const keys = PS_SEGMENTS[segName].keys;
+    fill[segName] = {};
+    keys.forEach(k => {
+      if (N === 0) { fill[segName][k] = 0; return; }
+      const hits = presentAll.filter(p => p.has(k)).length;
+      fill[segName][k] = hits / N;
+    });
+  });
+
+  const lordHas = {};
+  if (selectedIdx != null) {
+    const present = presentAll[lordIdxs.indexOf(selectedIdx)] || new Set();
+    PS_SEGMENT_ORDER.forEach(segName => {
+      const keys = PS_SEGMENTS[segName].keys;
+      lordHas[segName] = {};
+      keys.forEach(k => { lordHas[segName][k] = present.has(k); });
+    });
+  }
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="100%" class="segment-radar">`;
+
+  const cellPos = [
+    { col: 0, row: 0 },
+    { col: 1, row: 0 },
+    { col: 0, row: 1 },
+    { col: 1, row: 1 },
+  ];
+  PS_SEGMENT_ORDER.forEach((segName, i) => {
+    const seg = PS_SEGMENTS[segName];
+    const { col, row } = cellPos[i];
+    const cx = padX + col * (cellW + padX);
+    const cy = padY + row * (cellH + padY);
+    svg += renderSegmentCell(segName, seg, cx, cy, cellW, cellH, fill[segName], lordHas[segName], selectedIdx);
+  });
+
+  svg += '</svg>';
+  return svg;
+
+  function renderSegmentCell(segName, seg, x, y, w, h, fills, lordHass, selectedIdx) {
+    const keys = seg.keys;
+    const headerH = 26;
+    const barRowH = (h - headerH - 6) / Math.max(keys.length, 1);
+    const labelW = 60;
+    const pctW = 30;
+    const barLeft = x + labelW + 4;
+    const barRight = x + w - pctW - 4;
+    const barW = Math.max(barRight - barLeft, 20);
+    const iconSize = 13;
+
+    let s = `<g class="seg-cell" data-seg="${segName}">`;
+    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${seg.col}" fill-opacity="0.06" stroke="${seg.col}" stroke-opacity="0.25" stroke-width="1"/>`;
+
+    s += `<g transform="translate(${x + 7}, ${y + 6})" style="color:${seg.col}">`
+       + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg>`
+       + `</g>`;
+    s += `<text x="${x + 7 + iconSize + 5}" y="${y + 16}" font-size="12" font-weight="700" fill="${seg.col}">${esc(seg.lbl)}</text>`;
+
+    const filledCount = keys.filter(k => fills[k] > 0).length;
+    if (N === 0) {
+      s += `<text x="${x + w - 6}" y="${y + 16}" text-anchor="end" font-size="10" fill="rgba(231,224,210,0.4)">no lords</text>`;
+    } else {
+      s += `<text x="${x + w - 6}" y="${y + 16}" text-anchor="end" font-size="10" fill="rgba(231,224,210,0.6)">${filledCount}/${keys.length}</text>`;
+    }
+
+    keys.forEach((k, kIdx) => {
+      const rowY = y + headerH + 2 + kIdx * barRowH;
+      const rowH = Math.min(barRowH - 3, 14);
+      const rowCenterY = rowY + rowH / 2;
+      const f = fills[k];
+      const t = PS[k] ? PS[k].t : k;
+      const ic = PS[k] ? PS[k].ic : seg.col;
+      const isSelected = selectedIdx != null && lordHass[k];
+
+      s += `<g transform="translate(${x + 6}, ${rowCenterY - 6})" style="color:${ic}">`
+         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="11" height="11">${PSI[k] || ''}</svg>`
+         + `</g>`;
+      s += `<text x="${x + 22}" y="${rowCenterY + 3}" font-size="9.5" fill="rgba(231,224,210,0.85)">${esc(t)}</text>`;
+
+      s += `<rect x="${barLeft}" y="${rowY}" width="${barW}" height="${rowH}" rx="2" fill="rgba(255,255,255,0.05)"/>`;
+      if (f > 0.01) {
+        const w2 = barW * f;
+        s += `<rect x="${barLeft}" y="${rowY}" width="${w2}" height="${rowH}" rx="2" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.7" stroke-width="0.5"/>`;
+      }
+      if (isSelected) {
+        s += `<rect x="${barLeft - 1}" y="${rowY - 1}" width="${barW + 2}" height="${rowH + 2}" rx="3" fill="none" stroke="#fff8e0" stroke-width="1.5"/>`;
+      }
+      const pct = Math.round(f * 100);
+      s += `<text x="${x + w - 5}" y="${rowCenterY + 3}" text-anchor="end" font-size="9.5" ${isSelected ? 'fill="#fff8e0" font-weight="700"' : 'fill="rgba(231,224,210,0.7)"'}>${pct}%</text>`;
+    });
+
+    s += `</g>`;
+    return s;
+  }
+}
+
 // buildAllLordsRadarSVG - the density radar
 // =====================================================================
 // Renders all filtered lords as overlapping race-colored polygons on a
@@ -3727,7 +3855,7 @@ function updateFeaturedRadar() {
   // state.cmp and the build function reading it).
   const selectedIdx = state.cmp.length >= 1 ? state.cmp[0] : null;
   if (svgEl) {
-    svgEl.innerHTML = buildAllLordsRadarSVG(allIdxs, 440, selectedIdx);
+    svgEl.innerHTML = buildSegmentRadarSVG(allIdxs, 440, selectedIdx);
     // For 2+ selected, re-apply the highlight to all selected lords
     if (state.cmp.length >= 2) {
       state.cmp.forEach((lIdx, ci) => {

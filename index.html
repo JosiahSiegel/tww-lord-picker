@@ -2802,7 +2802,7 @@ function openOverlay(){
 
   // Build overlaid radar
   const bigRadar = document.getElementById("ov-big-radar");
-  if (bigRadar) bigRadar.innerHTML = buildRadarSVG(state.cmp, RADAR_COLORS, 340);
+  if (bigRadar) bigRadar.innerHTML = buildSegmentRadarSVG(state.cmp, 340, null, RADAR_COLORS, 'overlay');
 
   // Legend
   const ovLeg = document.getElementById("ov-legend");
@@ -3236,17 +3236,19 @@ function p2xy(cx, cy, r, deg) {
 // shapes. Lords are colored by their race so dominant patterns per race
 // show up as colored density.
 // =====================================================================
-function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
-  // 4-quadrant polar radar: each segment is a 90° wedge, and each
-  // axis within that segment is a polar bar (pie slice) sized to the
-  // fraction of lords with that axis. All axes share the same radial
-  // scale (maxR = full); only the angular slice per axis differs
-  // (a 6-axis segment gives each axis 15°, a 2-axis segment gives
-  // each 45°). Bar LENGTH is the only visual channel for the data
-  // - bar WIDTH varies with segment size but doesn't carry meaning.
+function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
+  // mode: 'per-axis' (default) - show each axis as a polar bar within its
+  //   parent segment's quadrant (used by the featured radar)
+  // mode: 'averaged' - show 4 averaged wedges, one per segment, sized to
+  //   the fraction of axes in that segment the lord(s) have (used by
+  //   card mini radars at 52x52 where per-axis bars are unreadable)
+  // mode: 'overlay' - like 'averaged' but for multiple lords: each lord
+  //   gets its own 4 wedges in a different color (used by the compare
+  //   overlay)
+  mode = mode || (size < 120 ? 'averaged' : 'per-axis');
   size = size || 440;
   const cx = size / 2, cy = size / 2;
-  const maxR = size / 2 - 8;
+  const maxR = size / 2 - (mode === 'per-axis' ? 8 : 4);
 
   const presentAll = lordIdxs.map(i => {
     const l = LORDS[i];
@@ -3254,9 +3256,144 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
   });
   const N = lordIdxs.length;
 
-  // Per-axis fraction of lords with it
+  function wedgePath(a1, a2, r) {
+    const [x1, y1] = p2xy(cx, cy, r, a1);
+    const [x2, y2] = p2xy(cx, cy, r, a2);
+    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} L ${cx} ${cy} Z`;
+  }
+
+  if (mode === 'averaged' || mode === 'overlay') {
+    // For each segment, compute fill per lord (or per set of lords).
+    // Fill = fraction of axes in that segment the lord has.
+    // For overlay, we draw each lord's 4 wedges as a separate stroke
+    // polygon so they can be visually compared.
+    const segFills = {};  // {segName: [fill per lord, ...]}
+    PS_SEGMENT_ORDER.forEach(segName => {
+      const keys = PS_SEGMENTS[segName].keys;
+      segFills[segName] = lordIdxs.map(idx => {
+        const present = presentAll[lordIdxs.indexOf(idx)] || new Set();
+        if (keys.length === 0) return 0;
+        const hits = keys.filter(k => present.has(k)).length;
+        return hits / keys.length;
+      });
+    });
+
+    const pad = mode === 'overlay' ? 24 : 6;
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="segment-radar segment-radar-${mode}">`;
+
+    if (mode === 'overlay') {
+      // Concentric reference rings
+      [0.33, 0.66, 1.0].forEach(frac => {
+        const r = maxR * frac;
+        svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>`;
+      });
+    }
+
+    // Background quadrant tints (for averaged only; overlay relies on the
+    // wedge outlines alone)
+    if (mode === 'averaged') {
+      PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+        const seg = PS_SEGMENTS[segName];
+        const d = wedgePath(-90 + sIdx * 90, -90 + sIdx * 90 + 90, maxR);
+        svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.05" stroke="none" pointer-events="none"/>`;
+      });
+    }
+
+    if (mode === 'averaged') {
+      // Single fill per segment, averaged across the filtered set
+      PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+        const seg = PS_SEGMENTS[segName];
+        const fills = segFills[segName];
+        const avg = fills.reduce((a, b) => a + b, 0) / Math.max(fills.length, 1);
+        const a1 = -90 + sIdx * 90 + 2;
+        const a2 = a1 + 90 - 4;
+        const r = Math.max(maxR * avg, 0.6);
+        if (avg > 0.01) {
+          const d = wedgePath(a1, a2, r);
+          svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
+        }
+      });
+    } else {
+      // overlay: each lord gets a 4-wedge polygon outlined in their color
+      lordIdxs.forEach((lIdx, lordIdx) => {
+        const col = (colors && colors[lordIdx]) || RADAR_COLORS[lordIdx % RADAR_COLORS.length];
+        // Build the polygon by walking the 4 segments in order
+        // For each segment, the wedge is at radius = segFills[seg][lordIdx]
+        let pathD = '';
+        PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+          const seg = PS_SEGMENTS[segName];
+          const fill = segFills[segName][lordIdx] || 0;
+          const r = Math.max(maxR * fill, 1);
+          const a1 = -90 + sIdx * 90 + 4;
+          const a2 = a1 + 90 - 8;
+          // For each wedge, add the outer arc then back along the inner edge
+          // Easiest: draw a single 4-corner polygon at the cardinal points
+          // of each segment, with each corner at the wedge's radius
+          // Cardinal angles: 0, 90, 180, 270 (the segment boundaries)
+          // For each pair of segments, the corner between them is at
+          // the wedge radius of either segment. Use the average of the
+          // two adjacent segments.
+        });
+        // Simpler: just draw 4 wedge strokes, one per segment
+        PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+          const fill = segFills[segName][lordIdx] || 0;
+          if (fill < 0.01) return;
+          const r = maxR * fill;
+          const a1 = -90 + sIdx * 90 + 4;
+          const a2 = a1 + 90 - 8;
+          const d = wedgePath(a1, a2, r);
+          svg += `<path d="${d}" fill="${col}" fill-opacity="0.18" stroke="${col}" stroke-width="2" pointer-events="none"/>`;
+        });
+      });
+    }
+
+    // Cardinal dividers
+    for (let i = 0; i < 4; i++) {
+      const a = -90 + i * 90;
+      const [x, y] = p2xy(cx, cy, maxR, a);
+      svg += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.18)" stroke-width="${mode === 'overlay' ? 1.2 : 0.8}" pointer-events="none"/>`;
+    }
+
+    // Segment labels - small for mini, full for overlay
+    if (mode === 'overlay') {
+      const iconSize = 20;
+      PS_SEGMENT_ORDER.forEach((segName, i) => {
+        const seg = PS_SEGMENTS[segName];
+        const a = -90 + i * 90;
+        const [lx, ly] = p2xy(cx, cy, maxR + 12, a);
+        const labelText = seg.lbl;
+        if (i === 0) {
+          svg += `<g transform="translate(${(lx - 8).toFixed(1)},${(ly - iconSize - 2).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+          svg += `<text x="${lx.toFixed(1)}" y="${(ly - 4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
+        } else if (i === 1) {
+          svg += `<g transform="translate(${(lx - iconSize - 2).toFixed(1)},${(ly - 8).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+          svg += `<text x="${(lx + 4).toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="start" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
+        } else if (i === 2) {
+          svg += `<text x="${lx.toFixed(1)}" y="${(ly + 10).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
+          svg += `<g transform="translate(${(lx - 8).toFixed(1)},${(ly + 14).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+        } else {
+          svg += `<text x="${(lx - 4).toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
+          svg += `<g transform="translate(${(lx + 4).toFixed(1)},${(ly - 8).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+        }
+      });
+    } else {
+      // averaged mini: tiny segment dot at each cardinal position
+      PS_SEGMENT_ORDER.forEach((segName, i) => {
+        const seg = PS_SEGMENTS[segName];
+        const a = -90 + i * 90;
+        const [lx, ly] = p2xy(cx, cy, maxR + 4, a);
+        svg += `<circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="1.5" fill="${seg.col}" pointer-events="none"/>`;
+      });
+    }
+
+    svg += `<circle cx="${cx}" cy="${cy}" r="${mode === 'overlay' ? 3 : 1.5}" fill="rgba(255,255,255,0.5)" pointer-events="none"/>`;
+    svg += '</svg>';
+    return svg;
+  }
+
+  // ── per-axis mode (featured radar) ──────────────────────────────────
   const fill = {};
-  const axisAngle = {};   // start angle of each axis within its segment
+  const axisAngle = {};
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
     const keys = seg.keys;
@@ -3270,7 +3407,6 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
     });
   });
 
-  // Selected-lord highlight
   const lordHas = {};
   if (selectedIdx != null) {
     const present = presentAll[lordIdxs.indexOf(selectedIdx)] || new Set();
@@ -3284,27 +3420,17 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
   const labelR = maxR + 6;
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="segment-radar">`;
 
-  function wedgePath(a1, a2, r) {
-    const [x1, y1] = p2xy(cx, cy, r, a1);
-    const [x2, y2] = p2xy(cx, cy, r, a2);
-    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} L ${cx} ${cy} Z`;
-  }
-
-  // Reference rings
   [0.33, 0.66, 1.0].forEach(frac => {
     const r = maxR * frac;
     svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>`;
   });
 
-  // Background segment tints
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
     const d = wedgePath(-90 + sIdx * 90, -90 + sIdx * 90 + 90, maxR);
     svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.05" stroke="none" pointer-events="none"/>`;
   });
 
-  // Per-axis bars. Each axis gets a polar bar within its segment.
-  // Adjacent axes have a small angular gap so they read as distinct.
   PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
     const seg = PS_SEGMENTS[segName];
     const keys = seg.keys;
@@ -3318,13 +3444,11 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
         const d = wedgePath(a1, a2, r);
         svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
       }
-      // Faint track for empty axes
       const tickD = wedgePath(a1, a2, maxR);
       svg += `<path d="${tickD}" fill="${seg.col}" fill-opacity="0.05" stroke="${seg.col}" stroke-opacity="0.25" stroke-width="0.4" pointer-events="none"/>`;
     });
   });
 
-  // Selected-lord overlay: bright outline on each axis the lord has
   if (selectedIdx != null) {
     PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
       const seg = PS_SEGMENTS[segName];
@@ -3340,7 +3464,6 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
     });
   }
 
-  // Cardinal segment dividers
   for (let i = 0; i < 4; i++) {
     const a = -90 + i * 90;
     const [x, y] = p2xy(cx, cy, maxR, a);
@@ -3349,7 +3472,6 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
 
   svg += `<circle cx="${cx}" cy="${cy}" r="3" fill="rgba(255,255,255,0.5)" pointer-events="none"/>`;
 
-  // Segment labels at cardinal direction
   const iconSize = 22;
   PS_SEGMENT_ORDER.forEach((segName, i) => {
     const seg = PS_SEGMENTS[segName];
@@ -3477,139 +3599,6 @@ function allLordsSummary(lordIdxs) {
   return { profileRows, topRaces, total: lordIdxs.length };
 }
 
-function buildRadarSVG(lordIdxs, colors, size) {
-  size = size || RADAR_SIZE;
-  const cx = size / 2, cy = size / 2;
-  const maxR = GRID_R * size / RADAR_SIZE;
-  const labelR = LABEL_R * size / RADAR_SIZE;
-  const keys = Object.keys(PS);
-  const n = keys.length;
-
-  // Build per-axis data for each lord
-  const lordData = lordIdxs.map((lIdx, ci) => {
-    const l = LORDS[lIdx];
-    const present = new Set(l.ps.map(normTag));
-    return { lIdx, color: colors[ci % colors.length], present };
-  });
-
-  // Grid rings. For the per-card mini radar (size < 100), show just the outer
-  // ring and 4 spokes (cardinal directions) for context. The featured radar
-  // (size >= 100) shows the full grid + spokes for legibility.
-  // viewBox is padded by `pad` on every side so axis-label icons don't
-  // clip the top/bottom/left/right edges. The radar content is still
-  // centered at (size/2, size/2) in user space, so visually nothing
-  // changes except the icons now fit inside the SVG bounds.
-  const pad = 12;
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible">`;
-  if (size < 100) {
-    // Single outer ring (the polygon outline of the playstyle axes)
-    const outerPts = keys.map((_, i) => {
-      const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
-    svg += `<polygon points="${outerPts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
-    // 4 spokes (every 90°) for orientation
-    [0, 90, 180, 270].forEach(a => {
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      svg += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>`;
-    });
-  } else {
-    // Full grid for featured radar
-    [0.3, 0.6, 1.0].forEach(frac => {
-      const r = maxR * frac;
-      const pts = keys.map((_, i) => {
-        const a = i * 360 / n;
-        const [x, y] = p2xy(cx, cy, r, a);
-        return `${x.toFixed(1)},${y.toFixed(1)}`;
-      });
-      svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
-    });
-    keys.forEach((_, i) => {
-      const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
-    });
-  }
-
-  // Per-lord data polygon + dots
-  lordData.forEach(({ lIdx, color, present }) => {
-    const activeKeys = keys.filter(k => present.has(k));
-    if (activeKeys.length < 2) {
-      // Single point - draw a dot only
-      activeKeys.forEach(k => {
-        const i = keys.indexOf(k);
-        const a = i * 360 / n;
-        const [x, y] = p2xy(cx, cy, maxR, a);
-        svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size < 100 ? 2 : 3.5}" fill="${PS[k]?.ic || color}" stroke="${color}" stroke-width="1"/>`;
-      });
-      return;
-    }
-    // Polygon points - chord between active axes (legacy behavior).
-    // The fan-from-center variant was tried (commit 0b4ecd0) but the
-    // user reported the mini radars on cards vanished after clicking a
-    // playstyle pill. The chord is restored here to fix the regression.
-    // (The density view in buildAllLordsRadarSVG still uses the chord.)
-    const polyPts = activeKeys.map(k => {
-      const i = keys.indexOf(k);
-      const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
-    svg += `<polygon points="${polyPts.join(" ")}" fill="${color}28" stroke="${color}" stroke-width="${size < 100 ? 1 : 1.5}"/>`;
-    // Dots at each active axis
-    activeKeys.forEach(k => {
-      const i = keys.indexOf(k);
-      const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      const dotColor = PS[k]?.ic || color;
-      const r = size < 100 ? 2 : 3.5;
-      svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${dotColor}" stroke="${color}" stroke-width="1"/>`;
-    });
-  });
-
-  // Center dot
-  svg += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${size < 100 ? 1.5 : 2.5}" fill="rgba(255,255,255,0.2)"/>`;
-
-  // Axis labels - icon + short label. Skip when radar is small (<100px) to
-  // keep the per-card mini radar lightweight (110 of them, so every byte
-  // counts). The featured radar (size >= 100) still shows labels.
-  if (size >= 100) {
-    keys.forEach((k, i) => {
-      const a = i * 360 / n;
-      const [lx, ly] = p2xy(cx, cy, labelR, a);
-      const icon = PSI[k] || '';
-      const isActive = lordData.some(ld => ld.present.has(k));
-      const fa = a;
-      const sx = Math.cos((fa - 90) * Math.PI / 180);
-      const anchor = sx >= 0 ? 'start' : 'end';
-      const dx = sx >= 0 ? 2 : -2;
-      const dy = (i => {
-        const sy = Math.sin((fa - 90) * Math.PI / 180);
-        return sy >= 0 ? 3 : -3;
-      })();
-      const iconSize = 22;
-      const cx0 = lx + dx, cy0 = ly + dy;
-      // Visible background disc so the icon is readable on a dark radar.
-      const bgFill = isActive ? 'rgba(201,162,75,0.18)' : 'rgba(231,224,210,0.06)';
-      // Tooltip: playstyle name + description. Wraps the hit area so
-      // hover anywhere on the disc shows it.
-      const psName = PS[k]?.t || k;
-      const psDesc = PS[k]?.g || '';
-      const tipText = `${psName} - ${psDesc}`;
-      svg += `<g class="axis" data-tag="${k}">`
-           + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 2).toFixed(1)}" fill="transparent" style="cursor:help" data-tip="${tipText}"/>`
-           + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
-           + `<g transform="translate(${(cx0 - iconSize/2).toFixed(1)},${(cy0 - iconSize/2).toFixed(1)})" style="pointer-events:none;color:${isActive ? '#e7e0d2' : 'rgba(231,224,210,0.55)'}">`
-           + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
-           + `</g>`
-           + `</g>`;
-    });
-  }
-
-  svg += '</svg>';
-  return svg;
-}
 
 // ── Featured radar (main page) ──────────────────────────────────────────
 function updateFeaturedRadar() {
@@ -3815,11 +3804,7 @@ function openOverlay() {
   // Build overlaid radar
   const bigRadar = document.getElementById('ov-big-radar');
   if (bigRadar) {
-    bigRadar.innerHTML = buildRadarSVG(
-      state.cmp,
-      RADAR_COLORS,
-      340
-    );
+    bigRadar.innerHTML = buildSegmentRadarSVG(state.cmp, 340, null, RADAR_COLORS, 'overlay');
   }
 
   // Legend
@@ -3903,13 +3888,13 @@ function drawRadars() {
 // Fill every .card-radar div with a mini radar SVG for that lord.
 // Called by render() and once on initial page load (after both scripts are parsed).
 function renderCardRadars() {
-  if (typeof buildRadarSVG !== 'function') return;  // safety: second script not loaded yet
+  if (typeof buildSegmentRadarSVG !== 'function') return;  // safety: second script not loaded yet
   const els = document.querySelectorAll('.card-radar[data-i]');
   els.forEach(el => {
     const i = +el.dataset.i;
     const l = LORDS[i];
     if (!l) return;
-    el.innerHTML = buildRadarSVG([i], [RACES[l.r]?.c || '#c9a24b'], 80);
+    el.innerHTML = buildSegmentRadarSVG([i], 80, null, null, 'averaged');
   });
 }
 
@@ -4124,7 +4109,7 @@ function setupChipLongPress(){
 setupChipLongPress();
 setupRadarInteraction();
 
-// Initial render now that both scripts are loaded and buildRadarSVG exists.
+// Initial render now that both scripts are loaded and buildSegmentRadarSVG exists.
 // Without this, the mini card radars and the featured all-lords radar never
 // draw on first page load.
 // buildRaceAvgLords() must run after LORDS data + RACES are parsed and

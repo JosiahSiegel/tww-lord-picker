@@ -13,1362 +13,440 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#131017; --panel:#1b1720; --panel2:#221d29; --text:#e7e0d2; --muted:#9b9285;
-  --line:#2e2837; --gold:#c9a24b; --pro:#8fae6a; --con:#c07070;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important}}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
-.disp{font-family:"Cinzel",Georgia,serif;letter-spacing:.02em}
-header.hero{padding:22px 16px 12px;max-width:1200px;margin:0 auto}
-header.hero h1{font-family:"Cinzel",Georgia,serif;font-size:clamp(1.25rem,3.4vw,1.85rem);margin:0;color:var(--gold);font-weight:600;letter-spacing:.01em}
-header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch;font-size:.9rem}
-.bar{position:sticky;top:0;z-index:50;background:rgba(19,16,23,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 16px}
-@media(max-width:640px){
-  /* On mobile the bar holds 5 rows (search, race chips, play chips,
-     active-pills, legend). At default sizes it can cover 600+ pixels of
-     the radar. Add extra top padding so the bar reveals more of the
-     page as you scroll, and add a top margin to the radar section so
-     it's not pinned under the bar.
-     44×44 minimum touch targets for all interactive elements. */
-  .bar{padding:6px 10px 8px}
-  .bar .row{gap:5px}
-  .bar .btn{
-    font-size:.8rem;
-    padding:8px 10px;  /* ~36px tall - close to 44pt minimum */
-    min-height:36px;
-  }
-  .bar input[type=search]{
-    font-size:.85rem;
-    padding:10px 10px;  /* ~40px tall - close to 44pt minimum */
-    min-height:40px;
-  }
-  .legend{font-size:.7rem;padding:4px 8px}
-  /* Sort button text shorter on mobile so the row fits. */
-  .bar #sort-btn .sort-lbl-full{display:none}
-  .bar #sort-btn .sort-lbl-short{display:inline}
-  .bar #sort-btn::before{content:"⇅ ";color:var(--gold);font-weight:700}
-}
-.bar-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-input[type=search],select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.92rem}
-input[type=search]:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-input[type=search]::placeholder{color:rgba(231,224,210,0.45)}
-
-/* ── Top-row buttons (Filters / Sort) ── */
-.top-row{gap:6px}
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;font-size:.88rem;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s}
-.btn:hover{background:var(--panel);border-color:rgba(201,162,75,0.4)}
-.btn .btn-ic{opacity:0.7}
-.btn .btn-badge{background:var(--gold);color:#1a1419;font-weight:700;font-size:.7rem;padding:1px 7px;border-radius:999px;min-width:18px;text-align:center;line-height:1.2}
-.btn[aria-expanded="true"]{background:var(--panel);border-color:var(--gold)}
-.btn-icon{padding:8px 11px;font-size:1rem;min-width:40px;justify-content:center}
-.count-row{font-size:.78rem;padding:0 2px;margin-top:-2px;margin-bottom:2px}
-
-/* ── Popovers (Filters / Sort) ── */
-/* Popovers anchor to the right edge of the bar (where the Filters /
-   Sort buttons live). On narrow screens they flip to align with the
-   bar's padding so they don't overflow. */
-.popover{position:absolute;top:calc(100% + 6px);right:16px;left:auto;z-index:60;background:rgba(19,16,23,0.98);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(201,162,75,0.12);min-width:380px;max-width:min(720px,calc(100vw - 32px));padding:0;overflow:hidden}
-.popover.sort-pop{min-width:220px;right:120px}
-.popover[hidden]{display:none}
-.pop-tabs{display:flex;border-bottom:1px solid var(--line);padding:0;background:rgba(0,0,0,0.2)}
-/* Tab indicator is a centered pseudo-element so it hugs the text
-   width instead of spanning the full tab cell (which looked like a
-   big yellow underline across the whole popover). */
-.pop-tab{position:relative;flex:1;background:transparent;border:0;color:var(--muted);padding:12px 8px;font-size:.82rem;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:color .12s}
-.pop-tab:hover{color:var(--text)}
-.pop-tab.active{color:var(--gold)}
-.pop-tab.active::after{content:"";position:absolute;left:50%;bottom:-1px;width:32px;height:2px;background:var(--gold);transform:translateX(-50%);border-radius:1px}
-.pop-body{padding:14px 16px;max-height:60vh;overflow-y:auto}
-.pop-pane{display:none}
-.pop-pane.active{display:block}
-.pop-field{display:flex;align-items:center;gap:12px;padding:6px 0}
-.pop-field .pop-label{flex:0 0 90px;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.pop-field select{flex:1;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:.9rem;min-height:42px}
-.sort-opt{display:block;width:100%;background:transparent;border:0;color:var(--text);padding:10px 16px;font-size:.92rem;text-align:left;cursor:pointer}
-.sort-opt:hover{background:var(--panel2)}
-.sort-opt.active{color:var(--gold);font-weight:600;background:rgba(201,162,75,0.08)}
-input[type=search]{flex:1;min-width:180px}
-input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-.btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.85rem;cursor:pointer}
-.btn:hover{border-color:var(--gold)}
-.btn.gold{background:var(--gold);color:#1a1408;border-color:var(--gold);font-weight:600}
-.btn.gold:disabled{opacity:.45;cursor:default}
-/* Chips wrap onto multiple lines inside popovers (where vertical space
-   is plentiful) instead of horizontal-scrolling. Outside popovers
-   (in the inline bar) the rule below restores horizontal scroll for
-   narrow screens. */
-.pop-pane .chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 6px}
-.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%);-webkit-mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)}
-@media(max-width:640px){
-  /* Mobile: bigger touch targets, snap-scroll for chip rows, default-
-     collapsed legend so it doesn't push the radar off the screen. */
-  .chip{padding:9px 14px;font-size:.85rem;min-height:40px}
-  .chips{scroll-snap-type:x proximity;padding-bottom:8px}
-  .chips::-webkit-scrollbar{height:0}
-  .chip .count{font-size:.72rem;min-width:20px;height:20px}
-  /* fdiff/fsrc are now inline in the chip bar (Filters popover removed)
-     so they must be visible on mobile. The sort select is still in the
-     popover and stays hidden here. */
-  #sort{display:none}
-  .more-filters{font-size:.82rem;display:block}
-  .more-filters summary{padding:8px 0;cursor:pointer;color:var(--muted);list-style:none;font-weight:600}
-  .more-filters summary::before{content:"⚙ ";color:var(--gold)}
-  .more-filters[open] summary{color:var(--text)}
-  .more-filters .more-row{display:grid;grid-template-columns:1fr;gap:8px;padding:6px 0 10px}
-  .more-filters select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.9rem;min-height:42px}
-  .bar-inner{padding-bottom:2px}
-}
-.chips::-webkit-scrollbar{height:5px}
-.chips::-webkit-scrollbar-track{background:transparent}
-.chips::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
-.chips::-webkit-scrollbar-thumb:hover{background:var(--muted)}
-.chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,color .12s}
-.chip:hover{background:var(--panel);color:var(--text)}
-.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888);flex-shrink:0}
-.chip svg.chip-ico{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0.9}
-.chip.on{color:#1a1419;border-color:var(--rc,var(--gold));background:var(--rc,var(--gold));font-weight:700;box-shadow:0 0 0 1px var(--rc,var(--gold)),0 2px 8px color-mix(in srgb,var(--rc,var(--gold)) 30%,transparent)}
-/* Always render the selection marker so chip width is constant - no
-   reflow when toggling. Invisible by default; visible only on .on/.off. */
-.chip::before{content:"✓";display:inline-block;font-size:.85em;margin-right:-2px;color:transparent;width:.85em;text-align:center}
-.chip.on::before{color:rgba(0,0,0,0.5)}
-.chip.off{color:#f1d4d4;border-color:rgba(192,112,112,0.55);background:rgba(192,112,112,0.16);text-decoration:line-through;text-decoration-color:rgba(192,112,112,0.5)}
-.chip.off::before{content:"✕";color:#c07070}
-.rowlab{flex:0 0 auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px;min-width:64px}
-/* Visual distinction between Race and Play rows - Race uses round dots
-   and a neutral border, Play uses gold accents and a divider line. */
-.row.race-row{padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:4px}
-.row.play-row{padding-top:2px}
-.chip.ps{--rc:var(--gold)}
-.chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
-/* Unselected playstyle chips: tint the border and text with the
-   segment color (set via inline --rc). Makes it obvious at a glance
-   which segment (Rush/Build/Quest/Horde) each axis belongs to. The
-   background gets a faint wash of the same color so the chip reads
-   as "tinted with the parent quadrant" rather than as a generic grey
-   pill. */
-.chip.ps{color:var(--rc);border:1px solid var(--rc);background:color-mix(in srgb,var(--rc) 12%,var(--panel2))}
-.chip.ps:hover{background:color-mix(in srgb,var(--rc) 22%,var(--panel2));filter:brightness(1.1)}
-.chip.ps .count{background:color-mix(in srgb,var(--rc) 30%,transparent);color:var(--rc);font-weight:700}
-.chip.off{color:#c07070;border-color:#7a3a3a}
-.chip.off .lbl{text-decoration:line-through}
-.chip.dim{opacity:0.42}
-.chip.dim:hover{opacity:0.75}
-.chip .count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,0.08);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
-.chip.on .count,.chip.off .count{background:rgba(0,0,0,0.25);color:#1a1419;font-weight:700}
-.chip.off .count{background:rgba(192,112,112,0.3);color:#f1d4d4}
-/* Active-filter pills: a single horizontal line below the sticky bar
-   showing every currently active filter as a removable chip. Each pill
-   is sized to a 40px touch target on mobile. The bar itself is
-   scroll-snap-friendly and only appears when at least one filter is
-   active. */
-/* Active-filter pills bar. Always rendered (inside .bar-inner) so it
-   reserves vertical space and the radar below doesn't shift when a
-   filter gets added/removed. visibility:hidden keeps layout space while
-   hiding the (empty) content; .has makes it visible. */
-.active-filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 0 10px;border-top:1px solid transparent;background:transparent;scroll-snap-type:x proximity;visibility:hidden;min-height:54px}
-.active-filters.has{visibility:visible;border-top-color:rgba(201,162,75,0.25)}
-.active-filters .pill{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:rgba(201,162,75,0.16);border:1px solid rgba(201,162,75,0.4);color:var(--text);border-radius:999px;padding:0 10px 0 12px;min-height:36px;font-size:.78rem;line-height:1;scroll-snap-align:start;cursor:default}
-.active-filters .pill .x{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);color:var(--muted);font-size:.95rem;line-height:1;cursor:pointer;margin-left:2px;border:0;padding:0}
-.active-filters .pill .x:hover{background:var(--gold);color:#000}
-.active-filters .pill .pill-ic{flex:0 0 auto;display:inline-flex;align-items:center}
-.active-filters .pill .pill-ic svg{width:14px;height:14px}
-.active-filters .pill.search{padding-right:6px}
-.active-filters .pill.search .x{margin-left:6px}
-.active-filters .clear-all{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:0 14px;min-height:36px;font-size:.78rem;cursor:pointer;flex:0 0 auto}
-.active-filters .clear-all:hover{border-color:var(--gold);color:var(--gold)}
-
-/* Pass 3: active-filters on mobile. The × dismiss buttons need to be
-   44×44 for touch. The pill itself should be slightly taller. */
-@media (max-width:640px){
-  .active-filters{
-    padding:6px 0 8px;
-    min-height:46px;
-  }
-  .active-filters .pill{
-    min-height:38px;
-    padding:0 8px 0 12px;
-    font-size:.76rem;
-  }
-  .active-filters .pill .x{
-    /* Apple's HIG says 44pt is the minimum touch target. The .x circle
-       is 22px in a 36px pill, so the clickable region around the × is
-       only 22px. Wrap it in a larger hit area. */
-    position:relative;
-    width:28px;height:28px;
-    font-size:1rem;
-  }
-  .active-filters .pill .x::before{
-    /* Inflate the hit area without changing the visible circle. */
-    content:"";
-    position:absolute;
-    inset:-8px;
-    border-radius:50%;
-  }
-  .active-filters .clear-all{
-    min-height:38px;
-    padding:0 12px;
-    font-size:.76rem;
-  }
-}
-
-/* Filter-active visual cues - applied to <body> when any filter is set
-   so the bar, count badge, and other chrome can all pick it up. */
-body.filter-on .bar{border-bottom:1px solid rgba(201,162,75,0.45);box-shadow:0 2px 18px rgba(201,162,75,0.12)}
-/* When filtered, the count gets a subtle gold tint (not a full pill -
-   the active-filters bar already signals "filter is on" visually, and
-   a fully-pilled count looked like a clickable button). */
-body.filter-on #count{color:var(--gold);font-weight:600}
-body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
-
-/* Radar "Showing filter" line - make it a sticky-feeling header. */
-.fr-all-filter{background:rgba(96,200,200,0.08);border:1px solid rgba(96,200,200,0.3);border-radius:8px;padding:6px 10px;margin:6px 0 8px;font-size:.8rem;color:var(--text);display:flex;flex-wrap:wrap;align-items:center;gap:6px}
-.fr-all-filter-none{background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.15);color:var(--muted)}
-.fr-all-filter-label{color:#6cd6d6;font-weight:700;letter-spacing:.02em}
-.fr-clear-filter{background:transparent;border:1px solid rgba(192,112,112,0.5);color:#e5a3a3;border-radius:999px;padding:2px 10px;font-size:.72rem;cursor:pointer;margin-left:auto;flex:0 0 auto}
-.fr-clear-filter:hover{background:rgba(192,112,112,0.2);color:#fff}
-
-/* Playstyle profile (replaces the visual envelope polygon). When the
-   filter is active, the user gets a horizontal bar chart showing what
-   fraction of the filtered set has each playstyle. The bar width is
-   the unambiguous part: 100% = every filtered lord has it. */
-.profile-details{margin-top:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0 10px}
-.profile-details summary{cursor:pointer;padding:8px 0;font-size:.78rem;color:var(--muted);font-weight:600;list-style:none;user-select:none}
-.profile-details summary::before{content:"▸ ";color:var(--gold);margin-right:2px}
-.profile-details[open] summary::before{content:"▾ "}
-.profile-details summary:hover{color:var(--text)}
-.profile-chart{padding:6px 0 10px;display:flex;flex-direction:column;gap:5px}
-.profile-row{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;font-size:.78rem;line-height:1}
-.profile-name{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
-.profile-name svg{width:14px;height:14px;flex-shrink:0}
-.profile-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,0.05)}
-.profile-fill{display:block;height:100%;border-radius:3px;min-width:2px;transition:width .25s ease-out}
-.profile-pct{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.72rem;text-align:right;white-space:nowrap}
-@media(max-width:640px){
-  .profile-row{grid-template-columns:90px 1fr 70px;gap:6px;font-size:.72rem}
-  .profile-pct{font-size:.68rem}
-  .profile-name{font-size:.72rem}
-}
-/* .more-filters is a mobile-only <details> that wraps a second copy of
-   the difficulty/source/sort selects. Hidden on desktop where the
-   original selects are visible. The mobile media query overrides this
-   to display:block (or none if not [open]). */
-.more-filters{display:none}
-/* Floating "back to top" button - mobile only. Hidden on desktop where
-   the sticky bar already keeps navigation within reach. */
-#back-to-top{display:none;position:fixed;right:16px;bottom:80px;width:44px;height:44px;border-radius:50%;background:rgba(27,23,32,.92);border:1px solid var(--gold);color:var(--gold);font-size:1rem;cursor:pointer;z-index:55;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,0.4);transition:opacity .2s, transform .2s;opacity:0;pointer-events:none}
-#back-to-top.show{opacity:1;pointer-events:auto}
-#back-to-top:hover{background:var(--gold);color:#000;transform:translateY(-2px)}
-
-/* Pass 10: final micro-polish on mobile. Touch targets, animations,
-   back-to-top positioning, focus rings. */
-
-/* On mobile, the compare bar sits at the bottom. The back-to-top
-   button needs to sit ABOVE the compare bar so it doesn't get
-   hidden. Bottom: 80px was for desktop; on mobile we add room
-   for the compare bar. */
-@media (max-width:640px){
-  #back-to-top{
-    right:12px;
-    bottom:84px;  /* clears the compare bar (which is ~70px tall) */
-    width:42px;height:42px;
-    font-size:.95rem;
-  }
-}
-
-/* Universal focus-visible ring for keyboard / switch-control users.
-   Mobile devices don't have :focus-visible for taps, so this is
-   mainly for desktop - but the ring doesn't hurt on touch either. */
-:focus-visible{
-  outline:2px solid var(--gold);
-  outline-offset:2px;
-  border-radius:4px;
-}
-button{
-  -webkit-tap-highlight-color:rgba(201,162,75,.2);
-}
-
-/* Reduce-motion: respect user preference. If they have motion
-   reduction turned on in their OS, kill all our transitions and
-   animations. The page becomes instant, which is what they want. */
-@media (prefers-reduced-motion: reduce){
-  *,
-  *::before,
-  *::after{
-    animation-duration:0.01ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:0.01ms !important;
-    scroll-behavior:auto !important;
-  }
-}
-
-/* Playstyle filter bar - sticky, always visible, industry-standard
-   filter chips pattern (Gmail labels, GitHub topics, JIRA facets).
-   The chips have icons + labels + counts, toggle on click. */
-.ps-filter-bar{
-  position:sticky;
-  top:0;
-  z-index:40;
-  background:linear-gradient(180deg,rgba(27,23,32,.98) 0%,rgba(27,23,32,.94) 100%);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(201,162,75,.18);
-  margin:0 -16px 12px;
-  padding:8px 16px;
-}
-.ps-filter-inner{
-  max-width:1200px;
-  margin:0 auto;
-  /* Sections are always stacked vertically. RACE has 24 chips and STYLE
-     has 14, so trying to fit 3 sections in a row at any width creates
-     a 40+ row tall bar. Stacking gives every section the full bar
-     width so chips wrap to 4-5 per line naturally. */
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  gap:8px;
-}
-.ps-filter-bar .chips-section{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  width:100%;
-  min-width:0;
-}
-.ps-filter-bar .chips-section-label{
-  font-size:.65rem;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  color:var(--muted);
-  flex:0 0 auto;
-  padding:0 2px;
-}
-/* On desktop/tablet, the .chips-scroll wrapper is transparent in the
-   layout (display:contents). On mobile, it provides the horizontal-
-   scroll container with touch-action:pan-x. */
-@media (min-width:641px){
-  .ps-filter-bar .chips-scroll{display:contents}
-}
-.ps-filter-bar .chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  flex:1;
-  min-width:0;
-}
-.ps-filter-bar .chip{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:4px 10px;
-  border-radius:999px;
-  background:rgba(231,224,210,.04);
-  border:1px solid rgba(231,224,210,.12);
-  color:var(--text);
-  font-size:.8rem;
-  cursor:pointer;
-  transition:background .12s, border-color .12s, color .12s, transform .08s;
-  white-space:nowrap;
-  font-family:inherit;
-  flex:0 0 auto;  /* don't shrink in flex row */
-}
-.ps-filter-bar .chip:hover{
-  background:rgba(201,162,75,.10);
-  border-color:rgba(201,162,75,.30);
-}
-.ps-filter-bar .chip.on{
-  background:color-mix(in srgb,var(--rc) 22%,transparent);
-  border-color:var(--rc);
-  color:#fff;
-  font-weight:400;  /* explicit override - general .chip.on sets 700 which
-                       would widen the chip and reflow neighbors */
-}
-/* Override the default dark ✓ color for the chip bar - the chip-bar
-   selected chip has a race-color tint background with white text, so
-   a near-black ✓ would be invisible. */
-.ps-filter-bar .chip.on::before{color:rgba(255,255,255,.75)}
-.ps-filter-bar .chip.off{
-  background:rgba(220,80,80,.18);
-  border-color:rgba(220,80,80,.5);
-  color:#f5b7b7;
-  text-decoration:line-through;
-}
-.ps-filter-bar .chip.dim{opacity:.35}
-.ps-filter-bar .chip .count{
-  display:inline-block;
-  min-width:18px;
-  padding:0 5px;
-  border-radius:8px;
-  background:rgba(0,0,0,.35);
-  font-size:.7rem;
-  text-align:center;
-  line-height:1.4;
-}
-.ps-filter-bar .chip.on .count{background:rgba(0,0,0,.4);color:#fff}
-.psall-toggle{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-size:.78rem;
-  color:var(--text-dim);
-  cursor:pointer;
-  user-select:none;
-  white-space:nowrap;
-  padding:4px 8px;
-  border-radius:6px;
-  flex:0 0 auto;  /* don't shrink */
-}
-.psall-toggle:hover{background:rgba(201,162,75,.08);color:var(--text)}
-.psall-toggle input{accent-color:var(--gold);cursor:pointer}
-
-/* Inline Difficulty / Source dropdowns that replaced the old "Filters"
-   popover. Style them as pill-shaped select elements that match the
-   chip vocabulary: same border-radius, similar height to chips, gold
-   border + text when a non-default value is set. The custom chevron
-   uses an inline SVG so we don't depend on a font icon. */
-.chip-select{
-  appearance:none;-webkit-appearance:none;-moz-appearance:none;
-  background-color:var(--panel2);
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='%239b9285'><path d='M1 1l5 5 5-5' stroke='%239b9285' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-  background-repeat:no-repeat;
-  background-position:right 9px center;
-  background-size:10px 6px;
-  color:var(--text);
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:5px 26px 5px 12px;
-  font-size:.72rem;
-  font-family:inherit;
-  line-height:1.2;
-  cursor:pointer;
-  flex:0 0 auto;
-  min-height:32px;
-  transition:border-color .12s, color .12s, background-color .12s;
-}
-.chip-select:hover{border-color:var(--gold)}
-.chip-select:focus{
-  outline:none;
-  border-color:var(--gold);
-  box-shadow:0 0 0 2px rgba(201,162,75,.22);
-}
-.chip-select.has-value{
-  border-color:var(--gold);
-  color:var(--gold);
-  background-color:rgba(201,162,75,.08);
-}
-.chip-select.has-value{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='%23c9a24b'><path d='M1 1l5 5 5-5' stroke='%23c9a24b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");}
-
-/* Mobile: the chip bar is NOT sticky (sticky + horizontal scroll is a
-   known touch-event conflict on iOS/Android - the page scroll captures
-   the horizontal swipe). Instead, the bar sits in document flow at the
-   top of the page. The user scrolls down to see cards, scrolls up to
-   change filters. Each chips-section has its own horizontal scroll
-   wrapper (.chips-scroll) with `touch-action: pan-x` to make the
-   horizontal swipe reliable on touch. */
-@media (max-width:640px){
-  .ps-filter-bar{
-    padding:6px 0;
-    margin:0 -10px 8px;
-    border-bottom:1px solid rgba(201,162,75,.18);
-    /* Non-sticky on mobile: the interaction between position:sticky and
-       overflow-x:auto on the inner chips-scroll container causes the
-       browser to capture horizontal swipes for page scroll instead of
-       the inner container. Removing sticky entirely fixes it. */
-    position:static;
-    top:auto;
-  }
-  .ps-filter-inner{
-    flex-direction:column;
-    align-items:stretch;
-    gap:6px;
-    padding:0 10px;
-  }
-  .ps-filter-bar .chips-section{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    width:100%;
-  }
-  .ps-filter-bar .chips-section-label{
-    font-size:.62rem;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.12em;
-    color:var(--muted);
-    flex:0 0 auto;
-    width:42px;  /* fixed width so the label is always in the same place */
-  }
-  /* The scroll wrapper. This is what actually scrolls horizontally.
-     `touch-action: pan-x` is the key - it tells the browser this
-     element handles horizontal pan, so the swipe isn't stolen by
-     the page-scroll gesture. */
-  .ps-filter-bar .chips-scroll{
-    flex:1 1 0;  /* allow shrink but keep at least some width */
-    min-width:0;
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    touch-action:pan-x;
-    /* Stop scroll-chaining: when the user swipes horizontally and
-       reaches the edge, don't bounce into the page scroll. */
-    overscroll-behavior-x:contain;
-    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
-    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
-  }
-  .ps-filter-bar .chips-scroll::-webkit-scrollbar{display:none}
-  .ps-filter-bar .chips{
-    display:flex;  /* block-level flex; fills the .chips-scroll width */
-    flex-wrap:nowrap;
-    gap:5px;
-    padding:4px 0;
-    padding-right:12px;
-    /* Force the chips container to be at least as wide as its content
-       (so the overflow-x on the .chips-scroll has something to scroll).
-       Without width:max-content, flex items shrink to their container
-       and the scroll never activates. */
-    width:max-content;
-  }
-  .ps-filter-bar .chip{
-    padding:6px 9px;
-    font-size:.7rem;
-    min-height:34px;
-    flex:0 0 auto;  /* each chip is exactly as wide as its content */
-  }
-  .ps-filter-bar .chip .lbl{display:inline}
-  .ps-filter-bar .chip svg{width:13px;height:13px}
-  .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
-  /* Match-all toggle: small "All" pill that turns gold when active.
-     Looks like a chip itself so the visual language is uniform.
-     Same 36px touch target as the chips. */
-  .psall-toggle{
-    border-left:1px solid rgba(201,162,75,.2);
-    margin-left:4px;
-    padding:8px 10px;
-    font-size:.7rem;
-    min-height:36px;
-    background:rgba(231,224,210,.02);
-    border-radius:999px;
-    color:var(--text);
-  }
-  .psall-toggle span{
-    display:inline;
-    font-weight:600;
-  }
-  .psall-toggle:has(input:checked){
-    background:rgba(201,162,75,.18);
-    border-color:rgba(201,162,75,.5);
-    color:var(--gold);
-  }
-  .psall-toggle input{
-    width:12px;height:12px;
-    margin:0;
-  }
-}
-@media(max-width:640px){#back-to-top{display:block}}
-.tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
-.lord-poly.lord-hover{fill-opacity:.85;stroke-opacity:.95;stroke-width:2.4}
-.card.lord-hover-source{outline:2px solid var(--gold);outline-offset:2px;box-shadow:0 0 0 1px rgba(201,162,75,0.4)}
-.race-avg{fill-opacity:.18;stroke-opacity:.45;stroke-width:1;stroke-dasharray:3 2}
-.pshint{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-size:.74rem;color:var(--muted);white-space:nowrap;cursor:pointer}
-.pshint input{accent-color:var(--gold)}
-.legend{margin-top:2px}
-.legend summary{cursor:pointer;color:var(--muted);font-size:.76rem;list-style:none}
-.legend summary::before{content:"? ";color:var(--gold);font-weight:700}
-.legend[open] summary{color:var(--text)}
-.legend .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 18px;padding:8px 0 4px;font-size:.78rem;color:var(--muted)}
-.legend .lgrid b{color:var(--gold);font-weight:600}
-.count{color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums;opacity:.65;align-self:center}
-main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
-
-/* Pass 9: section rhythm on mobile. The page has 4 major sections
-   stacked vertically on mobile: header → controls → chip bar →
-   cards → (playstyle map). Without consistent spacing, they blur
-   together. 8px/16px multiples keep the rhythm. */
-@media (max-width:640px){
-  main{
-    padding:10px 12px 80px;  /* 80px bottom clears the compare bar */
-  }
-  /* Each race section gets breathing room above the header. */
-  .race-head{
-    margin-top:18px;
-  }
-  .race-head:first-of-type{
-    margin-top:8px;  /* first one doesn't need as much top space */
-  }
-  /* Cards in a single-column mobile layout: more vertical gap so
-     they read as discrete cards, not a continuous wall of text. */
-  .grid{
-    gap:10px;
-  }
-  /* Playstyle Map section gets extra top margin since it's a
-     secondary exploration area below the cards. */
-  #featured-radar{
-    margin-top:36px;
-  }
-}
-.race-head{margin:26px 0 10px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.race-banner{position:relative;background:var(--rc);color:#0f0c12;font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:1rem;padding:5px 22px 5px 12px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%)}
-@media (max-width:640px){
-  /* Pass 6: race headers on mobile. Since the chip bar is no longer
-     sticky on mobile (we removed sticky to fix the horizontal scroll
-     conflict), the race head sticks to top:0 of the viewport when
-     scrolling. This way the user always knows which race they're
-     reading. The header gets a translucent background + bottom shadow
-     so it visually lifts off the cards. */
-  .race-head{
-    position:sticky;
-    top:0;
-    z-index:25;
-    background:rgba(19,16,23,.95);
-    backdrop-filter:blur(8px);
-    margin:0 -10px 8px;
-    padding:8px 12px;
-    border-radius:0;
-    border-bottom:1px solid var(--line);
-    /* Subtle shadow under the sticky head so cards "go behind" it
-       when scrolling. */
-    box-shadow:0 4px 12px -4px rgba(0,0,0,0.5);
-  }
-  .race-banner{
-    font-size:.88rem;
-    padding:5px 20px 5px 12px;
-  }
-  .race-count{
-    font-size:.72rem;
-  }
-  .race-blurb{
-    font-size:.8rem;
-    line-height:1.4;
-  }
-}
-.race-blurb{color:var(--muted);font-size:.85rem;max-width:72ch}
-.race-count{color:var(--muted);font-size:.8rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;align-items:start}
-@media(max-width:380px){.grid{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--rc,#666);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s,opacity .15s,transform .15s}
-.card-entering{animation:cardIn .18s ease-out both}
-@keyframes cardIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.card:hover{border-color:var(--rc,var(--gold));border-left-color:var(--rc,#666)}
-.card h3{margin:0;font-family:"Cinzel",Georgia,serif;font-size:1.02rem;font-weight:600;color:var(--text);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.pips{font-size:.78rem;letter-spacing:1px;white-space:nowrap;flex:0 0 auto}
-.pips .f{color:var(--dc)} .pips .e{color:#4a4454}
-.sub{color:var(--muted);font-size:.8rem;margin:3px 0 6px}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
-.tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:2px 6px;color:var(--muted);background:none;font-family:inherit;cursor:pointer}
-.tag.ps-pill{color:var(--text);border:1.5px solid var(--rc);background:color-mix(in srgb,var(--rc) 8%,transparent);padding:3px 9px;letter-spacing:.08em;font-weight:500}
-.tag:hover{border-color:var(--gold);color:var(--text);filter:brightness(1.2)}
-.tag.ps-pill:hover{filter:brightness(1.15);color:var(--text);border-color:color-mix(in srgb,var(--rc) 60%,var(--gold))}
-.tag.on{border-color:var(--gold);color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent)}
-.tag.ps-pill.on{border:1.5px solid var(--rc);background:color-mix(in srgb,var(--rc) 14%,transparent);color:var(--rc);font-weight:600}
-.pick{font-size:.86rem;color:#d8cfae;font-style:italic;margin:0}
-
-/* Pass 1: mobile card density & hierarchy. The card holds lord name,
-   race · subtitle, difficulty pips, 1-2 playstyle tags, a "pick if…"
-   recommendation, and (optionally) pros/cons/mechanics in the expanded
-   state. That's a lot for a 390px viewport. Tighter type, smarter
-   spacing, and a clear top-to-bottom reading order. */
-@media (max-width:640px){
-  .card{
-    padding:12px 12px 11px;  /* tighter sides so the race-color bar still reads as a stripe */
-    border-radius:9px;
-  }
-  .card h3{
-    font-size:1.08rem;  /* slightly bigger so the lord name reads as the headline */
-    line-height:1.2;
-  }
-  .sub{
-    font-size:.78rem;
-    margin:4px 0 7px;
-  }
-  .pips{
-    font-size:.7rem;
-    letter-spacing:.5px;
-  }
-  .tags{
-    gap:4px;
-    margin-bottom:8px;
-  }
-  .tag{
-    font-size:.66rem;
-    padding:3px 7px;  /* slightly larger touch area for tapping */
-    min-height:22px;
-  }
-  .pick{
-    font-size:.85rem;
-    line-height:1.45;
-  }
-  /* Difficulty pips need to sit on the right of the lord name. They
-     shouldn't dominate the card. Smaller on mobile. */
-  .pips{
-    flex:0 0 auto;
-  }
-}
-.links{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:.78rem}
-.links a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(201,162,75,.5)}
-.links a:hover{border-bottom-style:solid}
-.race-head .links{margin-top:0;margin-left:auto}
-.det{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:.87rem}
-.card.open .det{display:block}
-.det .mname{color:var(--gold);font-weight:600}
-.battle{font-size:.82rem;color:var(--muted);margin:0 0 8px;padding:6px 9px;background:var(--panel2);border-radius:6px}
-.battle b{color:var(--text);font-weight:600}
-.det ul{margin:6px 0;padding-left:0;list-style:none}
-.det li{margin:4px 0;padding-left:1.25em;text-indent:-1.25em}
-
-/* Pass 4: card expand/collapse on mobile. The whole card is the tap
-   target - the user taps anywhere to expand. On mobile we add a
-   subtle "tap to expand" hint and a chevron that rotates when open.
-   When open, the card gets a stronger left border (using the race
-   color) so the user can see which lord is being examined. */
-@media (max-width:640px){
-  .card{
-    /* Subtle press feedback: scale down slightly on touch. Better
-       than border-color flash because it gives the user haptic-like
-       confirmation. */
-    transition:transform .12s,border-color .15s,background .15s;
-  }
-  .card:active{
-    transform:scale(0.99);
-  }
-  .card.open{
-    background:color-mix(in srgb,var(--rc,var(--gold)) 6%,var(--panel));
-    border-color:rgba(201,162,75,0.4);
-  }
-  /* The lord name gets a subtle chevron so the user knows it's tappable.
-     Done via ::after on h3 so we don't have to touch the render code. */
-  .card h3::after{
-    content:"▾";
-    color:var(--muted);
-    font-size:.8em;
-    margin-left:6px;
-    transition:transform .18s,color .15s;
-    flex:0 0 auto;
-  }
-  .card.open h3::after{
-    transform:rotate(180deg);
-    color:var(--gold);
-  }
-  .det{
-    margin-top:12px;
-    padding-top:12px;
-    font-size:.86rem;
-  }
-  .battle{
-    font-size:.82rem;
-    line-height:1.5;
-  }
-}
-.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
-@media(max-width:520px){.pc{grid-template-columns:1fr}}
-.pc h4{margin:0 0 3px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}
-.pros h4{color:var(--pro)} .cons h4{color:var(--con)}
-.pros li::before{content:"+ ";color:var(--pro);font-weight:700}
-.cons li::before{content:"- ";color:var(--con);font-weight:700}
-.mech li::before{content:"◆ ";color:var(--rc,var(--gold));font-size:.7em}
-.cmp-toggle{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
-.cmp-toggle:hover{color:var(--text)}
-.cmp-toggle input{accent-color:var(--gold)}
-@media (max-width:640px){
-  /* Mobile: bigger touch target for the compare checkbox. The
-     checkbox itself is small but the entire label is tappable, and
-     we add explicit padding + min-height for the 44pt rule. */
-  .cmp-toggle{
-    padding:8px 12px 8px 8px;
-    margin-top:6px;
-    min-height:40px;
-    border-radius:8px;
-    background:rgba(231,224,210,.03);
-    border:1px solid var(--line);
-    font-size:.8rem;
-    width:100%;
-    justify-content:flex-start;
-  }
-  .cmp-toggle input{
-    width:18px;height:18px;
-  }
-  .card{padding:14px}
-  .pick{font-size:.85rem}
-  .links{gap:4px 12px}
-}
-.hint{color:var(--muted);font-size:.78rem}
-#cmpbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(27,23,32,.97);border-top:1px solid var(--gold);border-top-left-radius:12px;border-top-right-radius:12px;padding:10px 16px;display:none;backdrop-filter:blur(8px)}
-#cmpbar.show{display:flex;gap:10px;align-items:center;justify-content:space-between}
-#cmpbar .cmp-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
-#cmpbar .cmp-count{font-size:.82rem;color:var(--gold);font-weight:600}
-#cmpbar .cmp-names{font-size:.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
-#cmpbar .cmp-actions{display:flex;gap:8px;flex-shrink:0}
-#cmpbar .bar-inner{flex-direction:row;flex-wrap:wrap;align-items:center}
-#cmpbar .names{font-size:.85rem;color:var(--text)}
-
-/* Pass 2: compare bar on mobile. On mobile, the bar is the only way
-   to know you have selections - it has to be unmissable. Make the
-   Compare button tall, the count readable, the names visible (single
-   line, ellipsis on overflow), and add a small clear (✕) button. */
-@media (max-width:640px){
-  #cmpbar{
-    padding:10px 12px 12px;  /* respect iOS safe-area-ish bottom padding */
-    gap:8px;
-    flex-direction:column;  /* stack info row above actions row */
-    align-items:stretch;
-  }
-  #cmpbar .cmp-info{
-    width:100%;
-    min-width:100%;  /* override the .cmp-info{flex:1;min-width:0} from desktop */
-    flex:0 0 auto;    /* don't try to grow in the column axis */
-  }
-  #cmpbar .cmp-count{
-    font-size:.85rem;  /* slightly bigger on mobile so the user can read at a glance */
-  }
-  #cmpbar .cmp-names{
-    font-size:.7rem;
-    max-width:100%;
-  }
-  #cmpbar .cmp-actions{
-    width:100%;  /* full-width row of action buttons */
-    margin-top:0;
-    display:flex;
-    gap:8px;
-  }
-  #cmpbar .cmp-actions #docmp{
-    flex:1;
-    padding:11px 14px;  /* 44pt-ish touch target */
-    font-size:.92rem;
-    min-height:44px;
-  }
-  /* Small "✕" to clear all selections, on the right of the count line.
-     Without it, the only way to back out is the per-card checkbox
-     (which scrolls into view only after dismissing the bar). */
-  #cmpbar .cmp-clear{
-    background:transparent;
-    border:1px solid rgba(231,224,210,.25);
-    color:var(--muted);
-    width:36px;height:36px;
-    border-radius:50%;
-    font-size:1.1rem;
-    line-height:1;
-    cursor:pointer;
-    flex-shrink:0;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-  }
-  #cmpbar .cmp-clear:hover,
-  #cmpbar .cmp-clear:active{
-    background:rgba(220,80,80,.18);
-    border-color:rgba(220,80,80,.5);
-    color:#f5b7b7;
-  }
-}
-#overlay{position:fixed;inset:0;z-index:70;background:rgba(10,8,13,.97);display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 14px 60px;opacity:0;transition:opacity .2s ease}#overlay.show{display:block;opacity:1}
-#overlay.show{display:block}
-.ov-inner{max-width:1200px;margin:0 auto}
-.ov-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.ov-head h2{font-family:"Cinzel",Georgia,serif;color:var(--gold);margin:0;font-size:1.2rem}
-.ov-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
-.ov-col{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--rc);border-radius:10px;padding:14px}
-.ov-col h3{font-family:"Cinzel",Georgia,serif;margin:0;font-size:1.05rem}
-.ov-col .sub{margin-bottom:8px}
-
-/* Pass 5: compare overlay on mobile. Full-screen sheet with proper
-   close button, scrollable body, and stacked lord cards (not 2-col
-   which would cramp the 390px viewport). The big radar shrinks to
-   fit the available width, and there's a clear "Done" button to
-   dismiss. */
-@media (max-width:640px){
-  #overlay{
-    padding:0;  /* full-bleed on mobile; the inner sheet handles padding */
-  }
-  .ov-inner{
-    padding:14px 12px 80px;  /* bottom padding clears the back-to-top / nav */
-  }
-  .ov-head{
-    position:sticky;
-    top:0;
-    background:rgba(10,8,13,.92);
-    backdrop-filter:blur(8px);
-    z-index:2;
-    margin:0 -12px 14px;
-    padding:10px 14px;
-    border-bottom:1px solid var(--line);
-  }
-  .ov-head h2{
-    font-size:1.05rem;
-  }
-  /* Stacked single-column on mobile (the 2+1=3-card grid would make
-     each column ~120px which is unreadable). */
-  .ov-cols{
-    grid-template-columns:1fr;
-    gap:14px;
-  }
-  .ov-col{
-    padding:12px;
-  }
-  .ov-col h3{
-    font-size:1rem;
-  }
-  .ov-radar{
-    height:280px !important;  /* override the 260px default so it's roomy */
-  }
-  /* Make sure the close button is unmistakable */
-  .ov-close{
-    min-width:44px;
-    min-height:44px;
-    font-size:1.1rem;
-  }
-}
-footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
-/* Empty state when filters yield zero matches. Big icon, clear message,
-   and a "Clear all filters" button right there so the user can recover
-   without scrolling back up. */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:80px 20px;color:var(--muted);text-align:center}
-.empty .empty-icon{font-size:3rem;opacity:0.4;line-height:1}
-.empty .empty-msg{font-size:1.05rem;color:var(--text);font-weight:600}
-.empty .empty-sub{font-size:.88rem;color:var(--muted);max-width:340px}
-.empty .empty-action{margin-top:8px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:8px 18px;font-size:.85rem;cursor:pointer;transition:background .12s}
-.empty .empty-action:hover{background:rgba(201,162,75,0.12)}
-
-/* Pass 8: empty-state polish on mobile. When 0 results match, the
-   user needs to know which filter is blocking them and how to
-   recover. The empty state gets a one-line summary of active
-   filters, a clear "clear all filters" action, and proper mobile
-   sizing. */
-@media (max-width:640px){
-  .empty{
-    padding:60px 18px;
-    gap:14px;
-  }
-  .empty .empty-icon{
-    font-size:2.5rem;
-  }
-  .empty .empty-msg{
-    font-size:1rem;
-    line-height:1.3;
-  }
-  .empty .empty-sub{
-    font-size:.85rem;
-    line-height:1.5;
-  }
-  .empty .empty-action{
-    padding:11px 22px;  /* 44pt min touch target */
-    min-height:44px;
-    font-size:.9rem;
-  }
-  .empty .empty-filters{
-    background:rgba(201,162,75,.08);
-    border:1px solid rgba(201,162,75,.2);
-    border-radius:8px;
-    padding:8px 12px;
-    font-size:.8rem;
-    color:var(--text);
-    max-width:280px;
-    text-align:left;
-  }
-  .empty .empty-filters-label{
-    font-size:.7rem;
-    text-transform:uppercase;
-    letter-spacing:.1em;
-    color:var(--muted);
-    margin-bottom:4px;
-  }
-}
-/* ── Playstyle icon pills ── */
-.ps-pill{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.72rem;color:var(--muted);white-space:nowrap;cursor:default;line-height:1;user-select:none;transition:background .12s}
-.ps-pill:hover{background:var(--panel)}
-.ps-pill.on{border-color:var(--icon-col,#888);color:var(--icon-col,#888);background:color-mix(in srgb,var(--icon-col,#888) 12%,var(--panel2))}
-.ps-pill svg{width:14px;height:14px;flex-shrink:0;fill:currentColor;stroke:currentColor;stroke-width:1.6}
-.ps-pill-label{text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-
-/* ── Radar in overlay ── */
-.ov-radar{margin:10px 0 6px;height:200px;min-height:180px;position:relative;display:block}@media(max-width:600px){.ov-radar{height:260px}}
-
-.radar-legend{display:flex;gap:12px;flex-wrap:wrap;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
-.rl-item{display:flex;align-items:center;gap:5px;font-size:.78rem}
-.rl-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0;opacity:.85}
-.ov-tag{display:inline-flex;align-items:center;gap:4px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
-.ov-tag svg{width:11px;height:11px;fill:currentColor}
-
-/* ── Featured radar section (Playstyle Map, below the cards) ── */
-#featured-radar{
-  max-width:1200px;margin:32px auto 24px;padding:0 16px;
-}
-.radar-section-title{
-  font-family:"Cinzel",Georgia,serif;
-  font-size:1.1rem;font-weight:600;color:var(--gold);
-  margin:0 0 6px;letter-spacing:.02em;
-}
-.radar-section-sub{
-  color:var(--muted);font-size:.85rem;margin:0 0 14px;max-width:720px;
-  line-height:1.45;
-}
-#featured-radar .fr-inner{
-  display:flex;gap:24px;align-items:flex-start;
-  background:var(--panel);border:1px solid var(--line);
-  border-left:4px solid var(--gold);border-radius:12px;
-  padding:18px 20px;
-}
-#featured-radar .fr-radar{
-  flex:0 0 220px;width:220px;height:220px;
-  position:relative;
-}
-#featured-radar .fr-radar svg{width:220px;height:220px}
-@media (max-width:640px){
-  #featured-radar .fr-radar{flex:0 0 180px;width:180px;height:180px}
-  #featured-radar .fr-radar svg{width:180px;height:180px}
-  #featured-radar{padding:12px 14px}
-  #featured-radar h2{font-size:1rem}
-  #featured-radar .fr-name{font-size:.9rem}
-  #featured-radar .fr-info{min-width:0}
-  #featured-radar .fr-sub{font-size:.75rem;margin-bottom:8px}
-  #featured-radar .fr-tags{margin-bottom:8px}
-  .radar-section-title{font-size:1rem}
-  .radar-section-sub{font-size:.8rem}
-  #featured-radar .fr-tag{font-size:.65rem;padding:2px 6px}
-}
-#featured-radar .fr-info{flex:1;min-width:320px;overflow-wrap:break-word;word-wrap:break-word}
-#featured-radar h2{
-  font-family:"Cinzel",Georgia,serif;font-size:1.15rem;
-  color:var(--gold);margin:0 0 6px;font-weight:600;
-}
-#featured-radar .fr-name{
-  font-family:"Cinzel",Georgia,serif;font-size:1rem;
-  color:var(--text);margin:0 0 2px;font-weight:600;
-}
-#featured-radar .fr-sub{color:var(--muted);font-size:.82rem;margin:0 0 12px}
-#featured-radar .fr-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-#featured-radar .fr-tag{
-  display:inline-flex;align-items:center;gap:4px;
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:999px;padding:3px 8px;font-size:.7rem;
-}
-#featured-radar .fr-tag svg{width:10px;height:10px;fill:currentColor}
-#featured-radar .fr-battle{
-  background:var(--panel2);border-radius:8px;padding:8px 10px;
-  font-size:.82rem;color:var(--muted);margin:0 0 10px;
-}
-#featured-radar .fr-battle b{color:var(--text)}
-#featured-radar .fr-hint{
-  color:var(--muted);font-size:.75rem;font-style:italic;
-}
-#featured-radar .fr-empty{
-  flex:1;text-align:center;padding:40px 20px;
-  color:var(--muted);font-style:italic;font-size:.9rem;
-}
-#featured-radar .fr-empty-sub{font-size:.78rem;margin-top:6px}
-
-/* Mobile: stack radar above info, shrink all-lords radar to fit width.
-   On mobile, the all-lords summary block collapses to a single line that
-   the user can tap to expand the full radar - same disclosure pattern as
-   the legend summary, applied to a much larger element. Keeps the
-   viewport focused on the cards by default. */
-@media(max-width:640px){
-  #featured-radar .fr-inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 12px}
-  #featured-radar .fr-inner.all-lords .fr-radar{
-    flex:0 0 auto;width:100%;height:auto;aspect-ratio:1;margin:0 auto;
-  }
-  #featured-radar .fr-radar,
-  #featured-radar .fr-inner.all-lords .fr-radar svg{
-    width:100%!important;height:100%!important;
-  }
-  #featured-radar .fr-info{width:100%;text-align:left}
-  #featured-radar .fr-tags{justify-content:flex-start}
-  #featured-radar .fr-battle{text-align:left}
-  #featured-radar .fr-all-summary{font-size:.78rem;line-height:1.45}
-
-  /* Static info block on mobile. The radar is always visible (no
-     collapse), and the count + hint sit below it as plain text. */
-  #featured-radar .fr-inner.all-lords .fr-all-summary{
-    text-align:center;
-    margin-top:10px;
-    color:var(--muted);
-  }
-  #featured-radar .fr-inner.all-lords .fr-all-filter{
-    font-size:.75rem;padding:4px 6px;
-  }
-
-  /* Play style profile disclosure. This is the only collapsible
-     element in the section. The radar above it is always visible, the
-     count + hint below the radar are static text. The profile is its
-     own <details> with its own "tap to expand/tap to collapse" label
-     so it's unambiguous what tapping does. */
-  #featured-radar .fr-profile{
-    width:100%;
-    max-width:440px;
-    margin:8px auto 0;
-  }
-  #featured-radar .fr-profile .profile-details{
-    margin-top:0;
-    min-height:44px;
-  }
-  #featured-radar .fr-profile .profile-details summary{
-    padding:12px 10px;
-    min-height:44px;
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:6px;
-  }
-  #featured-radar .fr-profile .profile-details summary::after{
-    content:"tap to expand";
-    display:inline-block;
-    margin-left:auto;
-    font-size:.65rem;
-    color:var(--gold);
-    opacity:.75;
-    text-transform:uppercase;
-    letter-spacing:.05em;
-  }
-  #featured-radar .fr-profile .profile-details[open] summary::after{
-    content:"tap to collapse";
-  }
-  /* On mobile the long summary text is unnecessary - the bar chart
-     below the title tells the same story. Hide the verbose part. */
-  #featured-radar .fr-profile .profile-hint{display:none}
-}
-
-/* "All lords" mode - radar is centered, sized to fit content width.
-   440px is a good balance: large enough to read 14 axes, small enough
-   not to dominate the page. The radar now lives BELOW the cards as a
-   "Playstyle Map" exploration section, not above. */
-#featured-radar .fr-inner.all-lords{flex-direction:column;align-items:center}
-#featured-radar .fr-inner.all-lords .fr-radar{
-  flex:0 0 auto;width:440px;height:440px;max-width:100%;margin:0 auto;
-}
-#featured-radar .fr-inner.all-lords .fr-radar svg{width:100%;height:100%;display:block}
-#featured-radar .fr-all-summary{
-  text-align:center;margin:14px 0 0;color:var(--muted);
-  font-size:.86rem;line-height:1.55;
-}
-#featured-radar .fr-all-summary b{color:var(--gold);font-weight:600}
-#featured-radar .fr-all-hint{
-  text-align:center;margin-top:6px;color:var(--muted);
-  font-size:.78rem;font-style:italic;
-}
-#featured-radar .fr-all-filter{
-  text-align:center;margin-top:8px;color:var(--text);
-  font-size:.82rem;
-}
-/* Radar style toggle (Density ↔ Constellation) - sits in the radar
-   summary area, two pill buttons side by side. Small enough not to
-   compete with the radar itself. */
-
-.fr-style-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;opacity:0.7}
-
-
-
-/* Constellation mode: dissolve the panel rectangle so the cosmic void
-   becomes the entire feature area, not a square stuck on a card. */
-#featured-radar .fr-inner.all-lords.magical-mode{background:transparent;border:none;padding-top:0;padding-bottom:0}
-to{transform:rotate(360deg)}}
-#featured-radar .fr-inner.all-lords.magical-mode .fr-radar{background:transparent}
-#featured-radar .fr-all-filter b{color:var(--gold);font-weight:600}
-#featured-radar .fr-clear-filter{
-  background:var(--panel2);border:1px solid var(--line);color:var(--text);
-  border-radius:6px;padding:2px 8px;font-size:.7rem;cursor:pointer;margin-left:6px;
-}
-#featured-radar .fr-clear-filter:hover{border-color:var(--gold);color:var(--gold)}
-
-/* Jump-to-results button - appears under the radar after the user
-   applies a filter that narrows the set. Tapping scrolls to the first
-   matching card, making the radar a real navigation tool. */
-.fr-jump-to-results{display:block;width:100%;margin:10px 0 4px;padding:10px 14px;background:linear-gradient(180deg,rgba(201,162,75,0.18),rgba(201,162,75,0.08));border:1px solid rgba(201,162,75,0.5);color:var(--gold);border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .12s,transform .08s}
-.fr-jump-to-results:hover{background:linear-gradient(180deg,rgba(201,162,75,0.28),rgba(201,162,75,0.14))}
-.fr-jump-to-results:active{transform:scale(0.98)}
-
-/* Selected lord polygon in the density view. The inline style handles
-   fill/stroke, but a CSS fallback for the cursor/hover. */
-.lord-poly:hover{fill-opacity:.32!important;stroke-opacity:.7!important;stroke-width:1.2!important}
-.lord-poly-selected{fill-opacity:.55!important;stroke-opacity:.95!important;stroke-width:2!important;filter:drop-shadow(0 0 4px rgba(255,248,224,0.6))}
-
-/* ── Radar interactivity ──────────────────────────────────────────────── */
-.all-lords-radar{cursor:crosshair}
-.all-lords-radar .wedge{transition:fill .12s, stroke .12s, stroke-width .12s}
-.all-lords-radar .wedge:hover{
-  fill:rgba(201,162,75,0.22) !important;
-  stroke:rgba(201,162,75,0.7) !important;
-  stroke-width:1.2 !important;
-  cursor:pointer;
-}
-/* Wedge selection states (driven by inline class on the polygon).
-   .wedge-hit.wedge-include = both bounding tags are in the include set (multi-select
-   or single replace click). .wedge-exclude = both in the exclude set.
-   The strong fill makes it obvious which segments are active when the
-   user has stacked multiple selections via ctrl-click / long-press. */
-.all-lords-radar .wedge-hit.wedge-include{
-  fill:rgba(201,162,75,0.34) !important;
-  stroke:rgba(201,162,75,0.95) !important;
-  stroke-width:1.5 !important;
-  cursor:pointer;
-}
-.all-lords-radar .wedge-exclude{
-  fill:rgba(192,112,112,0.24) !important;
-  stroke:rgba(192,112,112,0.85) !important;
-  stroke-width:1.3 !important;
-  cursor:pointer;
-}
-.all-lords-radar .wedge-partial{
-  /* One bounding tag is in the include set, the other is not. A faint
-     tint only - partial inclusion isn't a real filter state, just a hint
-     that an adjacent axis is selected. */
-  fill:rgba(201,162,75,0.10) !important;
-  stroke:rgba(201,162,75,0.45) !important;
-  stroke-width:0.8 !important;
-}
-.all-lords-radar .axis circle:hover{
-  fill:rgba(201,162,75,0.25) !important;
-  cursor:pointer;
-}
-.all-lords-radar .axis text{
-  transition:fill .12s, font-size .12s;
-}
-
-/* Prevent native text selection / iOS long-press callout / tap highlight
-   on the radar. The radar has no meaningful text to copy, and the iOS
-   "Copy / Look Up" callout that pops up after ~500ms of holding fights
-   with our own long-press handler (which fires the additive action at
-   the same threshold). Disabling these native behaviors keeps touch
-   interaction clean. */
-.all-lords-radar,
-.all-lords-radar *{
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-  -webkit-touch-callout:none;
-  -webkit-tap-highlight-color:transparent;
-}
-#featured-radar .fr-compare-btn{
-  background:var(--gold);color:#1a1408;border:none;border-radius:8px;
-  padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;
-  margin-top:8px;width:fit-content;max-width:100%;
-}
-#featured-radar .fr-compare-btn:disabled{opacity:.4;cursor:default}
-#featured-radar .fr-legend{
-  display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;
-}
-#featured-radar .fr-legend-item{
-  display:flex;align-items:center;gap:5px;font-size:.75rem;
-}
-#featured-radar .fr-legend-dot{
-  width:8px;height:8px;border-radius:50%;flex-shrink:0;
-}
-
-/* ── Mini radar on lord cards ── */
-.card-radar{
-  float:right;width:80px;height:80px;margin-left:10px;
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:8px;overflow:hidden;flex-shrink:0;
-  position:relative;
-}
-.card-radar svg{width:80px;height:80px;display:block}
-.card{overflow:hidden}
-
-/* ── Comparison overlay ── */
-#overlay .ov-body{
-  display:grid;
-  grid-template-columns:1fr 340px;
-  gap:16px;
-  align-items:start;
-}
-@media(max-width:700px){
-  #overlay .ov-body{grid-template-columns:1fr}
-}
-#overlay .ov-radar-col{
-  background:var(--panel);border:1px solid var(--line);
-  border-top:4px solid var(--gold);border-radius:12px;
-  padding:16px;
-}
-#overlay .ov-radar-col h3{
-  font-family:"Cinzel",Georgia,serif;font-size:1rem;
-  color:var(--gold);margin:0 0 12px;font-weight:600;
-}
-#overlay .ov-big-radar{width:100%;aspect-ratio:1;max-width:340px}
-#overlay .ov-big-radar svg{width:100%;height:100%}
-#overlay .ov-legend{
-  display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;
-}
-#overlay .ov-legend-item{
-  display:flex;align-items:center;gap:6px;font-size:.8rem;
-}
-#overlay .ov-legend-dot{
-  width:10px;height:10px;border-radius:50%;flex-shrink:0;
-}
-#overlay .ov-lords-col{
-  display:flex;flex-direction:column;gap:10px;
-}
-#overlay .ov-lord-row{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:10px;padding:12px 14px;
-}
-#overlay .ov-lord-row h4{
-  font-family:"Cinzel",Georgia,serif;font-size:.95rem;
-  margin:0 0 2px;font-weight:600;
-}
-#overlay .ov-lord-row .ov-lord-sub{font-size:.75rem;color:var(--muted);margin:0 0 4px}
-#overlay .ov-lord-row .ov-lord-stats{
-  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
-  font-size:.72rem;color:var(--muted);margin:0 0 8px;
-}
-#overlay .ov-lord-row .ov-stat{
-  display:inline-flex;align-items:center;gap:4px;
-}
-#overlay .ov-lord-row .ov-stars{color:var(--gold);letter-spacing:.5px;font-size:.78rem}
-#overlay .ov-lord-row .ov-section{margin:8px 0 0}
-#overlay .ov-lord-row .ov-section-label{
-  font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--gold);font-weight:700;margin:0 0 4px;opacity:.85;
-}
-#overlay .ov-lord-row .ov-mech-name{
-  font-size:.82rem;color:var(--text);font-weight:600;margin:0 0 2px;
-}
-#overlay .ov-lord-row .ov-mech-desc{
-  font-size:.74rem;color:var(--muted);line-height:1.45;margin:0;
-}
-#overlay .ov-lord-row .ov-pros-cons{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;
-  margin:4px 0 0;
-}
-#overlay .ov-lord-row .ov-pc-block{
-  background:var(--panel2);border-radius:6px;padding:6px 8px;
-  font-size:.72rem;line-height:1.4;
-}
-#overlay .ov-lord-row .ov-pc-block.pros{border-left:2px solid var(--pro)}
-#overlay .ov-lord-row .ov-pc-block.cons{border-left:2px solid var(--con)}
-#overlay .ov-lord-row .ov-pc-block ul{margin:0;padding:0;list-style:none}
-#overlay .ov-lord-row .ov-pc-block li{padding:1px 0}
-#overlay .ov-lord-row .ov-pc-block li::before{
-  content:"";display:inline-block;width:8px;
-}
-#overlay .ov-lord-row .ov-pc-block.pros li::before{content:"+ ";color:var(--pro);font-weight:700}
-#overlay .ov-lord-row .ov-pc-block.cons li::before{content:"− ";color:var(--con);font-weight:700}
-#overlay .ov-lord-row .ov-battle{
-  font-size:.72rem;color:var(--text);background:var(--panel2);
-  border-radius:6px;padding:6px 8px;margin:0;line-height:1.4;
-}
-#overlay .ov-lord-row .ov-battle b{color:var(--gold);font-weight:600}
-#overlay .ov-lord-row .ov-pick{
-  font-size:.78rem;color:var(--text);font-style:italic;line-height:1.4;
-  margin:6px 0 0;padding:6px 8px;
-  border-left:2px solid var(--gold);
-  background:rgba(201,162,75,.06);
-}
-#overlay .ov-lord-tags{display:flex;flex-wrap:wrap;gap:4px}
-#overlay .ov-lord-tag{
-  display:inline-flex;align-items:center;gap:3px;
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:999px;padding:2px 6px;font-size:.65rem;
-}
-#overlay .ov-lord-tag svg{width:9px;height:9px;fill:currentColor}
-
-/* Stack pros/cons vertically on narrow screens */
-@media (max-width:520px){
-  #overlay .ov-lord-row .ov-pros-cons{grid-template-columns:1fr}
-}
-
+:root{ --bg:#131017; --panel:#1b1720; --panel2:#221d29; --text:#e7e0d2; --muted:#9b9285; --line:#2e2837; --gold:#c9a24b; --pro:#8fae6a; --con:#c07070; }
+ *{box-sizing:border-box}
+ html{scroll-behavior:smooth}
+ @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+ *{transition:none!important}
+ }
+ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+ .disp{font-family:"Cinzel",Georgia,serif;letter-spacing:.02em}
+ header.hero{padding:22px 16px 12px;max-width:1200px;margin:0 auto}
+ header.hero h1{font-family:"Cinzel",Georgia,serif;font-size:clamp(1.25rem,3.4vw,1.85rem);margin:0;color:var(--gold);font-weight:600;letter-spacing:.01em}
+ header.hero p{margin:.4em 0 0;color:var(--muted);max-width:70ch;font-size:.9rem}
+ .bar{position:sticky;top:0;z-index:50;background:rgba(19,16,23,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 16px}
+ @media(max-width:640px){.bar{padding:6px 10px 8px}
+ .bar .row{gap:5px}
+ .bar .btn{ font-size:.8rem; padding:8px 10px; /* ~36px tall - close to 44pt minimum */ min-height:36px; }
+ .bar input[type=search]{ font-size:.85rem; padding:10px 10px; /* ~40px tall - close to 44pt minimum */ min-height:40px; }
+ .legend{font-size:.7rem;padding:4px 8px}
+ .bar #sort-btn .sort-lbl-full{display:none}
+ .bar #sort-btn .sort-lbl-short{display:inline}
+ .bar #sort-btn::before{content:"⇅ ";color:var(--gold);font-weight:700}
+ }
+ .bar-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+ .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+ input[type=search],select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.92rem}
+ input[type=search]:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+ input[type=search]::placeholder{color:rgba(231,224,210,0.45)}
+ .top-row{gap:6px}
+ .btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;font-size:.88rem;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s}
+ .btn:hover{background:var(--panel);border-color:rgba(201,162,75,0.4)}
+ .btn .btn-ic{opacity:0.7}
+ .btn .btn-badge{background:var(--gold);color:#1a1419;font-weight:700;font-size:.7rem;padding:1px 7px;border-radius:999px;min-width:18px;text-align:center;line-height:1.2}
+ .btn[aria-expanded="true"]{background:var(--panel);border-color:var(--gold)}
+ .btn-icon{padding:8px 11px;font-size:1rem;min-width:40px;justify-content:center}
+ .count-row{font-size:.78rem;padding:0 2px;margin-top:-2px;margin-bottom:2px}
+ .popover{position:absolute;top:calc(100% + 6px);right:16px;left:auto;z-index:60;background:rgba(19,16,23,0.98);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(201,162,75,0.12);min-width:380px;max-width:min(720px,calc(100vw - 32px));padding:0;overflow:hidden}
+ .popover.sort-pop{min-width:220px;right:120px}
+ .popover[hidden]{display:none}
+ .sort-opt{display:block;width:100%;background:transparent;border:0;color:var(--text);padding:10px 16px;font-size:.92rem;text-align:left;cursor:pointer}
+ .sort-opt:hover{background:var(--panel2)}
+ .sort-opt.active{color:var(--gold);font-weight:600;background:rgba(201,162,75,0.08)}
+ input[type=search]{flex:1;min-width:180px}
+ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+ .btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.85rem;cursor:pointer}
+ .btn:hover{border-color:var(--gold)}
+ .btn.gold{background:var(--gold);color:#1a1408;border-color:var(--gold);font-weight:600}
+ .btn.gold:disabled{opacity:.45;cursor:default}
+ .chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%);-webkit-mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)}
+ @media(max-width:640px){.chip{padding:9px 14px;font-size:.85rem;min-height:40px}
+ .chips{scroll-snap-type:x proximity;padding-bottom:8px}
+ .chips::-webkit-scrollbar{height:0}
+ .chip .count{font-size:.72rem;min-width:20px;height:20px}
+ #sort{display:none}
+ .bar-inner{padding-bottom:2px}
+ }
+ .chips::-webkit-scrollbar{height:5px}
+ .chips::-webkit-scrollbar-track{background:transparent}
+ .chips::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+ .chips::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+ .chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.8rem;color:var(--muted);cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,color .12s}
+ .chip:hover{background:var(--panel);color:var(--text)}
+ .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--rc,#888);flex-shrink:0}
+ .chip svg.chip-ico{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0.9}
+ .chip.on{color:#1a1419;border-color:var(--rc,var(--gold));background:var(--rc,var(--gold));font-weight:700;box-shadow:0 0 0 1px var(--rc,var(--gold)),0 2px 8px color-mix(in srgb,var(--rc,var(--gold)) 30%,transparent)}
+ .chip::before{content:"✓";display:inline-block;font-size:.85em;margin-right:-2px;color:transparent;width:.85em;text-align:center}
+ .chip.on::before{color:rgba(0,0,0,0.5)}
+ .chip.off{color:#f1d4d4;border-color:rgba(192,112,112,0.55);background:rgba(192,112,112,0.16);text-decoration:line-through;text-decoration-color:rgba(192,112,112,0.5)}
+ .chip.off::before{content:"✕";color:#c07070}
+ .row.race-row{padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:4px}
+ .row.play-row{padding-top:2px}
+ .chip.ps{--rc:var(--gold)}
+ .chip.ps .dot{border-radius:2px;transform:rotate(45deg);width:8px;height:8px}
+ .chip.ps{color:var(--rc);border:1px solid var(--rc);background:color-mix(in srgb,var(--rc) 12%,var(--panel2))}
+ .chip.ps:hover{background:color-mix(in srgb,var(--rc) 22%,var(--panel2));filter:brightness(1.1)}
+ .chip.ps .count{background:color-mix(in srgb,var(--rc) 30%,transparent);color:var(--rc);font-weight:700}
+ .chip.off{color:#c07070;border-color:#7a3a3a}
+ .chip.off .lbl{text-decoration:line-through}
+ .chip.dim{opacity:0.42}
+ .chip.dim:hover{opacity:0.75}
+ .chip .count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,0.08);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
+ .chip.on .count,.chip.off .count{background:rgba(0,0,0,0.25);color:#1a1419;font-weight:700}
+ .chip.off .count{background:rgba(192,112,112,0.3);color:#f1d4d4}
+ .active-filters{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 0 10px;border-top:1px solid transparent;background:transparent;scroll-snap-type:x proximity;visibility:hidden;min-height:54px}
+ .active-filters.has{visibility:visible;border-top-color:rgba(201,162,75,0.25)}
+ .active-filters .pill{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;background:rgba(201,162,75,0.16);border:1px solid rgba(201,162,75,0.4);color:var(--text);border-radius:999px;padding:0 10px 0 12px;min-height:36px;font-size:.78rem;line-height:1;scroll-snap-align:start;cursor:default}
+ .active-filters .pill .x{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);color:var(--muted);font-size:.95rem;line-height:1;cursor:pointer;margin-left:2px;border:0;padding:0}
+ .active-filters .pill .x:hover{background:var(--gold);color:#000}
+ .active-filters .pill .pill-ic{flex:0 0 auto;display:inline-flex;align-items:center}
+ .active-filters .pill .pill-ic svg{width:14px;height:14px}
+ .active-filters .pill.search{padding-right:6px}
+ .active-filters .pill.search .x{margin-left:6px}
+ .active-filters .clear-all{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:0 14px;min-height:36px;font-size:.78rem;cursor:pointer;flex:0 0 auto}
+ .active-filters .clear-all:hover{border-color:var(--gold);color:var(--gold)}
+ @media (max-width:640px){.active-filters{ padding:6px 0 8px; min-height:46px; }
+ .active-filters .pill{ min-height:38px; padding:0 8px 0 12px; font-size:.76rem; }
+ .active-filters .pill .x{ /* Apple's HIG says 44pt is the minimum touch target. The .x circle is 22px in a 36px pill, so the clickable region around the × is only 22px. Wrap it in a larger hit area. */ position:relative; width:28px;height:28px; font-size:1rem; }
+ .active-filters .pill .x::before{ /* Inflate the hit area without changing the visible circle. */ content:""; position:absolute; inset:-8px; border-radius:50%; }
+ .active-filters .clear-all{ min-height:38px; padding:0 12px; font-size:.76rem; }
+ }
+ body.filter-on .bar{border-bottom:1px solid rgba(201,162,75,0.45);box-shadow:0 2px 18px rgba(201,162,75,0.12)}
+ body.filter-on #count{color:var(--gold);font-weight:600}
+ body.filter-on #count .count-of{color:var(--muted);font-weight:400;margin:0 2px}
+ .fr-clear-filter{background:transparent;border:1px solid rgba(192,112,112,0.5);color:#e5a3a3;border-radius:999px;padding:2px 10px;font-size:.72rem;cursor:pointer;margin-left:auto;flex:0 0 auto}
+ .fr-clear-filter:hover{background:rgba(192,112,112,0.2);color:#fff}
+ .profile-details{margin-top:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:0 10px}
+ .profile-details summary{cursor:pointer;padding:8px 0;font-size:.78rem;color:var(--muted);font-weight:600;list-style:none;user-select:none}
+ .profile-details summary::before{content:"▸ ";color:var(--gold);margin-right:2px}
+ .profile-details[open] summary::before{content:"▾ "}
+ .profile-details summary:hover{color:var(--text)}
+ .profile-chart{padding:6px 0 10px;display:flex;flex-direction:column;gap:5px}
+ .profile-row{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;font-size:.78rem;line-height:1}
+ .profile-name{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+ .profile-name svg{width:14px;height:14px;flex-shrink:0}
+ .profile-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,0.05)}
+ .profile-fill{display:block;height:100%;border-radius:3px;min-width:2px;transition:width .25s ease-out}
+ .profile-pct{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.72rem;text-align:right;white-space:nowrap}
+ @media(max-width:640px){.profile-row{grid-template-columns:90px 1fr 70px;gap:6px;font-size:.72rem}
+ .profile-pct{font-size:.68rem}
+ .profile-name{font-size:.72rem}
+ }
+ #back-to-top{display:none;position:fixed;right:16px;bottom:80px;width:44px;height:44px;border-radius:50%;background:rgba(27,23,32,.92);border:1px solid var(--gold);color:var(--gold);font-size:1rem;cursor:pointer;z-index:55;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,0.4);transition:opacity .2s, transform .2s;opacity:0;pointer-events:none}
+ #back-to-top.show{opacity:1;pointer-events:auto}
+ #back-to-top:hover{background:var(--gold);color:#000;transform:translateY(-2px)}
+ @media (max-width:640px){#back-to-top{ right:12px; bottom:84px; /* clears the compare bar (which is ~70px tall) */ width:42px;height:42px; font-size:.95rem; }
+ }
+ :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; border-radius:4px; }
+ button{ -webkit-tap-highlight-color:rgba(201,162,75,.2); }
+ @media (prefers-reduced-motion: reduce){*, *::before, *::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+ }
+ .ps-filter-bar{ position:sticky; top:0; z-index:40; background:linear-gradient(180deg,rgba(27,23,32,.98) 0%,rgba(27,23,32,.94) 100%); backdrop-filter:blur(8px); border-bottom:1px solid rgba(201,162,75,.18); margin:0 -16px 12px; padding:8px 16px; }
+ .ps-filter-inner{ max-width:1200px; margin:0 auto; /* Sections are always stacked vertically. RACE has 24 chips and STYLE has 14, so trying to fit 3 sections in a row at any width creates a 40+ row tall bar. Stacking gives every section the full bar width so chips wrap to 4-5 per line naturally. */ display:flex; flex-direction:column; align-items:stretch; gap:8px; }
+ .ps-filter-bar .chips-section{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%; min-width:0; }
+ .ps-filter-bar .chips-section-label{ font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); flex:0 0 auto; padding:0 2px; }
+ @media (min-width:641px){.ps-filter-bar .chips-scroll{display:contents}
+ }
+ .ps-filter-bar .chips{ display:flex; flex-wrap:wrap; gap:6px; flex:1; min-width:0; }
+ .ps-filter-bar .chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:rgba(231,224,210,.04); border:1px solid rgba(231,224,210,.12); color:var(--text); font-size:.8rem; cursor:pointer; transition:background .12s, border-color .12s, color .12s, transform .08s; white-space:nowrap; font-family:inherit; flex:0 0 auto; /* don't shrink in flex row */ }
+ .ps-filter-bar .chip:hover{ background:rgba(201,162,75,.10); border-color:rgba(201,162,75,.30); }
+ .ps-filter-bar .chip.on{ background:color-mix(in srgb,var(--rc) 22%,transparent); border-color:var(--rc); color:#fff; font-weight:400; /* explicit override - general .chip.on sets 700 which would widen the chip and reflow neighbors */ }
+ .ps-filter-bar .chip.on::before{color:rgba(255,255,255,.75)}
+ .ps-filter-bar .chip.off{ background:rgba(220,80,80,.18); border-color:rgba(220,80,80,.5); color:#f5b7b7; text-decoration:line-through; }
+ .ps-filter-bar .chip.dim{opacity:.35}
+ .ps-filter-bar .chip .count{ display:inline-block; min-width:18px; padding:0 5px; border-radius:8px; background:rgba(0,0,0,.35); font-size:.7rem; text-align:center; line-height:1.4; }
+ .ps-filter-bar .chip.on .count{background:rgba(0,0,0,.4);color:#fff}
+ .psall-toggle{ display:inline-flex; align-items:center; gap:5px; font-size:.78rem; color:var(--text-dim); cursor:pointer; user-select:none; white-space:nowrap; padding:4px 8px; border-radius:6px; flex:0 0 auto; /* don't shrink */ }
+ .psall-toggle:hover{background:rgba(201,162,75,.08);color:var(--text)}
+ .psall-toggle input{accent-color:var(--gold);cursor:pointer}
+ .chip-select{ appearance:none;-webkit-appearance:none;-moz-appearance:none; background-color:var(--panel2); background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='%239b9285'><path d='M1 1l5 5 5-5' stroke='%239b9285' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); background-repeat:no-repeat; background-position:right 9px center; background-size:10px 6px; color:var(--text); border:1px solid var(--line); border-radius:999px; padding:5px 26px 5px 12px; font-size:.72rem; font-family:inherit; line-height:1.2; cursor:pointer; flex:0 0 auto; min-height:32px; transition:border-color .12s, color .12s, background-color .12s; }
+ .chip-select:hover{border-color:var(--gold)}
+ .chip-select:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,75,.22); }
+ .chip-select.has-value{ border-color:var(--gold); color:var(--gold); background-color:rgba(201,162,75,.08); }
+ .chip-select.has-value{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='%23c9a24b'><path d='M1 1l5 5 5-5' stroke='%23c9a24b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");}
+ @media (max-width:640px){.ps-filter-bar{ padding:6px 0; margin:0 -10px 8px; border-bottom:1px solid rgba(201,162,75,.18); /* Non-sticky on mobile: the interaction between position:sticky and overflow-x:auto on the inner chips-scroll container causes the browser to capture horizontal swipes for page scroll instead of the inner container. Removing sticky entirely fixes it. */ position:static; top:auto; }
+ .ps-filter-inner{ flex-direction:column; align-items:stretch; gap:6px; padding:0 10px; }
+ .ps-filter-bar .chips-section{ display:flex; align-items:center; gap:6px; width:100%; }
+ .ps-filter-bar .chips-section-label{ font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); flex:0 0 auto; width:42px; /* fixed width so the label is always in the same place */ }
+ .ps-filter-bar .chips-scroll{ flex:1 1 0; /* allow shrink but keep at least some width */ min-width:0; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; touch-action:pan-x; /* Stop scroll-chaining: when the user swipes horizontally and reaches the edge, don't bounce into the page scroll. */ overscroll-behavior-x:contain; mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%); -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%); }
+ .ps-filter-bar .chips-scroll::-webkit-scrollbar{display:none}
+ .ps-filter-bar .chips{ display:flex; /* block-level flex; fills the .chips-scroll width */ flex-wrap:nowrap; gap:5px; padding:4px 0; padding-right:12px; /* Force the chips container to be at least as wide as its content (so the overflow-x on the .chips-scroll has something to scroll). Without width:max-content, flex items shrink to their container and the scroll never activates. */ width:max-content; }
+ .ps-filter-bar .chip{ padding:6px 9px; font-size:.7rem; min-height:34px; flex:0 0 auto; /* each chip is exactly as wide as its content */ }
+ .ps-filter-bar .chip .lbl{display:inline}
+ .ps-filter-bar .chip svg{width:13px;height:13px}
+ .ps-filter-bar .chip .count{font-size:.65rem;padding:0 4px;min-width:14px}
+ .psall-toggle{ border-left:1px solid rgba(201,162,75,.2); margin-left:4px; padding:8px 10px; font-size:.7rem; min-height:36px; background:rgba(231,224,210,.02); border-radius:999px; color:var(--text); }
+ .psall-toggle span{ display:inline; font-weight:600; }
+ .psall-toggle:has(input:checked){ background:rgba(201,162,75,.18); border-color:rgba(201,162,75,.5); color:var(--gold); }
+ .psall-toggle input{ width:12px;height:12px; margin:0; }
+ }
+ @media(max-width:640px){#back-to-top{display:block}
+ }
+ .tag.off{border-color:#7a3a3a;color:#c07070;text-decoration:line-through}
+ .lord-poly.lord-hover{fill-opacity:.85;stroke-opacity:.95;stroke-width:2.4}
+ .card.lord-hover-source{outline:2px solid var(--gold);outline-offset:2px;box-shadow:0 0 0 1px rgba(201,162,75,0.4)}
+ .race-avg{fill-opacity:.18;stroke-opacity:.45;stroke-width:1;stroke-dasharray:3 2}
+ .legend{margin-top:2px}
+ .legend summary{cursor:pointer;color:var(--muted);font-size:.76rem;list-style:none}
+ .legend summary::before{content:"? ";color:var(--gold);font-weight:700}
+ .legend[open] summary{color:var(--text)}
+ .legend .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 18px;padding:8px 0 4px;font-size:.78rem;color:var(--muted)}
+ .legend .lgrid b{color:var(--gold);font-weight:600}
+ .count{color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums;opacity:.65;align-self:center}
+ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
+ @media (max-width:640px){main{ padding:10px 12px 80px; /* 80px bottom clears the compare bar */ }
+ .race-head{ margin-top:18px; }
+ .race-head:first-of-type{ margin-top:8px; /* first one doesn't need as much top space */ }
+ .grid{ gap:10px; }
+ #featured-radar{ margin-top:36px; }
+ }
+ .race-head{margin:26px 0 10px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+ .race-banner{position:relative;background:var(--rc);color:#0f0c12;font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:1rem;padding:5px 22px 5px 12px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%)}
+ @media (max-width:640px){.race-head{ position:sticky; top:0; z-index:25; background:rgba(19,16,23,.95); backdrop-filter:blur(8px); margin:0 -10px 8px; padding:8px 12px; border-radius:0; border-bottom:1px solid var(--line); /* Subtle shadow under the sticky head so cards "go behind" it when scrolling. */ box-shadow:0 4px 12px -4px rgba(0,0,0,0.5); }
+ .race-banner{ font-size:.88rem; padding:5px 20px 5px 12px; }
+ .race-count{ font-size:.72rem; }
+ .race-blurb{ font-size:.8rem; line-height:1.4; }
+ }
+ .race-blurb{color:var(--muted);font-size:.85rem;max-width:72ch}
+ .race-count{color:var(--muted);font-size:.8rem}
+ .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;align-items:start}
+ @media(max-width:380px){.grid{grid-template-columns:1fr}
+ }
+ .card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--rc,#666);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s,opacity .15s,transform .15s}
+ .card-entering{animation:cardIn .18s ease-out both}
+ @keyframes cardIn{from{opacity:0;transform:translateY(6px)}
+ to{opacity:1;transform:translateY(0)}
+ }
+ .card:hover{border-color:var(--rc,var(--gold));border-left-color:var(--rc,#666)}
+ .card h3{margin:0;font-family:"Cinzel",Georgia,serif;font-size:1.02rem;font-weight:600;color:var(--text);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+ .pips{font-size:.78rem;letter-spacing:1px;white-space:nowrap;flex:0 0 auto}
+ .pips .f{color:var(--dc)}
+ .pips .e{color:#4a4454}
+ .sub{color:var(--muted);font-size:.8rem;margin:3px 0 6px}
+ .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+ .tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:2px 6px;color:var(--muted);background:none;font-family:inherit;cursor:pointer}
+ .tag.ps-pill{color:var(--text);border:1.5px solid var(--rc);background:color-mix(in srgb,var(--rc) 8%,transparent);padding:3px 9px;letter-spacing:.08em;font-weight:500}
+ .tag:hover{border-color:var(--gold);color:var(--text);filter:brightness(1.2)}
+ .tag.ps-pill:hover{filter:brightness(1.15);color:var(--text);border-color:color-mix(in srgb,var(--rc) 60%,var(--gold))}
+ .tag.on{border-color:var(--gold);color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent)}
+ .tag.ps-pill.on{border:1.5px solid var(--rc);background:color-mix(in srgb,var(--rc) 14%,transparent);color:var(--rc);font-weight:600}
+ .pick{font-size:.86rem;color:#d8cfae;font-style:italic;margin:0}
+ @media (max-width:640px){.card{ padding:12px 12px 11px; /* tighter sides so the race-color bar still reads as a stripe */ border-radius:9px; }
+ .card h3{ font-size:1.08rem; /* slightly bigger so the lord name reads as the headline */ line-height:1.2; }
+ .sub{ font-size:.78rem; margin:4px 0 7px; }
+ .pips{ font-size:.7rem; letter-spacing:.5px; }
+ .tags{ gap:4px; margin-bottom:8px; }
+ .tag{ font-size:.66rem; padding:3px 7px; /* slightly larger touch area for tapping */ min-height:22px; }
+ .pick{ font-size:.85rem; line-height:1.45; }
+ .pips{ flex:0 0 auto; }
+ }
+ .links{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:.78rem}
+ .links a{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(201,162,75,.5)}
+ .links a:hover{border-bottom-style:solid}
+ .race-head .links{margin-top:0;margin-left:auto}
+ .det{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:.87rem}
+ .card.open .det{display:block}
+ .det .mname{color:var(--gold);font-weight:600}
+ .battle{font-size:.82rem;color:var(--muted);margin:0 0 8px;padding:6px 9px;background:var(--panel2);border-radius:6px}
+ .battle b{color:var(--text);font-weight:600}
+ .det ul{margin:6px 0;padding-left:0;list-style:none}
+ .det li{margin:4px 0;padding-left:1.25em;text-indent:-1.25em}
+ @media (max-width:640px){.card{ /* Subtle press feedback: scale down slightly on touch. Better than border-color flash because it gives the user haptic-like confirmation. */ transition:transform .12s,border-color .15s,background .15s; }
+ .card:active{ transform:scale(0.99); }
+ .card.open{ background:color-mix(in srgb,var(--rc,var(--gold)) 6%,var(--panel)); border-color:rgba(201,162,75,0.4); }
+ .card h3::after{ content:"▾"; color:var(--muted); font-size:.8em; margin-left:6px; transition:transform .18s,color .15s; flex:0 0 auto; }
+ .card.open h3::after{ transform:rotate(180deg); color:var(--gold); }
+ .det{ margin-top:12px; padding-top:12px; font-size:.86rem; }
+ .battle{ font-size:.82rem; line-height:1.5; }
+ }
+ .pc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+ @media(max-width:520px){.pc{grid-template-columns:1fr}
+ }
+ .pc h4{margin:0 0 3px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}
+ .pros h4{color:var(--pro)}
+ .cons h4{color:var(--con)}
+ .pros li::before{content:"+ ";color:var(--pro);font-weight:700}
+ .cons li::before{content:"- ";color:var(--con);font-weight:700}
+ .mech li::before{content:"◆ ";color:var(--rc,var(--gold));font-size:.7em}
+ .cmp-toggle{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
+ .cmp-toggle:hover{color:var(--text)}
+ .cmp-toggle input{accent-color:var(--gold)}
+ @media (max-width:640px){.cmp-toggle{ padding:8px 12px 8px 8px; margin-top:6px; min-height:40px; border-radius:8px; background:rgba(231,224,210,.03); border:1px solid var(--line); font-size:.8rem; width:100%; justify-content:flex-start; }
+ .cmp-toggle input{ width:18px;height:18px; }
+ .card{padding:14px}
+ .pick{font-size:.85rem}
+ .links{gap:4px 12px}
+ }
+ .hint{color:var(--muted);font-size:.78rem}
+ #cmpbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(27,23,32,.97);border-top:1px solid var(--gold);border-top-left-radius:12px;border-top-right-radius:12px;padding:10px 16px;display:none;backdrop-filter:blur(8px)}
+ #cmpbar.show{display:flex;gap:10px;align-items:center;justify-content:space-between}
+ #cmpbar .cmp-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+ #cmpbar .cmp-count{font-size:.82rem;color:var(--gold);font-weight:600}
+ #cmpbar .cmp-names{font-size:.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+ #cmpbar .cmp-actions{display:flex;gap:8px;flex-shrink:0}
+ #cmpbar .bar-inner{flex-direction:row;flex-wrap:wrap;align-items:center}
+ #cmpbar .names{font-size:.85rem;color:var(--text)}
+ @media (max-width:640px){#cmpbar{ padding:10px 12px 12px; /* respect iOS safe-area-ish bottom padding */ gap:8px; flex-direction:column; /* stack info row above actions row */ align-items:stretch; }
+ #cmpbar .cmp-info{ width:100%; min-width:100%; /* override the .cmp-info{flex:1;min-width:0}
+ from desktop */ flex:0 0 auto; /* don't try to grow in the column axis */ }
+ #cmpbar .cmp-count{ font-size:.85rem; /* slightly bigger on mobile so the user can read at a glance */ }
+ #cmpbar .cmp-names{ font-size:.7rem; max-width:100%; }
+ #cmpbar .cmp-actions{ width:100%; /* full-width row of action buttons */ margin-top:0; display:flex; gap:8px; }
+ #cmpbar .cmp-actions #docmp{ flex:1; padding:11px 14px; /* 44pt-ish touch target */ font-size:.92rem; min-height:44px; }
+ #cmpbar .cmp-clear{ background:transparent; border:1px solid rgba(231,224,210,.25); color:var(--muted); width:36px;height:36px; border-radius:50%; font-size:1.1rem; line-height:1; cursor:pointer; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; }
+ #cmpbar .cmp-clear:hover, #cmpbar .cmp-clear:active{ background:rgba(220,80,80,.18); border-color:rgba(220,80,80,.5); color:#f5b7b7; }
+ }
+ #overlay{position:fixed;inset:0;z-index:70;background:rgba(10,8,13,.97);display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 14px 60px;opacity:0;transition:opacity .2s ease}
+#overlay.show{display:block;opacity:1}
+ #overlay.show{display:block}
+ .ov-inner{max-width:1200px;margin:0 auto}
+ .ov-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+ .ov-head h2{font-family:"Cinzel",Georgia,serif;color:var(--gold);margin:0;font-size:1.2rem}
+ @media (max-width:640px){#overlay{ padding:0; /* full-bleed on mobile; the inner sheet handles padding */ }
+ .ov-inner{ padding:14px 12px 80px; /* bottom padding clears the back-to-top / nav */ }
+ .ov-head{ position:sticky; top:0; background:rgba(10,8,13,.92); backdrop-filter:blur(8px); z-index:2; margin:0 -12px 14px; padding:10px 14px; border-bottom:1px solid var(--line); }
+ .ov-head h2{ font-size:1.05rem; }
+ .ov-radar{ height:280px !important; /* override the 260px default so it's roomy */ }
+ }
+ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
+ .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:80px 20px;color:var(--muted);text-align:center}
+ .empty .empty-icon{font-size:3rem;opacity:0.4;line-height:1}
+ .empty .empty-msg{font-size:1.05rem;color:var(--text);font-weight:600}
+ .empty .empty-sub{font-size:.88rem;color:var(--muted);max-width:340px}
+ .empty .empty-action{margin-top:8px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:8px 18px;font-size:.85rem;cursor:pointer;transition:background .12s}
+ .empty .empty-action:hover{background:rgba(201,162,75,0.12)}
+ @media (max-width:640px){.empty{ padding:60px 18px; gap:14px; }
+ .empty .empty-icon{ font-size:2.5rem; }
+ .empty .empty-msg{ font-size:1rem; line-height:1.3; }
+ .empty .empty-sub{ font-size:.85rem; line-height:1.5; }
+ .empty .empty-action{ padding:11px 22px; /* 44pt min touch target */ min-height:44px; font-size:.9rem; }
+ .empty .empty-filters{ background:rgba(201,162,75,.08); border:1px solid rgba(201,162,75,.2); border-radius:8px; padding:8px 12px; font-size:.8rem; color:var(--text); max-width:280px; text-align:left; }
+ .empty .empty-filters-label{ font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin-bottom:4px; }
+ }
+ .ps-pill{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.72rem;color:var(--muted);white-space:nowrap;cursor:default;line-height:1;user-select:none;transition:background .12s}
+ .ps-pill:hover{background:var(--panel)}
+ .ps-pill.on{border-color:var(--icon-col,#888);color:var(--icon-col,#888);background:color-mix(in srgb,var(--icon-col,#888) 12%,var(--panel2))}
+ .ps-pill svg{width:14px;height:14px;flex-shrink:0;fill:currentColor;stroke:currentColor;stroke-width:1.6}
+ .ps-pill-label{text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+ .ov-radar{margin:10px 0 6px;height:200px;min-height:180px;position:relative;display:block}
+@media(max-width:600px){.ov-radar{height:260px}
+ }
+ #featured-radar{ max-width:1200px;margin:32px auto 24px;padding:0 16px; }
+ .radar-section-title{ font-family:"Cinzel",Georgia,serif; font-size:1.1rem;font-weight:600;color:var(--gold); margin:0 0 6px;letter-spacing:.02em; }
+ .radar-section-sub{ color:var(--muted);font-size:.85rem;margin:0 0 14px;max-width:720px; line-height:1.45; }
+ #featured-radar .fr-inner{ display:flex;gap:24px;align-items:flex-start; background:var(--panel);border:1px solid var(--line); border-left:4px solid var(--gold);border-radius:12px; padding:18px 20px; }
+ #featured-radar .fr-radar{ flex:0 0 220px;width:220px;height:220px; position:relative; }
+ #featured-radar .fr-radar svg{width:220px;height:220px}
+ @media (max-width:640px){#featured-radar .fr-radar{flex:0 0 180px;width:180px;height:180px}
+ #featured-radar .fr-radar svg{width:180px;height:180px}
+ #featured-radar{padding:12px 14px}
+ #featured-radar h2{font-size:1rem}
+ #featured-radar .fr-name{font-size:.9rem}
+ #featured-radar .fr-info{min-width:0}
+ #featured-radar .fr-sub{font-size:.75rem;margin-bottom:8px}
+ #featured-radar .fr-tags{margin-bottom:8px}
+ .radar-section-title{font-size:1rem}
+ .radar-section-sub{font-size:.8rem}
+ #featured-radar .fr-tag{font-size:.65rem;padding:2px 6px}
+ }
+ #featured-radar .fr-info{flex:1;min-width:320px;overflow-wrap:break-word;word-wrap:break-word}
+ #featured-radar h2{ font-family:"Cinzel",Georgia,serif;font-size:1.15rem; color:var(--gold);margin:0 0 6px;font-weight:600; }
+ #featured-radar .fr-name{ font-family:"Cinzel",Georgia,serif;font-size:1rem; color:var(--text);margin:0 0 2px;font-weight:600; }
+ #featured-radar .fr-sub{color:var(--muted);font-size:.82rem;margin:0 0 12px}
+ #featured-radar .fr-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+ #featured-radar .fr-tag{ display:inline-flex;align-items:center;gap:4px; background:var(--panel2);border:1px solid var(--line); border-radius:999px;padding:3px 8px;font-size:.7rem; }
+ #featured-radar .fr-tag svg{width:10px;height:10px;fill:currentColor}
+ #featured-radar .fr-battle{ background:var(--panel2);border-radius:8px;padding:8px 10px; font-size:.82rem;color:var(--muted);margin:0 0 10px; }
+ #featured-radar .fr-battle b{color:var(--text)}
+ #featured-radar .fr-empty{ flex:1;text-align:center;padding:40px 20px; color:var(--muted);font-style:italic;font-size:.9rem; }
+ #featured-radar .fr-empty-sub{font-size:.78rem;margin-top:6px}
+ @media(max-width:640px){#featured-radar .fr-inner{flex-direction:column;align-items:stretch;gap:8px;padding:10px 12px}
+ #featured-radar .fr-inner.all-lords .fr-radar{ flex:0 0 auto;width:100%;height:auto;aspect-ratio:1;margin:0 auto; }
+ #featured-radar .fr-radar, #featured-radar .fr-inner.all-lords .fr-radar svg{ width:100%!important;height:100%!important; }
+ #featured-radar .fr-info{width:100%;text-align:left}
+ #featured-radar .fr-tags{justify-content:flex-start}
+ #featured-radar .fr-battle{text-align:left}
+ #featured-radar .fr-all-summary{font-size:.78rem;line-height:1.45}
+ #featured-radar .fr-inner.all-lords .fr-all-summary{ text-align:center; margin-top:10px; color:var(--muted); }
+ #featured-radar .fr-inner.all-lords .fr-all-filter{ font-size:.75rem;padding:4px 6px; }
+ #featured-radar .fr-profile{ width:100%; max-width:440px; margin:8px auto 0; }
+ #featured-radar .fr-profile .profile-details{ margin-top:0; min-height:44px; }
+ #featured-radar .fr-profile .profile-details summary{ padding:12px 10px; min-height:44px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+ #featured-radar .fr-profile .profile-details summary::after{ content:"tap to expand"; display:inline-block; margin-left:auto; font-size:.65rem; color:var(--gold); opacity:.75; text-transform:uppercase; letter-spacing:.05em; }
+ #featured-radar .fr-profile .profile-details[open] summary::after{ content:"tap to collapse"; }
+ #featured-radar .fr-profile .profile-hint{display:none}
+ }
+ #featured-radar .fr-inner.all-lords{flex-direction:column;align-items:center}
+ #featured-radar .fr-inner.all-lords .fr-radar{ flex:0 0 auto;width:440px;height:440px;max-width:100%;margin:0 auto; }
+ #featured-radar .fr-inner.all-lords .fr-radar svg{width:100%;height:100%;display:block}
+ #featured-radar .fr-all-summary{ text-align:center;margin:14px 0 0;color:var(--muted); font-size:.86rem;line-height:1.55; }
+ #featured-radar .fr-all-summary b{color:var(--gold);font-weight:600}
+ #featured-radar .fr-all-hint{ text-align:center;margin-top:6px;color:var(--muted); font-size:.78rem;font-style:italic; }
+ #featured-radar .fr-inner.all-lords.magical-mode{background:transparent;border:none;padding-top:0;padding-bottom:0}
+ to{transform:rotate(360deg)}
+}
+ #featured-radar .fr-inner.all-lords.magical-mode .fr-radar{background:transparent}
+ #featured-radar .fr-clear-filter{ background:var(--panel2);border:1px solid var(--line);color:var(--text); border-radius:6px;padding:2px 8px;font-size:.7rem;cursor:pointer;margin-left:6px; }
+ #featured-radar .fr-clear-filter:hover{border-color:var(--gold);color:var(--gold)}
+ .fr-jump-to-results{display:block;width:100%;margin:10px 0 4px;padding:10px 14px;background:linear-gradient(180deg,rgba(201,162,75,0.18),rgba(201,162,75,0.08));border:1px solid rgba(201,162,75,0.5);color:var(--gold);border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .12s,transform .08s}
+ .fr-jump-to-results:hover{background:linear-gradient(180deg,rgba(201,162,75,0.28),rgba(201,162,75,0.14))}
+ .fr-jump-to-results:active{transform:scale(0.98)}
+ .lord-poly:hover{fill-opacity:.32!important;stroke-opacity:.7!important;stroke-width:1.2!important}
+ .lord-poly-selected{fill-opacity:.55!important;stroke-opacity:.95!important;stroke-width:2!important;filter:drop-shadow(0 0 4px rgba(255,248,224,0.6))}
+ .all-lords-radar{cursor:crosshair}
+ .all-lords-radar .wedge{transition:fill .12s, stroke .12s, stroke-width .12s}
+ .all-lords-radar .wedge:hover{ fill:rgba(201,162,75,0.22) !important; stroke:rgba(201,162,75,0.7) !important; stroke-width:1.2 !important; cursor:pointer; }
+ .all-lords-radar .wedge-hit.wedge-include{ fill:rgba(201,162,75,0.34) !important; stroke:rgba(201,162,75,0.95) !important; stroke-width:1.5 !important; cursor:pointer; }
+ .all-lords-radar .wedge-exclude{ fill:rgba(192,112,112,0.24) !important; stroke:rgba(192,112,112,0.85) !important; stroke-width:1.3 !important; cursor:pointer; }
+ .all-lords-radar .wedge-partial{ /* One bounding tag is in the include set, the other is not. A faint tint only - partial inclusion isn't a real filter state, just a hint that an adjacent axis is selected. */ fill:rgba(201,162,75,0.10) !important; stroke:rgba(201,162,75,0.45) !important; stroke-width:0.8 !important; }
+ .all-lords-radar .axis circle:hover{ fill:rgba(201,162,75,0.25) !important; cursor:pointer; }
+ .all-lords-radar .axis text{ transition:fill .12s, font-size .12s; }
+ .all-lords-radar, .all-lords-radar *{ -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
+ #featured-radar .fr-compare-btn{ background:var(--gold);color:#1a1408;border:none;border-radius:8px; padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer; margin-top:8px;width:fit-content;max-width:100%; }
+ #featured-radar .fr-compare-btn:disabled{opacity:.4;cursor:default}
+ #featured-radar .fr-legend{ display:flex;flex-wrap:wrap;gap:10px;margin-top:8px; }
+ .card-radar{ float:right;width:80px;height:80px;margin-left:10px; background:var(--panel2);border:1px solid var(--line); border-radius:8px;overflow:hidden;flex-shrink:0; position:relative; }
+ .card-radar svg{width:80px;height:80px;display:block}
+ .card{overflow:hidden}
+ #overlay .ov-body{ display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start; }
+ @media(max-width:700px){#overlay .ov-body{grid-template-columns:1fr}
+ }
+ #overlay .ov-radar-col{ background:var(--panel);border:1px solid var(--line); border-top:4px solid var(--gold);border-radius:12px; padding:16px; }
+ #overlay .ov-radar-col h3{ font-family:"Cinzel",Georgia,serif;font-size:1rem; color:var(--gold);margin:0 0 12px;font-weight:600; }
+ #overlay .ov-big-radar{width:100%;aspect-ratio:1;max-width:340px}
+ #overlay .ov-big-radar svg{width:100%;height:100%}
+ #overlay .ov-legend{ display:flex;flex-wrap:wrap;gap:10px;margin-top:12px; }
+ #overlay .ov-legend-item{ display:flex;align-items:center;gap:6px;font-size:.8rem; }
+ #overlay .ov-legend-dot{ width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+ #overlay .ov-lords-col{ display:flex;flex-direction:column;gap:10px; }
+ #overlay .ov-lord-row{ background:var(--panel);border:1px solid var(--line); border-radius:10px;padding:12px 14px; }
+ #overlay .ov-lord-row h4{ font-family:"Cinzel",Georgia,serif;font-size:.95rem; margin:0 0 2px;font-weight:600; }
+ #overlay .ov-lord-row .ov-lord-sub{font-size:.75rem;color:var(--muted);margin:0 0 4px}
+ #overlay .ov-lord-row .ov-lord-stats{ display:flex;gap:10px;align-items:center;flex-wrap:wrap; font-size:.72rem;color:var(--muted);margin:0 0 8px; }
+ #overlay .ov-lord-row .ov-stat{ display:inline-flex;align-items:center;gap:4px; }
+ #overlay .ov-lord-row .ov-stars{color:var(--gold);letter-spacing:.5px;font-size:.78rem}
+ #overlay .ov-lord-row .ov-section{margin:8px 0 0}
+ #overlay .ov-lord-row .ov-section-label{ font-size:.62rem;text-transform:uppercase;letter-spacing:.1em; color:var(--gold);font-weight:700;margin:0 0 4px;opacity:.85; }
+ #overlay .ov-lord-row .ov-mech-name{ font-size:.82rem;color:var(--text);font-weight:600;margin:0 0 2px; }
+ #overlay .ov-lord-row .ov-mech-desc{ font-size:.74rem;color:var(--muted);line-height:1.45;margin:0; }
+ #overlay .ov-lord-row .ov-pros-cons{ display:grid;grid-template-columns:1fr 1fr;gap:8px; margin:4px 0 0; }
+ #overlay .ov-lord-row .ov-pc-block{ background:var(--panel2);border-radius:6px;padding:6px 8px; font-size:.72rem;line-height:1.4; }
+ #overlay .ov-lord-row .ov-pc-block.pros{border-left:2px solid var(--pro)}
+ #overlay .ov-lord-row .ov-pc-block.cons{border-left:2px solid var(--con)}
+ #overlay .ov-lord-row .ov-pc-block ul{margin:0;padding:0;list-style:none}
+ #overlay .ov-lord-row .ov-pc-block li{padding:1px 0}
+ #overlay .ov-lord-row .ov-pc-block li::before{ content:"";display:inline-block;width:8px; }
+ #overlay .ov-lord-row .ov-pc-block.pros li::before{content:"+ ";color:var(--pro);font-weight:700}
+ #overlay .ov-lord-row .ov-pc-block.cons li::before{content:"− ";color:var(--con);font-weight:700}
+ #overlay .ov-lord-row .ov-battle{ font-size:.72rem;color:var(--text);background:var(--panel2); border-radius:6px;padding:6px 8px;margin:0;line-height:1.4; }
+ #overlay .ov-lord-row .ov-battle b{color:var(--gold);font-weight:600}
+ #overlay .ov-lord-row .ov-pick{ font-size:.78rem;color:var(--text);font-style:italic;line-height:1.4; margin:6px 0 0;padding:6px 8px; border-left:2px solid var(--gold); background:rgba(201,162,75,.06); }
+ #overlay .ov-lord-tags{display:flex;flex-wrap:wrap;gap:4px}
+ #overlay .ov-lord-tag{ display:inline-flex;align-items:center;gap:3px; background:var(--panel2);border:1px solid var(--line); border-radius:999px;padding:2px 6px;font-size:.65rem; }
+ #overlay .ov-lord-tag svg{width:9px;height:9px;fill:currentColor}
+ @media (max-width:520px){#overlay .ov-lord-row .ov-pros-cons{grid-template-columns:1fr}
+ }
+ 
 </style>
 </head>
 <body>

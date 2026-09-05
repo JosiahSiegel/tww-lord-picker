@@ -3237,10 +3237,16 @@ function p2xy(cx, cy, r, deg) {
 // show up as colored density.
 // =====================================================================
 function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
-  const W = 360, H = 280;
-  const padX = 8, padY = 8;
-  const cellW = (W - 3 * padX) / 2;
-  const cellH = (H - 3 * padY) / 2;
+  // 4-quadrant polar radar: each segment is a 90° wedge, and each
+  // axis within that segment is a polar bar (pie slice) sized to the
+  // fraction of lords with that axis. All axes share the same radial
+  // scale (maxR = full); only the angular slice per axis differs
+  // (a 6-axis segment gives each axis 15°, a 2-axis segment gives
+  // each 45°). Bar LENGTH is the only visual channel for the data
+  // - bar WIDTH varies with segment size but doesn't carry meaning.
+  size = size || 440;
+  const cx = size / 2, cy = size / 2;
+  const maxR = size / 2 - 8;
 
   const presentAll = lordIdxs.map(i => {
     const l = LORDS[i];
@@ -3248,346 +3254,141 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx) {
   });
   const N = lordIdxs.length;
 
+  // Per-axis fraction of lords with it
   const fill = {};
-  PS_SEGMENT_ORDER.forEach(segName => {
-    const keys = PS_SEGMENTS[segName].keys;
-    fill[segName] = {};
-    keys.forEach(k => {
-      if (N === 0) { fill[segName][k] = 0; return; }
+  const axisAngle = {};   // start angle of each axis within its segment
+  PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+    const seg = PS_SEGMENTS[segName];
+    const keys = seg.keys;
+    const segStart = -90 + sIdx * 90;
+    const slice = 90 / keys.length;
+    keys.forEach((k, kIdx) => {
+      if (N === 0) { fill[k] = 0; return; }
       const hits = presentAll.filter(p => p.has(k)).length;
-      fill[segName][k] = hits / N;
+      fill[k] = hits / N;
+      axisAngle[k] = segStart + kIdx * slice;
     });
   });
 
+  // Selected-lord highlight
   const lordHas = {};
   if (selectedIdx != null) {
     const present = presentAll[lordIdxs.indexOf(selectedIdx)] || new Set();
     PS_SEGMENT_ORDER.forEach(segName => {
       const keys = PS_SEGMENTS[segName].keys;
-      lordHas[segName] = {};
-      keys.forEach(k => { lordHas[segName][k] = present.has(k); });
+      keys.forEach(k => { lordHas[k] = present.has(k); });
     });
   }
 
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="100%" class="segment-radar">`;
+  const pad = 38;
+  const labelR = maxR + 6;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="segment-radar">`;
 
-  const cellPos = [
-    { col: 0, row: 0 },
-    { col: 1, row: 0 },
-    { col: 0, row: 1 },
-    { col: 1, row: 1 },
-  ];
+  function wedgePath(a1, a2, r) {
+    const [x1, y1] = p2xy(cx, cy, r, a1);
+    const [x2, y2] = p2xy(cx, cy, r, a2);
+    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} L ${cx} ${cy} Z`;
+  }
+
+  // Reference rings
+  [0.33, 0.66, 1.0].forEach(frac => {
+    const r = maxR * frac;
+    svg += `<circle cx="${cx}" cy="${cy}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>`;
+  });
+
+  // Background segment tints
+  PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+    const seg = PS_SEGMENTS[segName];
+    const d = wedgePath(-90 + sIdx * 90, -90 + sIdx * 90 + 90, maxR);
+    svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.05" stroke="none" pointer-events="none"/>`;
+  });
+
+  // Per-axis bars. Each axis gets a polar bar within its segment.
+  // Adjacent axes have a small angular gap so they read as distinct.
+  PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+    const seg = PS_SEGMENTS[segName];
+    const keys = seg.keys;
+    const slice = 90 / keys.length;
+    keys.forEach((k, kIdx) => {
+      const a1 = -90 + sIdx * 90 + kIdx * slice + 1.0;
+      const a2 = a1 + slice - 2.0;
+      const f = fill[k] || 0;
+      const r = Math.max(maxR * f, 0.6);
+      if (f > 0.01) {
+        const d = wedgePath(a1, a2, r);
+        svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
+      }
+      // Faint track for empty axes
+      const tickD = wedgePath(a1, a2, maxR);
+      svg += `<path d="${tickD}" fill="${seg.col}" fill-opacity="0.05" stroke="${seg.col}" stroke-opacity="0.25" stroke-width="0.4" pointer-events="none"/>`;
+    });
+  });
+
+  // Selected-lord overlay: bright outline on each axis the lord has
+  if (selectedIdx != null) {
+    PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
+      const seg = PS_SEGMENTS[segName];
+      const keys = seg.keys;
+      const slice = 90 / keys.length;
+      keys.forEach((k, kIdx) => {
+        if (!lordHas[k]) return;
+        const a1 = -90 + sIdx * 90 + kIdx * slice + 1.0;
+        const a2 = a1 + slice - 2.0;
+        const d = wedgePath(a1, a2, maxR);
+        svg += `<path d="${d}" fill="none" stroke="#fff8e0" stroke-opacity="0.9" stroke-width="1.8" pointer-events="none"/>`;
+      });
+    });
+  }
+
+  // Cardinal segment dividers
+  for (let i = 0; i < 4; i++) {
+    const a = -90 + i * 90;
+    const [x, y] = p2xy(cx, cy, maxR, a);
+    svg += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" pointer-events="none"/>`;
+  }
+
+  svg += `<circle cx="${cx}" cy="${cy}" r="3" fill="rgba(255,255,255,0.5)" pointer-events="none"/>`;
+
+  // Segment labels at cardinal direction
+  const iconSize = 22;
   PS_SEGMENT_ORDER.forEach((segName, i) => {
     const seg = PS_SEGMENTS[segName];
-    const { col, row } = cellPos[i];
-    const cx = padX + col * (cellW + padX);
-    const cy = padY + row * (cellH + padY);
-    svg += renderSegmentCell(segName, seg, cx, cy, cellW, cellH, fill[segName], lordHas[segName], selectedIdx);
-  });
-
-  svg += '</svg>';
-  return svg;
-
-  function renderSegmentCell(segName, seg, x, y, w, h, fills, lordHass, selectedIdx) {
-    const keys = seg.keys;
-    const headerH = 26;
-    const barRowH = (h - headerH - 6) / Math.max(keys.length, 1);
-    const labelW = 60;
-    const pctW = 30;
-    const barLeft = x + labelW + 4;
-    const barRight = x + w - pctW - 4;
-    const barW = Math.max(barRight - barLeft, 20);
-    const iconSize = 13;
-
-    let s = `<g class="seg-cell" data-seg="${segName}">`;
-    s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${seg.col}" fill-opacity="0.06" stroke="${seg.col}" stroke-opacity="0.25" stroke-width="1"/>`;
-
-    s += `<g transform="translate(${x + 7}, ${y + 6})" style="color:${seg.col}">`
-       + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg>`
-       + `</g>`;
-    s += `<text x="${x + 7 + iconSize + 5}" y="${y + 16}" font-size="12" font-weight="700" fill="${seg.col}">${esc(seg.lbl)}</text>`;
-
-    const filledCount = keys.filter(k => fills[k] > 0).length;
-    if (N === 0) {
-      s += `<text x="${x + w - 6}" y="${y + 16}" text-anchor="end" font-size="10" fill="rgba(231,224,210,0.4)">no lords</text>`;
-    } else {
-      s += `<text x="${x + w - 6}" y="${y + 16}" text-anchor="end" font-size="10" fill="rgba(231,224,210,0.6)">${filledCount}/${keys.length}</text>`;
-    }
-
-    keys.forEach((k, kIdx) => {
-      const rowY = y + headerH + 2 + kIdx * barRowH;
-      const rowH = Math.min(barRowH - 3, 14);
-      const rowCenterY = rowY + rowH / 2;
-      const f = fills[k];
-      const t = PS[k] ? PS[k].t : k;
-      const ic = PS[k] ? PS[k].ic : seg.col;
-      const isSelected = selectedIdx != null && lordHass[k];
-
-      s += `<g transform="translate(${x + 6}, ${rowCenterY - 6})" style="color:${ic}">`
-         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="11" height="11">${PSI[k] || ''}</svg>`
-         + `</g>`;
-      s += `<text x="${x + 22}" y="${rowCenterY + 3}" font-size="9.5" fill="rgba(231,224,210,0.85)">${esc(t)}</text>`;
-
-      s += `<rect x="${barLeft}" y="${rowY}" width="${barW}" height="${rowH}" rx="2" fill="rgba(255,255,255,0.05)"/>`;
-      if (f > 0.01) {
-        const w2 = barW * f;
-        s += `<rect x="${barLeft}" y="${rowY}" width="${w2}" height="${rowH}" rx="2" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.7" stroke-width="0.5"/>`;
-      }
-      if (isSelected) {
-        s += `<rect x="${barLeft - 1}" y="${rowY - 1}" width="${barW + 2}" height="${rowH + 2}" rx="3" fill="none" stroke="#fff8e0" stroke-width="1.5"/>`;
-      }
-      const pct = Math.round(f * 100);
-      s += `<text x="${x + w - 5}" y="${rowCenterY + 3}" text-anchor="end" font-size="9.5" ${isSelected ? 'fill="#fff8e0" font-weight="700"' : 'fill="rgba(231,224,210,0.7)"'}>${pct}%</text>`;
-    });
-
-    s += `</g>`;
-    return s;
-  }
-}
-
-// buildAllLordsRadarSVG - the density radar
-// =====================================================================
-// Renders all filtered lords as overlapping race-colored polygons on a
-// 14-axis radar. Visual semantics:
-//
-//   - BRIGHT gold polygon = the selected lord (state.cmp[0] or selectedIdx)
-//   - DIM race-colored polygons = other lords that pass the current filter
-//   - The radar ALWAYS shows all filtered lords. Picking a lord does NOT
-//     remove other lords from the view - it just highlights one.
-//   - baseAlpha = 0.22 (was 0.15) so dim polygons are visible/clickable.
-//     If a user can see a triangle, they can click it.
-//
-// FILTER LOGIC (radar clicks):
-//   - Click an axis (playstyle disc) → set psInc = {that tag}, OR logic
-//     (lords with that playstyle). Single-tag filter, no psAll needed.
-//   - Click a wedge (triangle) → set psInc = {tagA, tagB}, AND logic
-//     (psAll = true). The hint text says "require both" - and now it
-//     actually does. Click again to clear.
-//   - Click a polygon → add/remove from compare set (state.cmp), up to 3.
-//     Click an already-selected polygon to remove it. At 3, clicking a
-//     new one replaces the oldest.
-//
-// CLICK PRIORITY (radar click handler):
-//   1. .lord-poly (polygon) → add/remove from compare
-//   2. .axis (playstyle disc) → set single-tag filter
-//   3. .wedge (triangle) → set two-tag AND filter
-//   Spokes and grid rings have pointer-events="none" so they don't
-//   intercept clicks meant for polygons/wedges.
-//
-// lordIdxs: array of lord indices to render (already filtered by the
-//           calling code). Synthetic race-avg lords are excluded.
-// size: SVG size in user units (default 380).
-// selectedIdx: lord index to highlight, or null.
-// =====================================================================
-function buildAllLordsRadarSVG(lordIdxs, size, selectedIdx) {
-  size = size || 380;
-  const cx = size / 2, cy = size / 2;
-  const maxR = GRID_R * size / RADAR_SIZE;
-  const labelR = LABEL_R * size / RADAR_SIZE;
-  const keys = Object.keys(PS);
-  const n = keys.length;
-
-  // Per-lord per-axis presence
-  const presentAll = lordIdxs.map(i => {
-    const l = LORDS[i];
-    return {
-      color: RACES[l.r]?.c || '#c9a24b',
-      present: new Set((l.ps || []).map(normTag)),
-    };
-  });
-
-  // Per-axis counts (for tooltips) + top 3 lord names per axis so the user
-  // sees "War - 23 lords · top: Archaon, Sigvald, Skarbrand" and can decide
-  // whether to filter on it.
-  const axisCount = {};
-  const axisTop = {};
-  keys.forEach(k => { axisCount[k] = 0; axisTop[k] = []; });
-  presentAll.forEach(({ present }, idx) => {
-    present.forEach(k => {
-      axisCount[k]++;
-      if (axisTop[k].length < 3) axisTop[k].push(LORDS[lordIdxs[idx]].n.split(',')[0]);
-    });
-  });
-
-  // Per-wedge counts (lords that have BOTH adjacent axes) + top lord names
-  // so the tooltip is actionable ("here are 3 lords that combine these two
-  // playstyles") rather than just a number.
-  const wedgeCount = {};
-  const wedgeTop = {};
-  for (let i = 0; i < n; i++) {
-    const a = keys[i], b = keys[(i + 1) % n];
-    const matches = presentAll
-      .map((entry, idx) => ({ entry, idx }))
-      .filter(({ entry }) => entry.present.has(a) && entry.present.has(b));
-    wedgeCount[`${a}|${b}`] = matches.length;
-    wedgeTop[`${a}|${b}`] = matches
-      .slice(0, 3)
-      .map(({ idx }) => LORDS[lordIdxs[idx]].n.split(',')[0])
-      .join(', ');
-  }
-
-  // Helper to format tag for data attribute (lowercase, no spaces)
-  const tagKey = k => k.charAt(0).toLowerCase() + k.slice(1);
-
-  // viewBox is padded by `pad` on every side so axis-label icons (which
-  // sit at labelR distance from center, with a 13px background circle)
-  // never clip the top/bottom/left/right edges. Without this, the top
-  // label of the per-lord radar (size 200) clipped ~7px above the
-  // viewBox. The radar content is still centered at (size/2, size/2) in
-  // user space, so visually nothing changes except the icons now fit
-  // inside the SVG bounds - the SVG element is the same size on screen.
-  const pad = 12;
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" width="100%" height="100%" style="overflow:visible" class="all-lords-radar">`;
-
-  // Grid rings
-  [0.3, 0.6, 1.0].forEach(frac => {
-    const r = maxR * frac;
-    const pts = keys.map((_, i) => {
-      const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, r, a);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
-    svg += `<polygon points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" pointer-events="none"/>`;
-  });
-  // Spokes (non-clickable decorative lines)
-  keys.forEach((_, i) => {
-    const a = i * 360 / n;
-    const [x, y] = p2xy(cx, cy, maxR, a);
-    svg += `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.07)" stroke-width="1" pointer-events="none"/>`;
-  });
-
-  // (filter envelope polygon removed - it plotted playstyle FREQUENCY on the
-  // radar's radial scale, which conflicted with the per-lord density that
-  // uses the same scale to show per-lord PRESENCE. The same data is now
-  // shown as a horizontal bar chart in the radar summary text, where
-  // each playstyle gets its own bar whose width is unambiguous.)
-
-  // Interactive wedge hit areas (transparent, between consecutive axes).
-  // Click a wedge → add both bounding tags to the include filter.
-    // Per-lord polygon at very low alpha. 110 lords * 0.15 ≈ 16 effective
-  // layers (was 0.10 - turned the radar into a muddy mess on small
-  // screens, so we lowered effective opacity; with 14 axes and race-
-  // colored polygons this lands at a readable density).
-  // Each polygon carries data-i so card-hover can target it and bright it
-  // up; click also selects that lord.
-  const baseAlpha = 0.22; // was 0.15 - too dim, users couldn't see clickable triangles
-  presentAll.forEach((entry, idx) => {
-    const { color, present } = entry;
-    const lIdx = lordIdxs[idx];
-    const activeKeys = keys.filter(k => present.has(k));
-    if (activeKeys.length < 2) return;
-    const pts = activeKeys.map(k => {
-      const i = keys.indexOf(k);
-      const a = i * 360 / n;
-      const [x, y] = p2xy(cx, cy, maxR, a);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    });
-    const isSel = (selectedIdx != null && lIdx === selectedIdx);
-    const fillCol = isSel ? '#c9a24b' : color;
-    const alpha = isSel ? 0.55 : baseAlpha;
-    const strokeCol = isSel ? '#fff8e0' : color;
-    const strokeA = isSel ? 0.95 : 0.35;
-    const strokeW = isSel ? 2 : 0.8;
-    svg += `<polygon class="lord-poly${isSel ? ' lord-poly-selected' : ''}" data-i="${lIdx}" data-tip="${esc(LORDS[lIdx].n.split(',')[0])} · ${esc(LORDS[lIdx].r)} - tap to view" `
-         + `points="${pts.join(" ")}" fill="${fillCol}" fill-opacity="${alpha}" stroke="${strokeCol}" stroke-opacity="${strokeA}" stroke-width="${strokeW}" `
-         + `style="cursor:pointer;transition:fill-opacity .12s, stroke-opacity .12s, stroke-width .12s;pointer-events:none"/>`;
-  });
-  // ── Axis labels (icons + playstyle names around the radar) ─────────
-  // Drawn BEFORE the wedge hits so wedges stay on top for clicks. Each
-  // axis is its own <g class="axis" data-tag="..."> group: the click
-  // handler at the bottom of the file routes .axis[data-tag] clicks
-  // through psInc/clear. The same pattern is used in buildRadarSVG
-  // (per-lord mini radar) - keep them in sync.
-  svg += `<g class="axis-labels">`;
-  keys.forEach((k, i) => {
-    const a = i * 360 / n;
+    const a = -90 + i * 90;
     const [lx, ly] = p2xy(cx, cy, labelR, a);
-    const icon = PSI[k] || '';
-    const isActive = presentAll.some(p => p.present.has(k));
-    const fa = a;
-    const sx = Math.cos((fa - 90) * Math.PI / 180);
-    const sy = Math.sin((fa - 90) * Math.PI / 180);
-    const anchor = sx >= 0 ? 'start' : 'end';
-    const dx = sx >= 0 ? 2 : -2;
-    const dy = sy >= 0 ? 3 : -3;
-    const iconSize = 22;
-    const cx0 = lx + dx, cy0 = ly + dy;
-    // Background disc so the icon is readable on a dark radar
-    const bgFill = isActive ? 'rgba(201,162,75,0.18)' : 'rgba(231,224,210,0.06)';
-    const psName = PS[k]?.t || k;
-    const psDesc = PS[k]?.g || '';
-    const tipText = `${psName} - ${psDesc}\n${axisCount[k] || 0} lord${(axisCount[k] || 0) === 1 ? '' : 's'} have this playstyle - use the chips above to filter`;
-    svg += `<g class="axis" data-tag="${k}">`
-         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 2).toFixed(1)}" fill="transparent" style="cursor:pointer" data-tip="${tipText}"/>`
-         + `<circle cx="${cx0.toFixed(1)}" cy="${cy0.toFixed(1)}" r="${(iconSize/2 + 1).toFixed(1)}" fill="${bgFill}" pointer-events="none"/>`
-         + `<g transform="translate(${(cx0 - iconSize/2).toFixed(1)},${(cy0 - iconSize/2).toFixed(1)})" style="pointer-events:none;color:${isActive ? '#e7e0d2' : 'rgba(231,224,210,0.55)'}">`
-         + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${icon}</svg>`
-         + `</g>`
-         + `</g>`;
+    const labelText = seg.lbl;
+    const labelFill = 'rgba(231,224,210,0.95)';
+    const segHint = `${seg.lbl} - ${seg.hint}`;
+    if (i === 0) {
+      svg += `<g class="seg-axis" data-seg="${segName}">`
+           + `<g transform="translate(${(lx - iconSize/2).toFixed(1)},${(ly - iconSize - 4).toFixed(1)})" style="pointer-events:none;color:${seg.col}">`
+           + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`
+           + `<text x="${lx.toFixed(1)}" y="${(ly - 4).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" fill="${labelFill}" style="pointer-events:none">${labelText}</text>`
+           + `<title>${esc(segHint)}</title></g>`;
+    } else if (i === 1) {
+      svg += `<g class="seg-axis" data-seg="${segName}">`
+           + `<g transform="translate(${(lx - iconSize - 4).toFixed(1)},${(ly - iconSize/2).toFixed(1)})" style="pointer-events:none;color:${seg.col}">`
+           + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`
+           + `<text x="${(lx + 4).toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="start" font-size="13" font-weight="700" fill="${labelFill}" style="pointer-events:none">${labelText}</text>`
+           + `<title>${esc(segHint)}</title></g>`;
+    } else if (i === 2) {
+      svg += `<g class="seg-axis" data-seg="${segName}">`
+           + `<text x="${lx.toFixed(1)}" y="${(ly + 12).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" fill="${labelFill}" style="pointer-events:none">${labelText}</text>`
+           + `<g transform="translate(${(lx - iconSize/2).toFixed(1)},${(ly + 18).toFixed(1)})" style="pointer-events:none;color:${seg.col}">`
+           + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`
+           + `<title>${esc(segHint)}</title></g>`;
+    } else {
+      svg += `<g class="seg-axis" data-seg="${segName}">`
+           + `<text x="${(lx - 4).toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="end" font-size="13" font-weight="700" fill="${labelFill}" style="pointer-events:none">${labelText}</text>`
+           + `<g transform="translate(${(lx + 4).toFixed(1)},${(ly - iconSize/2).toFixed(1)})" style="pointer-events:none;color:${seg.col}">`
+           + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`
+           + `<title>${esc(segHint)}</title></g>`;
+    }
   });
-  svg += `</g>`;
 
-  // Wedge hit areas - drawn ON TOP of lord polygons so wedge clicks
-  // work even when a lord polygon is visually in front. This is the
-  // fix for the bug where clicking a wedge area would select a lord
-  // instead of applying the filter (the user's #1 complaint). Polygons
-  // are now pointer-events:none; lord selection from the radar is done
-  // via card clicks. The wedges are visible (subtle gold tint) so the
-  // user can see the clickable areas.
-  svg += `<g class="wedge-hits" pointer-events="all">`;
-  for (let i = 0; i < n; i++) {
-    const aTk = keys[i].charAt(0).toUpperCase() + keys[i].slice(1);
-    const bTk = keys[(i + 1) % n].charAt(0).toUpperCase() + keys[(i + 1) % n].slice(1);
-    // Compute the wedge points (re-create the wedge geometry here, but
-    // skip the central ~12% to leave a clickable dead zone at the very
-    // center where all wedges meet - that area is reserved for the
-    // radar's center dot / "no filter" hit target).
-    const innerR = maxR * 0.12;
-    const aRad = i * 2 * Math.PI / n;
-    const bRad = ((i + 1) % n) * 2 * Math.PI / n;
-    const [ax, ay] = p2xy(cx, cy, maxR, i * 360 / n);
-    const [bx, by] = p2xy(cx, cy, maxR, ((i + 1) % n) * 360 / n);
-    const [aix, aiy] = p2xy(cx, cy, innerR, i * 360 / n);
-    const [bix, biy] = p2xy(cx, cy, innerR, ((i + 1) % n) * 360 / n);
-    const wpts = `${ax.toFixed(1)},${ay.toFixed(1)} ${bx.toFixed(1)},${by.toFixed(1)} ${bix.toFixed(1)},${biy.toFixed(1)} ${aix.toFixed(1)},${aiy.toFixed(1)}`;
-    // State-based fill: visible so user can see the clickable area.
-    // Include (both tags in psInc) → gold. Exclude (both in psExc) → red.
-    // Partial (one of two in psInc) → dim gold. Else → faint gold.
-    const aKey = keys[i], bKey = keys[(i + 1) % n];
-    const aInc = state.psInc.has(aKey), bInc = state.psInc.has(bKey);
-    const aExc = state.psExc.has(aKey), bExc = state.psExc.has(bKey);
-    let hitCls = 'wedge-hit';
-    let hitFill = 'rgba(201,162,75,0.04)';
-    if (aInc && bInc) { hitCls = 'wedge-hit wedge-include'; hitFill = 'rgba(201,162,75,0.20)'; }
-    else if (aExc && bExc) { hitCls = 'wedge-hit wedge-exclude'; hitFill = 'rgba(220,80,80,0.14)'; }
-    else if (aInc || bInc) { hitCls = 'wedge-hit wedge-partial'; hitFill = 'rgba(201,162,75,0.12)'; }
-    // Count lords in this wedge (intersection of both playstyles) and
-    // the union (lords with EITHER tag) so the tooltip shows both.
-    // Wedges no longer filter - pairings are arbitrary - but the count
-    // is useful context: "lots of lords lean between War and Builder".
-    const cnt = lordIdxs.filter(li => {
-      const ps = (LORDS[li].ps || []).map(normTag);
-      return ps.includes(aKey) && ps.includes(bKey);
-    }).length;
-    const cntOR = lordIdxs.filter(li => {
-      const ps = (LORDS[li].ps || []).map(normTag);
-      return ps.includes(aKey) || ps.includes(bKey);
-    }).length;
-    const tipText = `${aKey} · ${bKey}\n${cnt} lord${cnt === 1 ? '' : 's'} have both · ${cntOR} match either\n(tap the playstyle chips below to filter)`;
-    svg += `<polygon class="${hitCls}" data-tag-a="${aKey}" data-tag-b="${bKey}" `
-         + `points="${wpts}" fill="${hitFill}" stroke="rgba(201,162,75,0.18)" stroke-width="0.4" `
-         + `data-tip="${tipText}" />`;
-  }
-  // Central dead zone - a circle that catches clicks in the very
-  // middle (where all 14 wedges overlap) so a tap there doesn't apply
-  // a filter. Visual: tiny gold dot at the radar center.
-  svg += `<circle class="radar-center" cx="${cx}" cy="${cy}" r="${(maxR * 0.06).toFixed(1)}" `
-       + `fill="rgba(201,162,75,0.10)" stroke="rgba(201,162,75,0.4)" stroke-width="1" `
-       + `data-tip="Radar center - click an axis, wedge, or card to act" />`;
-  svg += `</g>`;
   svg += '</svg>';
   return svg;
 }
+
 
 function buildRaceAvgLords() {
   // Inline the tag normalization so this function doesn't depend on

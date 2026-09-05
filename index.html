@@ -150,8 +150,8 @@ input[type=search]:focus,select:focus,button:focus-visible{outline:2px solid var
    background gets a faint wash of the same color so the chip reads
    as "tinted with the parent quadrant" rather than as a generic grey
    pill. */
-.chip.ps{color:var(--rc) !important;border:2px solid var(--rc) !important;background:color-mix(in srgb,var(--rc) 14%,var(--panel2));font-weight:600}
-.chip.ps:hover{background:color-mix(in srgb,var(--rc) 26%,var(--panel2));filter:brightness(1.1)}
+.chip.ps{color:var(--rc);border:1px solid var(--rc);background:color-mix(in srgb,var(--rc) 12%,var(--panel2))}
+.chip.ps:hover{background:color-mix(in srgb,var(--rc) 22%,var(--panel2));filter:brightness(1.1)}
 .chip.ps .count{background:color-mix(in srgb,var(--rc) 30%,transparent);color:var(--rc);font-weight:700}
 .chip.off{color:#c07070;border-color:#7a3a3a}
 .chip.off .lbl{text-decoration:line-through}
@@ -660,8 +660,11 @@ main{max-width:1200px;margin:0 auto;padding:14px 16px 90px}
 .sub{color:var(--muted);font-size:.8rem;margin:3px 0 6px}
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
 .tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line);border-radius:4px;padding:2px 6px;color:var(--muted);background:none;font-family:inherit;cursor:pointer}
-.tag:hover{border-color:var(--gold);color:var(--text)}
-.tag.on{border-color:var(--gold);color:var(--gold)}
+.tag.ps-pill{color:var(--rc);border-color:var(--rc);background:color-mix(in srgb,var(--rc) 15%,transparent)}
+.tag:hover{border-color:var(--gold);color:var(--text);filter:brightness(1.2)}
+.tag.ps-pill:hover{filter:brightness(1.3)}
+.tag.on{border-color:var(--gold);color:var(--gold);background:color-mix(in srgb,var(--gold) 15%,transparent)}
+.tag.ps-pill.on{color:var(--rc);border-color:var(--rc);background:color-mix(in srgb,var(--rc) 20%,transparent)}
 .pick{font-size:.86rem;color:#d8cfae;font-style:italic;margin:0}
 
 /* Pass 1: mobile card density & hierarchy. The card holds lord name,
@@ -2619,7 +2622,7 @@ function cardHTML(l){
     <div class="card-radar" data-i="${l.i}"></div>
     <h3>${esc(l.n)} ${pips(l.d)}</h3>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>
-    <div class="tags">${l.ps.map(p=>`<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[p.charAt(0).toUpperCase()+p.slice(1)].ic}" title="${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].g)} (tap: include → clear)">${iconSVG(PSI[p.charAt(0).toUpperCase()+p.slice(1)], 12, PS[p.charAt(0).toUpperCase()+p.slice(1)].ic)} <span class="ps-pill-label">${esc(PS[p.charAt(0).toUpperCase()+p.slice(1)].t)}</span></button>`).join("")}</div>
+    <div class="tags">${l.ps.map(p=>{const cap=p.charAt(0).toUpperCase()+p.slice(1);const segName=_axisSeg[p];const segCol=segName?PS_SEGMENTS[segName].col:PS[cap].ic;return `<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[cap].ic};--rc:${segCol}" title="${esc(PS[cap].g)} (tap: include → clear)">${iconSVG(PSI[cap], 12, PS[cap].ic)} <span class="ps-pill-label">${esc(PS[cap].t)}</span></button>`;}).join("")}</div>
     <p class="pick">${esc(l.pick)}</p>
     <div class="det">
       <p class="battle"><b>⚔ In battle:</b> ${esc(l.battle)}</p>

@@ -1067,100 +1067,55 @@ footer{max-width:1200px;margin:0 auto;padding:30px 16px 50px;color:var(--muted);
   #featured-radar .fr-battle{text-align:left}
   #featured-radar .fr-all-summary{font-size:.78rem;line-height:1.45}
 
-  /* Collapsible all-lords summary on mobile. The summary line is always
-     visible (so user sees the count + top races at a glance); the radar
-     SVG is hidden by default and revealed on tap. .fr-collapsed is
-     toggled by JS. Default state on mobile is COLLAPSED. */
-  #featured-radar .fr-inner.all-lords{
-    /* The whole panel: click anywhere on the header line to expand. */
-  }
-  #featured-radar .fr-inner.all-lords > .fr-radar{
-    /* Pass 7: smoother expand/collapse. The old max-height transition
-       was choppy (0 → 680px) because the browser interpolates linearly
-       and the content sits in the middle of the transition. Using
-       grid-template-rows: 0fr → 1fr is the modern, content-aware way
-       to animate an unknown-height element. It also lets us animate
-       opacity in the same transition. */
-    display:grid;
-    grid-template-rows:1fr;
-    transition:grid-template-rows .28s ease, opacity .2s ease, margin .28s ease;
-    opacity:1;
-    margin-top:8px;
-  }
-  #featured-radar .fr-inner.all-lords > .fr-radar > *{
-    /* The grid trick: child fills the row but doesn't exceed it. */
-    min-height:0;
-    overflow:hidden;
-  }
-  /* When user opts to collapse the radar, force the box to 0 height.
-     The radar parent has aspect-ratio:1 + width:100% which would
-     otherwise reserve a 333×333 empty box that looks like a vanished
-     radar. We also drop the grid-template-rows animation in favor of
-     a hard display:none - instant, no ghost, no choreographed reveal. */
-  #featured-radar .fr-inner.all-lords.fr-collapsed > .fr-radar{
-    display:none;
-  }
+  /* Static info block on mobile. The radar is always visible (no
+     collapse), and the count + hint sit below it as plain text. */
   #featured-radar .fr-inner.all-lords .fr-all-summary{
-    cursor:pointer;
-    padding:11px 10px;
-    user-select:none;
-    -webkit-tap-highlight-color:rgba(201,162,75,.15);
-    border-radius:8px;
-    background:rgba(231,224,210,.02);
-    border:1px solid rgba(201,162,75,.1);
-    transition:background .15s, border-color .15s;
-    min-height:44px;  /* 44pt touch target */
+    text-align:center;
+    margin-top:10px;
+    color:var(--muted);
+  }
+  #featured-radar .fr-inner.all-lords .fr-all-filter{
+    font-size:.75rem;padding:4px 6px;
+  }
+
+  /* Play style profile disclosure. This is the only collapsible
+     element in the section. The radar above it is always visible, the
+     count + hint below the radar are static text. The profile is its
+     own <details> with its own "tap to expand/tap to collapse" label
+     so it's unambiguous what tapping does. */
+  #featured-radar .fr-profile{
+    width:100%;
+    max-width:440px;
+    margin:8px auto 0;
+  }
+  #featured-radar .fr-profile .profile-details{
+    margin-top:0;
+    min-height:44px;
+  }
+  #featured-radar .fr-profile .profile-details summary{
+    padding:12px 10px;
+    min-height:44px;
     display:flex;
     align-items:center;
     flex-wrap:wrap;
     gap:6px;
   }
-  #featured-radar .fr-inner.all-lords .fr-all-summary:active{
-    background:rgba(201,162,75,.18);
-  }
-  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary{
-    background:rgba(201,162,75,.08);
-    border-color:rgba(201,162,75,.4);
-  }
-  #featured-radar .fr-inner.all-lords .fr-all-summary::before{
-    content:"▾";
-    display:inline-block;
-    margin-right:6px;
-    transition:transform .22s ease;
-    color:var(--gold);
-    font-size:.95em;
-  }
-  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary::before{
-    transform:rotate(180deg);
-  }
-  #featured-radar .fr-inner.all-lords .fr-all-hint{
-    display:none;  /* redundant on mobile - the disclosure caret says it */
-  }
-  #featured-radar .fr-inner.all-lords .fr-all-filter{
-    font-size:.75rem;padding:4px 6px;
-  }
-  /* When collapsed on mobile, show a "tap to expand radar" mini-hint
-     so the user knows they can tap. When expanded, hide the hint. */
-  #featured-radar .fr-inner.all-lords.fr-collapsed .fr-all-summary::after{
+  #featured-radar .fr-profile .profile-details summary::after{
     content:"tap to expand";
     display:inline-block;
-    margin-left:8px;
+    margin-left:auto;
     font-size:.65rem;
     color:var(--gold);
     opacity:.75;
     text-transform:uppercase;
     letter-spacing:.05em;
   }
-  #featured-radar .fr-inner.all-lords:not(.fr-collapsed) .fr-all-summary::after{
+  #featured-radar .fr-profile .profile-details[open] summary::after{
     content:"tap to collapse";
-    display:inline-block;
-    margin-left:8px;
-    font-size:.65rem;
-    color:var(--gold);
-    opacity:.75;
-    text-transform:uppercase;
-    letter-spacing:.05em;
   }
+  /* On mobile the long summary text is unnecessary - the bar chart
+     below the title tells the same story. Hide the verbose part. */
+  #featured-radar .fr-profile .profile-hint{display:none}
 }
 
 /* "All lords" mode - radar is centered, sized to fit content width.
@@ -1505,6 +1460,7 @@ to{transform:rotate(360deg)}}
       <div id="fr-radar-svg"></div>
     </div>
     <div class="fr-all-summary" id="fr-all-summary" style="display:none"></div>
+    <div class="fr-profile" id="fr-profile" style="display:none"></div>
     <button class="fr-jump-to-results" id="fr-jump-to-results" type="button" style="display:none">↑ Back to results</button>
     <div class="fr-info" id="fr-info" style="display:none">
       <h2>⚔ Playstyle Radar</h2>
@@ -3734,6 +3690,7 @@ function updateFeaturedRadar() {
   const cmpBtn = document.getElementById('fr-compare-btn');
   const frInner = document.getElementById('fr-inner');
   const frSummary = document.getElementById('fr-all-summary');
+  const frProfile = document.getElementById('fr-profile');
   if (!fr) return;
 
   // ── Always show the all-lords radar so the user can click polygons
@@ -3828,6 +3785,7 @@ function updateFeaturedRadar() {
   if (frSummary) {
       const s = allLordsSummary(allIdxs);
       frSummary.style.display = '';
+      if (frProfile) frProfile.style.display = '';
       const filterDesc = [];
       if (state.q) filterDesc.push(`<b>search</b> "${esc(state.q)}"`);
       if (state.race.size) filterDesc.push(`<b>race</b> ${[...state.race].map(esc).join(' + ')}`);
@@ -3853,13 +3811,31 @@ function updateFeaturedRadar() {
       frSummary.innerHTML = `
         <b>${summaryData.total} lord${summaryData.total === 1 ? '' : 's'}</b>${isFiltered ? ' (filtered from 110)' : ''} · Top races: ${summaryData.topRaces}
         ${filterLine}
-        <details class="profile-details"><summary>Playstyle profile - what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</summary>
-        <div class="profile-chart">${summaryData.profileRows}</div></details>
         <div class="fr-all-hint">
           <b>Tap a card</b> to view that lord · <b>tap a playstyle chip above</b> to filter · <b>tap a polygon</b> to add to compare<br>
           <span style="opacity:0.65;font-size:0.85em">Tap an active axis again to clear · use card pills to exclude</span>
         </div>
         `;
+
+      // Play style profile is its OWN disclosure, separate from the
+      // radar's mobile tap-to-collapse target. Earlier it was nested
+      // inside .fr-all-summary, which caused two bugs:
+      //   1. Clicks on the play style profile summary bubbled up and
+      //      collapsed/expanded the radar unexpectedly.
+      //   2. The radar's "tap to expand/tap to collapse" label sat
+      //      RIGHT NEXT to the play style profile, so when the user
+      //      opened the bars and the radar was collapsed, the label
+      //      read "tap to expand" right beside visible bars - looked
+      //      like the label referred to the bars (contradiction).
+      // Splitting them into separate elements makes the tap targets
+      // unambiguous: this block is its own <details>, no shared
+      // parent with the radar toggle.
+      if (frProfile) {
+        frProfile.innerHTML = `
+          <details class="profile-details"><summary>Playstyle profile <span class="profile-hint">- what fraction of these ${summaryData.total} lord${summaryData.total === 1 ? '' : 's'} have each playstyle</span></summary>
+          <div class="profile-chart">${summaryData.profileRows}</div></details>
+          `;
+      }
 
       // Wire the clear button - use the same canonical clearAllFilters()
       // function that the top-bar and active-filters clear buttons use,
@@ -3872,44 +3848,16 @@ function updateFeaturedRadar() {
       });
     }
 
-    // Mobile collapse toggle: tap the summary line to collapse/expand the
-    // radar SVG. Only active on mobile (the @media query hides the caret
-    // on desktop). The collapsed state is preserved across re-renders via
-    // a class on the .fr-inner.all-lords wrapper.
-    //
-    // Default state is EXPANDED on mobile. Previous behavior (collapsed by
-    // default) created a 333×333 empty box because aspect-ratio:1 reserved
-    // the space while grid-template-rows:0fr hid the SVG inside - looked
-    // like a vanished radar and the "tap to expand" hint was below the
-    // fold. The user wants the radar visible; collapse is opt-in.
-    // NOTE: there's already a `frInner` var earlier in the function
-    // pointing at #fr-inner (the SINGLE-lord panel). Use a unique name
-    // to avoid the redeclaration error.
-    const frAllInner = frSummary.closest('.fr-inner.all-lords');
-    if (frAllInner && typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 640px)').matches) {
-      // Default: EXPANDED. Only collapse if the user explicitly chose to
-      // earlier in this session (recorded as a data attribute so the
-      // choice survives re-renders triggered by filter changes).
-      if (frAllInner.dataset.userCollapsed === '1' &&
-          !frAllInner.classList.contains('fr-collapsed')) {
-        frAllInner.classList.add('fr-collapsed');
-      }
-      frSummary.onclick = (e) => {
-        // The play style profile is a <details> element nested INSIDE
-        // this same .fr-all-summary. Native details toggle fires on its
-        // own when the user taps the summary or a row - we must NOT
-        // also collapse/expand the radar in response, or the radar will
-        // hide/show unexpectedly every time the user is just trying to
-        // reveal the horizontal bars. (Symptom: "tap to expand/tap to
-        // collapse for the play style bars feels inverted" — the labels
-        // are for the radar, but the user thinks they're for the bars.)
-        if (e.target.closest('.profile-details')) return;
-        const willCollapse = !frAllInner.classList.contains('fr-collapsed');
-        frAllInner.classList.toggle('fr-collapsed');
-        if (willCollapse) frAllInner.dataset.userCollapsed = '1';
-        else delete frAllInner.dataset.userCollapsed;
-      };
-    }
+    // Mobile: the radar is ALWAYS visible - no tap-to-collapse. The
+    // earlier design let the user collapse the radar to save vertical
+    // space, but it kept colliding with the play style profile
+    // disclosure below it (the "tap to expand/collapse" label was
+    // visually adjacent, the click target overlapped, the collapse
+    // state was a separate thing to remember). Removing the collapse
+    // entirely makes the radar a static, always-on visualization and
+    // leaves the play style profile as the only collapsible element
+    // in this section. The user confirmed this is what they want.
+
     // Show / hide the "back to results" floating button. The radar is
     // now BELOW the cards (Playstyle Map exploration section), so when
     // the user is at the radar they may want to jump back UP to the

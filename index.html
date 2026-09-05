@@ -2184,6 +2184,11 @@ const PS_SEGMENT_ORDER = ["Rush","Build","Quest","Horde"];
 const _axisSeg = {};
 PS_SEGMENT_ORDER.forEach(segName => {
   PS_SEGMENTS[segName].keys.forEach(axisName => {
+    // Store with BOTH the TitleCase (matches PS_SEGMENTS.keys and
+    // LORDS[].ps which uses PS_ASSIGN's titlecased form) AND the
+    // lowercase (matches the chip's data-psc attribute which uses
+    // pk = charAt(0).toLowerCase() + slice(1)).
+    _axisSeg[axisName] = segName;
     const pk = axisName.charAt(0).toLowerCase() + axisName.slice(1);
     _axisSeg[pk] = segName;
   });

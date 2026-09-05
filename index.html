@@ -3300,17 +3300,23 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
     }
 
     if (mode === 'averaged') {
-      // Single fill per segment, averaged across the filtered set
+      // BINARY metric: wedge is full (1) if the lord has ANY axis in
+      // the segment, empty (0) otherwise. This avoids the "1 axis in
+      // a 6-axis segment looks tiny, 1 axis in a 2-axis segment looks
+      // big" distortion (Domo's "equal-angle assumption" problem).
+      // A lord with War + Quest gets 2 full wedges, not a tiny Rush +
+      // a big Quest.
       PS_SEGMENT_ORDER.forEach((segName, sIdx) => {
         const seg = PS_SEGMENTS[segName];
         const fills = segFills[segName];
-        const avg = fills.reduce((a, b) => a + b, 0) / Math.max(fills.length, 1);
-        const a1 = -90 + sIdx * 90 + 2;
-        const a2 = a1 + 90 - 4;
-        const r = Math.max(maxR * avg, 0.6);
-        if (avg > 0.01) {
+        // Binary: 1 if ANY lord in the set has any axis in this segment
+        const hasAny = fills.some(f => f > 0);
+        if (hasAny) {
+          const a1 = -90 + sIdx * 90 + 2;
+          const a2 = a1 + 90 - 4;
+          const r = maxR;
           const d = wedgePath(a1, a2, r);
-          svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.6" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
+          svg += `<path d="${d}" fill="${seg.col}" fill-opacity="0.55" stroke="${seg.col}" stroke-opacity="0.85" stroke-width="0.8" pointer-events="none"/>`;
         }
       });
     } else {
@@ -3356,10 +3362,11 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
 
     // Segment labels - small for mini, full for overlay
     if (mode === 'overlay') {
+      // Quadrant-center labels (see per-axis mode comment for rationale)
       const iconSize = 20;
       PS_SEGMENT_ORDER.forEach((segName, i) => {
         const seg = PS_SEGMENTS[segName];
-        const a = -90 + i * 90;
+        const a = -90 + i * 90 + 45;
         const [lx, ly] = p2xy(cx, cy, maxR + 12, a);
         const labelText = seg.lbl;
         if (i === 0) {
@@ -3472,10 +3479,18 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
 
   svg += `<circle cx="${cx}" cy="${cy}" r="3" fill="rgba(255,255,255,0.5)" pointer-events="none"/>`;
 
+  // Segment labels at QUADRANT CENTERS, not cardinal positions.
+  // The cardinal positions (top/right/bottom/left) are the BOUNDARIES
+  // between segments; the user reads the data in the quadrant, not on
+  // the axis. So the label belongs at the mid-angle of each segment.
+  // Segment 0 (Rush, -90°..0°)  -> center at -45° (upper-right)
+  // Segment 1 (Build,  0°..90°)  -> center at  45° (lower-right)
+  // Segment 2 (Quest, 90°..180°) -> center at 135° (lower-left)
+  // Segment 3 (Horde, 180°..270°)-> center at 225° (upper-left)
   const iconSize = 22;
   PS_SEGMENT_ORDER.forEach((segName, i) => {
     const seg = PS_SEGMENTS[segName];
-    const a = -90 + i * 90;
+    const a = -90 + i * 90 + 45;  // quadrant center
     const [lx, ly] = p2xy(cx, cy, labelR, a);
     const labelText = seg.lbl;
     const labelFill = 'rgba(231,224,210,0.95)';

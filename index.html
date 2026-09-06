@@ -2758,7 +2758,6 @@ function allLordsSummary(lordIdxs) {
 // ── Featured radar (main page) ──────────────────────────────────────────
 function updateFeaturedRadar() {
   const fr = document.getElementById('fr-radar');
-  const frSection = document.getElementById('featured-radar');
   const fi = document.getElementById('fr-info');
   const fe = document.getElementById('fr-empty');
   const cmpBtn = document.getElementById('fr-compare-btn');
@@ -2767,13 +2766,12 @@ function updateFeaturedRadar() {
   const frProfile = document.getElementById('fr-profile');
   if (!fr) return;
 
-  // ── Big bottom radar only appears when 2+ lords are being compared.
-  // When 0 or 1 lord is picked, the section is hidden entirely so the
-  // page doesn't show a giant "average of 110 lords" radar by default.
-  // The Compare button + full overlay modal still works for 2+ lords.
-  const showSection = state.cmp.length >= 2;
-  if (frSection) frSection.style.display = showSection ? '' : 'none';
-  fr.style.display = showSection ? '' : 'none';
+  // ── Always show the all-lords radar so the user can click polygons
+  // to add/remove lords from the compare set at any time. The details
+  // panel on the right shows either: nothing (0 lords), the picked lord's
+  // info (1 lord), or a compact list of all picked lords with × buttons
+  // (2+ lords). The "Compare" button opens the full overlay for 2+ lords.
+  fr.style.display = '';
   fi.style.display = state.cmp.length >= 1 ? '' : 'none';
   fe.style.display = 'none';
   cmpBtn.style.display = state.cmp.length >= 2 ? '' : 'none';

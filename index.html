@@ -2500,12 +2500,32 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
         }
       });
     } else {
-      // averaged mini: tiny segment dot at each cardinal position
+      // averaged mini: segment icon at the quadrant center for occupied
+      // segments, tiny cardinal dot for empty ones. The icon is colored
+      // white and placed inside the wedge so it's only visible when that
+      // segment has a fill. This makes the mini-radar self-explanatory
+      // without needing a legend.
+      const iconMini = 14;
       PS_SEGMENT_ORDER.forEach((segName, i) => {
         const seg = PS_SEGMENTS[segName];
-        const a = -90 + i * 90;
-        const [lx, ly] = p2xy(cx, cy, maxR + 4, a);
-        svg += `<circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="1.5" fill="${seg.col}" pointer-events="none"/>`;
+        // For mini radars (single lord), segFills[segName] is a 1-element
+        // array. Use the max across all rendered lords in case of overlay.
+        const fills = segFills[segName] || [];
+        const filled = fills.some(f => f > 0.01);
+        if (filled) {
+          // Icon at the quadrant center, colored white so it stands out
+          // against the segment's colored fill. At 14px the icon is
+          // clearly readable inside an 80x80 radar.
+          const a = -90 + i * 90 + 45;  // quadrant center angle
+          const [lx, ly] = p2xy(cx, cy, maxR * 0.55, a);
+          svg += `<g transform="translate(${(lx - iconMini/2).toFixed(1)},${(ly - iconMini/2).toFixed(1)})" style="color:#fff;opacity:0.92" pointer-events="none">`
+               + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconMini}" height="${iconMini}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+        } else {
+          // Empty segment: tiny cardinal dot so the 4 axes are still visible
+          const a = -90 + i * 90;
+          const [lx, ly] = p2xy(cx, cy, maxR + 4, a);
+          svg += `<circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="1.5" fill="${seg.col}" opacity="0.5" pointer-events="none"/>`;
+        }
       });
     }
 

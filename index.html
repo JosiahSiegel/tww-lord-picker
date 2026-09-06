@@ -2478,25 +2478,36 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
 
     // Segment labels - small for mini, full for overlay
     if (mode === 'overlay') {
-      // Quadrant-center labels (see per-axis mode comment for rationale)
+      // Quadrant-center labels. Consistent rule for all 4 quadrants:
+      //   text is closer to the radar, icon is further out.
+      // Stacking direction follows the quadrant:
+      //   top    → icon above, text below it (stacked vertically)
+      //   right  → text left,  icon to the right of it
+      //   bottom → text above, icon below it (stacked vertically)
+      //   left   → icon to the left, text to the right of it
       const iconSize = 20;
       PS_SEGMENT_ORDER.forEach((segName, i) => {
         const seg = PS_SEGMENTS[segName];
         const a = -90 + i * 90 + 45;
         const [lx, ly] = p2xy(cx, cy, maxR + 12, a);
         const labelText = seg.lbl;
+        const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${(iconSize/1.2).toFixed(2)}" height="${(iconSize/1.2).toFixed(2)}">${PS_SEGMENT_ICONS[segName] || ''}</svg>`;
         if (i === 0) {
-          svg += `<g transform="translate(${(lx - 8).toFixed(1)},${(ly - iconSize - 2).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+          // Top: icon above, text below (closer to radar)
+          svg += `<g transform="translate(${(lx - 8).toFixed(1)},${(ly - iconSize - 2).toFixed(1)})" style="color:${seg.col}">${iconSvg}</g>`;
           svg += `<text x="${lx.toFixed(1)}" y="${(ly - 4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
         } else if (i === 1) {
-          svg += `<g transform="translate(${(lx - iconSize - 2).toFixed(1)},${(ly - 8).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
-          svg += `<text x="${(lx + 4).toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="start" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
-        } else if (i === 2) {
-          svg += `<text x="${lx.toFixed(1)}" y="${(ly + 10).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
-          svg += `<g transform="translate(${(lx - 8).toFixed(1)},${(ly + 14).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
-        } else {
+          // Right: text closer to radar (left), icon further out (right)
           svg += `<text x="${(lx - 4).toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
-          svg += `<g transform="translate(${(lx + 4).toFixed(1)},${(ly - 8).toFixed(1)})" style="color:${seg.col}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize/1.2}" height="${iconSize/1.2}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`;
+          svg += `<g transform="translate(${(lx + 4).toFixed(1)},${(ly - 8).toFixed(1)})" style="color:${seg.col}">${iconSvg}</g>`;
+        } else if (i === 2) {
+          // Bottom: text above (closer to radar), icon below
+          svg += `<text x="${lx.toFixed(1)}" y="${(ly + 10).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
+          svg += `<g transform="translate(${(lx - 8).toFixed(1)},${(ly + 14).toFixed(1)})" style="color:${seg.col}">${iconSvg}</g>`;
+        } else {
+          // Left: icon further out (left), text closer to radar (right)
+          svg += `<g transform="translate(${(lx - iconSize - 2).toFixed(1)},${(ly - 8).toFixed(1)})" style="color:${seg.col}">${iconSvg}</g>`;
+          svg += `<text x="${(lx + 4).toFixed(1)}" y="${(ly + 3).toFixed(1)}" text-anchor="start" font-size="11" font-weight="700" fill="${seg.col}">${labelText}</text>`;
         }
       });
     } else {

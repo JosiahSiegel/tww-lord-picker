@@ -1220,11 +1220,11 @@ const PSI={
 // inconsistently across OS/browsers and especially badly in headless
 // chromium used for visual checks. Each path is a simple 1-2-stroke shape
 // colored by `currentColor` so they pick up the radar's text color.
-Aggro:'<path d="M3 13L13 3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M9 5l2 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M3 13l-2 2M3 13l2 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="3" cy="13" r="1.8" fill="currentColor"/>',
-Builder:'<rect x="2" y="2" width="9" height="6" fill="currentColor"/><path d="M3 14L9 8" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/>',
+Aggro:'<path d="M10 1L3 9h3l-2 6 8-9H9z" fill="currentColor" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round"/>',
+Builder:'<circle cx="8" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2.5M8 12v2.5M1.5 8H4M12 8h2.5M3.5 3.5l1.8 1.8M10.7 10.7l1.8 1.8M3.5 12.5l1.8-1.8M10.7 5.3l1.8-1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
 Politics:'<path d="M3 11l1-3 2 1 2-2 2 1 2-2 1 3-1 2-1-1-2 1-1-1-2 1-1-1-1 1zM5 7l1-2 2 1 1 1 1-1 2-1 1 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
 Schemes:'<circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M3 8h10M8 3v10M4.5 4.5l7 7M11.5 4.5l-7 7" stroke="currentColor" stroke-width="0.6" opacity="0.6"/>',
-Quest:'<path d="M3 3l4-1 3 1 3-1v10l-3 1-3-1-4 1z" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/><path d="M6 8l4 4M10 8l-4 4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+Quest:'<path d="M3 14V2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 3h8l-2 3 2 3H3z" fill="currentColor" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round"/>',
 Horde:'<circle cx="4" cy="5" r="1.4" fill="currentColor"/><circle cx="8" cy="5" r="1.4" fill="currentColor"/><circle cx="12" cy="5" r="1.4" fill="currentColor"/><path d="M2 14v-3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v3M6 14v-3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v3M10 14v-3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
 Monsters:'<path d="M3 12c0-2 1-3 2-3l1-2 2 1 2-1 1 2c1 0 2 1 2 3M5 9c0-1 1-1 1 0M11 9c0-1-1-1-1 0M6 12h4M7 11v1M9 11v1" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
 Magic:'<path d="M8 2l1 4 4 1-4 1-1 4-1-4-4-1 4-1zM3 11l0.5 2 2 0.5-2 0.5L3 16l-0.5-2-2-0.5 2-0.5zM13 11l0.5 2 2 0.5-2 0.5L13 16l-0.5-2-2-0.5 2-0.5z" fill="currentColor"/>',
@@ -2613,7 +2613,7 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
   // Segment 1 (Build,  0°..90°)  -> center at  45° (lower-right)
   // Segment 2 (Quest, 90°..180°) -> center at 135° (lower-left)
   // Segment 3 (Horde, 180°..270°)-> center at 225° (upper-left)
-  const iconSize = 22;
+  const iconSize = 28;
   PS_SEGMENT_ORDER.forEach((segName, i) => {
     const seg = PS_SEGMENTS[segName];
     const a = -90 + i * 90 + 45;  // quadrant center

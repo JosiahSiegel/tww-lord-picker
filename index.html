@@ -1220,12 +1220,12 @@ const PSI={
 // inconsistently across OS/browsers and especially badly in headless
 // chromium used for visual checks. Each path is a simple 1-2-stroke shape
 // colored by `currentColor` so they pick up the radar's text color.
-Aggro:'<path d="M3 13l4-4M5 11l-1 3 3-1M11 3l4 4M13 5l1 3-3-1M3 13l-1 1M15 3l1-1" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
-Builder:'<path d="M3 13V6l5-3 5 3v7M5 13V8.5L8 7l3 1.5V13M6 13v-2h4v2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Aggro:'<path d="M3 13L13 3" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M9 5l2 2" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M3 13l-1.5 1.5L4 17l1.5-1.5z" fill="currentColor"/>',
+Builder:'<path d="M9 2h4v4H9z" fill="currentColor"/><path d="M3 14L8 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M7 5L11 9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
 Politics:'<path d="M3 11l1-3 2 1 2-2 2 1 2-2 1 3-1 2-1-1-2 1-1-1-2 1-1-1-1 1zM5 7l1-2 2 1 1 1 1-1 2-1 1 2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
 Schemes:'<circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M3 8h10M8 3v10M4.5 4.5l7 7M11.5 4.5l-7 7" stroke="currentColor" stroke-width="0.6" opacity="0.6"/>',
-Quest:'<path d="M2 4h6l2 2v6l-2 2H2zM2 4v10M8 6h6v6H8M10 9h2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
-Horde:'<path d="M3 13l1-5 2-2 2 3 2-2 2 4 1 2zM4 13V8M8 13V8M11 13V8M13 13V8" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
+Quest:'<path d="M3 3l4-1 3 1 3-1v10l-3 1-3-1-4 1z" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/><path d="M6 8l4 4M10 8l-4 4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+Horde:'<circle cx="4" cy="5" r="1.4" fill="currentColor"/><circle cx="8" cy="5" r="1.4" fill="currentColor"/><circle cx="12" cy="5" r="1.4" fill="currentColor"/><path d="M2 14v-3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v3M6 14v-3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v3M10 14v-3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
 Monsters:'<path d="M3 12c0-2 1-3 2-3l1-2 2 1 2-1 1 2c1 0 2 1 2 3M5 9c0-1 1-1 1 0M11 9c0-1-1-1-1 0M6 12h4M7 11v1M9 11v1" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>',
 Magic:'<path d="M8 2l1 4 4 1-4 1-1 4-1-4-4-1 4-1zM3 11l0.5 2 2 0.5-2 0.5L3 16l-0.5-2-2-0.5 2-0.5zM13 11l0.5 2 2 0.5-2 0.5L13 16l-0.5-2-2-0.5 2-0.5z" fill="currentColor"/>',
 Duelist:'<path d="M2 14l5-5M5 7l4 4M7 5l4 4M9 3l4 4M2 14h3M14 2l-1 1" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
@@ -2623,9 +2623,9 @@ function buildSegmentRadarSVG(lordIdxs, size, selectedIdx, colors, mode) {
     const segHint = `${seg.lbl} - ${seg.hint}`;
     if (i === 0) {
       svg += `<g class="seg-axis" data-seg="${segName}">`
-           + `<g transform="translate(${(lx - iconSize/2).toFixed(1)},${(ly - iconSize - 4).toFixed(1)})" style="pointer-events:none;color:${seg.col}">`
+           + `<g transform="translate(${(lx - iconSize/2).toFixed(1)},${(ly - iconSize - 6).toFixed(1)})" style="pointer-events:none;color:${seg.col}">`
            + `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="${iconSize}" height="${iconSize}">${PS_SEGMENT_ICONS[segName] || ''}</svg></g>`
-           + `<text x="${lx.toFixed(1)}" y="${(ly - 4).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" fill="${labelFill}" style="pointer-events:none">${labelText}</text>`
+           + `<text x="${lx.toFixed(1)}" y="${(ly + 6).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" fill="${labelFill}" style="pointer-events:none">${labelText}</text>`
            + `<title>${esc(segHint)}</title></g>`;
     } else if (i === 1) {
       svg += `<g class="seg-axis" data-seg="${segName}">`

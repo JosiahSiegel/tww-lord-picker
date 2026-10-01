@@ -451,6 +451,12 @@
  @media (max-width:520px){#overlay .ov-lord-row .ov-pros-cons{grid-template-columns:1fr}
  }
  
+.egcard{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--rc,#666);border-radius:10px;padding:12px 14px}
+.egcard h3{margin:0;font-family:"Cinzel",Georgia,serif;font-size:1.02rem;font-weight:600;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.egcard .sub{color:var(--muted);font-size:.8rem;margin:4px 0 6px}
+.egcard .mech{font-size:.85rem}
+.egcard .tag{cursor:default}
+.eg-badge{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--gold);border-radius:4px;padding:1px 6px;color:var(--gold);font-family:inherit;font-weight:600}
 </style>
 </head>
 <body>
@@ -518,6 +524,12 @@
       <label class="psall-toggle" title="When several playstyles are selected, require lords to have ALL of them (AND) instead of ANY (OR)">
         <input type="checkbox" id="psall-bar"> <span>Require All</span>
       </label>
+    </div>
+    <div class="chips-section chips-section--eg" aria-label="End game scenario filters">
+      <span class="chips-section-label">End Game</span>
+      <div class="chips-scroll">
+        <div class="chips" id="egchips-bar" role="group"></div>
+      </div>
     </div>
     <div class="chips-section chips-section--more" aria-label="Advanced filters">
       <span class="chips-section-label">More</span>
@@ -597,7 +609,7 @@
 
 <footer>
   Data current to <strong>Update 9.0</strong> (24 September 2026). Sources: Total War: WARHAMMER Wiki, CA release notes, community consensus for difficulty ratings.
-  Includes all Lords of the End Times content: Nagash, Thanquol, Boris Todbringer, the Glottkin, and the free Neferata FLC.
+  Includes all Lords of the End Times content: Nagash (Host of Nagash), Thanquol (Clan Scruten), Boris Todbringer (Middenland), the Glottkin (Host of the Triplets), and the free Neferata FLC. The free Update 9.0 shipped alongside it: the Vampire Counts rework, an Archaon rework with Chaos lord subjugation, three new End Game scenarios (Chaos Invasion, Vermintide and Nagash Rises) on top of the recategorised Crisis Scenarios, and overhauled victory conditions for every legacy Legendary Lord.
 </footer>
 
 <script>
@@ -753,7 +765,7 @@ LORDS.push(
  cons:["Monsters bleed to focused missile fire","Few interesting neighbours early - lots of walking","Thin personal mechanics; it's about the stat sheet"],
  pick:"Pick if you want to be the kaiju - a stat sheet with legs, and a fun one."},
 {n:"Sigvald the Magnificent",r:"Warriors of Chaos",f:"The Decadent Host",src:"WH1 (Chaos race pack)",d:3,tags:["Slaanesh mark","Duelist","Vanity"],
- mech:[["Slaanesh-marked WoC","warbands upgrade down Slaaneshi paths - fast, killy mortals bridging into daemonettes. Slaanesh tempo with actual armour underneath"],["Mirror-born vanity","self-buffing unbreakable duelist who fights because it flatters him - plays like a boss character you control"],["WoC core","fortresses, warbands, Eye of the Gods. Thinner faction mechanics than the Champions four; his draw is the lord, not the systems"]],
+ mech:[["Slaanesh-marked WoC","warbands upgrade down Slaaneshi paths - fast, killy mortals bridging into daemonettes. Update 9.0 made it official: he's now a Slaanesh-focused lord like Azazel, with Slaanesh technologies, no other gods' units, and greater access to Slaanesh Gifts of Chaos"],["Mirror-born vanity","self-buffing unbreakable duelist who fights because it flatters him - plays like a boss character you control"],["WoC core","fortresses, warbands, Eye of the Gods. Thinner faction mechanics than the Champions four; his draw is the lord, not the systems"]],
  pros:["Elite fast melee with mortal staying power","Sigvald duels like a dream","Norscan north start funnels constant fights"],
  cons:["Thinner faction mechanics than the Champions of Chaos four","No answer to massed range beyond speed","Snowbally region with several apex predators nearby"],
  pick:"Pick if you want Slaanesh aggression with actual armour on it."},
@@ -777,7 +789,7 @@ LORDS.push(
  pros:["Corruption-flip expansion is lazy conquest at its finest","Fast mortal roster hits harder than pure Slaanesh daemons","Norsca start full of easy prey and boons"],
  cons:["Overlaps N'Kari/Sigvald thematically","Fragile flanks vs disciplined gunlines","Kislev will crusade at you early"],
   pick:"Pick if you want Slaanesh WoC where charm does the sieging for you."},
-{n:"The Glottkin",r:"Warriors of Chaos",f:"The Befouled Brothers",src:"Lords of the End Times",d:2,tags:["Nurgle","Triple entity","Corruption"],
+{n:"The Glottkin",r:"Warriors of Chaos",f:"Host of the Triplets",src:"Lords of the End Times",d:2,tags:["Nurgle","Triple entity","Corruption"],
  mech:[["Gifts of Nurgle","spread corruption and harvest souls to gain Gifts of Nurgle - faction, character and settlement enhancements through Rituals of Decay and Grandfather's Blessings. The triplets generate massive Nurgle Corruption wherever they travel"],["Gardens of Corruption","conquered settlements are transformed into Gardens of Corruption - fruitful settlements granting access to a higher proportion of Daemonic Nurgle units than any other Warriors of Chaos faction. Gardens also generate Plagues to spread across the world"],["The Befouled Brothers","scythe-wielding Otto and sorcerous Ethrac ride atop their brother Ghurk, a vast and corpulent Nurgle Spawn. They combine physical and magical might as a single monstrously powerful combatant"]],
  pros:["Highest Nurgle daemon access of any WoC faction - Blightkings, Plaguebearers, and worse in one army","Four Legendary Heroes (Gutrot Spume, Morbidex Twiceborn, Bloab Rotspawned, Orghotts Daemonspew) is an unprecedented LH count","Gardens of Corruption turn conquest into a self-sustaining plague engine"],
  cons:["Triple-entity lord is a big target - focused fire brings down even Ghurk","Nurgle corruption makes diplomacy with Order factions essentially impossible","Gardens system rewards aggressive expansion - turtling wastes the faction's potential"],
@@ -826,8 +838,8 @@ LORDS.push(
  cons:["Gunline battles get one-note - deploy, delete, repeat","Widely considered overtuned; campaign tension flattens fast","Micro-heavy artillery play if you optimise"],
   pick:"Pick if you want the Empire at maximum power. Fan-favourite of Thrones of Decay for a reason."},
 {n:"Boris Todbringer",r:"The Empire",f:"Middenland",src:"Lords of the End Times",d:2,tags:["Ulric","Melee","Beasthunter"],
- mech:[["Great Temple of Ulric","defeating enemies of the Empire raises Fervour, spent developing the Great Temple of Ulric and its six sacred Sanctuaries. Upgraded Sanctuaries grow the Flame of Ulric, unlocking powerful Elector State Troopers"],["Winter Rites","perform great Winter Rites to energise armies - a seasonal buff system tied to the Temple's development"],["Nemesis of Khazrak","sworn enemy of Beastlord Khazrak One-Eye. The blood-feud with the Beastmen of the Drakwald gives the campaign a built-in rivalry and clear early direction"]],
- pros:["Fearsome melee combatant wielding the runic weapon Legbiter","Command bonuses make Middenland soldiery fight above their weight","New units (Teutogen Guard, Knights of the White Wolf, Celestial Hurricanum) add real depth to the Empire roster"],
+ mech:[["Great Temple of Ulric","defeating enemies of the Empire raises Fervour, spent developing the Great Temple of Ulric and its six sacred Sanctuaries. Upgraded Sanctuaries grow the Flame of Ulric, unlocking powerful Elector State Troopers"],["Winter Rites","perform great Winter Rites to energise armies - a seasonal buff system tied to the Temple's development"],["Drakwald Threat","Middenland is hemmed in by Beastmen: the Drakwald Threat tracks their pressure, and Beastlord Khazrak One-Eye is Boris's personal nemesis - a built-in blood-feud and a clear early direction"]],
+ pros:["Fearsome melee combatant wielding the runic weapon Legbiter","Command bonuses make Middenland soldiery fight above their weight","Legendary Hero Ar-Ulric Emil Valgeir plus new units - Teutogen Guard, Knights of the White Wolf, Knights Panther, Warriors of Ulric, Wolf-kin, Hunting Hounds and the Celestial Hurricanum"],
  cons:["Middenland start is deep in Beastman territory - constant Drakwald pressure","Temple progression requires active warmongering to keep Fervour flowing","Fewer unique mechanics than the other LotET lords - he's a warrior first, schemer second"],
  pick:"Pick if you want the Empire's northern bulwark - a wolf-god warrior-king holding the line against the Beastmen."},
 {n:"Louen Leoncoeur",r:"Bretonnia",f:"Couronne",src:"WH1: Bretonnia (free)",d:2,tags:["Knights","Chivalry","Crusades"],
@@ -1067,8 +1079,8 @@ LORDS.push(
  cons:["Augment juggling is fiddly","Mutants get expensive to maintain","Hell Pit start is cold, remote, and pressed by Kislev early"],
  pick:"Pick if you want to build designer monsters - evolution by warpstone committee."},
 {n:"Thanquol, the Grey Seer",r:"Skaven",f:"Clan Scruten",src:"Lords of the End Times",d:2,tags:["Masterplans","Schemer","Boneripper"],
- mech:[["Masterplans","enact grand schemes: raise secret armies to strike from the shadows, conduct dark rituals, and plot daring heists. Unforeseen complications and setbacks can emerge - dealing with them sees his grand and destructive plans realised"],["Grey Seer supremacy","casts from Lores of Plague and Ruin, and can unlock the infamous Dreaded Thirteenth spell - one of the most feared spells in the game"],["Boneripper","rides his faithful Rat-Ogre bodyguard into battle, granting far more survivability than other spellcasters while Boneripper dishes out significant melee damage"]],
- pros:["Full Skaven roster access plus new Stormfiends and Verminlord units","Boneripper mount makes him the most durable Skaven caster by far","Masterplans system gives constant direction and powerful payoffs"],
+ mech:[["Masterplans","enact grand schemes: raise secret armies to strike from the shadows, conduct dark rituals, and plot daring heists. Unforeseen complications and setbacks can emerge - dealing with them sees his grand and destructive plans realised"],["Grey Seer supremacy","casts from Lores of Plague and Ruin, and can unlock the infamous Dreaded Thirteenth spell - one of the most feared spells in the game"],["Boneripper & Skreech","rides his faithful Rat-Ogre bodyguard Boneripper, gaining far more survivability than other spellcasters while Boneripper dishes out significant melee damage. Legendary Hero Skreech Verminking adds a unique Verminlord to the roster"]],
+ pros:["Full Skaven roster access plus new Verminlords, six Stormfiend variants, Pusbags, the Warp-Doom Magma Cannon and Cauldron of a Thousand Poxes","Boneripper mount makes him the most durable Skaven caster by far","Masterplans system gives constant direction and powerful payoffs"],
  cons:["Masterplan setbacks can derail your tempo if you can't adapt","Skaven roster is still fragile - leadership collapses are always a risk","Scheme-heavy playstyle requires more planning than smash-and-grab Skaven"],
  pick:"Pick if you want the ultimate schemer campaign - yes-yes, the greatest Grey Seer of all time, riding a Rat-Ogre into battle."},
 {n:"Settra the Imperishable",r:"Tomb Kings",f:"Khemri",src:"WH2: Rise of the Tomb Kings",d:2,tags:["Army caps","No upkeep","Emperor"],
@@ -1087,7 +1099,7 @@ LORDS.push(
  cons:["Remote, awkward start territory - commonly rated the worst in the race","Weak early stacks with long distances","Fragile old liche in a fight"],
  pick:"Pick if you want the scholar's path - race the relics, resurrect the glory."},
 {n:"Arkhan the Black",r:"Tomb Kings",f:"Followers of Nagash",src:"WH2: Rise of the Tomb Kings",d:2,tags:["Nagash","Hybrid VC","Black Tower"],
- mech:[["Nagash's herald","the only blend of Tomb King chassis with Vampire Counts necromancy - their casters and units covering weaknesses neither race solves alone. Mechanically the most flexible TK, and the popular pick because of it"],["Faction effects","-50 diplomatic relations with Tomb Kings factions, +60 diplomatic relations with Vampire Counts and Vampire Coast (and +30 with Vampire Counts FLC). The build-defining diplo asymmetry that makes Arkhan the only TK who can ally with vampires"],["The Black Tower","his master's dark seat anchors the campaign with its own objectives"],["TK core","no upkeep, caps, Mortuary Cult, Books of Nagash - hunted for his master, not for glory."]],
+ mech:[["Nagash's herald","the only blend of Tomb King chassis with Vampire Counts necromancy - their casters and units covering weaknesses neither race solves alone. Update 9.0 deepened it: his unique military chain now adds Crypt Horrors, Cairn Wraiths, Spirit Hosts and both Morghast types. Mechanically the most flexible TK, and the popular pick because of it"],["Faction effects","-50 diplomatic relations with Tomb Kings factions, +60 diplomatic relations with Vampire Counts and Vampire Coast (and +30 with Vampire Counts FLC). The build-defining diplo asymmetry that makes Arkhan the only TK who can ally with vampires"],["The Black Tower","his master's dark seat anchors the campaign with its own objectives"],["TK core","no upkeep, caps, Mortuary Cult - and now a world where the Books of Nagash are carried, stolen and denied rather than owned, hunted for his master rather than for glory"]],
  pros:["TK chassis + VC magic support is the race's best blend","Clear villain arc with the Books as the goal","Central start near rich conflict"],
  cons:["Everyone in Nehekhara despises him - constant war","Same weak early skeleton problem"],
  pick:"Pick if you want to prep the Great Necromancer's return - heresy with a to-do list."}
@@ -1139,10 +1151,10 @@ LORDS.push(
  pros:["Poisoned zombie hordes are cheap, endless and weirdly lethal","Simple, distinctive army recipe","Eastern start away from the Sylvania crowd"],
  cons:["One-trick roster by design","Zombies still lose to real elites eventually","Thin systems beyond the bus"],
    pick:"Pick if you want the meme that actually works - all aboard the zombie bus."},
-{n:"Neferata, the Vampire Queen",r:"Vampire Counts",f:"Lahmian Sisterhood",src:"FLC (Update 9.0)",d:2,tags:["Free","Spymaster","First vampire"],
- mech:[["The First Vampire","the original vampire queen, predating even the von Carsteins. Her Lahmian bloodline emphasises speed, seduction, and infiltration over brute force"],["Web of Power","dispatch Heroes to establish secret Vampire Covens in other factions' settlements. Covens generate a unique Manipulation resource and rely on a Concealment value - destroying armies or assassinating heroes lowers Concealment. Spend Manipulation on Espionage Actions to assassinate, steal, disrupt, and manipulate. A cross-faction intrigue system unique to Neferata"],["Vampire Counts rework","Update 9.0 overhauls the entire race: Raise Dead now scales with battle casualties (each corpse in a province is a potential unit), vampire lairs must be discovered and captured for recruitment, and bloodlines are customisable"],["Silver Pinnacle","her mountain stronghold in the World's Edge Mountains - a defensible position far from the Sylvanian heartland, giving her a distinct theatre from the von Carstein cousins"]],
- pros:["Free legendary lord - no DLC purchase required","Vampire Counts rework fixes the race's long-standing weaknesses (Raise Dead scaling, lair discovery, bloodline customization)","Lahmian speed and infiltration offers a different VC playstyle from the von Carstein brute-force approach"],
- cons:["VC rework details still emerging - some mechanics may shift before release","Silver Pinnacle start is far from the classic Sylvanian power base","Lahmian roster may lack the heavy hitting power of Blood Dragon or von Carstein builds"],
+{n:"Neferata, the Vampire Queen",r:"Vampire Counts",f:"The Lahmian Sisterhood",src:"FLC (Update 9.0)",d:2,tags:["Free","Spymaster","First vampire"],
+ mech:[["The First Vampire","the original vampire queen, predating even the von Carsteins. Her Lahmian bloodline emphasises speed, seduction, and infiltration over brute force"],["Web of Power","dispatch Heroes to establish secret Vampire Covens in other factions' settlements. Covens generate a unique Manipulation resource and rely on a Concealment value - destroying armies or assassinating heroes lowers Concealment. Spend Manipulation on Espionage Actions to assassinate, steal, disrupt, and manipulate. A cross-faction intrigue system unique to Neferata"],["Vampire Counts rework","Update 9.0 rebuilds the race around Raise Dead: unit capacity replaces chance-based raising, tiers 1-3 cost Corpses (a provincial resource made by casualties) and tiers 4-5 also cost Blood. Bloodlines can now be empowered endlessly, and Bloodline Lords are awakened from discoverable Vampire Lairs you develop and customise"],["Lahmia & the Silver Pinnacle","she starts at the Silver Pinnacle, a mountain stronghold remote from the Sylvanian heartland. A landmark in Lahmia lets her raise a limited number of Tomb Kings units, and Ulrika Magdova is unlocked through her tech tree - restoring Lahmia is the long game"]],
+ pros:["Free legendary lord - no DLC purchase required","Web of Power is a genuinely new spymaster campaign layer for the Vampire Counts","Arrives alongside the long-overdue, broadly well-received Vampire Counts rework"],
+ cons:["Hero-management-heavy - the shadow war won't suit players who just want to push zombies","Silver Pinnacle start is remote from the Sylvanian power base and its usual allies","The race's core limits remain: no ranged units, and armies still crumble if the lord falls"],
  pick:"Pick if you want the original vampire - the queen who started it all, free with Update 9.0, commanding the Lahmian Sisterhood from her mountain throne."},
 {n:"Khazrak the One-Eye",r:"Beastmen",f:"Warherd of the One-Eye",src:"WH1: Call of the Beastmen",d:2,tags:["Ambush","Raider","Empire's bane"],
  mech:[["Herdstones & Bloodgrounds","no settlements - plant Herdstones in ruins and raze everything around them into Bloodgrounds. Razed land generates power instead of taxes. The Beastmen rework that introduced this turned one of the game's worst races into one of its best, and they've stayed near the top ever since"],["Marks of ruination","destruction earns Dread, spent on permanent faction-wide upgrades - a full progression economy built on arson"],["Master ambusher","raiding-stance tricks that start battles with the Empire surrounded in its own forests, plus the blood-feud with Boris Todbringer. Ambush cheese is the intended playstyle, not an exploit"]],
@@ -1164,11 +1176,11 @@ LORDS.push(
  pros:["Momentum chaining is one of the best aggression mechanics ever shipped","Minotaur stacks hit like artillery with legs","Every turn is a puzzle: how many armies can I eat today?"],
  cons:["Snowball stalls hurt double - momentum is the economy","One vulnerable spot (lore-accurate) - focus fire finds him","Razed-earth playstyle leaves nothing to fall back on"],
   pick:"Pick if you want the perpetual-motion massacre - a regular pick for best campaign in the game."},
-{n:"Nagash, Supreme Lord of the Undead",r:"Undead Legions",f:"The Black Pyramid",src:"Lords of the End Times",d:3,tags:["Necromancy","All undead rosters","Godhood quest"],
- mech:[["Lands of the Undead","amass undead legions, erect necropolises, and transform the world into a Land of the Dead. Each conquest gathers dark energy that empowers the Black Pyramid - an arcane structure with powerful upgrades that unlock the true potential of his forces"],["The Nine Mortarchs","gather the nine Mortarchs, his lieutenants in the trials to come. Each Mortarch brings unique strengths to the campaign, and assembling all nine is a core campaign objective"],["Books of Nagash","reclaim the lost Books of Nagash to become the mightiest spellcaster the world has ever seen. Each recovered Book unlocks additional lores of magic beyond his native Lore of Undeath. Final aim: ascension to godhood"]],
- pros:["Recruits from ALL undead rosters - Tomb Kings, Vampire Counts, and Vampire Coast units in one army","Lore of Undeath plus additional lores from recovered Books makes him the most versatile caster in the game","The Black Pyramid upgrade system provides a powerful long-term progression track"],
- cons:["Slow-burn campaign - Books and Mortarchs must be gathered across the map","No single-roster focus means no race-specific bonuses or synergies","Complex multi-system campaign with many parallel objectives"],
- pick:"Pick if you want to be the Great Necromancer himself - the ultimate undead power fantasy, commanding every undead roster in the game."}
+{n:"Nagash, Supreme Lord of the Undead",r:"Undead Legions",f:"Host of Nagash",src:"Lords of the End Times",d:1,tags:["Necromancy","All undead rosters","Godhood quest"],
+ mech:[["Lands of the Undead","amass undead legions, erect necropolises, and transform the world into a Land of the Dead. Necropolises gather Necromantic Energy from their own province and every province bordering it, spent on Black Pyramid upgrades and on Gravecall - which raises units instantly anywhere in the province. The Black Pyramid itself is a vast Path-of-Exile-style research tree gated behind Empowered Sigils"],["The Nine Mortarchs","subjugate the Legendary Lords Nagash has marked - Arkhan the Black, Neferata, Luthor Harkon, Vlad and Mannfred von Carstein - to inherit their empires and armies outright. His Legendary Heroes are Dieter Helsnicht, Walach Harkon and Krell, plus the poltergeist follower The Nameless, who lets an assigned Lord possess enemy units before a battle"],["Books of Nagash","reclaim the lost Books from the factions and armies now holding them. Books are carried by characters or stored in settlements and can be stolen or denied, and each one empowers its carrier - unlocking extra spells from the Lores of Light, Death, Vampires and Nehekhara. Final aim: ascension to godhood"]],
+ pros:["Recruits from ALL undead rosters - Tomb Kings, Vampire Counts and Vampire Coast units in one army","Consistently called the most powerful single character in the game, backed by the Lore of Undeath plus four more lores from the Books","Gravecall raises whole armies instantly, patching the classic wide-empire defence problem"],
+ cons:["Multi-system campaign - Necropolises, Sigils, Mortarchs and Books all compete for your attention","Turtling wastes the faction: Necromantic Energy scales with territory and every bordering province","No single-roster focus, so no race-specific roster synergies"],
+ pick:"Pick if you want to be the Great Necromancer himself - an unashamed power fantasy commanding every undead roster in the game."}
 );
 const RACES={
  "Khorne":{c:"#a41e1e",o:1,b:"Skulls for the Skull God: melee-only daemons, free Blood Host armies, buffs for endless battle."},
@@ -1193,9 +1205,9 @@ const RACES={
  "Skaven":{c:"#8a7d4a",o:20,b:"Food economy, treacherous loyalty, ambush stance and hidden undercities beneath enemy capitals."},
  "Tomb Kings":{c:"#c2b280",o:21,b:"No upkeep, capped armies, Mortuary Cult crafting and the race for the Books of Nagash."},
  "Vampire Coast":{c:"#3f7a6e",o:22,b:"Infamy race to Pirate King, hidden pirate coves, Pieces of Eight regiments and upgradeable flagships."},
- "Vampire Counts":{c:"#6e1f2e",o:23,b:"Raise Dead logistics, Bloodline unlocks, corruption spread, and not a single ranged unit."},
+ "Vampire Counts":{c:"#6e1f2e",o:23,b:"Raise Dead recruitment paid for with Corpses and Blood, endlessly empowered Bloodlines, discoverable Vampire Lairs, corruption spread - and not a single ranged unit."},
   "Beastmen":{c:"#6e4f2f",o:24,b:"Settlement-free horde: plant Herdstones, raze Bloodgrounds, spend Dread on permanent upgrades."},
- "Undead Legions":{c:"#5a3d8f",o:25,b:"The Great Necromancer's pan-undead host - Tomb Kings, Vampire Counts and Vampire Coast units under one banner, powered by the Black Pyramid."},
+ "Undead Legions":{c:"#5a3d8f",o:25,b:"The Great Necromancer's pan-undead host - Tomb Kings, Vampire Counts and Vampire Coast units under one banner, powered by the Black Pyramid. Along with Daemons of Chaos, one of only two races with a single playable faction."},
 };
 // ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
 const PS={
@@ -1520,18 +1532,37 @@ const LORD_BATTLE={
 "Malagor the Dark Omen":"Flying caster; avoid melee",
 "Morghur the Shadowgave":"Weak combatant who warps enemies around him",
 "Taurox the Brass Bull":"Near-invulnerable metal bull - one lore-accurate weak spot",
- "Nagash, Supreme Lord of the Undead":"Supreme spellcaster - Lore of Undeath plus additional lores from recovered Books; avoid melee entirely",
+ "Nagash, Supreme Lord of the Undead":"Apex caster and melee lord - Lore of Undeath plus four more lores from the Books, and a top-tier melee blender on top",
  "Thanquol, the Grey Seer":"Grey Seer caster on Boneripper - surprisingly durable for a skaven caster, Boneripper handles melee",
  "Boris Todbringer":"Fearsome melee combatant with Legbiter; command bonuses buff nearby Middenland troops",
  "The Glottkin":"Monstrous triple-entity - Otto's scythe, Ethrac's sorcery, Ghurk's bulk in one massive package",
- "Neferata, the Vampire Queen":"Fast caster-duelist hybrid - Lahmian speed with Shadow and Vampire magic",
+ "Neferata, the Vampire Queen":"Dual-lore caster and melee specialist - Shadows and Vampires magic, with Lahmian speed and a Zombie Dragon",
  };
 LORDS.forEach(l=>{l.battle=LORD_BATTLE[l.n]||"";});
+
+// ---- End Game scenarios (free Update 9.0): first-class content + filter ----
+// Each scenario is filterable; a lord's `eg` array is derived from the scenario's `lords`.
+const ENDGAMES=[
+ {n:"Chaos Invasion",c:"#8a2b2b",tag:"Archaon unites all Chaos to end the world",
+  blurb:"Archaon has gathered the forces of Chaos, and all are united under his banner. These factions now forgo all thoughts of territorial conquest and desire only one thing: the utter destruction of the mortal world.",
+  mech:[["United Chaos","all Chaos-aligned factions fall in behind Archaon and huge numbers of Chaos forces invade the world, advancing by Devastation rather than settlement-building"],["The Everchosen empowered","the Chaos Gods make Archaon nigh-invulnerable while his invasion forces stand - only by defeating those forces and destroying his five key fortresses can he be weakened enough to face"],["Final battle","once weakened, you can attempt to defeat Archaon in a climactic battle to banish the forces of Chaos from the world"]],
+  lords:["Archaon the Everchosen","Be'lakor","Kholek Suneater","Sigvald the Magnificent","Valkia the Bloody","Festus the Leechlord","Vilitch the Curseling","Azazel","The Glottkin","Skarbrand the Exiled","Skulltaker","Arbaal the Undefeated","Ku'gath Plaguefather","Tamurkhan the Maggot Lord","Epidemius","N'Kari","Dechala, the Denied One","The Masque of Slaanesh","Kairos Fateweaver","The Changeling"]},
+ {n:"Vermintide",c:"#7a6a2f",tag:"All Skavendom rises in the Great Ascendancy",
+  blurb:"The Horned Rat has spoken. All of Skavendom rises up in the Great Ascendancy to conquer the world, with Skreech Verminlord leading the Vermintide in the Horned Rat's name.",
+  mech:[["The Under-Empire unleashed","an emboldened Skaven race no longer cares to conceal itself - all Skaven settlements become visible and the race spreads faster than ever, both above and below ground"],["Endless waves","millions of rat-men pour from the ground at key locations across the world; withstand the onslaught"],["Break the war-plans","push back the hordes and gather enough knowledge of the Vermintide's war-plans to finally defeat it"]],
+  lords:["Thanquol, the Grey Seer","Deathmaster Snikch","Throt the Unclean","Queek Headtaker","Lord Skrolk","Tretch Craventail","Ikit Claw"]},
+ {n:"Nagash Rises",c:"#5a3d8f",tag:"The Supreme Lord of Undeath ends all life",
+  blurb:"The Supreme Lord of Undeath has returned, to end all life and rule over a world of eternal undeath. Ascension to godhood has long been his goal, and now he is closer than ever to achieving it.",
+  mech:[["The pyramid moves","Nagash's master-plan begins as he moves his Black Pyramid to Nagashizzar"],["All undead united","he binds every undead force beneath his control and commands his Mortarchs to enact his will"],["Carve a path","through countless battles against the undead hordes you must reach the Black Pyramid and face Nagash in a final showdown that will decide the fate of the world"]],
+  lords:["Nagash, Supreme Lord of the Undead","Arkhan the Black","Neferata, the Vampire Queen","Luthor Harkon","Vlad von Carstein","Mannfred von Carstein"]}
+];
+const EG_BY_NAME={};ENDGAMES.forEach(g=>g.lords.forEach(n=>{(EG_BY_NAME[n]=EG_BY_NAME[n]||[]).push(g.n);}));
+LORDS.forEach(l=>{l.eg=EG_BY_NAME[l.n]||[];});
 
 const DCOL={1:"#8fae6a",2:"#c9a24b",3:"#c77b3f",4:"#b03a3a"};
 const DLBL={1:"Easy",2:"Moderate",3:"Hard",4:"Very hard"};
 function bucket(s){s=s.toLowerCase();if(s.includes("flc")||s.includes("free"))return"free";if(s.startsWith("wh1"))return"wh1";if(s.startsWith("wh2"))return"wh2";if(s.includes("wh3 base"))return"wh3base";return"wh3dlc";}
-LORDS.forEach((l,i)=>{l.i=i;l.bk=bucket(l.src);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")).toLowerCase();});
+LORDS.forEach((l,i)=>{l.i=i;l.bk=bucket(l.src);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
 
 // Map a playstyle display label (e.g. "War") to the PS object key (e.g.
 // "Aggro"). Lives in the first <script> block (not the radar one) so
@@ -1547,7 +1578,7 @@ function normTag(t) {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
-const state={q:"",race:new Set(),psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[],astrolabeExpanded:null};
+const state={q:"",race:new Set(),eg:new Set(),psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[],astrolabeExpanded:null};
 
 // pushState lives at module scope so it's callable from anywhere
 // (e.g. the initial renderChips();render();pushState(); bootstrap at the
@@ -1556,6 +1587,7 @@ function pushState(){
   const p=new URLSearchParams();
   if(state.q) p.set("q",state.q);
   if(state.race.size) p.set("race",[...state.race].join(","));
+  if(state.eg.size) p.set("eg",[...state.eg].join(","));
   if(state.diff) p.set("diff",state.diff);
   if(state.sort!=="race") p.set("sort",state.sort);
   if(state.psInc.size) p.set("ps",[...state.psInc].join(","));
@@ -1597,6 +1629,7 @@ function _afterFilterChange(){
 function clearAllFilters(){
   state.q = '';
   state.race.clear();
+  state.eg.clear();
   state.psInc.clear();
   state.psExc.clear();
   state.psAll = false;
@@ -1666,6 +1699,7 @@ function loadFromHash(){
     const params = new URLSearchParams(location.hash.slice(1));
     if (params.get("q") !== null) state.q = params.get("q") || "";
     if (params.get("race")) state.race = new Set(params.get("race").split(",").filter(Boolean));
+    if (params.get("eg")) state.eg = new Set(params.get("eg").split(",").filter(n => ENDGAMES.some(g => g.n === n)));
     if (params.get("diff")) state.diff = params.get("diff") || "";
     if (params.get("sort")) state.sort = params.get("sort");
     if (params.get("cmp")) state.cmp = params.get("cmp").split(",").map(Number).filter(n => !isNaN(n)).slice(0, 3);
@@ -1719,6 +1753,7 @@ function cardHTML(l){
         <div class="cons"><h4>&#10134; Cons</h4><ul>${l.cons.map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
       </div>
       ${lordLinks(l)}
+      ${l.eg.length?`<div class="tags" style="margin-top:8px">${l.eg.map(g=>`<button class="tag eg-pill" data-egc="${esc(g)}" title="Filter to the ${esc(g)} end game scenario">&#9670; ${esc(g)}</button>`).join("")}</div>`:""}
     </div>
     <label class="cmp-toggle"><input type="checkbox" data-cmp="${l.i}"${ck}> Compare (pick 2-3)</label>
   </article>`;
@@ -1728,10 +1763,32 @@ function filtered(){
   return LORDS.filter(l=>
     !l._synthetic &&
     (state.race.size===0||state.race.has(l.r))&&
+    (state.eg.size===0||[...state.eg].some(n=>l.eg.includes(n)))&&
     psOk(l)&&
     (!state.diff||l.d===+state.diff)&&
     (!state.src||l.bk===state.src)&&
     (!state.q||l.hay.includes(state.q)));
+}
+
+function egSection(g){
+  const names=[...g.lords].sort((a,b)=>a.localeCompare(b));
+  return `<section>
+    <div class="race-head" style="--rc:${g.c}">
+      <span class="race-banner">End Game - ${esc(g.n)}</span>
+      <span class="race-count">${g.lords.length} lords</span>
+      <span class="race-blurb">${esc(g.blurb)}</span>
+      <span class="links"><a href="${wiki(g.n)}" target="_blank" rel="noopener">wiki ↗</a></span>
+    </div>
+    <div class="grid">
+      <article class="egcard" style="--rc:${g.c}">
+        <h3>${esc(g.n)} <span class="eg-badge">End Game scenario</span></h3>
+        <div class="sub">${esc(g.tag)} - ${g.lords.length} Legendary Lords caught up in it</div>
+        <ul class="mech">${g.mech.map(x=>`<li><span class="mname">${esc(x[0])}</span> - ${esc(x[1])}</li>`).join("")}</ul>
+        <div class="tags" style="margin-top:8px">${names.map(n=>`<span class="tag">${esc(n)}</span>`).join("")}</div>
+        <p class="hint" style="margin:8px 0 0">The lord grid below is filtered to factions caught up in this scenario. Update 9.0 recategorised the older End Games as mid-game Crisis Scenarios; these three are the new, fully-authored End Games.</p>
+      </article>
+    </div>
+  </section>`;
 }
 
 function render(){
@@ -1741,8 +1798,10 @@ function render(){
   // denominator would be 110 + 25 = 135 and confuse the user.
   const realTotal = LORDS.filter(l => !l._synthetic).length;
   $("#count").textContent=`${list.length} / ${realTotal}`;
+  // Scenario cards for any active End Game filter, shown above the grid.
+  const egSec = state.eg.size ? [...state.eg].map(n=>ENDGAMES.find(g=>g.n===n)).filter(Boolean).map(egSection).join("") : "";
   // Add a visual "filter active" cue on the bar when any filter is set
-  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.diff || state.src || state.q;
+  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.eg.size || state.diff || state.src || state.q;
   document.body.classList.toggle('filter-on', !!isFiltered);
   // If filtered, change the count text to mention the filter
   if (isFiltered) {
@@ -1764,7 +1823,7 @@ function render(){
   if (typeof renderActiveFilters === 'function') renderActiveFilters();
   const m=$("#main");
   if(!list.length){
-    m.innerHTML=`<div class="empty">
+    m.innerHTML=egSec+`<div class="empty">
       <div class="empty-icon">&#128269;</div>
       <div class="empty-msg">No lords match these filters</div>
       <div class="empty-sub">Try removing a race, playstyle, or search term. Or clear everything and start over.</div>
@@ -1786,7 +1845,7 @@ function render(){
   // state because pushState() happens AFTER render() in the click flow.
   if(state.sort==="race"){
     const byRace={};list.forEach(l=>{(byRace[l.r]=byRace[l.r]||[]).push(l)});
-    m.innerHTML=Object.keys(byRace).sort((a,b)=>RACES[a].o-RACES[b].o).map(r=>{
+    m.innerHTML=egSec+Object.keys(byRace).sort((a,b)=>RACES[a].o-RACES[b].o).map(r=>{
       const rc=RACES[r].c;
       return `<section>
         <div class="race-head" style="--rc:${rc}">
@@ -1803,7 +1862,7 @@ function render(){
     if(state.sort==="name")s.sort((a,b)=>a.n.localeCompare(b.n));
     if(state.sort==="deasc")s.sort((a,b)=>a.d-b.d||a.n.localeCompare(b.n));
     if(state.sort==="dedesc")s.sort((a,b)=>b.d-a.d||a.n.localeCompare(b.n));
-    m.innerHTML=`<section style="margin-top:18px"><div class="grid">${s.map(cardHTML).join("")}</div></section>`;
+    m.innerHTML=egSec+`<section style="margin-top:18px"><div class="grid">${s.map(cardHTML).join("")}</div></section>`;
   }
   // Mini radars on cards are filled by drawRadars() in the second script.
   // Must run AFTER m.innerHTML is set above - otherwise the .card-radar
@@ -1872,6 +1931,18 @@ function renderChips(){
       return `<button class="chip race${st}${dim}" data-race="${esc(r)}" style="--rc:${rc}" title="${esc(r)} - ${cnt} lord${cnt===1?'':'s'}">${iconSVG(RACE_ICONS[r], 14, rc)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
     }).join("");
   }
+  // End Game scenario chips - the three Update 9.0 scenarios as a filter
+  // dimension. Static per-scenario counts (like race), OR semantics.
+  const egBar = document.getElementById("egchips-bar");
+  if (egBar) {
+    egBar.innerHTML = ENDGAMES.map(g => {
+      const cnt = LORDS.filter(l => !l._synthetic && l.eg.includes(g.n)).length;
+      const st = state.eg.has(g.n) ? " on" : "";
+      const dim = cnt === 0 && !state.eg.has(g.n) ? " dim" : "";
+      return `<button class="chip eg${st}${dim}" data-egc="${esc(g.n)}" style="--rc:${g.c}" title="${esc(g.tag)} - ${cnt} lord${cnt===1?'':'s'}">${iconSVG(PSI.Quest, 14, g.c)}<span class="lbl">${esc(g.n)}</span><span class="count">${cnt}</span></button>`;
+    }).join("")
+    + (state.eg.size ? `<button class="chip" id="cleareg-bar">&#10005;</button>` : "");
+  }
   if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
 }
 
@@ -1883,6 +1954,7 @@ function updateFiltersBadge(){
   if (!badge) return;
   let n = 0;
   if (state.race.size) n++;
+  if (state.eg.size) n++;
   if (state.psInc.size) n++;
   if (state.psExc.size) n++;
   if (state.diff) n++;
@@ -2004,6 +2076,9 @@ document.addEventListener("click",e=>{
     return;
   }
   if(e.target.closest("#clearps") || e.target.closest("#clearps-bar")){state.psInc.clear();state.psExc.clear();_afterFilterChange();return;}
+  if(e.target.closest("#cleareg-bar")){state.eg.clear();_afterFilterChange();return;}
+  const egc=e.target.closest("[data-egc]");
+  if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");
   if(psc){ e.ctrlKey||e.metaKey ? cyclePsAdd(psc.dataset.psc) : cyclePs(psc.dataset.psc); return; }
   const ptag=e.target.closest(".tag[data-ps]");
@@ -2255,6 +2330,12 @@ function renderActiveFilters() {
     const ic = PS[tag]?.ic || '#888';
     pills.push(`<span class="pill exc" style="--rc:#c07070"><span class="pill-ic">&minus;</span>${esc(PS[tag]?.t || tag)}<button class="x" data-clear="psexc" data-ps="${esc(pk)}" aria-label="Remove exclude">&times;</button></span>`);
   });
+  // End Game scenario
+  state.eg.forEach(n => {
+    const g = ENDGAMES.find(x => x.n === n);
+    const col = g ? g.c : '#888';
+    pills.push(`<span class="pill" style="--rc:${col}"><span class="pill-ic">${iconSVG(PSI.Quest, 14, col)}</span>${esc(n)}<button class="x" data-clear="eg" data-eg="${esc(n)}" aria-label="Clear end game">&times;</button></span>`);
+  });
   // Difficulty
   if (state.diff) {
     const lbl = {1: 'Easy', 2: 'Moderate', 3: 'Hard', 4: 'Very hard'}[+state.diff] || state.diff;
@@ -2294,6 +2375,7 @@ document.addEventListener('click', e => {
     else if (what === 'psexc'){ state.psExc.delete(ps); }
     else if (what === 'diff'){ state.diff = ''; }
     else if (what === 'src') { state.src = ''; }
+    else if (what === 'eg')  { if (x.dataset.eg) state.eg.delete(x.dataset.eg); else state.eg.clear(); }
     else if (what === 'sort'){ state.sort = 'race'; document.getElementById('sort').value = 'race'; const m=document.getElementById('sort-m'); if(m) m.value='race'; }
     pushState(); renderChips(); render(); drawRadars();
     // Sync the chip-bar Difficulty/Source dropdowns so they reset to

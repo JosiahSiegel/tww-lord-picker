@@ -1935,8 +1935,19 @@ function renderChips(){
   // dimension. Static per-scenario counts (like race), OR semantics.
   const egBar = document.getElementById("egchips-bar");
   if (egBar) {
+    // Context-aware counts: a scenario's number reflects every OTHER active
+    // filter (race, playstyle, difficulty, source, search) but ignores the
+    // End Game selection itself - so the count equals what you get on click.
+    const egCount = (n) => LORDS.filter(l =>
+      !l._synthetic && l.eg.includes(n) &&
+      (state.race.size===0||state.race.has(l.r)) &&
+      psOk(l) &&
+      (!state.diff||l.d===+state.diff) &&
+      (!state.src||l.bk===state.src) &&
+      (!state.q||l.hay.includes(state.q))
+    ).length;
     egBar.innerHTML = ENDGAMES.map(g => {
-      const cnt = LORDS.filter(l => !l._synthetic && l.eg.includes(g.n)).length;
+      const cnt = egCount(g.n);
       const st = state.eg.has(g.n) ? " on" : "";
       const dim = cnt === 0 && !state.eg.has(g.n) ? " dim" : "";
       return `<button class="chip eg${st}${dim}" data-egc="${esc(g.n)}" style="--rc:${g.c}" title="${esc(g.tag)} - ${cnt} lord${cnt===1?'':'s'}">${iconSVG(PSI.Quest, 14, g.c)}<span class="lbl">${esc(g.n)}</span><span class="count">${cnt}</span></button>`;

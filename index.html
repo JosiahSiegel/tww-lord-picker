@@ -146,8 +146,24 @@
  }
  .ps-filter-bar{ position:sticky; top:0; z-index:40; background:linear-gradient(180deg,rgba(27,23,32,.98) 0%,rgba(27,23,32,.94) 100%); backdrop-filter:blur(8px); border-bottom:1px solid rgba(201,162,75,.18); margin:0 -16px 12px; padding:8px 16px; }
  .ps-filter-inner{ max-width:1200px; margin:0 auto; /* Sections are always stacked vertically. RACE has 24 chips and STYLE has 14, so trying to fit 3 sections in a row at any width creates a 40+ row tall bar. Stacking gives every section the full bar width so chips wrap to 4-5 per line naturally. */ display:flex; flex-direction:column; align-items:stretch; gap:8px; }
- .ps-filter-bar .chips-section{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%; min-width:0; }
- .ps-filter-bar .chips-section-label{ font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); flex:0 0 auto; padding:0 2px; }
+ /* Collapsible filter sections. Everything is tucked behind a one-line
+    group header on load so the first screen is search + four compact
+    buttons instead of ~44 chips. Opening a header reveals that group's
+    chips inline. */
+ .ps-filter-bar .acc-heads{ display:flex; flex-wrap:wrap; gap:6px; }
+ .ps-filter-bar .acc-head{ display:inline-flex; align-items:center; gap:7px; background:rgba(231,224,210,.05); border:1px solid rgba(231,224,210,.14); color:var(--text); border-radius:999px; padding:6px 12px; font-size:.78rem; font-weight:600; font-family:inherit; line-height:1.2; cursor:pointer; white-space:nowrap; transition:background .12s, border-color .12s, color .12s; }
+ .ps-filter-bar .acc-head:hover{ background:rgba(201,162,75,.12); border-color:rgba(201,162,75,.35); }
+ .ps-filter-bar .acc-head[aria-expanded="true"]{ background:rgba(201,162,75,.16); border-color:rgba(201,162,75,.5); color:#fff; }
+ .ps-filter-bar .acc-head.has-active{ border-color:rgba(201,162,75,.6); color:var(--gold); }
+ .ps-filter-bar .acc-head.has-active[aria-expanded="true"]{ color:#fff; }
+ .ps-filter-bar .acc-sum{ font-size:.68rem; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums; }
+ .ps-filter-bar .acc-head.has-active .acc-sum{ color:var(--gold); }
+ .ps-filter-bar .acc-chev{ width:7px; height:7px; margin-left:1px; border-right:1.7px solid currentColor; border-bottom:1.7px solid currentColor; transform:rotate(45deg) translate(-1px,-1px); transition:transform .15s ease; opacity:.75; }
+ .ps-filter-bar .acc-head[aria-expanded="true"] .acc-chev{ transform:rotate(-135deg) translate(-1px,-1px); }
+ .ps-filter-bar .acc-body{ border:1px solid rgba(201,162,75,.20); background:rgba(0,0,0,.16); border-radius:12px; padding:10px 12px; }
+ .ps-filter-bar .acc-body[hidden]{ display:none; }
+ .ps-filter-bar .acc-body .acc-row{ display:flex; flex-wrap:nowrap; align-items:center; gap:8px; }
+ .ps-filter-bar .acc-body .more-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
  @media (min-width:641px){.ps-filter-bar .chips-scroll{display:contents}
  }
  .ps-filter-bar .chips{ display:flex; flex-wrap:wrap; gap:6px; flex:1; min-width:0; }
@@ -169,8 +185,9 @@
  .chip-select.has-value{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='%23c9a24b'><path d='M1 1l5 5 5-5' stroke='%23c9a24b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");}
  @media (max-width:640px){.ps-filter-bar{ padding:6px 0; margin:0 -10px 8px; border-bottom:1px solid rgba(201,162,75,.18); /* Non-sticky on mobile: the interaction between position:sticky and overflow-x:auto on the inner chips-scroll container causes the browser to capture horizontal swipes for page scroll instead of the inner container. Removing sticky entirely fixes it. */ position:static; top:auto; }
  .ps-filter-inner{ flex-direction:column; align-items:stretch; gap:6px; padding:0 10px; }
- .ps-filter-bar .chips-section{ display:flex; align-items:center; gap:6px; width:100%; }
- .ps-filter-bar .chips-section-label{ font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); flex:0 0 auto; width:42px; /* fixed width so the label is always in the same place */ }
+ .ps-filter-bar .acc-heads{ gap:6px; }
+ .ps-filter-bar .acc-head{ padding:7px 11px; font-size:.74rem; min-height:36px; }
+ .ps-filter-bar .acc-body{ padding:8px 10px; margin-top:0; }
  .ps-filter-bar .chips-scroll{ flex:1 1 0; /* allow shrink but keep at least some width */ min-width:0; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; touch-action:pan-x; /* Stop scroll-chaining: when the user swipes horizontally and reaches the edge, don't bounce into the page scroll. */ overscroll-behavior-x:contain; mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%); -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%); }
  .ps-filter-bar .chips-scroll::-webkit-scrollbar{display:none}
  .ps-filter-bar .chips{ display:flex; /* block-level flex; fills the .chips-scroll width */ flex-wrap:nowrap; gap:5px; padding:4px 0; padding-right:12px; /* Force the chips container to be at least as wide as its content (so the overflow-x on the .chips-scroll has something to scroll). Without width:max-content, flex items shrink to their container and the scroll never activates. */ width:max-content; }
@@ -502,52 +519,66 @@
 </select>
 
 
-<!-- Industry-standard playstyle filter bar (GitHub Topics / Gmail Labels pattern).
-     Always visible. Sticky to top of viewport. The 14 playstyle chips
-     show lord counts and toggle on click. AND/OR toggle right next to
-     the chips. The radar above is now pure visualization (no click
-     filtering) - filtering happens here, where the user can see all
-     14 options at once with their current counts. -->
+<!-- Collapsible filter bar. On first load every group is a compact,
+     one-line header (Race / Style / End Game / More) so a newcomer sees
+     search plus four buttons instead of a wall of ~44 chips. Tapping a
+     header expands that group's chips inline. Groups that already have
+     an active filter (e.g. a shared link) open automatically and their
+     header shows a gold "N selected" badge, so nothing stays hidden. -->
 <div class="ps-filter-bar" id="ps-filter-bar">
   <div class="ps-filter-inner">
-    <div class="chips-section chips-section--race" aria-label="Race filters">
-      <span class="chips-section-label">Race</span>
+    <div class="acc-heads" role="group" aria-label="Filter groups">
+      <button type="button" class="acc-head" data-acc="race" aria-expanded="false" aria-controls="acc-body-race">
+        <span class="acc-title">Race</span><span class="acc-sum" id="acc-sum-race"></span><span class="acc-chev" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="acc-head" data-acc="style" aria-expanded="false" aria-controls="acc-body-style">
+        <span class="acc-title">Style</span><span class="acc-sum" id="acc-sum-style"></span><span class="acc-chev" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="acc-head" data-acc="eg" aria-expanded="false" aria-controls="acc-body-eg">
+        <span class="acc-title">End Game</span><span class="acc-sum" id="acc-sum-eg"></span><span class="acc-chev" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="acc-head" data-acc="more" aria-expanded="false" aria-controls="acc-body-more">
+        <span class="acc-title">More</span><span class="acc-sum" id="acc-sum-more"></span><span class="acc-chev" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="acc-body" id="acc-body-race" data-acc-body="race" aria-label="Race filters" hidden>
       <div class="chips-scroll">
         <div class="chips" id="racechips-bar" role="group"></div>
       </div>
     </div>
-    <div class="chips-section chips-section--style" aria-label="Playstyle filters">
-      <span class="chips-section-label">Style</span>
-      <div class="chips-scroll">
-        <div class="chips" id="pschips-bar" role="group"></div>
+    <div class="acc-body" id="acc-body-style" data-acc-body="style" aria-label="Playstyle filters" hidden>
+      <div class="acc-row">
+        <div class="chips-scroll">
+          <div class="chips" id="pschips-bar" role="group"></div>
+        </div>
+        <label class="psall-toggle" title="When several playstyles are selected, require lords to have ALL of them (AND) instead of ANY (OR)">
+          <input type="checkbox" id="psall-bar"> <span>Require All</span>
+        </label>
       </div>
-      <label class="psall-toggle" title="When several playstyles are selected, require lords to have ALL of them (AND) instead of ANY (OR)">
-        <input type="checkbox" id="psall-bar"> <span>Require All</span>
-      </label>
     </div>
-    <div class="chips-section chips-section--eg" aria-label="End game scenario filters">
-      <span class="chips-section-label">End Game</span>
+    <div class="acc-body" id="acc-body-eg" data-acc-body="eg" aria-label="End game scenario filters" hidden>
       <div class="chips-scroll">
         <div class="chips" id="egchips-bar" role="group"></div>
       </div>
     </div>
-    <div class="chips-section chips-section--more" aria-label="Advanced filters">
-      <span class="chips-section-label">More</span>
-      <select class="chip-select" id="fdiff" aria-label="Filter by difficulty">
-        <option value="">Any difficulty</option>
-        <option value="1">Easy</option>
-        <option value="2">Moderate</option>
-        <option value="3">Hard</option>
-        <option value="4">Very hard</option>
-      </select>
-      <select class="chip-select" id="fsrc" aria-label="Filter by source">
-        <option value="">Any source</option>
-        <option value="wh3base">WH3 base</option>
-        <option value="wh3dlc">WH3 DLC</option>
-        <option value="wh1">WH1 + DLC</option>
-        <option value="wh2">WH2 + DLC</option>
-        <option value="free">Free (FLC)</option>
-      </select>
+    <div class="acc-body" id="acc-body-more" data-acc-body="more" aria-label="Advanced filters" hidden>
+      <div class="more-row">
+        <select class="chip-select" id="fdiff" aria-label="Filter by difficulty">
+          <option value="">Any difficulty</option>
+          <option value="1">Easy</option>
+          <option value="2">Moderate</option>
+          <option value="3">Hard</option>
+          <option value="4">Very hard</option>
+        </select>
+        <select class="chip-select" id="fsrc" aria-label="Filter by source">
+          <option value="">Any source</option>
+          <option value="wh3base">WH3 base</option>
+          <option value="wh3dlc">WH3 DLC</option>
+          <option value="wh1">WH1 + DLC</option>
+          <option value="wh2">WH2 + DLC</option>
+          <option value="free">Free (FLC)</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>
@@ -1821,6 +1852,8 @@ function render(){
   }
   // Active-filter pills are state-driven, so update them on every render.
   if (typeof renderActiveFilters === 'function') renderActiveFilters();
+  // Keep the collapsed group headers' "N selected" badges in sync.
+  if (typeof updateAccSummaries === 'function') updateAccSummaries();
   const m=$("#main");
   if(!list.length){
     m.innerHTML=egSec+`<div class="empty">
@@ -1976,6 +2009,43 @@ function updateFiltersBadge(){
   const ca = $("#clear-all");
   if (ca) ca.style.display = (n > 0 || state.q) ? '' : 'none';
 }
+
+// ── Collapsible filter groups ─────────────────────────────────────────────
+// The Race / Style / End Game / More groups are collapsed to a single
+// header row by default so the first screen is not a wall of chips. These
+// helpers drive the disclosure and keep each header's "N selected" badge
+// in sync with state. Headers are static markup (renderChips only rebuilds
+// the chips inside a body), so no re-binding is needed.
+function accHead(name){ return document.querySelector('.acc-head[data-acc="' + name + '"]'); }
+function accBody(name){ return document.querySelector('.acc-body[data-acc-body="' + name + '"]'); }
+function setAccOpen(name, open){
+  const h = accHead(name), b = accBody(name);
+  if (!h || !b) return;
+  h.setAttribute('aria-expanded', open ? 'true' : 'false');
+  b.hidden = !open;
+}
+function updateAccSummaries(){
+  const srcLabels = {wh3base:'WH3 base', wh3dlc:'WH3 DLC', wh1:'WH1 + DLC', wh2:'WH2 + DLC', free:'Free (FLC)'};
+  const nSel = n => n + ' selected';
+  const sums = {
+    race: state.race.size ? nSel(state.race.size) : '',
+    style: (state.psInc.size || state.psExc.size) ? nSel(state.psInc.size + state.psExc.size) : '',
+    eg: state.eg.size ? nSel(state.eg.size) : '',
+    more: [state.diff ? (DLBL[state.diff] || state.diff) : '', state.src ? (srcLabels[state.src] || state.src) : ''].filter(Boolean).join(' · ')
+  };
+  Object.keys(sums).forEach(name => {
+    const h = accHead(name), el = document.getElementById('acc-sum-' + name);
+    if (h) h.classList.toggle('has-active', !!sums[name]);
+    if (el) el.textContent = sums[name];
+  });
+}
+// Toggle on header click. Delegated so it keeps working no matter how the
+// bar is re-rendered.
+document.addEventListener('click', e => {
+  const head = e.target.closest('.acc-head');
+  if (!head) return;
+  setAccOpen(head.dataset.acc, head.getAttribute('aria-expanded') !== 'true');
+});
 // The pslegend element was removed in the polish pass; guard against null
 // so the script doesn't crash if the legend is absent.
 const pslegend = $("#pslegend");
@@ -2406,6 +2476,18 @@ document.addEventListener('click', e => {
 });
 
 renderChips();render();pushState();renderActiveFilters();
+// If the page was opened with filters already active (a shared/bookmarked
+// URL), open those groups so the user can see and adjust their selection
+// instead of being met with a collapsed section hiding it.
+(function openActiveGroups(){
+  const active = {
+    race: state.race.size > 0,
+    style: (state.psInc.size + state.psExc.size) > 0,
+    eg: state.eg.size > 0,
+    more: !!(state.diff || state.src)
+  };
+  Object.keys(active).forEach(name => { if (active[name]) setAccOpen(name, true); });
+})();
 </script>
 
 <script>

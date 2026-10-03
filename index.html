@@ -2373,7 +2373,7 @@ function renderOwnership(){
   };
   const group = (title, keys) => `<div class="own-group"><div class="own-group-title">${title}</div><div class="own-items">${keys.map(item).join("")}</div></div>`;
   // One-click "own this game and all of its DLC" per base game.
-  const GAMES = [["wh3", "Warhammer III"], ["wh1", "Warhammer I"], ["wh2", "Warhammer II"]];
+  const GAMES = [["wh3", "Warhammer III"], ["wh2", "Warhammer II"], ["wh1", "Warhammer I"]];
   const gameRow = ([base, label]) => {
     const keys = Object.keys(OWN_LABEL).filter(k => k === base || k.startsWith(base + "_"));
     const allOn = keys.every(k => state.own.has(k));
@@ -2393,8 +2393,8 @@ function renderOwnership(){
     + `<div class="own-hint">${hint}</div>`
     + baseGroup
     + group("Warhammer III DLC", wh3Keys)
-    + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
     + `<details class="own-old"><summary>Warhammer II expansions</summary><div class="own-items">${wh2Keys.map(item).join("")}</div></details>`
+    + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
     + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="all">Everything</button><button type="button" data-own-all="clear">Clear library</button></div>`;
   // Open the older-expansion groups if the user owns anything inside them.
   box.querySelectorAll("details.own-old").forEach(d => {
@@ -2580,7 +2580,7 @@ document.addEventListener("click",e=>{
   const locc=e.target.closest(".chip[data-loc]");
   if(locc){ const k=locc.dataset.loc; state.loc.has(k)?state.loc.delete(k):state.loc.add(k); _afterFilterChange(); return; }
   const ownAll=e.target.closest("[data-own-all]");
-  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); state.ownFilter = mode!=="clear"; if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} else if(mode==="all"){Object.keys(OWN_LABEL).forEach(k=>state.own.add(k));} _afterFilterChange(); return; }
+  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); state.ownFilter = mode!=="clear"; if(mode==="base"){["wh3","wh2","wh1"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} else if(mode==="all"){Object.keys(OWN_LABEL).forEach(k=>state.own.add(k));} _afterFilterChange(); return; }
   const ownGame=e.target.closest("[data-own-game]");
   if(ownGame){ e.preventDefault(); const base=ownGame.dataset.ownGame; const keys=Object.keys(OWN_LABEL).filter(k=>k===base||k.startsWith(base+"_")); if(keys.every(k=>state.own.has(k))){ keys.forEach(k=>state.own.delete(k)); } else { keys.forEach(k=>state.own.add(k)); state.ownFilter=true; } _afterFilterChange(); return; }
   const egc=e.target.closest("[data-egc]");

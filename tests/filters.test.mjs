@@ -137,6 +137,13 @@ test('the ownership switch filters without discarding the library', () => {
   assert.ok(filteredCount(window) < 110);
 });
 
+test('games are listed newest-first (III, II, I)', () => {
+  const baseOrder = inPage(window, `[...document.querySelectorAll('.own-baserow input[data-own]')].map(i => i.dataset.own)`);
+  assert.deepEqual(Array.from(baseOrder), ['wh3', 'wh2', 'wh1']);
+  const dlcOrder = inPage(window, `[...document.querySelectorAll('#own-body details.own-old > summary')].map(s => s.textContent.trim())`);
+  assert.deepEqual(Array.from(dlcOrder), ['Warhammer II expansions', 'Warhammer I expansions']);
+});
+
 test('the per-game "all DLC" toggle owns a whole game and toggles off', () => {
   const click = (base) => inPage(window, `document.querySelector('[data-own-game="${base}"]').click()`);
   click('wh3');

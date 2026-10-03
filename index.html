@@ -539,6 +539,11 @@
  .own-master:hover{border-color:rgba(201,162,75,.4);background:rgba(201,162,75,.08)}
  .own-master input{accent-color:var(--gold);width:16px;height:16px;margin:0}
  .own-master:has(input:checked){border-color:var(--gold);background:rgba(201,162,75,.14)}
+ .own-basegames{flex-direction:column;gap:6px}
+ .own-baserow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+ .own-bulk{background:transparent;border:1px dashed rgba(201,162,75,.45);color:var(--gold);border-radius:999px;padding:5px 12px;font-size:.72rem;font-weight:600;font-family:inherit;cursor:pointer;white-space:nowrap;min-height:30px;transition:background .12s,border-color .12s}
+ .own-bulk:hover{background:rgba(201,162,75,.12);border-style:solid}
+ .own-bulk.on{border-style:solid;background:rgba(201,162,75,.18)}
  .own-group{display:flex;flex-direction:column;gap:6px}
  .own-group-title{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:700;opacity:.85}
  .own-items{display:flex;flex-wrap:wrap;gap:6px}
@@ -2367,6 +2372,14 @@ function renderOwnership(){
     return `<label class="own-item"><input type="checkbox" data-own="${key}"${on}>${esc(OWN_LABEL[key])}<span class="own-count">${counts[key] || 0}</span></label>`;
   };
   const group = (title, keys) => `<div class="own-group"><div class="own-group-title">${title}</div><div class="own-items">${keys.map(item).join("")}</div></div>`;
+  // One-click "own this game and all of its DLC" per base game.
+  const GAMES = [["wh3", "Warhammer III"], ["wh1", "Warhammer I"], ["wh2", "Warhammer II"]];
+  const gameRow = ([base, label]) => {
+    const keys = Object.keys(OWN_LABEL).filter(k => k === base || k.startsWith(base + "_"));
+    const allOn = keys.every(k => state.own.has(k));
+    return `<div class="own-baserow">${item(base)}<button type="button" class="own-bulk${allOn ? " on" : ""}" data-own-game="${base}" title="Own ${esc(label)} and every DLC for it">${allOn ? "&#10003; all DLC" : "+ all DLC"}</button></div>`;
+  };
+  const baseGroup = `<div class="own-group"><div class="own-group-title">Base games</div><div class="own-items own-basegames">${GAMES.map(gameRow).join("")}</div></div>`;
   const wh3Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh3_"));
   const wh1Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh1_"));
   const wh2Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh2_"));
@@ -2378,11 +2391,11 @@ function renderOwnership(){
   box.innerHTML =
     `<label class="own-master"><input type="checkbox" id="own-filter"${state.ownFilter ? " checked" : ""}> <span>Only show lords I own</span></label>`
     + `<div class="own-hint">${hint}</div>`
-    + group("Base games", ["wh3", "wh1", "wh2"])
+    + baseGroup
     + group("Warhammer III DLC", wh3Keys)
     + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
     + `<details class="own-old"><summary>Warhammer II expansions</summary><div class="own-items">${wh2Keys.map(item).join("")}</div></details>`
-    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="clear">Clear library</button></div>`;
+    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="all">Everything</button><button type="button" data-own-all="clear">Clear library</button></div>`;
   // Open the older-expansion groups if the user owns anything inside them.
   box.querySelectorAll("details.own-old").forEach(d => {
     if (d.querySelector("input[data-own]:checked")) d.open = true;
@@ -2567,7 +2580,9 @@ document.addEventListener("click",e=>{
   const locc=e.target.closest(".chip[data-loc]");
   if(locc){ const k=locc.dataset.loc; state.loc.has(k)?state.loc.delete(k):state.loc.add(k); _afterFilterChange(); return; }
   const ownAll=e.target.closest("[data-own-all]");
-  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); state.ownFilter = mode!=="clear"; if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} _afterFilterChange(); return; }
+  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); state.ownFilter = mode!=="clear"; if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} else if(mode==="all"){Object.keys(OWN_LABEL).forEach(k=>state.own.add(k));} _afterFilterChange(); return; }
+  const ownGame=e.target.closest("[data-own-game]");
+  if(ownGame){ e.preventDefault(); const base=ownGame.dataset.ownGame; const keys=Object.keys(OWN_LABEL).filter(k=>k===base||k.startsWith(base+"_")); if(keys.every(k=>state.own.has(k))){ keys.forEach(k=>state.own.delete(k)); } else { keys.forEach(k=>state.own.add(k)); state.ownFilter=true; } _afterFilterChange(); return; }
   const egc=e.target.closest("[data-egc]");
   if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");

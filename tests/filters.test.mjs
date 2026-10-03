@@ -137,6 +137,24 @@ test('the ownership switch filters without discarding the library', () => {
   assert.ok(filteredCount(window) < 110);
 });
 
+test('the per-game "all DLC" toggle owns a whole game and toggles off', () => {
+  const click = (base) => inPage(window, `document.querySelector('[data-own-game="${base}"]').click()`);
+  click('wh3');
+  const wh3Keys = Array.from(inPage(window, "Object.keys(OWN_LABEL).filter(k => k === 'wh3' || k.startsWith('wh3_'))")).sort();
+  assert.deepEqual(Array.from(inPage(window, '[...state.own]')).sort(), wh3Keys);
+  assert.equal(inPage(window, 'state.ownFilter'), true, 'selecting turns filtering on');
+  assert.equal(filteredCount(window), reachable("l => ownsLord(l, new Set(" + JSON.stringify(wh3Keys) + "))"));
+  click('wh3');
+  assert.equal(inPage(window, 'state.own.size'), 0, 'clicking again clears the game');
+});
+
+test('the Everything preset owns all products', () => {
+  inPage(window, "document.querySelector('[data-own-all=all]').click()");
+  assert.equal(inPage(window, 'state.own.size'), 27);
+  assert.equal(inPage(window, 'state.ownFilter'), true);
+  assert.equal(filteredCount(window), 110, 'owning everything shows the whole roster');
+});
+
 test('clear-all keeps the saved library on disk', () => {
   inPage(window, "state.own = new Set(['wh3']); _ownPersist = true; pushState(); clearAllFilters()");
   assert.deepEqual(JSON.parse(window.localStorage.getItem('twwlp.own.v1')), ['wh3']);

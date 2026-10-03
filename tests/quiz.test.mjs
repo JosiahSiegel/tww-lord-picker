@@ -78,17 +78,21 @@ test('only-content-I-own restricts picks to the saved library', () => {
   const picks = quiz(window, { ...REPORTED, ownedOnly: true });
   assert.equal(picks.length, 3);
   for (const pick of picks) {
-    const lord = lordByName(window, pick.name);
-    assert.equal(lord.own, 'wh3', `${lord.n} is outside the owned library`);
+    const granted = inPage(window, `ownsLord(LORDS.find(l => l.n === ${JSON.stringify(pick.name)}), new Set(['wh3']))`);
+    assert.equal(granted, true, `${pick.name} is outside the owned library`);
     assert.match(pick.why, /you own it/);
   }
 });
 
-test('owned-only with an empty match reports the empty state', () => {
+test('owned-only never hides the universally free Bretonnia lords', () => {
+  // Bretonnia is free for everyone, so even a library that matches nothing
+  // still leaves the four Bretonnia lords available.
   inPage(window, "state.own = new Set(['__no_such_product__'])");
   const picks = quiz(window, { ...REPORTED, ownedOnly: true });
-  assert.equal(picks.length, 0);
-  assert.match(window.document.getElementById('quiz-results').textContent, /No lords match/);
+  assert.equal(picks.length, 3);
+  for (const pick of picks) {
+    assert.equal(lordByName(window, pick.name).free, true, `${pick.name} should be a free Bretonnia lord`);
+  }
 });
 
 test('openQuiz reports whether ownership is in play', () => {

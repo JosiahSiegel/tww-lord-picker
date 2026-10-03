@@ -63,7 +63,7 @@ test('a plain reload restores the saved library', () => {
   assert.equal(inPage(returning, "state.own.has('wh3')"), true);
   assert.equal(
     inPage(returning, 'filtered().length'),
-    inPage(returning, "LORDS.filter(l => l.own === 'wh3').length"),
+    inPage(returning, "LORDS.filter(l => ownsLord(l, new Set(['wh3']))).length"),
   );
 });
 
@@ -94,5 +94,5 @@ test("a shared link does not overwrite the visitor's saved library", () => {
 test('editing ownership persists it for next time', () => {
   inPage(window, "_ownPersist = true; state.own.add('wh1'); pushState()");
   assert.deepEqual(JSON.parse(window.localStorage.getItem('twwlp.own.v1')), ['wh1']);
-  assert.equal(filteredCount(window), inPage(window, "LORDS.filter(l => l.own === 'wh1').length"));
+  assert.equal(filteredCount(window), inPage(window, "LORDS.filter(l => ownsLord(l, new Set(['wh1']))).length"));
 });

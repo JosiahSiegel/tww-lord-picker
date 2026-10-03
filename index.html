@@ -1468,26 +1468,47 @@ const OWN_OVERRIDE={
   // gated to Vampire Counts ownership, not the WH3 base game.
   "Neferata, the Vampire Queen":"wh1"
 };
-// Extra products that also grant a lord. SEGA's Immortal Empires ownership
-// guide marks these with an asterisk ("Legendary Lords that are available
-// from more than one content release"): free DLC belongs to the race it
-// ships with, so owning either the race's base game or a lord pack that
-// includes the race grants the lord.
-const OWN_ALSO={
-  "Grombrindal":["wh1_kw"],
-  "Thorek Ironbrow":["wh1_kw"],
-  "Wurrzag":["wh1_kw","wh2_wp"],
-  "Vlad von Carstein":["wh1_gg"],
-  "Isabella von Carstein":["wh1_gg"],
-  "Lokhir Fellheart":["wh2_qc","wh2_sb"],
-  "Rakarth":["wh2_qc","wh2_sb"],
-  "Alith Anar":["wh2_qc","wh2_wp"],
-  "Imrik":["wh2_qc","wh2_wp"],
-  "Tiktaq'to":["wh2_pw","wh2_hb","wh2_sf"],
-  "Gor-Rok":["wh2_pw","wh2_hb","wh2_sf"],
-  "Tretch Craventail":["wh2_pw","wh2_sb","wh2_tw"],
-  "Neferata, the Vampire Queen":["wh1_gg","wh3_eot"]
+// Free-LC follows race ownership. Total War's official new-player FAQ:
+// "Free-LC is unlocked automatically when you own content for the race it
+// belongs to... you need either a game or a DLC pack that gives you access
+// to that race." Its worked example is a High Elf lord from Tides of
+// Torment unlocking Alith Anar and Imrik. OWN_RACES lists every product
+// that grants each race, so a free lord's alternative unlocks are just the
+// products that share its race.
+const OWN_RACES={
+  Dwarfs:["wh1","wh1_kw","wh3_tod"],
+  "The Empire":["wh1","wh1_gg","wh2_hb","wh3_tod","wh3_eot"],
+  Greenskins:["wh1","wh1_kw","wh2_wp","wh3_ood"],
+  "Vampire Counts":["wh1","wh1_gg","wh3_eot"],
+  Bretonnia:["wh1"],
+  "Wood Elves":["wh1_woodelves","wh2_tw"],
+  Norsca:["wh1_norsca","wh3_tot"],
+  "High Elves":["wh2","wh2_qc","wh2_wp","wh3_tot"],
+  "Dark Elves":["wh2","wh2_qc","wh2_sb"],
+  Lizardmen:["wh2","wh2_pw","wh2_hb","wh2_sf"],
+  Skaven:["wh2","wh2_pw","wh2_sb","wh2_tw","wh3_eot"],
+  "Tomb Kings":["wh2_tk"],
+  "Vampire Coast":["wh2_vc"],
+  Kislev:["wh3","wh3_soc"],
+  "Grand Cathay":["wh3","wh3_soc","wh3_bhashiva"],
+  Khorne:["wh3","wh3_ood"],
+  Tzeentch:["wh3","wh3_soc"],
+  Nurgle:["wh3","wh3_tod"],
+  Slaanesh:["wh3","wh3_tot"],
+  "Daemons of Chaos":["wh3"],
+  "Warriors of Chaos":["wh1_chaos","wh3_coc","wh3_eot"],
+  Beastmen:["wh1_beastmen","wh2_sf"],
+  "Ogre Kingdoms":["wh3_ogres"],
+  "Chaos Dwarfs":["wh3_chd"],
+  "Undead Legions":["wh3_eot"]
 };
+// Race-linked free Legendary Lords: owning any product that grants the race
+// grants the lord.
+const OWN_FLC=new Set(["Wurrzag","Grombrindal","Thorek Ironbrow","Vlad von Carstein","Isabella von Carstein","Alith Anar","Imrik","Lokhir Fellheart","Rakarth","Tiktaq'to","Gor-Rok","Tretch Craventail","Epidemius","Arbaal the Undefeated","The Masque of Slaanesh","Drycha","Neferata, the Vampire Queen"]);
+// Bretonnia is free for every player (Total War new-player FAQ: "Every player
+// receives Bretonnia for free, giving you another playable race with four
+// Legendary Lords"), independent of Warhammer I.
+const OWN_FREE=new Set(["Louen Leoncoeur","Alberic de Bordeleaux","The Fay Enchantress","Repanse de Lyonesse"]);
 // ---- Ownership model -------------------------------------------------------
 // Ownership is a plain membership test with no base-game implication. SEGA's
 // guide is explicit that DLC "can be purchased regardless of whether you own
@@ -1495,7 +1516,7 @@ const OWN_ALSO={
 // Lords" - so owning an expansion does NOT grant the base game's lords, and
 // vice versa. A lord is playable when the visitor owns any product that
 // grants it (l.own, or any of l.also).
-function ownsLord(l,owned){ return !owned.size || owned.has(l.own) || (l.also||[]).some(k=>owned.has(k)); }
+function ownsLord(l,owned){ return l.free || !owned.size || owned.has(l.own) || (l.also||[]).some(k=>owned.has(k)); }
 const ownSet=iter=>new Set([...iter].filter(k=>OWN_LABEL[k]));
 // ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
 const PS={
@@ -1849,7 +1870,7 @@ LORDS.forEach(l=>{l.eg=EG_BY_NAME[l.n]||[];});
 
 const DCOL={1:"#8fae6a",2:"#c9a24b",3:"#c77b3f",4:"#b03a3a"};
 const DLBL={1:"Easy",2:"Moderate",3:"Hard",4:"Very hard"};
-LORDS.forEach((l,i)=>{l.i=i;l.loc=LORD_LOC[l.n]||"oldworld";l.own=(OWN_OVERRIDE[l.n]||OWN_SRC[l.src]||"wh3");l.also=(OWN_ALSO[l.n]||[]).filter(k=>OWN_LABEL[k]&&k!==l.own);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+LOCS[l.loc].t+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
+LORDS.forEach((l,i)=>{l.i=i;l.loc=LORD_LOC[l.n]||"oldworld";l.own=(OWN_OVERRIDE[l.n]||OWN_SRC[l.src]||"wh3");l.free=OWN_FREE.has(l.n);l.also=l.free?[]:[...new Set(OWN_FLC.has(l.n)?(OWN_RACES[l.r]||[]):[])].filter(k=>OWN_LABEL[k]&&k!==l.own);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+LOCS[l.loc].t+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
 
 // Map a playstyle display label (e.g. "War") to the PS object key (e.g.
 // "Aggro"). Lives in the first <script> block (not the radar one) so
@@ -2320,6 +2341,7 @@ function renderOwnership(){
   if (!box) return;
   const counts = {};
   LORDS.forEach(l => {
+    if (l.free) return; // Bretonnia is free for everyone; it belongs to no product
     counts[l.own] = (counts[l.own] || 0) + 1;
     (l.also || []).forEach(k => { counts[k] = (counts[k] || 0) + 1; });
   });
@@ -2333,7 +2355,7 @@ function renderOwnership(){
   const wh1Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh1_"));
   const wh2Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh2_"));
   box.innerHTML =
-    `<div class="own-hint">Tick what you own to hide lords you can't play. An expansion unlocks <b>only its own lords</b> - free (FLC) lords come with the race they belong to. Nothing ticked shows everything.</div>`
+    `<div class="own-hint">Tick what you own to hide lords you can't play. An expansion unlocks <b>only its own lords</b>; free (FLC) lords come with the race they belong to, and <b>Bretonnia is free for everyone</b>. Nothing ticked shows everything.</div>`
     + group("Base games", ["wh3", "wh1", "wh2"])
     + group("Warhammer III DLC", wh3Keys)
     + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
@@ -2432,7 +2454,7 @@ function openOverlay(){
       ['Start',       i => (LOCS[LORDS[i].loc]?.t) || '—'],
       ['Race',        i => LORDS[i].r],
       ['Faction',     i => LORDS[i].f],
-      ['Unlocked by', i => [LORDS[i].own, ...(LORDS[i].also || [])].map(k => OWN_LABEL[k] || k).join(' or ')],
+      ['Unlocked by', i => LORDS[i].free ? 'Free for everyone (Bretonnia)' : [LORDS[i].own, ...(LORDS[i].also || [])].map(k => OWN_LABEL[k] || k).join(' or ')],
       ['Playstyles',  i => (LORDS[i].ps || []).map(p => PS[normTag(p)]?.t || p).join(', ') || '—'],
     ];
     ovFacts.innerHTML = `<h3>At a glance</h3><table class="ov-table"><thead><tr><th></th>`

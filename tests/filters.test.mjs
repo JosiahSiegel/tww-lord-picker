@@ -61,7 +61,7 @@ test('search matches the precomputed haystack', () => {
 
 test('ownership narrows to the selected products', () => {
   inPage(window, "state.own.add('wh3')");
-  assert.equal(filteredCount(window), reachable("l => l.own === 'wh3'"));
+  assert.equal(filteredCount(window), reachable("l => ownsLord(l, new Set(['wh3']))"));
 });
 
 test('hide-played removes only marked lords', () => {
@@ -98,5 +98,5 @@ test('clear-all resets filters but preserves ownership', () => {
   assert.equal(inPage(window, 'state.hidePlayed'), false);
   // Ownership is a saved preference, not a transient filter.
   assert.equal(inPage(window, 'state.own.size'), 1);
-  assert.equal(filteredCount(window), reachable("l => l.own === 'wh3'"));
+  assert.equal(filteredCount(window), reachable("l => ownsLord(l, new Set(['wh3']))"));
 });

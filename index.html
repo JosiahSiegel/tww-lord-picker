@@ -293,16 +293,15 @@
  .pros li::before{content:"+ ";color:var(--pro);font-weight:700}
  .cons li::before{content:"- ";color:var(--con);font-weight:700}
  .mech li::before{content:"◆ ";color:var(--rc,var(--gold));font-size:.7em}
- .cmp-toggle{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
- .cmp-toggle:hover{color:var(--text)}
- .cmp-toggle input{accent-color:var(--gold)}
+ .cmp-toggle,.played-toggle{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content;padding:4px 7px;border-radius:6px;transition:color .12s,background .12s}
+ .cmp-toggle:hover,.played-toggle:hover{color:var(--text);background:rgba(231,224,210,.05)}
+ .cmp-toggle input,.played-toggle input{appearance:none;-webkit-appearance:none;width:15px;height:15px;flex:0 0 auto;margin:0;border:1.5px solid rgba(231,224,210,.32);border-radius:4px;background:rgba(231,224,210,.03);cursor:pointer;transition:border-color .12s,background .12s}
+ .cmp-toggle:hover input,.played-toggle:hover input{border-color:rgba(231,224,210,.6)}
+ .cmp-toggle input:checked,.played-toggle input:checked{border-color:var(--gold);background:var(--gold) url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Cpath%20d='M3%208.4l3.3%203.3L13%205'%20fill='none'%20stroke='%231b1720'%20stroke-width='2.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+ .cmp-toggle input:focus-visible,.played-toggle input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
  /* Played tracker: a per-card "mark played" toggle plus the "Hide played"
     control in the More group. Marks are stored locally and never shared. */
- .card-actions{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:9px}
- .card-actions .cmp-toggle{margin-top:0}
- .played-toggle{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
- .played-toggle:hover{color:var(--text)}
- .played-toggle input{accent-color:var(--gold)}
+ .card-actions{display:flex;flex-wrap:wrap;gap:2px 6px;align-items:center;margin:8px -7px -4px}
  .played-toggle.on{color:var(--gold);font-weight:600}
  .card.played{border-left-color:var(--pro)}
  .card.played .card-name{opacity:.72}
@@ -313,12 +312,12 @@
  .more-btn{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:5px 12px;font-size:.72rem;cursor:pointer;font-family:inherit;min-height:34px}
  .more-btn:hover{border-color:var(--gold);color:var(--gold)}
  .more-count{font-size:.72rem;color:var(--muted);margin-left:2px}
- @media (max-width:640px){.card-actions{gap:6px;margin-top:7px}
- .card-actions .cmp-toggle{width:100%;margin-top:0}
- .played-toggle{padding:8px 12px 8px 8px;min-height:40px;border-radius:8px;background:rgba(231,224,210,.03);border:1px solid var(--line);font-size:.8rem;width:100%}
- }
- @media (max-width:640px){.cmp-toggle{ padding:8px 12px 8px 8px; margin-top:6px; min-height:40px; border-radius:8px; background:rgba(231,224,210,.03); border:1px solid var(--line); font-size:.8rem; width:100%; justify-content:flex-start; }
- .cmp-toggle input{ width:18px;height:18px; }
+ /* On phones the toggles used to grow into full-width bordered boxes, which
+    read as the loudest thing on every card. Keep the comfortable tap height,
+    drop the box, and let them sit inline and quiet. */
+ @media (max-width:640px){.card-actions{gap:0 4px;margin:7px -7px -3px}
+ .cmp-toggle,.played-toggle{width:auto;min-height:40px;padding:4px 8px;font-size:.8rem}
+ .cmp-toggle input,.played-toggle input{width:16px;height:16px}
  .card{padding:14px}
  .pick{font-size:.85rem}
  .links{gap:4px 12px}

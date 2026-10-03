@@ -212,3 +212,33 @@ test('picking a suggestion clears filters, sets the search and closes the quiz',
   assert.ok(results.includes(picks[0].name), `expected ${picks[0].name} among ${results.join(', ')}`);
   assert.equal(window.document.getElementById('quiz').classList.contains('show'), false);
 });
+
+// ── "What haven't I played yet?" ─────────────────────────────────────────
+// The dice and the quiz both lean on the per-device played marks, so a
+// returning player gets a fresh recommendation instead of a lord they have
+// already finished.
+
+test('the quiz skips campaigns you have already played', () => {
+  const baseline = quiz(window, REPORTED).map((p) => p.name);
+  const played = baseline[0];
+  inPage(window, `state.played = new Set(${JSON.stringify([played])})`);
+  const skipped = quiz(window, REPORTED).map((p) => p.name);
+  assert.ok(!skipped.includes(played), `${played} should be skipped once marked played`);
+  assert.equal(skipped.length, 5, 'skipping one lord still returns five picks');
+  // Unticking "Skip played" restores the full ranking.
+  const restored = quiz(window, { ...REPORTED, skipPlayed: false }).map((p) => p.name);
+  assert.ok(restored.includes(played), `${played} should return when Skip played is off`);
+});
+
+test('Skip played still answers when every lord is marked', () => {
+  inPage(window, 'state.played = new Set(LORDS.map((l) => l.n))');
+  const picks = quiz(window, REPORTED);
+  assert.equal(picks.length, 5, 'the quiz falls back to the full roster rather than showing nothing');
+});
+
+test('openQuiz surfaces how many played marks are being skipped', () => {
+  inPage(window, "state.played = new Set(['Skarbrand the Exiled', 'Skulltaker'])");
+  inPage(window, 'openQuiz()');
+  assert.equal(window.document.getElementById('quiz-skip-count').textContent, ' (2)');
+  inPage(window, 'closeQuiz()');
+});

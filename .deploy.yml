@@ -63,6 +63,11 @@ render_asserts:
   # Veteran / build & defend / no preference / give me the buttons must not
   # return Drycha, and every pick must reflect the campaign-feel answer.
   - "(()=>{const pick=(n,v)=>{[...document.querySelectorAll('input[name=q-'+n+']')].find(x=>x.value===v).checked=true};pick('exp','vet');pick('pace','build');pick('battle','none');pick('micro','high');document.getElementById('quiz-loc').value='';document.getElementById('quiz-owned').checked=false;document.getElementById('quiz-go').click();const c=[...document.querySelectorAll('#quiz-results .quiz-card')];return c.length===5&&!c.some(x=>x.querySelector('.qc-name').textContent.includes('Drycha'))&&c.every(x=>x.querySelector('.qc-why').textContent.includes('campaign feel:'))})()"
+  # ── "What haven't I played yet?" controls exist and default on ───────────
+  # The dice label must advertise the preference; the quiz must offer Skip
+  # played, checked by default (a no-op until the visitor marks something).
+  - "document.getElementById('random-lord').title.includes('played')"
+  - "document.getElementById('quiz-skip-played').checked === true"
   # ── Filter engine: a race chip narrows the grid; clear-all restores it ──
   - "(()=>{const n=()=>document.querySelectorAll('.card').length;const before=n();document.querySelector('#racechips-bar .chip[data-race=Khorne]').click();const after=n();const onlyKhorne=[...document.querySelectorAll('.card .sub')].every(s=>s.textContent.includes('Khorne'));document.querySelector('#clear-all').click();return before===110&&after<before&&onlyKhorne&&n()===110})()"
   # ── Ownership: an expansion unlocks only its own lords (plus free Bretonnia)

@@ -72,6 +72,22 @@ test('hide-played removes only marked lords', () => {
   assert.equal(shown, false);
 });
 
+test('the dice prefers lords you have not played', () => {
+  // Khorne has three lords. Mark all but one played and narrow to Khorne:
+  // the unplayed lord is then the only possible honest result, however the
+  // dice rolls, while the filter still offers the played ones.
+  const names = inPage(window, "LORDS.filter(l => l.r === 'Khorne').map(l => l.n)");
+  assert.ok(names.length >= 2, 'Khorne should have more than one lord');
+  const fresh = names[names.length - 1];
+  const played = names.slice(0, -1);
+  inPage(window, `state.race = new Set(['Khorne']); state.played = new Set(${JSON.stringify(played)}); _afterFilterChange()`);
+  for (let i = 0; i < 15; i++) {
+    inPage(window, "document.getElementById('random-lord').click()");
+    const opened = inPage(window, '(() => { const i = [...state.open].pop(); return i === undefined ? null : LORDS[i].n; })()');
+    assert.equal(opened, fresh, 'the dice must only land on the unplayed Khorne lord');
+  }
+});
+
 test('context-aware chip counts ignore their own dimension', () => {
   inPage(window, "state.race.add('Khorne')");
   // With Khorne selected, each region chip must count the Khorne lords in

@@ -89,11 +89,14 @@ export function resetState(window) {
     state.psInc.clear(); state.played.clear(); state.open.clear();
     state.cmp = [];
     state.psAll = false; state.diff = ''; state.hidePlayed = false; state.sort = 'race';
+    // The quiz's "Skip played" box and the played marks feed ranking; reset
+    // both so tests cannot leak a preference into the next one.
+    const skip = document.getElementById('quiz-skip-played'); if (skip) skip.checked = true;
   })()`);
 }
 
 // Drive the real "Help me choose" quiz and return the rendered picks.
-export function quiz(window, { exp, pace, battle, micro, flavour = 'none', loc = '', ownedOnly = false }) {
+export function quiz(window, { exp, pace, battle, micro, flavour = 'none', loc = '', ownedOnly = false, skipPlayed = true }) {
   inPage(window, `(() => {
     const set = (n, v) => {
       const group = [...document.querySelectorAll('input[name=q-' + n + ']')];
@@ -109,6 +112,7 @@ export function quiz(window, { exp, pace, battle, micro, flavour = 'none', loc =
     set('flavour', ${JSON.stringify(flavour)});
     const locEl = document.getElementById('quiz-loc'); if (locEl) locEl.value = ${JSON.stringify(loc)};
     const ownEl = document.getElementById('quiz-owned'); if (ownEl) ownEl.checked = ${ownedOnly};
+    const skipEl = document.getElementById('quiz-skip-played'); if (skipEl) skipEl.checked = ${skipPlayed};
     runQuiz();
   })()`);
   return [...window.document.querySelectorAll('#quiz-results .quiz-card')].map((card) => ({

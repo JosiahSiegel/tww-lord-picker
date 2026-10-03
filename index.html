@@ -582,7 +582,7 @@
         <span class="btn-ic">↕</span>
         <span id="sort-label"><span class="sort-lbl-full">Group by race</span><span class="sort-lbl-short" style="display:none">Group</span></span>
       </button>
-      <button class="btn btn-icon" id="random-lord" title="Random filtered lord" aria-label="Random filtered lord">🎲</button>
+      <button class="btn btn-icon" id="random-lord" title="Random filtered lord, preferring ones you haven't played" aria-label="Random filtered lord, preferring ones you haven't played">🎲</button>
       <button class="btn btn-icon" id="clear-all" title="Clear all filters" style="display:none" aria-label="Clear all filters">✕</button>
     </div>
     <div class="row count-row" aria-live="polite">
@@ -809,6 +809,7 @@
     <div class="quiz-actions">
       <button class="btn gold" id="quiz-go" type="button">Show my matches</button>
       <label class="more-toggle" title="Hide lords outside your saved ownership"><input type="checkbox" id="quiz-owned" checked> Only content I own</label>
+      <label class="more-toggle" title="Leave out campaigns you have marked as played, so the picks are something new"><input type="checkbox" id="quiz-skip-played" checked> Skip played<span id="quiz-skip-count"></span></label>
       <span class="quiz-ownhint" id="quiz-ownhint"></span>
     </div>
     <div class="quiz-results" id="quiz-results"></div>
@@ -2761,7 +2762,12 @@ $("#clearcmp").addEventListener("click",()=>{state.cmp=[];renderCmpBar();render(
 $("#random-lord").addEventListener("click",()=>{
   const list=filtered();
   if(!list.length) return;
-  const pick=list[Math.floor(Math.random()*list.length)];
+  // Prefer campaigns the visitor has not marked as played, so the dice keeps
+  // answering "what do I play next?" instead of resurfacing old favourites.
+  // If every match is already played, fall back so the dice still works.
+  const fresh=list.filter(l=>!state.played.has(l.n));
+  const pool=fresh.length?fresh:list;
+  const pick=pool[Math.floor(Math.random()*pool.length)];
   // Scroll to card
   const card=document.querySelector("[data-i=\""+pick.i+"\"]");
   if(card){card.scrollIntoView({behavior:"smooth",block:"center"});}
@@ -2930,6 +2936,10 @@ function openQuiz(){
   if(hint) hint.textContent = state.own.size
     ? (state.ownFilter ? '(from your Own tab)' : '(your Own filter is off)')
     : '(nothing selected in Own, so it is ignored)';
+  // "Skip played" is only meaningful once something is marked; show the count
+  // so the option explains itself without a hover tooltip (mobile has none).
+  const skipCount=document.getElementById('quiz-skip-count');
+  if(skipCount) skipCount.textContent = state.played.size ? ` (${state.played.size})` : '';
   q.classList.add('show');
   document.body.style.overflow='hidden';
 }
@@ -2949,7 +2959,16 @@ function quizRank(a){
     { key:'battle',  w:4, axes:QUIZ_AXES.battle[a.battle]||[] },
     { key:'flavour', w:4, axes:QUIZ_AXES.flavour[a.flavour]||[] }
   ].filter(g=>g.axes.length);
-  return LORDS.map(l=>{
+  // "What haven't I played yet?" - when Skip played is on and the visitor has
+  // marks, rank only unplayed lords so the five picks are fresh. If every lord
+  // is marked, fall back to the full roster so the quiz still answers instead
+  // of showing "no matches".
+  let pool = LORDS;
+  if(a.skipPlayed && state.played.size){
+    const fresh = LORDS.filter(l=>!state.played.has(l.n));
+    if(fresh.length) pool = fresh;
+  }
+  return pool.map(l=>{
     const tags=(l.ps||[]).map(normTag);
     let s=0, matchedAxes=0;
     const hits=[];
@@ -2988,13 +3007,14 @@ function runQuiz(){
     micro:val('micro')||'some',
     flavour:val('flavour')||'none',
     loc:(document.getElementById('quiz-loc')||{}).value||'',
-    ownedOnly:!!(document.getElementById('quiz-owned')||{}).checked
+    ownedOnly:!!(document.getElementById('quiz-owned')||{}).checked,
+    skipPlayed:!!(document.getElementById('quiz-skip-played')||{}).checked
   };
   const scored=quizRank(a);
   const res=document.getElementById('quiz-results');
   if(!res) return;
   if(!scored.length){
-    res.innerHTML=`<div class="quiz-empty">No lords match that combination. Try a broader answer${state.own.size?' or untick &ldquo;Only content I own&rdquo;':''}.</div>`;
+    res.innerHTML=`<div class="quiz-empty">No lords match that combination. Try a broader answer${state.own.size?' or untick &ldquo;Only content I own&rdquo;':''}${(a.skipPlayed&&state.played.size)?' or untick &ldquo;Skip played&rdquo;':''}.</div>`;
     return;
   }
   const reasonFor=x=>{

@@ -1,10 +1,11 @@
-// Ownership implication.
+// Ownership accuracy.
 //
-// The sound rule: you cannot play an expansion without its base game, so
-// owning ANY product must imply owning its base game (Warhammer I/II/III).
-// The owned set is closed under that rule at every entry point, so a DLC
-// owner also sees the base-game lords, and a shared #own= link can carry a
-// lone expansion id and still behave correctly.
+// Model (SEGA Immortal Empires DLC Ownership Guide): ownership is a plain
+// membership test with NO base-game implication - DLC "can be purchased
+// regardless of whether you own the game they were originally released for,
+// and will unlock any associated Lords". A lord is playable if the visitor
+// owns any product that grants it, and some lords are granted by more than
+// one product (marked * in the guide).
 import { test, before, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { startApp, inPage, filteredCount, resetState, quiz, lordByName } from './helpers.mjs';
@@ -13,16 +14,16 @@ let window;
 before(() => { window = startApp().window; });
 beforeEach(() => resetState(window));
 
-// Array.from bridges the jsdom realm's Array to a Node array so strict
-// deepEqual compares values, not realm prototypes.
 const owned = () => Array.from(inPage(window, '[...state.own].sort()'));
+const setOwn = (...keys) => inPage(window, `state.own = new Set(${JSON.stringify(keys)})`);
+const shown = () => Array.from(inPage(window, 'filtered().map(l => l.n)'));
 
-test('every product key resolves to a real base game', () => {
+test('every product key resolves to a known product', () => {
   const bad = inPage(window, `(() => {
     const bases = ['wh1', 'wh2', 'wh3'];
-    return Object.keys(OWN_LABEL).filter((k) => !bases.includes(OWN_BASE(k)));
+    return Object.keys(OWN_LABEL).filter((k) => !bases.includes(k.slice(0, 3)));
   })()`);
-  assert.equal(Array.from(bad).length, 0, `products with no base game: ${Array.from(bad).join(', ')}`);
+  assert.equal(Array.from(bad).length, 0, `products with no game prefix: ${Array.from(bad).join(', ')}`);
 });
 
 test('every lord source resolves without the silent wh3 fallback', () => {
@@ -30,100 +31,145 @@ test('every lord source resolves without the silent wh3 fallback', () => {
   assert.equal(Array.from(unresolved).length, 0, `sources silently defaulted to wh3:\n${Array.from(unresolved).join('\n')}`);
 });
 
-test('owning an expansion implies its base game', () => {
-  for (const [dlc, base] of [['wh3_coc', 'wh3'], ['wh2_tk', 'wh2'], ['wh1_chaos', 'wh1']]) {
-    inPage(window, `state.own.clear(); ownAdd(state.own, '${dlc}')`);
-    assert.deepEqual(owned(), [base, dlc].sort(), `${dlc} should imply ${base}`);
+test('every alternative unlock is a valid, distinct product', () => {
+  const bad = inPage(window, `(() => {
+    const problems = [];
+    LORDS.forEach((l) => {
+      (l.also || []).forEach((k) => {
+        if (!OWN_LABEL[k]) problems.push(l.n + ' -> unknown ' + k);
+        if (k === l.own) problems.push(l.n + ' -> duplicate of primary');
+      });
+    });
+    return problems;
+  })()`);
+  assert.equal(Array.from(bad).length, 0, `bad alternative unlocks:\n${Array.from(bad).join('\n')}`);
+});
+
+test('a DLC does not imply its base game', () => {
+  setOwn('wh3_coc');
+  assert.equal(filteredCount(window), 4, 'Champions of Chaos grants only its four lords');
+  const names = shown();
+  assert.ok(names.includes('Valkia the Bloody'));
+  assert.ok(!names.includes('Skarbrand the Exiled'), 'a WH3 base lord must not appear');
+  assert.ok(!names.includes('Archaon the Everchosen'), 'Archaon needs the WH1 Chaos Warriors pack');
+});
+
+test('a base game does not imply its expansions', () => {
+  setOwn('wh3');
+  assert.ok(!shown().includes('Valkia the Bloody'), 'a WH3 DLC lord must not appear');
+  assert.equal(
+    filteredCount(window),
+    inPage(window, "LORDS.filter(l => l.own === 'wh3').length"),
+  );
+});
+
+// The guide's asterisked lords are granted by more than one product.
+const MULTI = [
+  ['Imrik', ['wh2', 'wh2_qc', 'wh2_wp']],
+  ['Alith Anar', ['wh2', 'wh2_qc', 'wh2_wp']],
+  ['Lokhir Fellheart', ['wh2', 'wh2_qc', 'wh2_sb']],
+  ['Rakarth', ['wh2', 'wh2_qc', 'wh2_sb']],
+  ['Gor-Rok', ['wh2', 'wh2_pw', 'wh2_hb', 'wh2_sf']],
+  ["Tiktaq'to", ['wh2', 'wh2_pw', 'wh2_hb', 'wh2_sf']],
+  ['Tretch Craventail', ['wh2', 'wh2_pw', 'wh2_sb', 'wh2_tw']],
+  ['Wurrzag', ['wh1', 'wh1_kw', 'wh2_wp']],
+  ['Vlad von Carstein', ['wh1', 'wh1_gg']],
+  ['Isabella von Carstein', ['wh1', 'wh1_gg']],
+  ['Grombrindal', ['wh1', 'wh1_kw']],
+  ['Thorek Ironbrow', ['wh1', 'wh1_kw']],
+];
+
+test('starred lords are granted by every product the guide lists', () => {
+  for (const [name, products] of MULTI) {
+    for (const product of products) {
+      setOwn(product);
+      assert.ok(shown().includes(name), `${name} should be granted by ${product}`);
+    }
   }
 });
 
-test('a base game does not imply the other base games', () => {
-  inPage(window, "state.own.clear(); ownAdd(state.own, 'wh1')");
-  assert.deepEqual(owned(), ['wh1']);
+test('a lord-packs-only owner still gets the free lords it ships', () => {
+  // Queen and the Crone ships Alarielle/Hellebron plus the free Alith Anar, Imrik, Lokhir, Rakarth.
+  setOwn('wh2_qc');
+  const names = shown();
+  for (const expected of ['Alarielle the Radiant', 'Crone Hellebron', 'Alith Anar', 'Imrik', 'Lokhir Fellheart', 'Rakarth']) {
+    assert.ok(names.includes(expected), `wh2_qc should grant ${expected}`);
+  }
+  assert.ok(!names.includes('Tyrion'), 'the WH2 base-game lord must not appear');
 });
 
-test('unchecking a base game removes its expansions', () => {
-  inPage(window, "state.own.clear(); ['wh3', 'wh3_coc', 'wh3_eot', 'wh1'].forEach(k => ownAdd(state.own, k))");
-  inPage(window, "ownRemove(state.own, 'wh3')");
-  assert.deepEqual(owned(), ['wh1'], 'only the unrelated base game should remain');
+test('Drycha belongs to Realm of the Wood Elves, not the lord pack', () => {
+  assert.equal(lordByName(window, 'Drycha').own, 'wh1_woodelves');
+  setOwn('wh1_woodelves');
+  assert.ok(shown().includes('Drycha'));
+  setOwn('wh2_tw');
+  assert.ok(!shown().includes('Drycha'), 'Twisted & Twilight grants the Sisters, not Drycha');
+  assert.ok(shown().includes('Sisters of Twilight'));
 });
 
-test('unchecking one expansion keeps the base game', () => {
-  inPage(window, "state.own.clear(); ownAdd(state.own, 'wh2'); ownAdd(state.own, 'wh2_tk'); ownRemove(state.own, 'wh2_tk')");
-  assert.deepEqual(owned(), ['wh2']);
+test('Helman Ghorst belongs to The Grim and the Grave', () => {
+  assert.equal(lordByName(window, 'Helman Ghorst').own, 'wh1_gg');
+  setOwn('wh1');
+  assert.ok(!shown().includes('Helman Ghorst'), 'WH1 base alone does not grant Ghorst');
+  setOwn('wh1_gg');
+  assert.ok(shown().includes('Helman Ghorst'));
 });
 
-test('a DLC owner sees the base-game lords too', () => {
-  inPage(window, "ownAdd(state.own, 'wh3_coc')");
+test('Neferata follows Vampire Counts / Nagash ownership, not WH3 base', () => {
+  setOwn('wh3');
+  assert.ok(!shown().includes('Neferata, the Vampire Queen'), 'WH3 base alone does not grant Neferata');
+  for (const product of ['wh1', 'wh1_gg', 'wh3_eot']) {
+    setOwn(product);
+    assert.ok(shown().includes('Neferata, the Vampire Queen'), `Neferata should be granted by ${product}`);
+  }
+});
+
+test('Archaon needs the WH1 Chaos Warriors pack, not Champions of Chaos', () => {
+  setOwn('wh3_coc');
+  assert.ok(!shown().includes('Archaon the Everchosen'));
+  setOwn('wh1_chaos');
+  assert.ok(shown().includes('Archaon the Everchosen'));
+});
+
+test('the checkbox path records exactly the product ticked', () => {
+  const checkbox = (k) => window.document.querySelector(`input[data-own="${k}"]`);
+  checkbox('wh2_tk').checked = true;
+  checkbox('wh2_tk').dispatchEvent(new window.Event('change', { bubbles: true }));
+  assert.deepEqual(owned(), ['wh2_tk']);
+  assert.equal(checkbox('wh2').checked, false, 'the base game must not be auto-ticked');
   assert.equal(
     filteredCount(window),
-    inPage(window, "LORDS.filter(l => l.own === 'wh3' || l.own === 'wh3_coc').length"),
+    inPage(window, "LORDS.filter(l => ownsLord(l, new Set(['wh2_tk']))).length"),
   );
-  assert.ok(filteredCount(window) > 4, 'more than just the four Champions of Chaos lords');
 });
 
-test('the checkbox path closes the set and ticks the implied base game', () => {
-  const checkbox = (k) => window.document.querySelector(`input[data-own="${k}"]`);
-  checkbox('wh3_coc').checked = true;
-  checkbox('wh3_coc').dispatchEvent(new window.Event('change', { bubbles: true }));
-  assert.deepEqual(owned(), ['wh3', 'wh3_coc']);
-  assert.equal(checkbox('wh3').checked, true, 'the base game checkbox should reflect the implication');
-
-  checkbox('wh3').checked = false;
-  checkbox('wh3').dispatchEvent(new window.Event('change', { bubbles: true }));
-  assert.deepEqual(owned(), [], 'unchecking the base game drops its expansion too');
-});
-
-test('a shared #own link is closed on load and round-trips', () => {
-  const { window: shared } = startApp({ hash: '#own=wh2_tk' });
-  assert.deepEqual([...inPage(shared, 'state.own')].sort(), ['wh2', 'wh2_tk']);
-  assert.equal(
-    inPage(shared, 'filtered().length'),
-    inPage(shared, "LORDS.filter(l => l.own === 'wh2' || l.own === 'wh2_tk').length"),
-  );
-  inPage(shared, 'pushState()');
-  const hash = shared.location.hash;
-  assert.match(hash, /wh2_tk/);
-  assert.match(hash, /wh2(,|$)/, 'pushState should persist the implied base game');
-});
-
-test('a saved library is closed on load', () => {
-  const { window: returning } = startApp({ storage: { 'twwlp.own.v1': ['wh1_beastmen'] } });
-  assert.deepEqual([...inPage(returning, 'state.own')].sort(), ['wh1', 'wh1_beastmen']);
-});
-
-test('a shared link still never overwrites the saved library', () => {
-  const { window: visitor } = startApp({ hash: '#own=wh3_coc', storage: { 'twwlp.own.v1': ['wh1'] } });
-  assert.deepEqual([...inPage(visitor, 'state.own')].sort(), ['wh3', 'wh3_coc']);
-  assert.deepEqual(JSON.parse(visitor.localStorage.getItem('twwlp.own.v1')), ['wh1']);
-});
-
-test('the ownership presets are closed and distinct', () => {
+test('the ownership presets are distinct', () => {
   inPage(window, "document.querySelector('[data-own-all=base]').click()");
   assert.deepEqual(owned(), ['wh1', 'wh2', 'wh3']);
   inPage(window, "document.querySelector('[data-own-all=wh3]').click()");
   assert.deepEqual(owned(), ['wh3']);
   inPage(window, "document.querySelector('[data-own-all=clear]').click()");
-  assert.deepEqual(owned(), []);
   assert.equal(filteredCount(window), 110);
 });
 
-test('the active-filter pill removes one product without cascading', () => {
-  inPage(window, "ownAdd(state.own, 'wh3'); ownAdd(state.own, 'wh3_coc'); renderActiveFilters()");
-  const pill = inPage(window, `(() => {
+test('the active-filter pill removes one product', () => {
+  setOwn('wh3', 'wh3_coc');
+  inPage(window, 'renderActiveFilters()');
+  const clicked = inPage(window, `(() => {
     const x = [...document.querySelectorAll('[data-clear=own][data-own]')].find(p => p.dataset.own === 'wh3_coc');
     return x ? (x.click(), true) : false;
   })()`);
-  assert.equal(pill, true, 'expected an active-filter pill for the expansion');
+  assert.equal(clicked, true);
   assert.deepEqual(owned(), ['wh3']);
 });
 
-test('the quiz honours implied base games when restricted to owned content', () => {
-  inPage(window, "ownAdd(state.own, 'wh3_coc')");
-  const picks = quiz(window, { exp: 'some', pace: 'war', battle: 'none', micro: 'some', ownedOnly: true });
+test('the quiz honours alternative unlocks when restricted to owned content', () => {
+  setOwn('wh2_qc');
+  const picks = quiz(window, { exp: 'some', pace: 'schemes', battle: 'none', micro: 'some', ownedOnly: true });
   assert.ok(picks.length > 0);
   for (const pick of picks) {
     const lord = lordByName(window, pick.name);
-    assert.ok(['wh3', 'wh3_coc'].includes(lord.own), `${lord.n} (${lord.own}) is outside owned content`);
+    const granted = inPage(window, `ownsLord(LORDS.find(l => l.n === ${JSON.stringify(pick.name)}), new Set(['wh2_qc']))`);
+    assert.equal(granted, true, `${lord.n} is outside owned content`);
   }
 });

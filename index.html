@@ -1189,7 +1189,7 @@ LORDS.push(
  pros:["Durable melee spine the race otherwise lacks","Durthu himself is a wrecking crew","Same worldroot strategic mobility"],
  cons:["Slow spirits + fast elves is an awkward blend","Fire damage says hello","Less distinct than Drycha's all-spirit take"],
  pick:"Pick if you want the forest's fists - treemen up front, arrows behind."},
-{n:"Drycha",r:"Wood Elves",f:"Wargrove of Woe",src:"WH2 (Twisted & the Twilight)",d:3,tags:["No elves","Spirits only","Misanthrope"],
+{n:"Drycha",r:"Wood Elves",f:"Wargrove of Woe",src:"WH1: Realm of the Wood Elves",d:3,tags:["No elves","Spirits only","Misanthrope"],
  mech:[["Malicious spirits","no elf units at all - dryads, tree-kin, hags and swarming creatures. Trades the race's famous archery for regenerating spirit mass; a fundamentally different WE list"],["Everyone's enemy","starts in the Empire's forests hating man and elf alike. Hostile-to-all is the hardest diplomacy setting in the game and she's the accepted Wood Elf challenge run"],["Worldroots & forests","shared network and forest-health economy, turned toward vengeance"]],
  pros:["A truly different army within the race","Guilt-free target list: literally everyone","Spirit regen + swarms play differently"],
  cons:["No archers means giving up the race's best tool","Hostile-to-all diplomacy is the hardest setting","Empire heartland start is a hornet's nest"],
@@ -1335,7 +1335,7 @@ LORDS.push(
  pros:["Elite undead infantry earlier than his cousins","Bretonnia makes a great David-and-Goliath matchup","Krell as a bundled bodyguard hero"],
  cons:["Poor mountain economy","Isolated from Sylvanian politics","Chivalry crusades come for you eventually"],
  pick:"Pick if you want the lich-in-the-hills campaign - old bones against bright knights."},
-{n:"Helman Ghorst",r:"Vampire Counts",f:"Caravan of Blue Roses",src:"WH1 base (own faction in IE)",d:2,tags:["Zombies","Poison","Meme-strong"],
+{n:"Helman Ghorst",r:"Vampire Counts",f:"Caravan of Blue Roses",src:"WH1 (Grim & the Grave)",d:2,tags:["Zombies","Poison","Meme-strong"],
  mech:[["Corpse cart caravan","poison attacks and regen piled onto zombies, amplified by corpse carts - the infamous 'Ghorst bus'. It became a legitimate meta meme for a reason: units that cost nothing, poison everything, and never stop coming. Patches trimmed it; the bus still runs"],["Plague of undeath","industrial-scale necromancy - drown every enemy in expendable toxic dead"],["Bloodlines & Raise Dead","the full race systems, cheerfully misused to make the game's worst unit its funniest army. Update 9.0 retunes Raise Dead to Corpses/Blood, makes Bloodlines infinitely empowerable, and adds Vampire Lairs"]],
  pros:["Poisoned zombie hordes are cheap, endless and weirdly lethal","Simple, distinctive army recipe","Eastern start away from the Sylvania crowd"],
  cons:["One-trick roster by design","Zombies still lose to real elites eventually","Thin systems beyond the bus"],
@@ -1462,34 +1462,41 @@ const OWN_SRC={
 };
 // Cross-game FLC: free, but they belong to a WH1 race, so they need the
 // WH1 base game rather than WH2 where the FLC patch shipped.
-const OWN_OVERRIDE={"Thorek Ironbrow":"wh1","Grombrindal":"wh1","Repanse de Lyonesse":"wh1"};
-// ---- Ownership implication -------------------------------------------------
-// Owning a product implies the base game it belongs to: a Warhammer II
-// expansion cannot be played without Warhammer II. Product keys are
-// "wh<game>" or "wh<game>_<pack>", so the base is always the first three
-// characters. state.own is kept closed under this rule at every entry point
-// (checkbox, preset, shared URL, saved library, active-filter pill) so the
-// filter and the quiz never have to re-derive it.
-const OWN_BASE=k=>k.slice(0,3);
-function ownAdd(set,key){
-  if(!OWN_LABEL[key]) return;
-  set.add(key);
-  const base=OWN_BASE(key);
-  if(base!==key && OWN_LABEL[base]) set.add(base);
-}
-function ownRemove(set,key){
-  set.delete(key);
-  // Removing a base game removes everything that depends on it: without
-  // Warhammer III there is no Warhammer III content to play.
-  if(key==="wh1"||key==="wh2"||key==="wh3"){
-    [...set].forEach(k=>{ if(k!==key && OWN_BASE(k)===key) set.delete(k); });
-  }
-}
-function ownClose(set){
-  const out=new Set();
-  set.forEach(k=>ownAdd(out,k));
-  return out;
-}
+const OWN_OVERRIDE={
+  "Thorek Ironbrow":"wh1","Grombrindal":"wh1","Repanse de Lyonesse":"wh1",
+  // Neferata is the Update 9.0 free lord for the Vampire Counts, so she is
+  // gated to Vampire Counts ownership, not the WH3 base game.
+  "Neferata, the Vampire Queen":"wh1"
+};
+// Extra products that also grant a lord. SEGA's Immortal Empires ownership
+// guide marks these with an asterisk ("Legendary Lords that are available
+// from more than one content release"): free DLC belongs to the race it
+// ships with, so owning either the race's base game or a lord pack that
+// includes the race grants the lord.
+const OWN_ALSO={
+  "Grombrindal":["wh1_kw"],
+  "Thorek Ironbrow":["wh1_kw"],
+  "Wurrzag":["wh1_kw","wh2_wp"],
+  "Vlad von Carstein":["wh1_gg"],
+  "Isabella von Carstein":["wh1_gg"],
+  "Lokhir Fellheart":["wh2_qc","wh2_sb"],
+  "Rakarth":["wh2_qc","wh2_sb"],
+  "Alith Anar":["wh2_qc","wh2_wp"],
+  "Imrik":["wh2_qc","wh2_wp"],
+  "Tiktaq'to":["wh2_pw","wh2_hb","wh2_sf"],
+  "Gor-Rok":["wh2_pw","wh2_hb","wh2_sf"],
+  "Tretch Craventail":["wh2_pw","wh2_sb","wh2_tw"],
+  "Neferata, the Vampire Queen":["wh1_gg","wh3_eot"]
+};
+// ---- Ownership model -------------------------------------------------------
+// Ownership is a plain membership test with no base-game implication. SEGA's
+// guide is explicit that DLC "can be purchased regardless of whether you own
+// the game they were originally released for, and will unlock any associated
+// Lords" - so owning an expansion does NOT grant the base game's lords, and
+// vice versa. A lord is playable when the visitor owns any product that
+// grants it (l.own, or any of l.also).
+function ownsLord(l,owned){ return !owned.size || owned.has(l.own) || (l.also||[]).some(k=>owned.has(k)); }
+const ownSet=iter=>new Set([...iter].filter(k=>OWN_LABEL[k]));
 // ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
 const PS={
  Aggro:{t:"War",l:"aggro",ic:"#e05050",g:"Mechanics punish peace - fight or lose power (meters, favour, momentum)."},
@@ -1842,7 +1849,7 @@ LORDS.forEach(l=>{l.eg=EG_BY_NAME[l.n]||[];});
 
 const DCOL={1:"#8fae6a",2:"#c9a24b",3:"#c77b3f",4:"#b03a3a"};
 const DLBL={1:"Easy",2:"Moderate",3:"Hard",4:"Very hard"};
-LORDS.forEach((l,i)=>{l.i=i;l.loc=LORD_LOC[l.n]||"oldworld";l.own=(OWN_OVERRIDE[l.n]||OWN_SRC[l.src]||"wh3");l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+LOCS[l.loc].t+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
+LORDS.forEach((l,i)=>{l.i=i;l.loc=LORD_LOC[l.n]||"oldworld";l.own=(OWN_OVERRIDE[l.n]||OWN_SRC[l.src]||"wh3");l.also=(OWN_ALSO[l.n]||[]).filter(k=>OWN_LABEL[k]&&k!==l.own);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+LOCS[l.loc].t+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
 
 // Map a playstyle display label (e.g. "War") to the PS object key (e.g.
 // "Aggro"). Lives in the first <script> block (not the radar one) so
@@ -1870,6 +1877,7 @@ const STORE={
 // the visitor's saved library.
 let _ownPersist=false;
 const state={q:"",race:new Set(),loc:new Set(),own:new Set(),eg:new Set(),psInc:new Set(),psAll:false,diff:"",sort:"race",open:new Set(),cmp:[],played:new Set(),hidePlayed:false};
+const SORTS=["race","name","deasc","dedesc"];
 
 // pushState lives at module scope so it's callable from anywhere
 // (e.g. the initial renderChips();render();pushState(); bootstrap at the
@@ -1884,6 +1892,7 @@ function pushState(){
   if(state.diff) p.set("diff",state.diff);
   if(state.sort!=="race") p.set("sort",state.sort);
   if(state.psInc.size) p.set("ps",[...state.psInc].join(","));
+  if(state.psAll) p.set("psall","1");
   if(state.cmp.length) p.set("cmp",state.cmp.join(","));
   
   // Persist personal state that isn't necessarily in the URL. "played" is
@@ -1997,16 +2006,23 @@ function cycleRaceAdd(r){
 function loadFromHash(){
   try {
     const params = new URLSearchParams(location.hash.slice(1));
-    if (params.get("q") !== null) state.q = params.get("q") || "";
-    if (params.get("race")) state.race = new Set(params.get("race").split(",").filter(Boolean));
+    // Every value is validated against known data: a hand-edited or stale
+    // link must not be able to poison state with a filter that silently
+    // matches nothing (an unknown race, difficulty "abc", sort "bogus", a
+    // compare index out of range). Search is normalised the same way the
+    // input handler normalises it, so a shared link is case-insensitive.
+    if (params.get("q") !== null) state.q = (params.get("q") || "").trim().toLowerCase();
+    if (params.get("race")) state.race = new Set(params.get("race").split(",").filter(r => RACES[r]));
     if (params.get("eg")) state.eg = new Set(params.get("eg").split(",").filter(n => ENDGAMES.some(g => g.n === n)));
     if (params.get("loc")) state.loc = new Set(params.get("loc").split(",").filter(k => LOCS[k]));
-    if (params.get("own")) state.own = ownClose(new Set(params.get("own").split(",").filter(k => OWN_LABEL[k])));
-    if (params.get("diff")) state.diff = params.get("diff") || "";
-    if (params.get("sort")) state.sort = params.get("sort");
-    if (params.get("cmp")) state.cmp = params.get("cmp").split(",").map(Number).filter(n => !isNaN(n)).slice(0, 3);
-    if (params.get("style")) {
-      // style param ignored - Density is the only radar view
+    if (params.get("own")) state.own = ownSet(params.get("own").split(","));
+    if (params.get("diff")) state.diff = ["1","2","3","4"].includes(params.get("diff")) ? params.get("diff") : "";
+    if (params.get("sort")) state.sort = SORTS.includes(params.get("sort")) ? params.get("sort") : "race";
+    if (params.get("psall")) state.psAll = params.get("psall") === "1";
+    if (params.get("cmp")) {
+      state.cmp = [...new Set(params.get("cmp").split(",").map(Number))]
+        .filter(n => Number.isInteger(n) && n >= 0 && n < LORDS.length)
+        .slice(0, 3);
     }
     const s = params.get("ps");
     if (s) state.psInc = new Set(s.split(",").filter(t => PS[t.charAt(0).toUpperCase() + t.slice(1)]));
@@ -2023,7 +2039,7 @@ loadFromHash();
     const params = new URLSearchParams(location.hash.slice(1));
     if (params.get("own") === null) {
       const saved = STORE.get("twwlp.own.v1", null);
-      if (Array.isArray(saved)) state.own = ownClose(new Set(saved.filter(k => OWN_LABEL[k])));
+      if (Array.isArray(saved)) state.own = ownSet(saved);
     }
     const played = STORE.get("twwlp.played.v1", null);
     if (Array.isArray(played)) state.played = new Set(played.filter(n => LORDS.some(l => l.n === n)));
@@ -2035,8 +2051,10 @@ loadFromHash();
 (function() {
   const fdiffEl = document.getElementById("fdiff");
   const sortEl = document.getElementById("sort");
+  const qEl = document.getElementById("q");
   if (fdiffEl) fdiffEl.value = state.diff || "";
   if (sortEl) sortEl.value = state.sort || "race";
+  if (qEl && qEl.value !== state.q) qEl.value = state.q;
 })();
 const $=s=>document.querySelector(s);
 
@@ -2084,7 +2102,7 @@ function filtered(){
   return LORDS.filter(l=>
     (state.race.size===0||state.race.has(l.r))&&
     (state.loc.size===0||state.loc.has(l.loc))&&
-    (state.own.size===0||state.own.has(l.own))&&
+    ownsLord(l,state.own)&&
     (!state.hidePlayed||!state.played.has(l.n))&&
     (state.eg.size===0||[...state.eg].some(n=>l.eg.includes(n)))&&
     psOk(l)&&
@@ -2098,7 +2116,7 @@ function filtered(){
 function _lordMatches(l, except){
   if(except!=="race" && state.race.size && !state.race.has(l.r)) return false;
   if(except!=="loc" && state.loc.size && !state.loc.has(l.loc)) return false;
-  if(except!=="own" && state.own.size && !state.own.has(l.own)) return false;
+  if(except!=="own" && !ownsLord(l,state.own)) return false;
   if(except!=="eg" && state.eg.size && ![...state.eg].some(n=>l.eg.includes(n))) return false;
   if(except!=="ps" && !psOk(l)) return false;
   if(state.diff && l.d!==+state.diff) return false;
@@ -2301,7 +2319,10 @@ function renderOwnership(){
   const box = document.getElementById("own-body");
   if (!box) return;
   const counts = {};
-  LORDS.forEach(l => { counts[l.own] = (counts[l.own] || 0) + 1; });
+  LORDS.forEach(l => {
+    counts[l.own] = (counts[l.own] || 0) + 1;
+    (l.also || []).forEach(k => { counts[k] = (counts[k] || 0) + 1; });
+  });
   const item = (key) => {
     if (!OWN_LABEL[key]) return "";
     const on = state.own.has(key) ? " checked" : "";
@@ -2312,7 +2333,7 @@ function renderOwnership(){
   const wh1Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh1_"));
   const wh2Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh2_"));
   box.innerHTML =
-    `<div class="own-hint">Tick what you own to hide lords you can't play. Ticking an expansion also includes its <b>base game</b>. <b>Free lords (FLC)</b> need only their base game. Nothing ticked shows everything.</div>`
+    `<div class="own-hint">Tick what you own to hide lords you can't play. An expansion unlocks <b>only its own lords</b> - free (FLC) lords come with the race they belong to. Nothing ticked shows everything.</div>`
     + group("Base games", ["wh3", "wh1", "wh2"])
     + group("Warhammer III DLC", wh3Keys)
     + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
@@ -2411,7 +2432,7 @@ function openOverlay(){
       ['Start',       i => (LOCS[LORDS[i].loc]?.t) || '—'],
       ['Race',        i => LORDS[i].r],
       ['Faction',     i => LORDS[i].f],
-      ['Unlocked by', i => OWN_LABEL[LORDS[i].own] || '—'],
+      ['Unlocked by', i => [LORDS[i].own, ...(LORDS[i].also || [])].map(k => OWN_LABEL[k] || k).join(' or ')],
       ['Playstyles',  i => (LORDS[i].ps || []).map(p => PS[normTag(p)]?.t || p).join(', ') || '—'],
     ];
     ovFacts.innerHTML = `<h3>At a glance</h3><table class="ov-table"><thead><tr><th></th>`
@@ -2502,7 +2523,7 @@ document.addEventListener("click",e=>{
   const locc=e.target.closest(".chip[data-loc]");
   if(locc){ const k=locc.dataset.loc; state.loc.has(k)?state.loc.delete(k):state.loc.add(k); _afterFilterChange(); return; }
   const ownAll=e.target.closest("[data-own-all]");
-  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>ownAdd(state.own,k));} else if(mode==="wh3"){ownAdd(state.own,"wh3");} _afterFilterChange(); return; }
+  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} _afterFilterChange(); return; }
   const egc=e.target.closest("[data-egc]");
   if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");
@@ -2522,7 +2543,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("change",e=>{
   const ownCb=e.target.closest("input[data-own]");
-  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked) ownAdd(state.own,k); else ownRemove(state.own,k); _afterFilterChange(); return; }
+  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked) state.own.add(k); else state.own.delete(k); _afterFilterChange(); return; }
   const playCb=e.target.closest("input[data-played]");
   if(playCb){ const n=playCb.dataset.played; if(playCb.checked) state.played.add(n); else state.played.delete(n); _afterFilterChange(); return; }
   if(!e.target.matches("[data-cmp]"))return;
@@ -2578,7 +2599,7 @@ document.addEventListener("mouseout", e => {
 });
 
 document.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&e.target.matches("#q")){state.q=e.target.value;render();pushState();}
+  if(e.key==="Enter"&&e.target.matches("#q")){state.q=e.target.value.trim().toLowerCase();render();pushState();}
   if(e.key==="Escape"){closeOverlay();}
   if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("card"))e.target.click();
 });
@@ -2743,6 +2764,10 @@ function renderActiveFilters() {
     const ic = PS[tag]?.ic || '#888';
     pills.push(`<span class="pill inc" style="--rc:${ic}"><span class="pill-ic">+</span>${esc(PS[tag]?.t || tag)}<button class="x" data-clear="psinc" data-ps="${esc(pk)}" aria-label="Remove include">&times;</button></span>`);
   });
+  // Playstyle match mode (only meaningful with a playstyle selected)
+  if (state.psAll && state.psInc.size) {
+    pills.push(`<span class="pill inc"><span class="pill-ic">≡</span>Require all playstyles<button class="x" data-clear="psall" aria-label="Match any playstyle">&times;</button></span>`);
+  }
   // End Game scenario
   state.eg.forEach(n => {
     const g = ENDGAMES.find(x => x.n === n);
@@ -2784,10 +2809,11 @@ document.addEventListener('click', e => {
       else state.race.clear();
     }
     else if (what === 'psinc'){ state.psInc.delete(ps); }
+    else if (what === 'psall'){ state.psAll = false; }
     else if (what === 'diff'){ state.diff = ''; }
     else if (what === 'eg')  { if (x.dataset.eg) state.eg.delete(x.dataset.eg); else state.eg.clear(); }
     else if (what === 'loc') { if (x.dataset.loc) state.loc.delete(x.dataset.loc); else state.loc.clear(); }
-    else if (what === 'own') { if (x.dataset.own) ownRemove(state.own, x.dataset.own); else state.own.clear(); }
+    else if (what === 'own') { if (x.dataset.own) state.own.delete(x.dataset.own); else state.own.clear(); }
     else if (what === 'hideplayed') { state.hidePlayed = false; }
     else if (what === 'sort'){ state.sort = 'race'; document.getElementById('sort').value = 'race'; }
     pushState(); renderChips(); render(); drawRadars();
@@ -2869,7 +2895,7 @@ function runQuiz(){
     }
     if(a.exp==='vet' && l.d>=3) s+=1;
     if(a.loc){ if(l.loc===a.loc) s+=4; else s-=1; }
-    if(a.ownedOnly && state.own.size && !state.own.has(l.own)) s=-999;
+    if(a.ownedOnly && !ownsLord(l,state.own)) s=-999;
     return { l, s, hits, matchedAxes };
   }).filter(x=>x.s>-900)
     .sort((x,y)=>y.s-x.s || y.matchedAxes-x.matchedAxes
@@ -2908,11 +2934,18 @@ function quizView(i){
   const l=LORDS[i]; if(!l) return;
   state.race.clear(); state.loc.clear(); state.eg.clear();
   state.psInc.clear(); state.psAll=false; state.diff=''; state.hidePlayed=false;
+  // Clear the ownership filter too so the chosen lord is guaranteed to be
+  // visible even when the visitor unticked "Only content I own". Suppress
+  // persistence for this one push so clearing the filter never overwrites
+  // the saved library.
+  const keepPersist=_ownPersist; _ownPersist=false;
+  state.own.clear();
   state.q=l.n.split(',')[0].toLowerCase();
   const qel=document.getElementById('q'); if(qel) qel.value=state.q;
   state.open.add(i);
   closeQuiz();
   _afterFilterChange();
+  _ownPersist=keepPersist;
   requestAnimationFrame(()=>{ const c=document.querySelector('.card[data-i="'+i+'"]'); if(c) c.scrollIntoView({block:'center',behavior:'smooth'}); });
 }
 (function wireQuiz(){

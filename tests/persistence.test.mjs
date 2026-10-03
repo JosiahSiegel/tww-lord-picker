@@ -94,6 +94,45 @@ test('the hide-played toggle is remembered without editing ownership', () => {
   assert.equal(inPage(returning, 'state.hidePlayed'), true);
 });
 
+test('marking played updates the card in place instead of rebuilding the grid', () => {
+  // Re-rendering the whole grid on every tick replayed the card entrance
+  // animation across all 110 cards - the "flash" the user reported. Tag the
+  // node, toggle the real checkbox, and prove it survived (no render).
+  inPage(window, 'state.hidePlayed = false; _afterFilterChange()');
+  inPage(window, `(() => {
+    document.querySelector('.card')._probe = 'kept';
+    document.querySelector('.card .played-toggle input').click();
+  })()`);
+  assert.equal(inPage(window, "document.querySelector('.card')._probe === 'kept'"), true, 'the card node was not replaced');
+  assert.equal(inPage(window, "document.querySelector('.card').classList.contains('played')"), true);
+  assert.equal(inPage(window, "document.querySelector('.card .played-label').textContent.trim()"), '✓ Played');
+  assert.equal(inPage(window, "document.getElementById('playedcount').textContent"), '1 marked');
+  assert.equal(JSON.parse(window.localStorage.getItem('twwlp.played.v1')).length, 1);
+  assert.equal(inPage(window, "document.querySelectorAll('.card-entering').length"), 0, 'no entrance animation on an update');
+});
+
+test('marking played while Hide played is on removes just that lord', () => {
+  inPage(window, 'state.hidePlayed = true; _afterFilterChange()');
+  const name = inPage(window, "document.querySelector('.card .played-toggle input').dataset.played");
+  inPage(window, "document.querySelector('.card .played-toggle input').click()");
+  assert.equal(inPage(window, `filtered().some(l => l.n === ${JSON.stringify(name)})`), false);
+  assert.equal(
+    inPage(window, `[...document.querySelectorAll('.card .played-toggle input')].some(i => i.dataset.played === ${JSON.stringify(name)})`),
+    false,
+    'the hidden lord leaves the DOM',
+  );
+  assert.equal(inPage(window, "document.querySelectorAll('.card-entering').length"), 0);
+  assert.equal(inPage(window, "document.getElementById('playedcount').textContent"), '1 marked');
+});
+
+test('cards animate in only on the first render', () => {
+  const { window: fresh } = startApp();
+  assert.equal(inPage(fresh, "document.querySelectorAll('.card-entering').length"), 110);
+  inPage(fresh, "state.race.add('Khorne'); _afterFilterChange()");
+  assert.equal(inPage(fresh, "document.querySelectorAll('.card-entering').length"), 0, 're-renders do not replay the entrance animation');
+  assert.ok(inPage(fresh, "document.querySelectorAll('.card').length") > 0);
+});
+
 test("a shared link does not overwrite the visitor's saved library", () => {
   const { window: visitor } = startApp({
     hash: '#own=wh3',

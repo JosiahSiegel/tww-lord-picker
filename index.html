@@ -1964,6 +1964,28 @@ function _afterFilterChange(){
   // call on every render - the function no-ops if the values match.
   if (typeof syncMoreSelects === 'function') syncMoreSelects();
 }
+// Toggling one "Mark played" box changes no other lord's match against the
+// filters, so rebuilding the whole grid (and redrawing 110 mini-radars) is
+// wasted work - and re-running it is exactly what made the cards "flash".
+// Update just that one card instead. Only when "Hide played" is on does the
+// visible set actually change, which genuinely needs a render().
+function setPlayed(cb){
+  const n=cb.dataset.played;
+  if(cb.checked) state.played.add(n); else state.played.delete(n);
+  pushState();
+  const pc=document.getElementById("playedcount");
+  if(pc) pc.textContent = state.played.size ? `${state.played.size} marked` : "";
+  if(state.hidePlayed){ renderChips(); render(); return; }
+  const card=cb.closest(".card");
+  if(!card) return;
+  const on=state.played.has(n);
+  cb.checked=on;
+  card.classList.toggle("played",on);
+  const label=cb.closest(".played-toggle");
+  if(label) label.classList.toggle("on",on);
+  const txt=label&&label.querySelector(".played-label");
+  if(txt) txt.textContent = on ? "✓ Played" : "Mark played";
+}
 // Single source of truth for "reset every filter to default". Both the
 // top-bar Clear button and the active-filters "clear all" pill route
 // through this. Keeps the DRY promise: there's exactly one place that
@@ -2113,12 +2135,17 @@ function lordLinks(l){
   </div>`;
 }
 
+// Cards animate in only on the very first render. Replaying that animation
+// across all 110 cards on every re-render (a filter change, "Hide played")
+// reads as a full-page flash, so the class is dropped after boot.
+let _animateCards=true;
 function cardHTML(l){
   const rc=RACES[l.r].c;
   const open=state.open.has(l.i)?" open":"";
   const ck=state.cmp.includes(l.i)?" checked":"";
   const played=state.played.has(l.n)?" played":"";
-  return `<article class="card${open}${played} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
+  const entering=_animateCards?" card-entering":"";
+  return `<article class="card${open}${played}${entering}" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
     <div class="card-radar" data-i="${l.i}"></div>
     <h2 class="card-name">${esc(l.n)} ${pips(l.d)}</h2>
     <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)} · <span class="loc">${LOC_ICON} ${esc(LOCS[l.loc].t)}</span></div>
@@ -2136,7 +2163,7 @@ function cardHTML(l){
     </div>
     <div class="card-actions">
       <label class="cmp-toggle"><input type="checkbox" data-cmp="${l.i}"${ck}> Compare (pick 2-3)</label>
-      <label class="played-toggle${state.played.has(l.n)?" on":""}" title="Mark this campaign as played (saved on this device)"><input type="checkbox" data-played="${esc(l.n)}"${state.played.has(l.n)?" checked":""}> ${state.played.has(l.n)?"✓ Played":"Mark played"}</label>
+      <label class="played-toggle${state.played.has(l.n)?" on":""}" title="Mark this campaign as played (saved on this device)"><input type="checkbox" data-played="${esc(l.n)}"${state.played.has(l.n)?" checked":""}> <span class="played-label">${state.played.has(l.n)?"✓ Played":"Mark played"}</span></label>
     </div>
   </article>`;
 }
@@ -2220,6 +2247,7 @@ function render(){
     // back up to the bar to recover.
     const ec = document.getElementById('empty-clear');
     if (ec) ec.addEventListener('click', () => clearAllFilters());
+    _animateCards=false;
     return;
   }
   // Mini radars on cards are filled by drawRadars() in the second script -
@@ -2257,6 +2285,8 @@ function render(){
   // original bug: it was called BEFORE the sort/render block, so after
   // a filter the cards rebuilt but their mini radars never re-appeared).
   if(typeof drawRadars==='function') drawRadars();
+  // Past this point the markup is an update, not the first paint.
+  _animateCards=false;
 }
 
 function renderChips(){
@@ -2611,7 +2641,7 @@ document.addEventListener("change",e=>{
   const ownCb=e.target.closest("input[data-own]");
   if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked){ state.own.add(k); state.ownFilter = true; } else state.own.delete(k); _afterFilterChange(); return; }
   const playCb=e.target.closest("input[data-played]");
-  if(playCb){ const n=playCb.dataset.played; if(playCb.checked) state.played.add(n); else state.played.delete(n); _afterFilterChange(); return; }
+  if(playCb){ setPlayed(playCb); return; }
   if(!e.target.matches("[data-cmp]"))return;
   const i=+e.target.dataset.cmp;
   if(e.target.checked){

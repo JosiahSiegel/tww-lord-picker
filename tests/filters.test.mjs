@@ -88,7 +88,7 @@ test('context-aware chip counts ignore their own dimension', () => {
   assert.equal(counts.northwastes + counts.lustria + counts.badlands, 3, 'Khorne starts in exactly three regions');
 });
 
-test('clear-all resets filters but preserves ownership', () => {
+test('clear-all resets every filter, including ownership', () => {
   inPage(window, "state.own.add('wh3'); state.race.add('Khorne'); state.diff = '4'; state.q = 'khorne'; state.hidePlayed = true");
   inPage(window, 'clearAllFilters()');
   assert.equal(inPage(window, 'state.race.size'), 0);
@@ -96,7 +96,19 @@ test('clear-all resets filters but preserves ownership', () => {
   assert.equal(inPage(window, "state.q"), '');
   assert.equal(inPage(window, 'state.psInc.size'), 0);
   assert.equal(inPage(window, 'state.hidePlayed'), false);
-  // Ownership is a saved preference, not a transient filter.
-  assert.equal(inPage(window, 'state.own.size'), 1);
-  assert.equal(filteredCount(window), reachable("l => ownsLord(l, new Set(['wh3']))"));
+  // Ownership is a filter too, so the whole roster shows again.
+  assert.equal(inPage(window, 'state.own.size'), 0);
+  assert.equal(filteredCount(window), 110);
+});
+
+test('both clear-all controls reset ownership', () => {
+  const seed = () => inPage(window, "state.own = new Set(['wh3']); _afterFilterChange()");
+  seed();
+  inPage(window, "document.getElementById('clear-all').click()");
+  assert.equal(inPage(window, 'state.own.size'), 0, 'the top-bar Clear all should clear ownership');
+
+  seed();
+  inPage(window, "state.race.add('Khorne'); _afterFilterChange(); document.querySelector('#active-filters .clear-all').click()");
+  assert.equal(inPage(window, 'state.own.size'), 0, 'the active-filter bar Clear all should clear ownership');
+  assert.equal(filteredCount(window), 110);
 });

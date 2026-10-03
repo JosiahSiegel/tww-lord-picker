@@ -114,8 +114,21 @@ test('only-content-I-own restricts picks to the saved library', () => {
   for (const pick of picks) {
     const granted = inPage(window, `ownsLord(LORDS.find(l => l.n === ${JSON.stringify(pick.name)}), new Set(['wh3']))`);
     assert.equal(granted, true, `${pick.name} is outside the owned library`);
-    assert.match(pick.why, /you own it/);
+    // Owned lords say "you own it"; the universally free Bretonnia lords say so.
+    assert.match(pick.why, lordByName(window, pick.name).free ? /free for everyone/ : /you own it/);
   }
+});
+
+test('owned-only labels owned and free picks correctly', () => {
+  inPage(window, "state.own = new Set(['wh2_tk'])");
+  const picks = quiz(window, { exp: 'some', pace: 'war', battle: 'none', micro: 'some', ownedOnly: true });
+  assert.ok(picks.length >= 2);
+  for (const pick of picks) {
+    const free = lordByName(window, pick.name).free;
+    assert.match(pick.why, free ? /free for everyone/ : /you own it/, `${pick.name}: ${pick.why}`);
+  }
+  assert.ok(picks.some((p) => /free for everyone/.test(p.why)), 'expected a free Bretonnia lord among the picks');
+  assert.ok(picks.some((p) => /you own it/.test(p.why)), 'expected an owned lord among the picks');
 });
 
 test('owned-only never hides the universally free Bretonnia lords', () => {

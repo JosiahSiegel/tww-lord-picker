@@ -1960,11 +1960,11 @@ function _afterFilterChange(){
 // knows what "no filters" means, and exactly one place that has to be
 // updated when a new filter dimension is added.
 //
-// Scope: filters only (q, race, loc, eg, psInc, psAll, diff, hidePlayed).
-// We do NOT clear sort, open, or cmp - those are user-preferences /
-// view state, not filters. Clearing them on a "clear all filters" is
-// surprising. The active-filters bar may have a separate "reset view"
-// affordance if we ever need one.
+// Scope: every filter (q, race, loc, own, eg, psInc, psAll, diff,
+// hidePlayed). We do NOT clear sort, open, or cmp - those are
+// user-preferences / view state, not filters. Clearing them on a "clear all
+// filters" is surprising. The active-filters bar may have a separate
+// "reset view" affordance if we ever need one.
 function clearAllFilters(){
   state.q = '';
   state.race.clear();
@@ -1973,9 +1973,9 @@ function clearAllFilters(){
   state.psInc.clear();
   state.psAll = false;
   state.diff = '';
-  // Ownership is deliberately NOT cleared: it's a saved preference ("what I
-  // own"), not a transient filter. Use the Own panel's "Clear (show all)"
-  // to reset it. "Hide played" is a filter and does get reset.
+  // Ownership is a filter too: clearing it shows the whole roster. The Own
+  // panel's checkboxes re-render from state.own, so they untick with it.
+  state.own.clear();
   state.hidePlayed = false;
   // Sync the DOM inputs the popovers still hold a hidden copy of.
   const q = document.getElementById('q'); if (q) q.value = '';
@@ -2970,7 +2970,7 @@ function runQuiz(){
     if(a.exp==='new' && x.l.d<=2) out.push('easy first campaign');
     if(a.loc && x.l.loc===a.loc) out.push('starts in <b>'+esc(LOCS[x.l.loc].t)+'</b>');
     if(a.exp==='vet' && x.l.d>=3) out.push('<b>challenging</b> campaign');
-    if(a.ownedOnly && state.own.size) out.push('you own it');
+    if(a.ownedOnly && state.own.size) out.push(x.l.free ? 'free for everyone' : 'you own it');
     return out.length ? out.join(' &middot; ') : 'A good all-round fit for your answers';
   };
   res.innerHTML='<div class="quiz-res"><h3>Your top picks</h3>'+scored.map(x=>{

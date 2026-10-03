@@ -2791,7 +2791,7 @@ _ownPersist = true;
 const QUIZ_AXES = {
   pace:   { war:['Aggro'], build:['Builder','Defense'], schemes:['Politics','Schemes'], horde:['Horde'] },
   battle: { melee:['Monsters','Duelist'], magic:['Magic'], none:[] },
-  micro:  { low:['Defense','Builder'], some:[], high:['Schemes','Strike'] }
+  micro:  { low:['Defense'], some:[], high:['Schemes','Magic'] }
 };
 function openQuiz(){
   const q=document.getElementById('quiz'); if(!q) return;
@@ -2815,22 +2815,39 @@ function runQuiz(){
     loc:(document.getElementById('quiz-loc')||{}).value||'',
     ownedOnly:!!(document.getElementById('quiz-owned')||{}).checked
   };
-  const wantAxes=[...new Set([...(QUIZ_AXES.pace[a.pace]||[]),...(QUIZ_AXES.battle[a.battle]||[]),...(QUIZ_AXES.micro[a.micro]||[])])];
+  // Answers are grouped by importance: the campaign pace the visitor asked
+  // for matters most, the army lead next, micromanagement last. Matching an
+  // axis in a group earns that group's weight per axis; missing a whole
+  // group costs half its weight. So a lord that ignores the requested
+  // campaign feel cannot rise to the top on a peripheral axis, and lords
+  // matching several requested traits outrank single-trait matches.
+  const groups=[
+    { key:'pace',   w:5, axes:QUIZ_AXES.pace[a.pace]||[] },
+    { key:'battle', w:3, axes:QUIZ_AXES.battle[a.battle]||[] },
+    { key:'micro',  w:2, axes:QUIZ_AXES.micro[a.micro]||[] }
+  ].filter(g=>g.axes.length);
   const scored=LORDS.map(l=>{
     const tags=(l.ps||[]).map(normTag);
-    const matched=wantAxes.filter(ax=>tags.includes(ax));
-    let s=matched.length*3;
+    let s=0, matchedAxes=0;
+    const hits=[];
+    groups.forEach(g=>{
+      const h=g.axes.filter(ax=>tags.includes(ax));
+      if(h.length){ s+=g.w*h.length; matchedAxes+=h.length; hits.push({ key:g.key, h }); }
+      else s-=g.w*0.5;
+    });
     if(a.exp==='new'){
       if(l.d<=2) s+=2; else if(l.d===3) s-=1; else s-=2;
       if((l.tags||[]).some(t=>/beginner/i.test(t))) s+=2;
       if((l.tags||[]).some(t=>/hard start/i.test(t))) s-=3;
     }
     if(a.exp==='vet' && l.d>=3) s+=1;
-    if(a.loc){ if(l.loc===a.loc) s+=4; else s-=2; }
+    if(a.loc){ if(l.loc===a.loc) s+=4; else s-=1; }
     if(a.ownedOnly && state.own.size && !state.own.has(l.own)) s=-999;
-    return { l, s, matched };
+    return { l, s, hits, matchedAxes };
   }).filter(x=>x.s>-900)
-    .sort((x,y)=>y.s-x.s || x.l.d-y.l.d || x.l.n.localeCompare(y.l.n))
+    .sort((x,y)=>y.s-x.s || y.matchedAxes-x.matchedAxes
+      || (a.exp==='new' ? x.l.d-y.l.d : a.exp==='vet' ? y.l.d-x.l.d : Math.abs(x.l.d-2)-Math.abs(y.l.d-2))
+      || x.l.n.localeCompare(y.l.n))
     .slice(0,3);
   const res=document.getElementById('quiz-results');
   if(!res) return;
@@ -2840,11 +2857,14 @@ function runQuiz(){
   }
   const reasonFor=x=>{
     const out=[];
-    if(a.exp==='new' && x.l.d<=2) out.push('<b>Easy first campaign</b>');
-    if(x.matched.length) out.push('plays like <b>'+x.matched.map(ax=>PS[ax].t).join(' + ')+'</b>');
+    x.hits.forEach(g=>{
+      const label = g.key==='pace' ? 'campaign feel' : g.key==='battle' ? 'army' : 'micro';
+      out.push(label+': <b>'+g.h.map(ax=>PS[ax].t).join(' + ')+'</b>');
+    });
+    if(a.exp==='new' && x.l.d<=2) out.push('easy first campaign');
     if(a.loc && x.l.loc===a.loc) out.push('starts in <b>'+esc(LOCS[x.l.loc].t)+'</b>');
-    if(a.exp==='vet' && x.l.d>=3) out.push('<b>Challenging</b> campaign');
-    if(a.ownedOnly && state.own.size) out.push('<b>You own it</b>');
+    if(a.exp==='vet' && x.l.d>=3) out.push('<b>challenging</b> campaign');
+    if(a.ownedOnly && state.own.size) out.push('you own it');
     return out.length ? out.join(' &middot; ') : 'A good all-round fit for your answers';
   };
   res.innerHTML='<div class="quiz-res"><h3>Your top picks</h3>'+scored.map(x=>{

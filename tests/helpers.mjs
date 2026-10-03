@@ -85,7 +85,7 @@ export function lordByName(window, name) {
 export function resetState(window) {
   inPage(window, `(() => {
     state.q = '';
-    state.race.clear(); state.loc.clear(); state.own.clear(); state.ownFilter = true; state.eg.clear();
+    state.race.clear(); state.loc.clear(); state.own.clear(); state.ownFilter = true; state.ownOpen = {}; state.eg.clear();
     state.psInc.clear(); state.played.clear(); state.open.clear();
     state.cmp = [];
     state.psAll = false; state.diff = ''; state.hidePlayed = false; state.sort = 'race';

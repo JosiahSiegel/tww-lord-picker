@@ -140,8 +140,19 @@ test('the ownership switch filters without discarding the library', () => {
 test('games are listed newest-first (III, II, I)', () => {
   const baseOrder = inPage(window, `[...document.querySelectorAll('.own-baserow input[data-own]')].map(i => i.dataset.own)`);
   assert.deepEqual(Array.from(baseOrder), ['wh3', 'wh2', 'wh1']);
-  const dlcOrder = inPage(window, `[...document.querySelectorAll('#own-body details.own-old > summary')].map(s => s.textContent.trim())`);
-  assert.deepEqual(Array.from(dlcOrder), ['Warhammer II expansions', 'Warhammer I expansions']);
+  const dlcOrder = inPage(window, `[...document.querySelectorAll('#own-body details.own-old')].map(d => d.querySelector('summary').textContent.trim())`);
+  assert.deepEqual(Array.from(dlcOrder), ['Warhammer III DLC', 'Warhammer II DLC', 'Warhammer I DLC']);
+});
+
+test('every game DLC group is collapsible and auto-opens when owned', () => {
+  const groups = Array.from(inPage(window, `[...document.querySelectorAll('#own-body details.own-old')].map(d => ({ id: d.dataset.ownGroup, open: d.open }))`));
+  assert.deepEqual(groups.map((g) => g.id), ['wh3', 'wh2', 'wh1']);
+  assert.ok(groups.every((g) => g.open === false), 'collapsed by default when nothing is owned');
+  inPage(window, "state.own = new Set(['wh1_gg']); _afterFilterChange()");
+  assert.equal(inPage(window, "document.querySelector('#own-body details[data-own-group=wh1]').open"), true, 'owning something opens that group');
+  // A manual toggle is remembered across re-renders.
+  inPage(window, "state.ownOpen.wh1 = false; _afterFilterChange()");
+  assert.equal(inPage(window, "document.querySelector('#own-body details[data-own-group=wh1]').open"), false);
 });
 
 test('the per-game "all DLC" toggle owns a whole game and toggles off', () => {

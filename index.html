@@ -1917,7 +1917,7 @@ const STORE={
 // Until then, opening a shared link carrying #own=... must not overwrite
 // the visitor's saved library.
 let _ownPersist=false;
-const state={q:"",race:new Set(),loc:new Set(),own:new Set(),ownFilter:true,eg:new Set(),psInc:new Set(),psAll:false,diff:"",sort:"race",open:new Set(),cmp:[],played:new Set(),hidePlayed:false};
+const state={q:"",race:new Set(),loc:new Set(),own:new Set(),ownFilter:true,ownOpen:{},eg:new Set(),psInc:new Set(),psAll:false,diff:"",sort:"race",open:new Set(),cmp:[],played:new Set(),hidePlayed:false};
 const SORTS=["race","name","deasc","dedesc"];
 
 // pushState lives at module scope so it's callable from anywhere
@@ -2372,6 +2372,12 @@ function renderOwnership(){
     return `<label class="own-item"><input type="checkbox" data-own="${key}"${on}>${esc(OWN_LABEL[key])}<span class="own-count">${counts[key] || 0}</span></label>`;
   };
   const group = (title, keys) => `<div class="own-group"><div class="own-group-title">${title}</div><div class="own-items">${keys.map(item).join("")}</div></div>`;
+  // Every game's DLC is the same collapsible group, collapsed unless the
+  // visitor owns something inside (or has toggled it themselves).
+  const dlcGroup = (id, title, keys) => {
+    const open = (id in state.ownOpen) ? state.ownOpen[id] : keys.some(k => state.own.has(k));
+    return `<details class="own-old" data-own-group="${id}"${open ? " open" : ""}><summary>${title}</summary><div class="own-items">${keys.map(item).join("")}</div></details>`;
+  };
   // One-click "own this game and all of its DLC" per base game.
   const GAMES = [["wh3", "Warhammer III"], ["wh2", "Warhammer II"], ["wh1", "Warhammer I"]];
   const gameRow = ([base, label]) => {
@@ -2392,14 +2398,10 @@ function renderOwnership(){
     `<label class="own-master"><input type="checkbox" id="own-filter"${state.ownFilter ? " checked" : ""}> <span>Only show lords I own</span></label>`
     + `<div class="own-hint">${hint}</div>`
     + baseGroup
-    + group("Warhammer III DLC", wh3Keys)
-    + `<details class="own-old"><summary>Warhammer II expansions</summary><div class="own-items">${wh2Keys.map(item).join("")}</div></details>`
-    + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
+    + dlcGroup("wh3", "Warhammer III DLC", wh3Keys)
+    + dlcGroup("wh2", "Warhammer II DLC", wh2Keys)
+    + dlcGroup("wh1", "Warhammer I DLC", wh1Keys)
     + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="all">Everything</button><button type="button" data-own-all="clear">Clear library</button></div>`;
-  // Open the older-expansion groups if the user owns anything inside them.
-  box.querySelectorAll("details.own-old").forEach(d => {
-    if (d.querySelector("input[data-own]:checked")) d.open = true;
-  });
 }
 
 function updateTopBar(){
@@ -2583,6 +2585,8 @@ document.addEventListener("click",e=>{
   if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); state.ownFilter = mode!=="clear"; if(mode==="base"){["wh3","wh2","wh1"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} else if(mode==="all"){Object.keys(OWN_LABEL).forEach(k=>state.own.add(k));} _afterFilterChange(); return; }
   const ownGame=e.target.closest("[data-own-game]");
   if(ownGame){ e.preventDefault(); const base=ownGame.dataset.ownGame; const keys=Object.keys(OWN_LABEL).filter(k=>k===base||k.startsWith(base+"_")); if(keys.every(k=>state.own.has(k))){ keys.forEach(k=>state.own.delete(k)); } else { keys.forEach(k=>state.own.add(k)); state.ownFilter=true; } _afterFilterChange(); return; }
+  const ownSumm=e.target.closest("details.own-old > summary");
+  if(ownSumm){ const d=ownSumm.closest("details"); state.ownOpen[d.dataset.ownGroup]=!d.open; return; }
   const egc=e.target.closest("[data-egc]");
   if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");

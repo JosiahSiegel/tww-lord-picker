@@ -2865,9 +2865,14 @@ _ownPersist = true;
 // saved ownership. Returns the three best matches with a reason each.
 const QUIZ_AXES = {
   pace:   { war:['Aggro'], build:['Builder','Defense'], schemes:['Politics','Schemes'], horde:['Horde'] },
-  battle: { melee:['Monsters','Duelist'], magic:['Magic'], none:[] },
-  micro:  { low:['Defense'], some:[], high:['Schemes','Magic'] }
+  battle: { melee:['Monsters','Duelist'], magic:['Magic'], none:[] }
 };
+// Campaign-layer "systems" that the micromanagement answer rewards or
+// penalises. Deliberately kept out of QUIZ_AXES: when it lived there as
+// micro.high = ['Schemes','Magic'], the Magic axis was scored twice (once
+// for "spells & magic", once for "give me the buttons"), so the answer
+// amplified the battle choice instead of adding its own signal.
+const QUIZ_SYSTEMS=['Schemes','Crafting','Quest','Politics'];
 function openQuiz(){
   const q=document.getElementById('quiz'); if(!q) return;
   const hint=document.getElementById('quiz-ownhint');
@@ -2898,8 +2903,7 @@ function runQuiz(){
   // matching several requested traits outrank single-trait matches.
   const groups=[
     { key:'pace',   w:5, axes:QUIZ_AXES.pace[a.pace]||[] },
-    { key:'battle', w:3, axes:QUIZ_AXES.battle[a.battle]||[] },
-    { key:'micro',  w:2, axes:QUIZ_AXES.micro[a.micro]||[] }
+    { key:'battle', w:3, axes:QUIZ_AXES.battle[a.battle]||[] }
   ].filter(g=>g.axes.length);
   const scored=LORDS.map(l=>{
     const tags=(l.ps||[]).map(normTag);
@@ -2910,15 +2914,21 @@ function runQuiz(){
       if(h.length){ s+=g.w*h.length; matchedAxes+=h.length; hits.push({ key:g.key, h }); }
       else s-=g.w*0.5;
     });
+    // Micromanagement is a symmetric preference over how much campaign-layer
+    // management a lord asks for, so it shifts the ranking instead of
+    // duplicating the campaign-feel / army answers.
+    const systems=tags.filter(ax=>QUIZ_SYSTEMS.includes(ax)).length;
+    if(a.micro==='high') s+=1.5*systems;
+    else if(a.micro==='low') s-=1.5*systems;
     if(a.exp==='new'){
-      if(l.d<=2) s+=2; else if(l.d===3) s-=1; else s-=2;
+      if(l.d<=2) s+=3; else if(l.d===3) s-=2; else s-=4;
       if((l.tags||[]).some(t=>/beginner/i.test(t))) s+=2;
       if((l.tags||[]).some(t=>/hard start/i.test(t))) s-=3;
     }
-    if(a.exp==='vet' && l.d>=3) s+=1;
+    if(a.exp==='vet' && l.d>=3) s+=3;
     if(a.loc){ if(l.loc===a.loc) s+=4; else s-=1; }
     if(a.ownedOnly && !ownsLord(l,state.own)) s=-999;
-    return { l, s, hits, matchedAxes };
+    return { l, s, hits, matchedAxes, systems };
   }).filter(x=>x.s>-900)
     .sort((x,y)=>y.s-x.s || y.matchedAxes-x.matchedAxes
       || (a.exp==='new' ? x.l.d-y.l.d : a.exp==='vet' ? y.l.d-x.l.d : Math.abs(x.l.d-2)-Math.abs(y.l.d-2))
@@ -2933,9 +2943,11 @@ function runQuiz(){
   const reasonFor=x=>{
     const out=[];
     x.hits.forEach(g=>{
-      const label = g.key==='pace' ? 'campaign feel' : g.key==='battle' ? 'army' : 'micro';
+      const label = g.key==='pace' ? 'campaign feel' : 'army';
       out.push(label+': <b>'+g.h.map(ax=>PS[ax].t).join(' + ')+'</b>');
     });
+    if(a.micro==='high' && x.systems) out.push(x.systems+' campaign systems to manage');
+    if(a.micro==='low' && !x.systems) out.push('light on campaign systems');
     if(a.exp==='new' && x.l.d<=2) out.push('easy first campaign');
     if(a.loc && x.l.loc===a.loc) out.push('starts in <b>'+esc(LOCS[x.l.loc].t)+'</b>');
     if(a.exp==='vet' && x.l.d>=3) out.push('<b>challenging</b> campaign');

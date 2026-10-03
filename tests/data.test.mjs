@@ -74,11 +74,12 @@ test('End Game scenario rosters reference real lords', () => {
 test('quiz axes reference only real playstyles', () => {
   const bad = inPage(window, `(() => {
     const problems = [];
-    ['pace', 'battle', 'micro'].forEach((group) => {
-      Object.entries(QUIZ_AXES[group]).forEach(([answer, axes]) => {
+    Object.entries(QUIZ_AXES).forEach(([group, answers]) => {
+      Object.entries(answers).forEach(([answer, axes]) => {
         axes.forEach((axis) => { if (!PS[axis]) problems.push(group + '.' + answer + ' -> ' + axis); });
       });
     });
+    QUIZ_SYSTEMS.forEach((axis) => { if (!PS[axis]) problems.push('QUIZ_SYSTEMS -> ' + axis); });
     return problems;
   })()`);
   assert.equal(Array.from(bad).length, 0, `invalid quiz axes: ${Array.from(bad).join(', ')}`);

@@ -28,9 +28,12 @@ test('reported case: every top pick matches the requested campaign feel', () => 
   for (const pick of picks) {
     assert.match(pick.why, /campaign feel:/, `pick "${pick.name}" ignored the campaign-feel answer: ${pick.why}`);
   }
-  // At least one pick should also surface the micro answer, since it is a
-  // real (lower-weight) signal.
-  assert.ok(picks.some((p) => /micro:/.test(p.why)), 'expected a pick to reflect the micro answer');
+  // The micromanagement answer is a real signal: "give me the buttons"
+  // rewards lords with campaign systems, and the reason says so.
+  assert.ok(
+    picks.some((p) => /campaign systems/.test(p.why)),
+    'expected a pick to reflect the micromanagement answer',
+  );
 });
 
 test('a peripheral-only match cannot outrank the requested pace', () => {
@@ -38,6 +41,37 @@ test('a peripheral-only match cannot outrank the requested pace', () => {
   const top = lordByName(window, picks[0].name);
   // Miao Ying is the Builder + Defense lord; the answer asked for build & defend.
   assert.ok(top.ps.includes('Builder') && top.ps.includes('Defense'));
+});
+
+test('the army answer is never double-counted by micromanagement', () => {
+  // Regression: micro used to map to ['Schemes','Magic'], so "spells & magic"
+  // scored Magic a second time. Magic is a battle axis, not a campaign system.
+  assert.equal(inPage(window, "QUIZ_SYSTEMS.includes('Magic')"), false);
+  assert.equal(inPage(window, "('micro' in QUIZ_AXES)"), false);
+});
+
+test('micromanagement shifts the ranking instead of duplicating an answer', () => {
+  // "Give me the buttons" should surface systems-heavy lords that "keep it
+  // simple" would not.
+  const high = quiz(window, { exp: 'vet', pace: 'war', battle: 'magic', micro: 'high' }).map((p) => p.name);
+  const low = quiz(window, { exp: 'vet', pace: 'war', battle: 'magic', micro: 'low' }).map((p) => p.name);
+  assert.ok(high.includes('Mother Ostankya'), `systems-heavy caster missing: ${high.join(', ')}`);
+  assert.ok(!low.includes('Mother Ostankya'), 'low micromanagement should not favour a systems-heavy lord');
+});
+
+test('war + magic: the exact matches are stable, the third pick responds', () => {
+  const thirds = new Set();
+  for (const exp of ['new', 'some', 'vet']) {
+    for (const micro of ['low', 'some', 'high']) {
+      const picks = quiz(window, { exp, pace: 'war', battle: 'magic', micro });
+      // Azhag and Wurrzag are the only two lords tagged both Aggro and Magic,
+      // so they are the correct top two for this pairing.
+      assert.equal(picks[0].name, 'Azhag the Slaughterer');
+      assert.equal(picks[1].name, 'Wurrzag');
+      thirds.add(picks[2].name);
+    }
+  }
+  assert.ok(thirds.size >= 3, `the third pick should vary with the answers: ${[...thirds].join(', ')}`);
 });
 
 test('results are deterministic for identical answers', () => {

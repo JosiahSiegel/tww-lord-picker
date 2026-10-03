@@ -79,6 +79,21 @@ test('played marks and the hide-played toggle survive a reload', () => {
   assert.equal(inPage(returning, "filtered().some(l => l.n === 'Skarbrand the Exiled')"), false);
 });
 
+test('the hide-played toggle is remembered without editing ownership', () => {
+  // Drive the real control: switch "Hide played" on, without ever touching
+  // the owned-content library (so _ownPersist stays false).
+  inPage(window, `(() => {
+    const el = document.getElementById('hideplayed');
+    el.checked = true;
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  })()`);
+  assert.equal(inPage(window, 'state.hidePlayed'), true);
+  assert.equal(JSON.parse(window.localStorage.getItem('twwlp.hidePlayed.v1')), true);
+  // ...and it comes back on the next visit.
+  const { window: returning } = startApp({ storage: { 'twwlp.hidePlayed.v1': true } });
+  assert.equal(inPage(returning, 'state.hidePlayed'), true);
+});
+
 test("a shared link does not overwrite the visitor's saved library", () => {
   const { window: visitor } = startApp({
     hash: '#own=wh3',

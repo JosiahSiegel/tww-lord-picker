@@ -1936,13 +1936,14 @@ function pushState(){
   if(state.psAll) p.set("psall","1");
   if(state.cmp.length) p.set("cmp",state.cmp.join(","));
   
-  // Persist personal state that isn't necessarily in the URL. "played" is
-  // local-only. Ownership and "hide played" are remembered once the user
-  // has edited them (see _ownPersist) rather than on a passive link open.
+  // Persist personal state that isn't necessarily in the URL. "played" and
+  // "hide played" are local-only preferences and are always saved. Ownership
+  // is saved too, but only once the user has edited it (see _ownPersist), so
+  // that opening a shared link cannot overwrite a saved library.
   STORE.set("twwlp.played.v1", [...state.played]);
+  STORE.set("twwlp.hidePlayed.v1", state.hidePlayed);
   if (_ownPersist) {
     STORE.set("twwlp.own.v1", [...state.own]);
-    STORE.set("twwlp.hidePlayed.v1", state.hidePlayed);
   }
   history.replaceState(null,"",location.pathname+(p.toString()?"#"+p.toString():""));
 }

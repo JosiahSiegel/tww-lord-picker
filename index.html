@@ -535,6 +535,10 @@
  #own-body{display:flex;flex-direction:column;gap:11px}
  .own-hint{color:var(--muted);font-size:.76rem;line-height:1.45}
  .own-hint b{color:var(--text)}
+ .own-master{display:inline-flex;align-items:center;gap:9px;font-size:.86rem;font-weight:600;color:var(--text);cursor:pointer;user-select:none;background:rgba(231,224,210,.04);border:1px solid rgba(231,224,210,.14);border-radius:8px;padding:8px 11px}
+ .own-master:hover{border-color:rgba(201,162,75,.4);background:rgba(201,162,75,.08)}
+ .own-master input{accent-color:var(--gold);width:16px;height:16px;margin:0}
+ .own-master:has(input:checked){border-color:var(--gold);background:rgba(201,162,75,.14)}
  .own-group{display:flex;flex-direction:column;gap:6px}
  .own-group-title{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:700;opacity:.85}
  .own-items{display:flex;flex-wrap:wrap;gap:6px}
@@ -1908,7 +1912,7 @@ const STORE={
 // Until then, opening a shared link carrying #own=... must not overwrite
 // the visitor's saved library.
 let _ownPersist=false;
-const state={q:"",race:new Set(),loc:new Set(),own:new Set(),eg:new Set(),psInc:new Set(),psAll:false,diff:"",sort:"race",open:new Set(),cmp:[],played:new Set(),hidePlayed:false};
+const state={q:"",race:new Set(),loc:new Set(),own:new Set(),ownFilter:true,eg:new Set(),psInc:new Set(),psAll:false,diff:"",sort:"race",open:new Set(),cmp:[],played:new Set(),hidePlayed:false};
 const SORTS=["race","name","deasc","dedesc"];
 
 // pushState lives at module scope so it's callable from anywhere
@@ -1973,9 +1977,10 @@ function clearAllFilters(){
   state.psInc.clear();
   state.psAll = false;
   state.diff = '';
-  // Ownership is a filter too: clearing it shows the whole roster. The Own
-  // panel's checkboxes re-render from state.own, so they untick with it.
-  state.own.clear();
+  // Ownership: turn the filter off but keep the saved library, so "Clear
+  // all" shows the whole roster without re-ticking the visitor's collection.
+  // Picking a product again (or the Own switch) turns filtering back on.
+  state.ownFilter = false;
   state.hidePlayed = false;
   // Sync the DOM inputs the popovers still hold a hidden copy of.
   const q = document.getElementById('q'); if (q) q.value = '';
@@ -2134,7 +2139,7 @@ function filtered(){
   return LORDS.filter(l=>
     (state.race.size===0||state.race.has(l.r))&&
     (state.loc.size===0||state.loc.has(l.loc))&&
-    ownsLord(l,state.own)&&
+    (!state.ownFilter||ownsLord(l,state.own))&&
     (!state.hidePlayed||!state.played.has(l.n))&&
     (state.eg.size===0||[...state.eg].some(n=>l.eg.includes(n)))&&
     psOk(l)&&
@@ -2148,7 +2153,7 @@ function filtered(){
 function _lordMatches(l, except){
   if(except!=="race" && state.race.size && !state.race.has(l.r)) return false;
   if(except!=="loc" && state.loc.size && !state.loc.has(l.loc)) return false;
-  if(except!=="own" && !ownsLord(l,state.own)) return false;
+  if(except!=="own" && state.ownFilter && !ownsLord(l,state.own)) return false;
   if(except!=="eg" && state.eg.size && ![...state.eg].some(n=>l.eg.includes(n))) return false;
   if(except!=="ps" && !psOk(l)) return false;
   if(state.diff && l.d!==+state.diff) return false;
@@ -2185,7 +2190,7 @@ function render(){
   // Scenario cards for any active End Game filter, shown above the grid.
   const egSec = state.eg.size ? [...state.eg].map(n=>ENDGAMES.find(g=>g.n===n)).filter(Boolean).map(egSection).join("") : "";
   // Add a visual "filter active" cue on the bar when any filter is set
-  const isFiltered = state.psInc.size || state.race.size || state.loc.size || state.own.size || state.eg.size || state.diff || state.hidePlayed || state.q;
+  const isFiltered = state.psInc.size || state.race.size || state.loc.size || (state.ownFilter && state.own.size) || state.eg.size || state.diff || state.hidePlayed || state.q;
   document.body.classList.toggle('filter-on', !!isFiltered);
   // If filtered, change the count text to mention the filter
   if (isFiltered) {
@@ -2365,13 +2370,19 @@ function renderOwnership(){
   const wh3Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh3_"));
   const wh1Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh1_"));
   const wh2Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh2_"));
+  const hint = state.ownFilter
+    ? `Tick what you own to hide lords you can't play. An expansion unlocks <b>only its own lords</b>; free (FLC) lords come with the race they belong to, and <b>Bretonnia is free for everyone</b>. Nothing ticked shows everything.`
+    : (state.own.size
+      ? `Filtering is off &mdash; showing all lords. Your library is still saved; switch it back on to hide lords you don't own.`
+      : `Filtering is off &mdash; showing all lords.`);
   box.innerHTML =
-    `<div class="own-hint">Tick what you own to hide lords you can't play. An expansion unlocks <b>only its own lords</b>; free (FLC) lords come with the race they belong to, and <b>Bretonnia is free for everyone</b>. Nothing ticked shows everything.</div>`
+    `<label class="own-master"><input type="checkbox" id="own-filter"${state.ownFilter ? " checked" : ""}> <span>Only show lords I own</span></label>`
+    + `<div class="own-hint">${hint}</div>`
     + group("Base games", ["wh3", "wh1", "wh2"])
     + group("Warhammer III DLC", wh3Keys)
     + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
     + `<details class="own-old"><summary>Warhammer II expansions</summary><div class="own-items">${wh2Keys.map(item).join("")}</div></details>`
-    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="clear">Clear (show all)</button></div>`;
+    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="clear">Clear library</button></div>`;
   // Open the older-expansion groups if the user owns anything inside them.
   box.querySelectorAll("details.own-old").forEach(d => {
     if (d.querySelector("input[data-own]:checked")) d.open = true;
@@ -2383,7 +2394,7 @@ function updateTopBar(){
   // sync is the "Clear all" button, shown whenever anything is active.
   const ca = $("#clear-all");
   if (!ca) return;
-  const active = state.race.size || state.loc.size || state.own.size || state.eg.size
+  const active = state.race.size || state.loc.size || (state.ownFilter && state.own.size) || state.eg.size
     || state.psInc.size || state.diff || state.hidePlayed || state.q;
   ca.style.display = active ? '' : 'none';
 }
@@ -2408,7 +2419,7 @@ function updateAccSummaries(){
     race: state.race.size ? nSel(state.race.size) : '',
     loc: state.loc.size ? nSel(state.loc.size) : '',
     style: state.psInc.size ? nSel(state.psInc.size) : '',
-    own: state.own.size ? nSel(state.own.size) : '',
+    own: state.own.size ? (state.ownFilter ? nSel(state.own.size) : state.own.size + ' saved') : '',
     eg: state.eg.size ? nSel(state.eg.size) : '',
     more: state.diff ? (DLBL[state.diff] || state.diff) : ''
   };
@@ -2556,7 +2567,7 @@ document.addEventListener("click",e=>{
   const locc=e.target.closest(".chip[data-loc]");
   if(locc){ const k=locc.dataset.loc; state.loc.has(k)?state.loc.delete(k):state.loc.add(k); _afterFilterChange(); return; }
   const ownAll=e.target.closest("[data-own-all]");
-  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} _afterFilterChange(); return; }
+  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); state.ownFilter = mode!=="clear"; if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="wh3"){state.own.add("wh3");} _afterFilterChange(); return; }
   const egc=e.target.closest("[data-egc]");
   if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");
@@ -2575,8 +2586,10 @@ document.addEventListener("click",e=>{
     card.classList.toggle("open");card.setAttribute("aria-expanded",card.classList.contains("open"));return;}
 });
 document.addEventListener("change",e=>{
+  const ownFilterCb=e.target.closest("#own-filter");
+  if(ownFilterCb){ state.ownFilter = ownFilterCb.checked; _afterFilterChange(); return; }
   const ownCb=e.target.closest("input[data-own]");
-  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked) state.own.add(k); else state.own.delete(k); _afterFilterChange(); return; }
+  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked){ state.own.add(k); state.ownFilter = true; } else state.own.delete(k); _afterFilterChange(); return; }
   const playCb=e.target.closest("input[data-played]");
   if(playCb){ const n=playCb.dataset.played; if(playCb.checked) state.played.add(n); else state.played.delete(n); _afterFilterChange(); return; }
   if(!e.target.matches("[data-cmp]"))return;
@@ -2787,8 +2800,9 @@ function renderActiveFilters() {
     const lc = LOCS[k]?.c || '#888';
     pills.push(`<span class="pill" style="--rc:${lc}"><span class="pill-ic">${LOC_ICON}</span>${esc(LOCS[k]?.t || k)}<button class="x" data-clear="loc" data-loc="${esc(k)}" aria-label="Clear start position">&times;</button></span>`);
   });
-  // DLC ownership
-  state.own.forEach(k => {
+  // DLC ownership (only while the Own filter is on; otherwise it is not
+  // narrowing anything and the library is just saved)
+  if (state.ownFilter) state.own.forEach(k => {
     pills.push(`<span class="pill"><span class="pill-ic">▣</span>${esc(OWN_LABEL[k] || k)}<button class="x" data-clear="own" data-own="${esc(k)}" aria-label="Clear owned content">&times;</button></span>`);
   });
   // Playstyle include
@@ -2890,8 +2904,12 @@ const QUIZ_AXES = {
 const QUIZ_SYSTEMS=['Schemes','Crafting','Quest','Politics'];
 function openQuiz(){
   const q=document.getElementById('quiz'); if(!q) return;
+  const ownBox=document.getElementById('quiz-owned');
+  if(ownBox) ownBox.checked = state.own.size > 0 && state.ownFilter;
   const hint=document.getElementById('quiz-ownhint');
-  if(hint) hint.textContent = state.own.size ? '(from your Own tab)' : '(nothing selected in Own, so it is ignored)';
+  if(hint) hint.textContent = state.own.size
+    ? (state.ownFilter ? '(from your Own tab)' : '(your Own filter is off)')
+    : '(nothing selected in Own, so it is ignored)';
   q.classList.add('show');
   document.body.style.overflow='hidden';
 }
@@ -2987,18 +3005,14 @@ function quizView(i){
   const l=LORDS[i]; if(!l) return;
   state.race.clear(); state.loc.clear(); state.eg.clear();
   state.psInc.clear(); state.psAll=false; state.diff=''; state.hidePlayed=false;
-  // Clear the ownership filter too so the chosen lord is guaranteed to be
-  // visible even when the visitor unticked "Only content I own". Suppress
-  // persistence for this one push so clearing the filter never overwrites
-  // the saved library.
-  const keepPersist=_ownPersist; _ownPersist=false;
-  state.own.clear();
+  // Turn the ownership filter off (the saved library is kept) so the chosen
+  // lord is guaranteed to be visible even when it sits outside the library.
+  state.ownFilter = false;
   state.q=l.n.split(',')[0].toLowerCase();
   const qel=document.getElementById('q'); if(qel) qel.value=state.q;
   state.open.add(i);
   closeQuiz();
   _afterFilterChange();
-  _ownPersist=keepPersist;
   requestAnimationFrame(()=>{ const c=document.querySelector('.card[data-i="'+i+'"]'); if(c) c.scrollIntoView({block:'center',behavior:'smooth'}); });
 }
 (function wireQuiz(){
@@ -3018,7 +3032,7 @@ function quizView(i){
     race: state.race.size > 0,
     loc: state.loc.size > 0,
     style: state.psInc.size > 0,
-    own: state.own.size > 0,
+    own: state.ownFilter && state.own.size > 0,
     eg: state.eg.size > 0,
     more: !!(state.diff || state.hidePlayed)
   };
@@ -3453,7 +3467,7 @@ function updateFeaturedRadar() {
   }
 
   const svgEl = document.getElementById('fr-radar-svg');
-  const isFiltered = state.psInc.size || state.race.size || state.loc.size || state.own.size || state.diff || state.hidePlayed || state.q;
+  const isFiltered = state.psInc.size || state.race.size || state.loc.size || (state.ownFilter && state.own.size) || state.diff || state.hidePlayed || state.q;
   const allIdxs = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
   // Pass the first selected lord so the radar highlights it. For 2+ lords,
   // the radar shows the density with all selected lords highlighted via

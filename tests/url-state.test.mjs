@@ -55,8 +55,8 @@ test('a shareable link does not carry local-only view state', () => {
   assert.doesNotMatch(hash, /hideplayed/);
 });
 
-test('showing a quiz pick clears the ownership filter without touching the saved library', () => {
-  inPage(window, "STORE.set('twwlp.own.v1', ['wh2_tk']); _ownPersist = true; state.own = new Set(['wh2_tk'])");
+test('showing a quiz pick turns the ownership filter off without touching the saved library', () => {
+  inPage(window, "STORE.set('twwlp.own.v1', ['wh2_tk']); _ownPersist = true; state.own = new Set(['wh2_tk']); state.ownFilter = true");
   const picks = inPage(window, `(() => {
     const set = (n, v) => { [...document.querySelectorAll('input[name=q-' + n + ']')].find(x => x.value === v).checked = true; };
     set('exp', 'some'); set('pace', 'build'); set('battle', 'none'); set('micro', 'some');
@@ -66,7 +66,8 @@ test('showing a quiz pick clears the ownership filter without touching the saved
   })()`);
   const pick = picks[0];
   inPage(window, `quizView(LORDS.findIndex(l => l.n === ${JSON.stringify(pick)}))`);
-  assert.equal(inPage(window, 'state.own.size'), 0, 'the ownership filter should be cleared for the jump');
+  assert.equal(inPage(window, 'state.ownFilter'), false, 'the ownership filter should be off for the jump');
+  assert.equal(inPage(window, 'state.own.size'), 1, 'the saved library should be kept');
   assert.ok(Array.from(inPage(window, 'filtered().map(l => l.n)')).includes(pick), `the pick ${pick} must be visible`);
   assert.deepEqual(JSON.parse(window.localStorage.getItem('twwlp.own.v1')), ['wh2_tk'], 'the saved library must survive');
 });

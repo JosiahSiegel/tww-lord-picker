@@ -88,7 +88,7 @@ test('context-aware chip counts ignore their own dimension', () => {
   assert.equal(counts.northwastes + counts.lustria + counts.badlands, 3, 'Khorne starts in exactly three regions');
 });
 
-test('clear-all resets every filter, including ownership', () => {
+test('clear-all turns ownership filtering off but keeps the library', () => {
   inPage(window, "state.own.add('wh3'); state.race.add('Khorne'); state.diff = '4'; state.q = 'khorne'; state.hidePlayed = true");
   inPage(window, 'clearAllFilters()');
   assert.equal(inPage(window, 'state.race.size'), 0);
@@ -96,19 +96,48 @@ test('clear-all resets every filter, including ownership', () => {
   assert.equal(inPage(window, "state.q"), '');
   assert.equal(inPage(window, 'state.psInc.size'), 0);
   assert.equal(inPage(window, 'state.hidePlayed'), false);
-  // Ownership is a filter too, so the whole roster shows again.
-  assert.equal(inPage(window, 'state.own.size'), 0);
+  // The saved library survives; only the filter is switched off.
+  assert.equal(inPage(window, 'state.own.size'), 1);
+  assert.equal(inPage(window, 'state.ownFilter'), false);
   assert.equal(filteredCount(window), 110);
 });
 
-test('both clear-all controls reset ownership', () => {
-  const seed = () => inPage(window, "state.own = new Set(['wh3']); _afterFilterChange()");
+test('both clear-all controls stop ownership filtering, keeping the library', () => {
+  const seed = () => inPage(window, "state.own = new Set(['wh3']); state.ownFilter = true; _afterFilterChange()");
   seed();
   inPage(window, "document.getElementById('clear-all').click()");
-  assert.equal(inPage(window, 'state.own.size'), 0, 'the top-bar Clear all should clear ownership');
+  assert.equal(inPage(window, 'state.own.size'), 1, 'the library should be kept');
+  assert.equal(inPage(window, 'state.ownFilter'), false, 'the top-bar Clear all should stop ownership filtering');
+  assert.equal(filteredCount(window), 110);
 
   seed();
   inPage(window, "state.race.add('Khorne'); _afterFilterChange(); document.querySelector('#active-filters .clear-all').click()");
-  assert.equal(inPage(window, 'state.own.size'), 0, 'the active-filter bar Clear all should clear ownership');
+  assert.equal(inPage(window, 'state.own.size'), 1);
+  assert.equal(inPage(window, 'state.ownFilter'), false);
   assert.equal(filteredCount(window), 110);
+});
+
+test('the ownership switch filters without discarding the library', () => {
+  inPage(window, "state.own = new Set(['wh3']); state.ownFilter = true; _afterFilterChange()");
+  assert.equal(filteredCount(window), reachable("l => ownsLord(l, new Set(['wh3']))"));
+
+  const toggle = () => window.document.getElementById('own-filter');
+  assert.ok(toggle(), 'the Own panel should render the switch');
+  toggle().checked = false;
+  toggle().dispatchEvent(new window.Event('change', { bubbles: true }));
+  assert.equal(inPage(window, 'state.own.size'), 1, 'the library is kept');
+  assert.equal(inPage(window, 'state.ownFilter'), false);
+  assert.equal(filteredCount(window), 110);
+
+  // Ticking a product turns filtering back on.
+  const cb = window.document.querySelector('input[data-own="wh1"]');
+  cb.checked = true;
+  cb.dispatchEvent(new window.Event('change', { bubbles: true }));
+  assert.equal(inPage(window, 'state.ownFilter'), true);
+  assert.ok(filteredCount(window) < 110);
+});
+
+test('clear-all keeps the saved library on disk', () => {
+  inPage(window, "state.own = new Set(['wh3']); _ownPersist = true; pushState(); clearAllFilters()");
+  assert.deepEqual(JSON.parse(window.localStorage.getItem('twwlp.own.v1')), ['wh3']);
 });

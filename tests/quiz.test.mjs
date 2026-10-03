@@ -183,6 +183,19 @@ test('openQuiz reports whether ownership is in play', () => {
   inPage(window, 'closeQuiz()');
 });
 
+test('the quiz "Only content I own" default follows the Own switch', () => {
+  inPage(window, "state.own = new Set(['wh3']); state.ownFilter = true; _afterFilterChange()");
+  inPage(window, 'openQuiz()');
+  assert.equal(window.document.getElementById('quiz-owned').checked, true);
+  assert.match(window.document.getElementById('quiz-ownhint').textContent, /Own tab/);
+  inPage(window, 'closeQuiz()');
+
+  inPage(window, "state.ownFilter = false; _afterFilterChange(); openQuiz()");
+  assert.equal(window.document.getElementById('quiz-owned').checked, false);
+  assert.match(window.document.getElementById('quiz-ownhint').textContent, /filter is off/);
+  inPage(window, 'closeQuiz()');
+});
+
 test('picking a suggestion clears filters, sets the search and closes the quiz', () => {
   inPage(window, "state.race.add('Khorne'); state.diff = '4'");
   const picks = quiz(window, REPORTED);

@@ -1463,6 +1463,33 @@ const OWN_SRC={
 // Cross-game FLC: free, but they belong to a WH1 race, so they need the
 // WH1 base game rather than WH2 where the FLC patch shipped.
 const OWN_OVERRIDE={"Thorek Ironbrow":"wh1","Grombrindal":"wh1","Repanse de Lyonesse":"wh1"};
+// ---- Ownership implication -------------------------------------------------
+// Owning a product implies the base game it belongs to: a Warhammer II
+// expansion cannot be played without Warhammer II. Product keys are
+// "wh<game>" or "wh<game>_<pack>", so the base is always the first three
+// characters. state.own is kept closed under this rule at every entry point
+// (checkbox, preset, shared URL, saved library, active-filter pill) so the
+// filter and the quiz never have to re-derive it.
+const OWN_BASE=k=>k.slice(0,3);
+function ownAdd(set,key){
+  if(!OWN_LABEL[key]) return;
+  set.add(key);
+  const base=OWN_BASE(key);
+  if(base!==key && OWN_LABEL[base]) set.add(base);
+}
+function ownRemove(set,key){
+  set.delete(key);
+  // Removing a base game removes everything that depends on it: without
+  // Warhammer III there is no Warhammer III content to play.
+  if(key==="wh1"||key==="wh2"||key==="wh3"){
+    [...set].forEach(k=>{ if(k!==key && OWN_BASE(k)===key) set.delete(k); });
+  }
+}
+function ownClose(set){
+  const out=new Set();
+  set.forEach(k=>ownAdd(out,k));
+  return out;
+}
 // ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
 const PS={
  Aggro:{t:"War",l:"aggro",ic:"#e05050",g:"Mechanics punish peace - fight or lose power (meters, favour, momentum)."},
@@ -1974,7 +2001,7 @@ function loadFromHash(){
     if (params.get("race")) state.race = new Set(params.get("race").split(",").filter(Boolean));
     if (params.get("eg")) state.eg = new Set(params.get("eg").split(",").filter(n => ENDGAMES.some(g => g.n === n)));
     if (params.get("loc")) state.loc = new Set(params.get("loc").split(",").filter(k => LOCS[k]));
-    if (params.get("own")) state.own = new Set(params.get("own").split(",").filter(k => OWN_LABEL[k]));
+    if (params.get("own")) state.own = ownClose(new Set(params.get("own").split(",").filter(k => OWN_LABEL[k])));
     if (params.get("diff")) state.diff = params.get("diff") || "";
     if (params.get("sort")) state.sort = params.get("sort");
     if (params.get("cmp")) state.cmp = params.get("cmp").split(",").map(Number).filter(n => !isNaN(n)).slice(0, 3);
@@ -1996,7 +2023,7 @@ loadFromHash();
     const params = new URLSearchParams(location.hash.slice(1));
     if (params.get("own") === null) {
       const saved = STORE.get("twwlp.own.v1", null);
-      if (Array.isArray(saved)) state.own = new Set(saved.filter(k => OWN_LABEL[k]));
+      if (Array.isArray(saved)) state.own = ownClose(new Set(saved.filter(k => OWN_LABEL[k])));
     }
     const played = STORE.get("twwlp.played.v1", null);
     if (Array.isArray(played)) state.played = new Set(played.filter(n => LORDS.some(l => l.n === n)));
@@ -2285,12 +2312,12 @@ function renderOwnership(){
   const wh1Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh1_"));
   const wh2Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh2_"));
   box.innerHTML =
-    `<div class="own-hint">Tick what you own to hide lords you can't play. <b>Free lords (FLC)</b> need only their base game. Nothing ticked shows everything.</div>`
+    `<div class="own-hint">Tick what you own to hide lords you can't play. Ticking an expansion also includes its <b>base game</b>. <b>Free lords (FLC)</b> need only their base game. Nothing ticked shows everything.</div>`
     + group("Base games", ["wh3", "wh1", "wh2"])
     + group("Warhammer III DLC", wh3Keys)
     + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
     + `<details class="own-old"><summary>Warhammer II expansions</summary><div class="own-items">${wh2Keys.map(item).join("")}</div></details>`
-    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="baseflc">Base + FLC only</button><button type="button" data-own-all="clear">Clear (show all)</button></div>`;
+    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="wh3">Warhammer III only</button><button type="button" data-own-all="clear">Clear (show all)</button></div>`;
   // Open the older-expansion groups if the user owns anything inside them.
   box.querySelectorAll("details.own-old").forEach(d => {
     if (d.querySelector("input[data-own]:checked")) d.open = true;
@@ -2475,7 +2502,7 @@ document.addEventListener("click",e=>{
   const locc=e.target.closest(".chip[data-loc]");
   if(locc){ const k=locc.dataset.loc; state.loc.has(k)?state.loc.delete(k):state.loc.add(k); _afterFilterChange(); return; }
   const ownAll=e.target.closest("[data-own-all]");
-  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="baseflc"){state.own.add("wh3");} _afterFilterChange(); return; }
+  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>ownAdd(state.own,k));} else if(mode==="wh3"){ownAdd(state.own,"wh3");} _afterFilterChange(); return; }
   const egc=e.target.closest("[data-egc]");
   if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");
@@ -2495,7 +2522,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("change",e=>{
   const ownCb=e.target.closest("input[data-own]");
-  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked) state.own.add(k); else state.own.delete(k); _afterFilterChange(); return; }
+  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked) ownAdd(state.own,k); else ownRemove(state.own,k); _afterFilterChange(); return; }
   const playCb=e.target.closest("input[data-played]");
   if(playCb){ const n=playCb.dataset.played; if(playCb.checked) state.played.add(n); else state.played.delete(n); _afterFilterChange(); return; }
   if(!e.target.matches("[data-cmp]"))return;
@@ -2760,7 +2787,7 @@ document.addEventListener('click', e => {
     else if (what === 'diff'){ state.diff = ''; }
     else if (what === 'eg')  { if (x.dataset.eg) state.eg.delete(x.dataset.eg); else state.eg.clear(); }
     else if (what === 'loc') { if (x.dataset.loc) state.loc.delete(x.dataset.loc); else state.loc.clear(); }
-    else if (what === 'own') { if (x.dataset.own) state.own.delete(x.dataset.own); else state.own.clear(); }
+    else if (what === 'own') { if (x.dataset.own) ownRemove(state.own, x.dataset.own); else state.own.clear(); }
     else if (what === 'hideplayed') { state.hidePlayed = false; }
     else if (what === 'sort'){ state.sort = 'race'; document.getElementById('sort').value = 'race'; }
     pushState(); renderChips(); render(); drawRadars();

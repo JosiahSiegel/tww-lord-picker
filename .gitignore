@@ -6,6 +6,9 @@ artifacts/
 .omo/
 .playwright-mcp/
 
+# Test tooling (dev-only; the app itself has no dependencies)
+node_modules/
+
 # Crash dumps (core.<pid>)
 core.*
 

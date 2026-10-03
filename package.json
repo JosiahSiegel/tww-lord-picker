@@ -1,0 +1,13 @@
+{
+  "name": "tww-lord-picker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Total War: WARHAMMER III legendary-lord picker. The app is a single index.html with no build step and no runtime dependencies; this manifest exists only for the local test harness.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "yaml": "^2.8.0"
+  }
+}

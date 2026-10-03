@@ -1,7 +1,7 @@
 {
   "name": "Total War: WARHAMMER III - Legendary Lord Picker",
   "short_name": "Lord Picker",
-  "description": "All 110 Legendary Lords. Filter by race, playstyle, start position, the DLC you own and campaign difficulty, then compare playstyle radars side by side.",
+  "description": "All 110 Legendary Lords from Warhammer I–III, playable in Immortal Empires. Filter by race, playstyle, start position, the DLC you own and campaign difficulty, then compare playstyle radars side by side.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

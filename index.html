@@ -770,7 +770,18 @@
       </div>
     </div>
     <div class="quiz-q">
-      <div class="quiz-qlabel">5. Where do you want to start?</div>
+      <div class="quiz-qlabel">5. Any extra flavour you enjoy?</div>
+      <div class="quiz-opts">
+        <label><input type="radio" name="q-flavour" value="none" checked> No preference</label>
+        <label><input type="radio" name="q-flavour" value="raid"> Raiding &amp; plunder</label>
+        <label><input type="radio" name="q-flavour" value="strike"> Teleport networks &amp; force projection</label>
+        <label><input type="radio" name="q-flavour" value="weird"> Rule-breaking campaigns</label>
+        <label><input type="radio" name="q-flavour" value="quest"> Missions &amp; objectives</label>
+        <label><input type="radio" name="q-flavour" value="craft"> Upgrading &amp; tinkering</label>
+      </div>
+    </div>
+    <div class="quiz-q">
+      <div class="quiz-qlabel">6. Where do you want to start?</div>
       <div class="quiz-opts">
         <select class="chip-select" id="quiz-loc" aria-label="Preferred start region">
           <option value="">Anywhere</option>
@@ -2865,7 +2876,11 @@ _ownPersist = true;
 // saved ownership. Returns the three best matches with a reason each.
 const QUIZ_AXES = {
   pace:   { war:['Aggro'], build:['Builder','Defense'], schemes:['Politics','Schemes'], horde:['Horde'] },
-  battle: { melee:['Monsters','Duelist'], magic:['Magic'], none:[] }
+  battle: { melee:['Monsters','Duelist'], magic:['Magic'], none:[] },
+  // The three playstyles no other question reaches (Raider, Strike, Weird),
+  // plus Quest/Crafting so their campaigns aren't only reachable through the
+  // micromanagement answer.
+  flavour:{ none:[], raid:['Raider'], strike:['Strike'], weird:['Weird'], quest:['Quest'], craft:['Crafting'] }
 };
 // Campaign-layer "systems" that the micromanagement answer rewards or
 // penalises. Deliberately kept out of QUIZ_AXES: when it lived there as
@@ -2885,34 +2900,25 @@ function closeQuiz(){
   q.classList.remove('show');
   if(!document.querySelector('#overlay.show')) document.body.style.overflow='';
 }
-function runQuiz(){
-  const val=n=>{ const el=document.querySelector('input[name="q-'+n+'"]:checked'); return el?el.value:''; };
-  const a={
-    exp:val('exp')||'some',
-    pace:val('pace')||'war',
-    battle:val('battle')||'none',
-    micro:val('micro')||'some',
-    loc:(document.getElementById('quiz-loc')||{}).value||'',
-    ownedOnly:!!(document.getElementById('quiz-owned')||{}).checked
-  };
-  // Answers are grouped by importance: the campaign pace the visitor asked
-  // for matters most, the army lead next, micromanagement last. Matching an
+function quizRank(a){
+  // Answers are grouped by importance: the campaign feel the visitor asked
+  // for matters most, then the army lead and the extra flavour. Matching an
   // axis in a group earns that group's weight per axis; missing a whole
-  // group costs half its weight. So a lord that ignores the requested
-  // campaign feel cannot rise to the top on a peripheral axis, and lords
-  // matching several requested traits outrank single-trait matches.
+  // group costs a quarter of its weight - light, so a single-axis
+  // specialist is not buried by a lord that matches several answers.
   const groups=[
-    { key:'pace',   w:5, axes:QUIZ_AXES.pace[a.pace]||[] },
-    { key:'battle', w:3, axes:QUIZ_AXES.battle[a.battle]||[] }
+    { key:'pace',    w:5, axes:QUIZ_AXES.pace[a.pace]||[] },
+    { key:'battle',  w:4, axes:QUIZ_AXES.battle[a.battle]||[] },
+    { key:'flavour', w:4, axes:QUIZ_AXES.flavour[a.flavour]||[] }
   ].filter(g=>g.axes.length);
-  const scored=LORDS.map(l=>{
+  return LORDS.map(l=>{
     const tags=(l.ps||[]).map(normTag);
     let s=0, matchedAxes=0;
     const hits=[];
     groups.forEach(g=>{
       const h=g.axes.filter(ax=>tags.includes(ax));
       if(h.length){ s+=g.w*h.length; matchedAxes+=h.length; hits.push({ key:g.key, h }); }
-      else s-=g.w*0.5;
+      else s-=g.w*0.25;
     });
     // Micromanagement is a symmetric preference over how much campaign-layer
     // management a lord asks for, so it shifts the ranking instead of
@@ -2933,7 +2939,20 @@ function runQuiz(){
     .sort((x,y)=>y.s-x.s || y.matchedAxes-x.matchedAxes
       || (a.exp==='new' ? x.l.d-y.l.d : a.exp==='vet' ? y.l.d-x.l.d : Math.abs(x.l.d-2)-Math.abs(y.l.d-2))
       || x.l.n.localeCompare(y.l.n))
-    .slice(0,3);
+    .slice(0,5);
+}
+function runQuiz(){
+  const val=n=>{ const el=document.querySelector('input[name="q-'+n+'"]:checked'); return el?el.value:''; };
+  const a={
+    exp:val('exp')||'some',
+    pace:val('pace')||'war',
+    battle:val('battle')||'none',
+    micro:val('micro')||'some',
+    flavour:val('flavour')||'none',
+    loc:(document.getElementById('quiz-loc')||{}).value||'',
+    ownedOnly:!!(document.getElementById('quiz-owned')||{}).checked
+  };
+  const scored=quizRank(a);
   const res=document.getElementById('quiz-results');
   if(!res) return;
   if(!scored.length){
@@ -2943,7 +2962,7 @@ function runQuiz(){
   const reasonFor=x=>{
     const out=[];
     x.hits.forEach(g=>{
-      const label = g.key==='pace' ? 'campaign feel' : 'army';
+      const label = g.key==='pace' ? 'campaign feel' : g.key==='battle' ? 'army' : 'flavour';
       out.push(label+': <b>'+g.h.map(ax=>PS[ax].t).join(' + ')+'</b>');
     });
     if(a.micro==='high' && x.systems) out.push(x.systems+' campaign systems to manage');

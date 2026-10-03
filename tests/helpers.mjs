@@ -93,7 +93,7 @@ export function resetState(window) {
 }
 
 // Drive the real "Help me choose" quiz and return the rendered picks.
-export function quiz(window, { exp, pace, battle, micro, loc = '', ownedOnly = false }) {
+export function quiz(window, { exp, pace, battle, micro, flavour = 'none', loc = '', ownedOnly = false }) {
   inPage(window, `(() => {
     const set = (n, v) => {
       const group = [...document.querySelectorAll('input[name=q-' + n + ']')];
@@ -106,6 +106,7 @@ export function quiz(window, { exp, pace, battle, micro, loc = '', ownedOnly = f
     set('pace', ${JSON.stringify(pace)});
     set('battle', ${JSON.stringify(battle)});
     set('micro', ${JSON.stringify(micro)});
+    set('flavour', ${JSON.stringify(flavour)});
     const locEl = document.getElementById('quiz-loc'); if (locEl) locEl.value = ${JSON.stringify(loc)};
     const ownEl = document.getElementById('quiz-owned'); if (ownEl) ownEl.checked = ${ownedOnly};
     runQuiz();

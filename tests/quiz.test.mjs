@@ -18,7 +18,7 @@ const REPORTED = { exp: 'vet', pace: 'build', battle: 'none', micro: 'high' };
 
 test('reported case: build & defend + high micro no longer returns Drycha', () => {
   const picks = quiz(window, REPORTED);
-  assert.equal(picks.length, 3);
+  assert.equal(picks.length, 5);
   assert.ok(!picks.some((p) => p.name.includes('Drycha')), `Drycha should not be a top pick: ${picks.map((p) => p.name).join(', ')}`);
   assert.equal(picks[0].name, 'Miao Ying, the Storm Dragon');
 });
@@ -82,7 +82,7 @@ test('results are deterministic for identical answers', () => {
 
 test('aggressive beginners get aggressive, forgiving lords', () => {
   const picks = quiz(window, { exp: 'new', pace: 'war', battle: 'melee', micro: 'low' });
-  assert.equal(picks.length, 3);
+  assert.equal(picks.length, 5);
   const top = lordByName(window, picks[0].name);
   assert.ok(top.ps.includes('Aggro'), `${top.n} should be an aggro lord`);
   assert.ok(top.d <= 2, `${top.n} should be an easy first campaign`);
@@ -110,7 +110,7 @@ test('a chosen start region is honoured', () => {
 test('only-content-I-own restricts picks to the saved library', () => {
   inPage(window, "state.own = new Set(['wh3'])");
   const picks = quiz(window, { ...REPORTED, ownedOnly: true });
-  assert.equal(picks.length, 3);
+  assert.equal(picks.length, 5);
   for (const pick of picks) {
     const granted = inPage(window, `ownsLord(LORDS.find(l => l.n === ${JSON.stringify(pick.name)}), new Set(['wh3']))`);
     assert.equal(granted, true, `${pick.name} is outside the owned library`);
@@ -123,10 +123,40 @@ test('owned-only never hides the universally free Bretonnia lords', () => {
   // still leaves the four Bretonnia lords available.
   inPage(window, "state.own = new Set(['__no_such_product__'])");
   const picks = quiz(window, { ...REPORTED, ownedOnly: true });
-  assert.equal(picks.length, 3);
+  assert.equal(picks.length, 4, 'only the four free Bretonnia lords remain');
   for (const pick of picks) {
     assert.equal(lordByName(window, pick.name).free, true, `${pick.name} should be a free Bretonnia lord`);
   }
+});
+
+test('every playstyle can be requested by some answer', () => {
+  const missing = inPage(window, `(() => {
+    const req = new Set();
+    Object.values(QUIZ_AXES).forEach((g) => Object.values(g).forEach((a) => a.forEach((x) => req.add(x))));
+    QUIZ_SYSTEMS.forEach((x) => req.add(x));
+    return Object.keys(PS).filter((ax) => !req.has(ax));
+  })()`);
+  assert.equal(Array.from(missing).length, 0, `no answer can request: ${Array.from(missing).join(', ')}`);
+});
+
+test('every lord is reachable within the five shown picks', () => {
+  // Exercises the app's own quizRank across the full answer space, so this
+  // stays true if the weights or the mappings change.
+  const missing = inPage(window, `(() => {
+    const LOCS = ['', 'oldworld', 'northwastes', 'naggaroth', 'ulthuan', 'lustria', 'badlands', 'darklands', 'fareast', 'southwastes'];
+    const best = {}; LORDS.forEach((l) => { best[l.n] = Infinity; });
+    for (const exp of ['new', 'some', 'vet'])
+      for (const pace of ['war', 'build', 'schemes', 'horde'])
+        for (const battle of ['melee', 'magic', 'none'])
+          for (const micro of ['low', 'some', 'high'])
+            for (const flavour of ['none', 'raid', 'strike', 'weird', 'quest', 'craft'])
+              for (const loc of LOCS) {
+                quizRank({ exp, pace, battle, micro, flavour, loc, ownedOnly: false })
+                  .forEach((x, i) => { if (i + 1 < best[x.l.n]) best[x.l.n] = i + 1; });
+              }
+    return LORDS.map((l) => l.n).filter((n) => best[n] > 5);
+  })()`);
+  assert.equal(Array.from(missing).length, 0, `lords never reachable in 5 picks: ${Array.from(missing).join(', ')}`);
 });
 
 test('openQuiz reports whether ownership is in play', () => {

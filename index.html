@@ -3,11 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Interactive picker for all 110 Legendary Lords in Total War: Warhammer III. Filter by race, playstyle, difficulty, and compare lord stats with the playstyle radar.">
+<meta name="description" content="Interactive picker for all 110 Legendary Lords in Total War: Warhammer III (Update 9.0). Filter by race, playstyle, start position, DLC you own and campaign difficulty, then compare playstyle radars side by side.">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>TWW3 Lord Picker - All 110 Legendary Lords (Update 9.0)</title>
+<link rel="canonical" href="https://twwlordpicker.com/">
+<meta name="theme-color" content="#131017">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<!-- Open Graph / Twitter. Discord, Reddit and most chat apps render these
+     when the link is shared, which is how most TWW players will first see
+     the site. og:image is a 1200x630 PNG at the repo root. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TWW3 Lord Picker">
+<meta property="og:title" content="Total War: WARHAMMER III - Legendary Lord Picker">
+<meta property="og:description" content="All 110 Legendary Lords. Filter by race, playstyle, start position, the DLC you own and campaign difficulty, then compare playstyle radars side by side.">
+<meta property="og:url" content="https://twwlordpicker.com/">
+<meta property="og:image" content="https://twwlordpicker.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Total War: WARHAMMER III Lord Picker - all 110 Legendary Lords">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Total War: WARHAMMER III - Legendary Lord Picker">
+<meta name="twitter:description" content="All 110 Legendary Lords. Filter by race, playstyle, start position, the DLC you own and campaign difficulty, then compare playstyle radars side by side.">
+<meta name="twitter:image" content="https://twwlordpicker.com/og.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E %3Crect width='64' height='64' rx='13' fill='%23131017'/%3E %3Crect x='2.5' y='2.5' width='59' height='59' rx='11' fill='none' stroke='%23c9a24b' stroke-width='3'/%3E %3Cellipse cx='32' cy='26.5' rx='17' ry='16.5' fill='%23c9a24b'/%3E %3Crect x='23' y='35' width='18' height='13.5' rx='3' fill='%23c9a24b'/%3E %3Ccircle cx='24.8' cy='26.5' r='5' fill='%23131017'/%3E %3Ccircle cx='39.2' cy='26.5' r='5' fill='%23131017'/%3E %3Cpath d='M32 30.5l-3.1 6h6.2z' fill='%23131017'/%3E %3Crect x='28.6' y='40.5' width='1.7' height='7' fill='%23131017'/%3E %3Crect x='33.7' y='40.5' width='1.7' height='7' fill='%23131017'/%3E %3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -292,6 +313,27 @@
  .cmp-toggle{margin-top:9px;display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
  .cmp-toggle:hover{color:var(--text)}
  .cmp-toggle input{accent-color:var(--gold)}
+ /* Played tracker: a per-card "mark played" toggle plus the "Hide played"
+    control in the More group. Marks are stored locally and never shared. */
+ .card-actions{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:9px}
+ .card-actions .cmp-toggle{margin-top:0}
+ .played-toggle{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);user-select:none;cursor:pointer;width:fit-content}
+ .played-toggle:hover{color:var(--text)}
+ .played-toggle input{accent-color:var(--gold)}
+ .played-toggle.on{color:var(--gold);font-weight:600}
+ .card.played{border-left-color:var(--pro)}
+ .card.played .card-name{opacity:.72}
+ .card.played:hover .card-name{opacity:1}
+ .more-toggle{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text);cursor:pointer;user-select:none;min-height:34px;padding:4px 9px;border-radius:6px}
+ .more-toggle:hover{background:rgba(201,162,75,.08)}
+ .more-toggle input{accent-color:var(--gold)}
+ .more-btn{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:5px 12px;font-size:.72rem;cursor:pointer;font-family:inherit;min-height:34px}
+ .more-btn:hover{border-color:var(--gold);color:var(--gold)}
+ .more-count{font-size:.72rem;color:var(--muted);margin-left:2px}
+ @media (max-width:640px){.card-actions{gap:6px;margin-top:7px}
+ .card-actions .cmp-toggle{width:100%;margin-top:0}
+ .played-toggle{padding:8px 12px 8px 8px;min-height:40px;border-radius:8px;background:rgba(231,224,210,.03);border:1px solid var(--line);font-size:.8rem;width:100%}
+ }
  @media (max-width:640px){.cmp-toggle{ padding:8px 12px 8px 8px; margin-top:6px; min-height:40px; border-radius:8px; background:rgba(231,224,210,.03); border:1px solid var(--line); font-size:.8rem; width:100%; justify-content:flex-start; }
  .cmp-toggle input{ width:18px;height:18px; }
  .card{padding:14px}
@@ -430,6 +472,45 @@
  .card-radar svg{width:80px;height:80px;display:block}
  .card{overflow:hidden}
  #overlay .ov-body{ display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start; }
+ /* Side-by-side facts table, spanning the full overlay width. */
+ #overlay .ov-facts{ grid-column:1/-1; background:var(--panel); border:1px solid var(--line); border-top:4px solid var(--gold); border-radius:12px; padding:14px 16px; overflow-x:auto; }
+ #overlay .ov-facts h3{ font-family:"Cinzel",Georgia,serif;font-size:1rem;color:var(--gold);margin:0 0 10px;font-weight:600; }
+ #overlay .ov-facts[hidden]{display:none}
+ .ov-table{width:100%;border-collapse:collapse;font-size:.82rem}
+ .ov-table th,.ov-table td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+ .ov-table thead th{font-family:"Cinzel",Georgia,serif;font-weight:600;color:var(--text);white-space:nowrap}
+ .ov-table tbody th{color:var(--muted);font-weight:600;white-space:nowrap;width:110px}
+ .ov-table tbody tr:last-child th,.ov-table tbody tr:last-child td{border-bottom:0}
+ .ov-table .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+ /* ── Guided picker modal ─────────────────────────────────────────────── */
+ #quiz{position:fixed;inset:0;z-index:75;background:rgba(10,8,13,.72);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:24px 14px 60px;backdrop-filter:blur(4px)}
+ #quiz.show{display:flex}
+ .quiz-inner{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:14px;max-width:640px;width:100%;padding:18px 20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+ .quiz-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+ .quiz-head h2{font-family:"Cinzel",Georgia,serif;color:var(--gold);margin:0;font-size:1.15rem}
+ .quiz-lede{color:var(--muted);font-size:.82rem;line-height:1.45;margin:0 0 14px}
+ .quiz-q{margin-bottom:14px}
+ .quiz-qlabel{font-size:.86rem;color:var(--text);font-weight:600;margin-bottom:7px}
+ .quiz-opts{display:flex;flex-wrap:wrap;gap:7px}
+ .quiz-opts label{display:inline-flex;align-items:center;gap:6px;background:rgba(231,224,210,.04);border:1px solid rgba(231,224,210,.14);border-radius:999px;padding:7px 13px;font-size:.8rem;cursor:pointer;user-select:none}
+ .quiz-opts label:hover{border-color:rgba(201,162,75,.4)}
+ .quiz-opts input{accent-color:var(--gold)}
+ .quiz-opts label:has(input:checked){border-color:var(--gold);background:rgba(201,162,75,.16);color:#fff}
+ .quiz-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px}
+ .quiz-ownhint{font-size:.74rem;color:var(--muted)}
+ .quiz-results{margin-top:16px}
+ .quiz-res h3{font-family:"Cinzel",Georgia,serif;font-size:1rem;color:var(--text);margin:0 0 12px;font-weight:600}
+ .quiz-card{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--rc,var(--gold));border-radius:10px;padding:12px 14px;margin-bottom:10px}
+ .quiz-card .qc-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+ .quiz-card .qc-name{font-family:"Cinzel",Georgia,serif;font-size:1rem;font-weight:600;color:var(--text);margin:0}
+ .quiz-card .qc-sub{font-size:.76rem;color:var(--muted);margin:3px 0 6px}
+ .quiz-card .qc-why{font-size:.82rem;color:#d8cfae;margin:0 0 9px;line-height:1.45}
+ .quiz-card .qc-why b{color:var(--gold);font-weight:600}
+ .quiz-card .qc-view{background:var(--gold);color:#1a1408;border:none;border-radius:8px;padding:6px 15px;font-size:.8rem;font-weight:600;cursor:pointer}
+ .quiz-empty{color:var(--muted);font-size:.86rem;line-height:1.5}
+ @media (max-width:640px){#quiz{padding:0}
+ .quiz-inner{border-radius:0;min-height:100%;max-width:none;border-left:0;border-right:0;border-top-width:3px;padding:16px 14px 40px}
+ }
  @media(max-width:700px){#overlay .ov-body{grid-template-columns:1fr}
  }
  #overlay .ov-radar-col{ background:var(--panel);border:1px solid var(--line); border-top:4px solid var(--gold);border-radius:12px; padding:16px; }
@@ -474,6 +555,39 @@
 .egcard .mech{font-size:.85rem}
 .egcard .tag{cursor:default}
 .eg-badge{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--gold);border-radius:4px;padding:1px 6px;color:var(--gold);font-family:inherit;font-weight:600}
+ /* ── Start-position (region) chips + DLC ownership picker ──────────────
+    Region chips reuse the playstyle/race chip shell. The ownership body
+    is a checkbox grid grouped by game; the older WH1/WH2 expansions are
+    tucked behind <details> so the common case (WH3 + a couple of packs)
+    stays short. */
+ .loc-ico{width:12px;height:12px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.85;vertical-align:-1px}
+ .chip .loc-ico{width:13px;height:13px}
+ .sub .loc{white-space:nowrap}
+ .sub .loc .loc-ico{width:11px;height:11px;margin-right:2px;opacity:.8}
+ #own-body{display:flex;flex-direction:column;gap:11px}
+ .own-hint{color:var(--muted);font-size:.76rem;line-height:1.45}
+ .own-hint b{color:var(--text)}
+ .own-group{display:flex;flex-direction:column;gap:6px}
+ .own-group-title{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:700;opacity:.85}
+ .own-items{display:flex;flex-wrap:wrap;gap:6px}
+ .own-item{display:inline-flex;align-items:center;gap:7px;background:rgba(231,224,210,.04);border:1px solid rgba(231,224,210,.14);border-radius:8px;padding:6px 10px;font-size:.76rem;color:var(--text);cursor:pointer;user-select:none;white-space:nowrap;transition:border-color .12s,background .12s}
+ .own-item:hover{border-color:rgba(201,162,75,.4);background:rgba(201,162,75,.08)}
+ .own-item:has(input:checked){border-color:var(--gold);background:rgba(201,162,75,.16);color:#fff}
+ .own-item input{accent-color:var(--gold);width:14px;height:14px;margin:0}
+ .own-item .own-count{font-size:.66rem;color:var(--muted);font-variant-numeric:tabular-nums}
+ .own-item:has(input:checked) .own-count{color:var(--gold)}
+ .own-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:1px}
+ .own-actions button{background:transparent;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:5px 12px;font-size:.72rem;cursor:pointer;font-family:inherit;min-height:30px}
+ .own-actions button:hover{border-color:var(--gold);color:var(--gold)}
+ details.own-old{border:1px solid rgba(201,162,75,.18);border-radius:10px;padding:0 11px;background:rgba(0,0,0,.14)}
+ details.own-old summary{cursor:pointer;padding:8px 0;font-size:.74rem;color:var(--muted);font-weight:600;list-style:none;user-select:none}
+ details.own-old summary::before{content:"▸ ";color:var(--gold)}
+ details.own-old[open] summary::before{content:"▾ "}
+ details.own-old[open] summary{color:var(--text)}
+ details.own-old .own-items{padding-bottom:11px}
+ @media (max-width:640px){.own-item{padding:8px 10px;min-height:38px}
+ .own-actions button{min-height:36px}
+ }
 </style>
 </head>
 <body>
@@ -485,7 +599,8 @@
 <div class="bar">
   <div class="bar-inner">
     <div class="row top-row">
-      <input id="q" type="search" placeholder="Search lords, mechanics, playstyles…" aria-label="Search">
+      <input id="q" type="search" placeholder="Search lords, mechanics, start position…" aria-label="Search">
+      <button class="btn gold" id="quiz-btn" title="Answer a few questions and get three lord picks">✦ Help me choose</button>
       <button class="btn" id="sort-btn" aria-haspopup="dialog">
         <span class="btn-ic">↕</span>
         <span id="sort-label"><span class="sort-lbl-full">Group by race</span><span class="sort-lbl-short" style="display:none">Group</span></span>
@@ -520,19 +635,26 @@
 
 
 <!-- Collapsible filter bar. On first load every group is a compact,
-     one-line header (Race / Style / End Game / More) so a newcomer sees
-     search plus four buttons instead of a wall of ~44 chips. Tapping a
-     header expands that group's chips inline. Groups that already have
-     an active filter (e.g. a shared link) open automatically and their
-     header shows a gold "N selected" badge, so nothing stays hidden. -->
+     one-line header (Race / Start / Style / Own / End Game / More) so a
+     newcomer sees search plus a few buttons instead of a wall of chips.
+     Tapping a header expands that group's chips inline. Groups that
+     already have an active filter (e.g. a shared link) open automatically
+     and their header shows a gold "N selected" badge, so nothing stays
+     hidden. -->
 <div class="ps-filter-bar" id="ps-filter-bar">
   <div class="ps-filter-inner">
     <div class="acc-heads" role="group" aria-label="Filter groups">
       <button type="button" class="acc-head" data-acc="race" aria-expanded="false" aria-controls="acc-body-race">
         <span class="acc-title">Race</span><span class="acc-sum" id="acc-sum-race"></span><span class="acc-chev" aria-hidden="true"></span>
       </button>
+      <button type="button" class="acc-head" data-acc="loc" aria-expanded="false" aria-controls="acc-body-loc">
+        <span class="acc-title">Start</span><span class="acc-sum" id="acc-sum-loc"></span><span class="acc-chev" aria-hidden="true"></span>
+      </button>
       <button type="button" class="acc-head" data-acc="style" aria-expanded="false" aria-controls="acc-body-style">
         <span class="acc-title">Style</span><span class="acc-sum" id="acc-sum-style"></span><span class="acc-chev" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="acc-head" data-acc="own" aria-expanded="false" aria-controls="acc-body-own">
+        <span class="acc-title">Own</span><span class="acc-sum" id="acc-sum-own"></span><span class="acc-chev" aria-hidden="true"></span>
       </button>
       <button type="button" class="acc-head" data-acc="eg" aria-expanded="false" aria-controls="acc-body-eg">
         <span class="acc-title">End Game</span><span class="acc-sum" id="acc-sum-eg"></span><span class="acc-chev" aria-hidden="true"></span>
@@ -546,6 +668,11 @@
         <div class="chips" id="racechips-bar" role="group"></div>
       </div>
     </div>
+    <div class="acc-body" id="acc-body-loc" data-acc-body="loc" aria-label="Start position filters" hidden>
+      <div class="chips-scroll">
+        <div class="chips" id="locchips-bar" role="group"></div>
+      </div>
+    </div>
     <div class="acc-body" id="acc-body-style" data-acc-body="style" aria-label="Playstyle filters" hidden>
       <div class="acc-row">
         <div class="chips-scroll">
@@ -555,6 +682,9 @@
           <input type="checkbox" id="psall-bar"> <span>Require All</span>
         </label>
       </div>
+    </div>
+    <div class="acc-body" id="acc-body-own" data-acc-body="own" aria-label="Owned content filters" hidden>
+      <div class="own-wrap" id="own-body"></div>
     </div>
     <div class="acc-body" id="acc-body-eg" data-acc-body="eg" aria-label="End game scenario filters" hidden>
       <div class="chips-scroll">
@@ -570,14 +700,9 @@
           <option value="3">Hard</option>
           <option value="4">Very hard</option>
         </select>
-        <select class="chip-select" id="fsrc" aria-label="Filter by source">
-          <option value="">Any source</option>
-          <option value="wh3base">WH3 base</option>
-          <option value="wh3dlc">WH3 DLC</option>
-          <option value="wh1">WH1 + DLC</option>
-          <option value="wh2">WH2 + DLC</option>
-          <option value="free">Free (FLC)</option>
-        </select>
+        <label class="more-toggle" title="Hide campaigns you've marked as played"><input type="checkbox" id="hideplayed"> Hide played</label>
+        <button type="button" class="more-btn" id="clearplayed">Clear played</button>
+        <span class="more-count" id="playedcount"></span>
       </div>
     </div>
   </div>
@@ -628,6 +753,7 @@
   <div class="ov-inner">
     <div class="ov-head"><h2>⚡ Playstyle Radar - Comparison</h2><button class="btn" id="closecmp">✕ Close</button></div>
     <div class="ov-body">
+      <div class="ov-facts" id="ov-facts"></div>
       <div class="ov-radar-col">
         <h3>Overlaid Playstyles</h3>
         <div class="ov-big-radar" id="ov-big-radar"></div>
@@ -638,9 +764,73 @@
   </div>
 </div>
 
+<div id="quiz" role="dialog" aria-modal="true" aria-label="Help me choose a lord">
+  <div class="quiz-inner">
+    <div class="quiz-head"><h2>✦ Help me choose</h2><button class="btn" id="quiz-close" type="button">✕ Close</button></div>
+    <p class="quiz-lede">A few quick questions and I'll suggest three Legendary Lords, with a reason for each. Nothing is saved.</p>
+    <div class="quiz-q">
+      <div class="quiz-qlabel">1. How new are you to Total War: Warhammer?</div>
+      <div class="quiz-opts">
+        <label><input type="radio" name="q-exp" value="new" checked> Brand new</label>
+        <label><input type="radio" name="q-exp" value="some"> Played a bit</label>
+        <label><input type="radio" name="q-exp" value="vet"> Veteran</label>
+      </div>
+    </div>
+    <div class="quiz-q">
+      <div class="quiz-qlabel">2. What should the campaign feel like?</div>
+      <div class="quiz-opts">
+        <label><input type="radio" name="q-pace" value="war" checked> All-out war</label>
+        <label><input type="radio" name="q-pace" value="build"> Build &amp; defend</label>
+        <label><input type="radio" name="q-pace" value="schemes"> Schemes &amp; politics</label>
+        <label><input type="radio" name="q-pace" value="horde"> Horde &amp; roam</label>
+      </div>
+    </div>
+    <div class="quiz-q">
+      <div class="quiz-qlabel">3. What should lead the army?</div>
+      <div class="quiz-opts">
+        <label><input type="radio" name="q-battle" value="melee"> Monsters &amp; duels</label>
+        <label><input type="radio" name="q-battle" value="magic"> Spells &amp; magic</label>
+        <label><input type="radio" name="q-battle" value="none" checked> No preference</label>
+      </div>
+    </div>
+    <div class="quiz-q">
+      <div class="quiz-qlabel">4. How much micromanagement do you enjoy?</div>
+      <div class="quiz-opts">
+        <label><input type="radio" name="q-micro" value="low"> Keep it simple</label>
+        <label><input type="radio" name="q-micro" value="some" checked> A healthy amount</label>
+        <label><input type="radio" name="q-micro" value="high"> Give me the buttons</label>
+      </div>
+    </div>
+    <div class="quiz-q">
+      <div class="quiz-qlabel">5. Where do you want to start?</div>
+      <div class="quiz-opts">
+        <select class="chip-select" id="quiz-loc" aria-label="Preferred start region">
+          <option value="">Anywhere</option>
+          <option value="oldworld">The Old World</option>
+          <option value="northwastes">Northern Chaos Wastes</option>
+          <option value="naggaroth">Naggaroth</option>
+          <option value="ulthuan">Ulthuan</option>
+          <option value="lustria">Lustria</option>
+          <option value="badlands">Badlands &amp; Southlands</option>
+          <option value="darklands">Dark Lands &amp; Mountains of Mourn</option>
+          <option value="fareast">Grand Cathay &amp; Far East</option>
+          <option value="southwastes">Southern Chaos Wastes</option>
+        </select>
+      </div>
+    </div>
+    <div class="quiz-actions">
+      <button class="btn gold" id="quiz-go" type="button">Show my matches</button>
+      <label class="more-toggle" title="Hide lords outside your saved ownership"><input type="checkbox" id="quiz-owned" checked> Only content I own</label>
+      <span class="quiz-ownhint" id="quiz-ownhint"></span>
+    </div>
+    <div class="quiz-results" id="quiz-results"></div>
+  </div>
+</div>
+
 <footer>
-  Data current to <strong>Update 9.0</strong> (24 September 2026). Sources: Total War: WARHAMMER Wiki, CA release notes, community consensus for difficulty ratings.
-  Includes all Lords of the End Times content: Nagash (Host of Nagash), Thanquol (Clan Scruten), Boris Todbringer (Middenland), the Glottkin (Host of the Triplets), and the free Neferata FLC. The free Update 9.0 shipped alongside it: the Vampire Counts rework, an Archaon rework with Chaos lord subjugation, three new End Game scenarios (Chaos Invasion, Vermintide and Nagash Rises) on top of the recategorised Crisis Scenarios, and overhauled victory conditions for every legacy Legendary Lord.
+  <p class="foot-currency">Data current to <strong>Update 9.0</strong> (24 September 2026). Sources: Total War: WARHAMMER Wiki, CA release notes, community consensus for difficulty ratings.</p>
+  <p class="foot-report">Spotted an error or want to suggest a fix? <a href="https://github.com/JosiahSiegel/tww-lord-picker/issues/new" target="_blank" rel="noopener">Open an issue on GitHub ↗</a></p>
+  <p class="foot-note">Includes all Lords of the End Times content: Nagash (Host of Nagash), Thanquol (Clan Scruten), Boris Todbringer (Middenland), the Glottkin (Host of the Triplets), and the free Neferata FLC. The free Update 9.0 shipped alongside it: the Vampire Counts rework, an Archaon rework with Chaos lord subjugation, three new End Game scenarios (Chaos Invasion, Vermintide and Nagash Rises) on top of the recategorised Crisis Scenarios, and overhauled victory conditions for every legacy Legendary Lord.</p>
 </footer>
 
 <script>
@@ -780,7 +970,7 @@ LORDS.push(
  pros:["Most straightforward of the three: point the war machine and fire","Army-wide buffs make mid-tier units punch up","Same spectacular artillery ceiling"],
  cons:["Fewest unique mechanics of the three Chaos Dwarf lords","Aggression outpaces the slave economy if you're careless","Chaff-heavy early armies still rout"],
  pick:"Pick if you want Chaos Dwarfs but would rather fight than optimise spreadsheets."},
-{n:"Archaon the Everchosen",r:"Warriors of Chaos",f:"Warhost of the Apocalypse",src:"WH1 base (rework: Champions of Chaos)",d:1,tags:["Undivided","Elite army","Snowball"],
+{n:"Archaon the Everchosen",r:"Warriors of Chaos",f:"Warhost of the Apocalypse",src:"WH1: Chaos Warriors",d:1,tags:["Undivided","Elite army","Snowball"],
  mech:[["Dark Fortresses","only the ~50 fortress settlements can be truly held; the rest you raze, sack or vassalise. Feels restrictive for a campaign, then liberating - you stop caring about the map's noise and stride between strongholds"],["Warband upgrades & Eye of the Gods","units are long-term projects upgraded along god-marked paths from marauders into exalted monsters. Armies you've levelled for a hundred turns are the faction's real appeal"],["Chaos Undivided","all four gods' marks, gifts and daemons at once, with Norscan tribes flocking to you as vassals who fight the boring wars. Lategame WoC is broadly agreed to be the strongest sustained army quality in the game - the campaign's only real enemy is your own boredom"],["Update 9.0: Chaos Invasion endgame","Post-9.0, Archaon leads the Chaos Invasion endgame scenario - a super-high ward save makes him functionally immortal until you weaken his host by defeating his armies or taking his strongholds. He is now designed as the late-game crisis, not just a campaign opponent"]],
  pros:["Best 'endgame villain' fantasy - you ARE the crisis","Elite everything: the strongest sustained army quality in the game","Vassal norscans fight the boring wars for you"],
  cons:["Slow start from the far north wastes","Fortress-only ownership takes a campaign to click","So strong it trivialises long campaigns - a common complaint"],
@@ -790,12 +980,12 @@ LORDS.push(
  pros:["Safest home in the game - expand at your leisure","Daemon/mortal roster mix covers every niche","Be'lakor is a top-tier caster-duelist hybrid"],
  cons:["Island start slows early tempo","Identity overlaps Archaon's without the same peak","Sea-lane micromanagement to reach the mainland"],
  pick:"Pick if you want Undivided Chaos with a fortress hermit-kingdom opening."},
-{n:"Kholek Suneater",r:"Warriors of Chaos",f:"Heralds of the Tempest",src:"WH1 (Chaos race pack)",d:2,tags:["Monster mash","Aggro","Dragon Ogres"],
+{n:"Kholek Suneater",r:"Warriors of Chaos",f:"Heralds of the Tempest",src:"WH1: Chaos Warriors",d:2,tags:["Monster mash","Aggro","Dragon Ogres"],
  mech:[["Faction effects","-25% upkeep for Dragon Ogres and Shaggoths, -30% recruitment cost for Dragon Ogres, +5 lord recruit rank. The build-defining toolkit that makes the dragon-ogre-spam playstyle work"],["Shaggoth ancestor","Kholek is one of the hardest-hitting entities in the game and his skills cheapen Dragon Ogres - the natural campaign is a monster herd with him at the front. That's the mechanic. That's it, and honestly it's enough for one run"],["Monster doomstacks","full-monster armies come online early and stay viable - no infantry babysitting, just aiming avalanches"],["WoC core","Dark Fortresses, warband upgrades, boons - the standard Warriors engine driven by something forty feet tall"]],
  pros:["Kholek is one of the hardest-hitting lords in the entire game","Storm-of-monsters armies, minimal infantry babysitting","Eastern wastes are a permissive sandbox"],
  cons:["Monsters bleed to focused missile fire","Few interesting neighbours early - lots of walking","Thin personal mechanics; it's about the stat sheet"],
  pick:"Pick if you want to be the kaiju - a stat sheet with legs, and a fun one."},
-{n:"Sigvald the Magnificent",r:"Warriors of Chaos",f:"The Decadent Host",src:"WH1 (Chaos race pack)",d:3,tags:["Slaanesh mark","Duelist","Vanity"],
+{n:"Sigvald the Magnificent",r:"Warriors of Chaos",f:"The Decadent Host",src:"WH1: Chaos Warriors",d:3,tags:["Slaanesh mark","Duelist","Vanity"],
  mech:[["Slaanesh-marked WoC","warbands upgrade down Slaaneshi paths - fast, killy mortals bridging into daemonettes. Update 9.0 made it official: he's now a Slaanesh-focused lord like Azazel, with Slaanesh technologies, no other gods' units, and greater access to Slaanesh Gifts of Chaos"],["Mirror-born vanity","self-buffing unbreakable duelist who fights because it flatters him - plays like a boss character you control"],["WoC core","fortresses, warbands, Eye of the Gods. Thinner faction mechanics than the Champions four; his draw is the lord, not the systems"]],
  pros:["Elite fast melee with mortal staying power","Sigvald duels like a dream","Norscan north start funnels constant fights"],
  cons:["Thinner faction mechanics than the Champions of Chaos four","No answer to massed range beyond speed","Snowbally region with several apex predators nearby"],
@@ -858,7 +1048,7 @@ LORDS.push(
  pros:["Crusader-in-exile campaign has a strong arc","Flagellant hordes are cheap and unbreakable","Interesting matchups the Empire never usually sees"],
  cons:["Isolated, poor, and surrounded","Low-tier zealots fall off against elite undead","Elector politics effectively irrelevant"],
  pick:"Pick if you want a desert crusade - the Empire's faith stripped of its comforts."},
-{n:"Markus Wulfhart",r:"The Empire",f:"Huntsmarshal's Expedition",src:"WH2 (The Hunter & the Beast)",d:3,tags:["Lustria","Monster hunts","Ranged focus"],
+{n:"Markus Wulfhart",r:"The Empire",f:"The Huntsmarshal's Expedition",src:"WH2 (The Hunter & the Beast)",d:3,tags:["Lustria","Monster hunts","Ranged focus"],
  mech:[["Imperial Supply","impress the Emperor and supply ships arrive with free units and heroes - your army quality is a performance review. The drip-feed pacing is the campaign's spine and its most common complaint: you're always waiting on the next shipment"],["Hostility","expansion raises Lizardmen Hostility, and at thresholds the continent retaliates with doomwaves onto your colonies. People either love the escalating-siege tension or find it exhausting - very much a marmite mechanic"],["The Hunters","unique legendary hero companions recruited through quest chains - a named hunting party around Markus by midgame, and strong to boot"]],
  pros:["Expedition survival arc with escalating stakes","Hunter heroes are characterful and strong","Ranged-heavy Empire list suits Lustria's monsters"],
  cons:["Hostility waves punish greed hard - expansion is on a leash","No elector politics, thin economy","Supply pacing bottlenecks army quality"],
@@ -928,7 +1118,7 @@ LORDS.push(
  pros:["Fight-to-power loop is simple and self-reinforcing","Scrap upgrades give greenskins surprising depth","Black orc core hits like a truck"],
  cons:["Chaos Dwarfs next door punch back hard these days","Low-leadership chaff routs in waves","Classic roster - few surprises left"],
  pick:"Pick if you want da simple truth: get stuck in, krump, get bigger."},
-{n:"Azhag the Slaughterer",r:"Greenskins",f:"Bloody Handz",src:"WH1 base",d:2,tags:["Caster","Wyvern","North"],
+{n:"Azhag the Slaughterer",r:"Greenskins",f:"Bonerattlaz",src:"WH1 base",d:2,tags:["Caster","Wyvern","North"],
  mech:[["Crown of Sorcery","an orc warboss casting Death magic from a wyvern - the crown whispers, Azhag obliges. Warlord and warlock in one, and squishier than he looks when someone shoots the wyvern"],["WAAAGH! & Scrap","the full greenskin kit behind him"],["Troll Country start","fights Kislev and the Empire's fringe in the frozen north - greenskins in a theatre they never usually terrorise, though a poorer one than the Badlands"]],
  pros:["Death lore on a flying wyvern lord is a great package","Different theatre from the Badlands pile-up","Scrap-upgraded boyz plus magic covers all bases"],
  cons:["Northern start is poorer than the Badlands","He's squishier than Grimgor in a straight duel","Kislev's hybrids counter chaff well"],
@@ -938,7 +1128,7 @@ LORDS.push(
  pros:["Squig and fanatic armies are chaos incarnate (the fun kind)","Feud narrative gives the campaign spine","Cheap units + scrap = quantity with upgrades"],
  cons:["Goblins rout if you sneeze near them","Elite enemies eventually outclass squig spam","Badlands is a permanent warzone"],
  pick:"Pick if you want to win with the little gits - trickery, squigs, and spite."},
-{n:"Wurrzag",r:"Greenskins",f:"Bone Nose Tribe",src:"WH1 FLC",d:2,tags:["Savage orcs","Shaman","Southlands"],
+{n:"Wurrzag",r:"Greenskins",f:"The Bloody Handz",src:"WH1 FLC",d:2,tags:["Savage orcs","Shaman","Southlands"],
  mech:[["Da Great Green Prophet","savage orcs - naked, frenzied, ward-saved. Warpaint-as-armour makes cheap units weirdly durable, and Wurrzag is the best orc shaman backing them up"],["WAAAGH! & Scrap","the same systems feeding a horde that fights harder the more it fights"],["Southlands start","Tomb Kings, lizards and southern dwarfs for neighbours - a quieter corner to build da prophecy"]],
  pros:["Savage orc ward saves make cheap units weirdly durable","Big magic support from the best orc shaman","Quieter corner to snowball from"],
  cons:["No armour anywhere - AP missiles still hurt","Southlands logistics are long","One-note army composition"],
@@ -956,7 +1146,7 @@ LORDS.push(
 );
 // ---- High Elves, Dark Elves, Wood Elves ----
 LORDS.push(
-{n:"Tyrion",r:"High Elves",f:"Lothern",src:"WH2 base",d:1,tags:["Duelist","Politics","Beginner-friendly"],
+{n:"Tyrion",r:"High Elves",f:"Eataine",src:"WH2 base",d:1,tags:["Duelist","Politics","Beginner-friendly"],
  mech:[["Influence & intrigue","spend Influence on better lords or on whispering in foreign courts - nudging any two factions toward friendship or war. Veteran players cheese this hard (dogpile your rivals for pocket change); new players forget it exists. Both work"],["Defender of Ulthuan","Lothern holds the gate of the donut: N'Kari and Dark Elf raids come to you, then you police the world at your leisure"],["Sword of Khaine","the Widowmaker sits on his doorstep - huge personal power, escalating diplomatic ruin. A real gamble - wear it for the power and the chaos, or leave it buried"],["HE faction effects","+30 diplomatic relations with other High Elves, +10 influence per turn from influence-generating buildings (Intrigue at the Tower of Hoeth, etc.), and a unique Lothern Sea Guard with high-tier stats. The build-defining toolkit for an influence- and diplomacy-focused HE playstyle"]],
  pros:["Ulthuan is a natural fortress with rich provinces","Tyrion is a top-three melee duelist","Straightforward, forgiving intro to the race"],
  cons:["Archer-and-spear core plays passively","Safe start can turn into a sleepy start - Ulthuan pacifies fast","Donut geography means long marches everywhere"],
@@ -1016,7 +1206,7 @@ LORDS.push(
  pros:["Sack-economy piracy pays absurdly well","Cathay coast is fat and undefended at sea","Free lord with a clear playstyle"],
  cons:["Far from the Dark Elf homeland power structure","Cathay on land is a hard wall","Raider loop plateaus once the coasts are stripped"],
  pick:"Pick if you want elf piracy proper - the Black Ark as a travelling siege."},
-{n:"Rakarth",r:"Dark Elves",f:"Karond Kar",src:"WH2 FLC",d:2,tags:["Beastmaster","Monsters","Free"],
+{n:"Rakarth",r:"Dark Elves",f:"The Thousand Maws",src:"WH2 FLC",d:2,tags:["Beastmaster","Monsters","Free"],
  mech:[["Beastmaster","hydras, manticores and kharibdysses come cheaper, earlier and better-behaved - monster-heavy Dark Elf armies from turn one. Simple identity, executes well"],["Whip of agony","skills and items deepen the tamer theme - breaking beasts and fighting alongside them"],["Faction effects","-10% upkeep for all monstrous units factionwide (Rakarth's defining discount) and a unique monster recruitment discount that makes monstrous army playstyle the obvious build. The strongest single-faction discount for monster-stacking"],["DE core","slaves, arks, loyalty - the standard Naggarothi machine feeding an ever-larger kennel"]],
  pros:["Monster-heavy Dark Elf armies from turn one","Simple, powerful identity","Solid start position for snowballing"],
  cons:["Monsters vs AP missiles is always tense","Thin unique campaign systems","Roster overlap with generic DE monster play"],
@@ -1074,7 +1264,7 @@ LORDS.push(
  pros:["Horde play with a growing vassal state is a novel hybrid","Kroxigor blobs are satisfying sledgehammers","Total freedom of movement"],
  cons:["Vassal AI manages your 'empire' - control freaks will suffer","Horde growth pacing is slow","Losing your horde army hurts doubly"],
  pick:"Pick if the wandering-god concept grabs you - go in knowing the vassal AI is part of the deal."},
-{n:"Oxyotl",r:"Lizardmen",f:"Sentinels of Xeti",src:"WH2 (Silence & the Fury)",d:2,tags:["Teleport","Missions","Ambush"],
+{n:"Oxyotl",r:"Lizardmen",f:"Ghosts of Pahuax",src:"WH2 (Silence & the Fury)",d:2,tags:["Teleport","Missions","Ambush"],
  mech:[["Silent Sanctums","hidden sanctums built worldwide, armies teleporting between them at will - a private fast-travel network covering the entire map. Nobody else repositions like this, full stop"],["Visions of the Old Ones","timed threat missions appear anywhere; teleport in, deal with it, bank stacking rewards. The monster-of-the-week loop is why Oxyotl consistently shows up on 'best campaigns in the game' lists"],["Chameleon ambush","stalking stances and chameleon units make ambush the default engagement - fights start with the enemy surrounded"]],
  pros:["Global teleport + mission board = a monster-of-the-week campaign","Ambush battles with chameleons are gloriously unfair","Strong rewards loop keeps momentum high"],
  cons:["Mission timers dictate your schedule","Skirmish core needs micro discipline","Home provinces stay thin while you globetrot"],
@@ -1240,6 +1430,71 @@ const RACES={
   "Beastmen":{c:"#6e4f2f",o:24,b:"Settlement-free horde: plant Herdstones, raze Bloodgrounds, spend Dread on permanent upgrades."},
  "Undead Legions":{c:"#5a3d8f",o:25,b:"The Great Necromancer's pan-undead host - Tomb Kings, Vampire Counts and Vampire Coast units under one banner, powered by the Black Pyramid. Along with Daemons of Chaos, one of only two races with a single playable faction."},
 };
+// ── Start position ────────────────────────────────────────────────────────
+// The nine geographic regions of the Immortal Empires map (the same
+// grouping the wiki uses for its province list). Every lord is assigned
+// the region they start in. Keyed by exact lord name so the data stays in
+// one reviewable place instead of being sprinkled through the LORDS array.
+const LOCS={
+  oldworld:{t:"The Old World",c:"#7fa66a",o:1},
+  northwastes:{t:"Northern Chaos Wastes",c:"#6b7f95",o:2},
+  naggaroth:{t:"Naggaroth",c:"#7a5a9a",o:3},
+  ulthuan:{t:"Ulthuan",c:"#5d9bd3",o:4},
+  lustria:{t:"Lustria",c:"#3a8f8f",o:5},
+  badlands:{t:"Badlands & Southlands",c:"#c2a05a",o:6},
+  darklands:{t:"Dark Lands & Mountains of Mourn",c:"#c77b3f",o:7},
+  fareast:{t:"Grand Cathay & Far East",c:"#c8a24a",o:8},
+  southwastes:{t:"Southern Chaos Wastes",c:"#8b5cf6",o:9}
+};
+const LOC_ORDER=["oldworld","northwastes","naggaroth","ulthuan","lustria","badlands","darklands","fareast","southwastes"];
+const LOC_ICON='<svg class="loc-ico" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.4S3.4 10.1 3.4 6.6a4.6 4.6 0 0 1 9.2 0c0 3.5-4.6 7.8-4.6 7.8z"/><circle cx="8" cy="6.6" r="1.7"/></svg>';
+const LORD_LOC={
+"Skarbrand the Exiled":"badlands","Skulltaker":"lustria","Arbaal the Undefeated":"northwastes","Tzarina Katarin":"oldworld","Kostaltyn":"oldworld","Boris Ursus":"northwastes","Mother Ostankya":"naggaroth",
+"Miao Ying, the Storm Dragon":"fareast","Zhao Ming, the Iron Dragon":"fareast","Yuan Bo, the Jade Dragon":"lustria","Bhashiva, the White Tiger":"darklands",
+"Kairos Fateweaver":"southwastes","The Changeling":"oldworld",
+"Ku'gath Plaguefather":"darklands","Tamurkhan the Maggot Lord":"northwastes","Epidemius":"northwastes",
+"N'Kari":"ulthuan","Dechala, the Denied One":"fareast","The Masque of Slaanesh":"lustria",
+"The Daemon Prince":"northwastes",
+"Greasus Goldtooth":"darklands","Skrag the Slaughterer":"oldworld","Golgfag Maneater":"oldworld",
+"Astragoth Ironhand":"darklands","Drazhoath the Ashen":"darklands","Zhatan the Black":"northwastes",
+"Archaon the Everchosen":"northwastes","Be'lakor":"oldworld","Kholek Suneater":"northwastes","Sigvald the Magnificent":"northwastes","Valkia the Bloody":"northwastes","Festus the Leechlord":"oldworld","Vilitch the Curseling":"northwastes","Azazel":"oldworld","The Glottkin":"oldworld",
+"Wulfrik the Wanderer":"oldworld","Throgg":"oldworld","Sayl the Faithless":"northwastes",
+"Karl Franz":"oldworld","Balthasar Gelt":"fareast","Volkmar the Grim":"badlands","Markus Wulfhart":"lustria","Elspeth von Draken":"oldworld","Boris Todbringer":"oldworld",
+"Louen Leoncoeur":"oldworld","Alberic de Bordeleaux":"lustria","The Fay Enchantress":"oldworld","Repanse de Lyonesse":"badlands",
+"Thorgrim Grudgebearer":"oldworld","Ungrim Ironfist":"oldworld","Belegar Ironhammer":"oldworld","Grombrindal":"naggaroth","Thorek Ironbrow":"badlands","Malakai Makaisson":"oldworld",
+"Grimgor Ironhide":"darklands","Azhag the Slaughterer":"oldworld","Skarsnik":"oldworld","Wurrzag":"badlands","Grom the Paunch":"oldworld","Gorbad Ironclaw":"badlands",
+"Tyrion":"ulthuan","Teclis":"badlands","Alarielle the Radiant":"ulthuan","Alith Anar":"naggaroth","Eltharion the Grim":"ulthuan","Imrik":"darklands","Sea Lord Aislinn":"fareast",
+"Malekith":"naggaroth","Morathi":"naggaroth","Malus Darkblade":"northwastes","Crone Hellebron":"naggaroth","Lokhir Fellheart":"fareast","Rakarth":"lustria",
+"Orion":"oldworld","Durthu":"oldworld","Drycha":"oldworld","Sisters of Twilight":"naggaroth",
+"Lord Mazdamundi":"lustria","Kroq-Gar":"badlands","Tehenhauin":"lustria","Tiktaq'to":"badlands","Gor-Rok":"lustria","Nakai the Wanderer":"fareast","Oxyotl":"southwastes",
+"Queek Headtaker":"badlands","Lord Skrolk":"lustria","Tretch Craventail":"darklands","Ikit Claw":"oldworld","Deathmaster Snikch":"fareast","Throt the Unclean":"oldworld","Thanquol, the Grey Seer":"oldworld",
+"Settra the Imperishable":"badlands","High Queen Khalida":"badlands","Grand Hierophant Khatep":"naggaroth","Arkhan the Black":"badlands",
+"Luthor Harkon":"lustria","Count Noctilus":"ulthuan","Aranessa Saltspite":"oldworld","Cylostra Direfin":"naggaroth",
+"Mannfred von Carstein":"badlands","Vlad von Carstein":"oldworld","Isabella von Carstein":"oldworld","Heinrich Kemmler":"oldworld","Helman Ghorst":"darklands","Neferata, the Vampire Queen":"darklands",
+"Khazrak the One-Eye":"oldworld","Malagor the Dark Omen":"badlands","Morghur the Shadowgave":"oldworld","Taurox the Brass Bull":"naggaroth",
+"Nagash, Supreme Lord of the Undead":"badlands"
+};
+// ── DLC ownership ─────────────────────────────────────────────────────────
+// Each lord maps to the product you must own to play them. Base-game and
+// FLC lords map to their base game; DLC lords map to their pack. The
+// ownership filter is off until the user ticks something, so "nothing
+// selected" means "show everything".
+const OWN_LABEL={
+  wh3:"Warhammer III",wh1:"Warhammer I",wh2:"Warhammer II",
+  wh3_coc:"Champions of Chaos",wh3_soc:"Shadows of Change",wh3_tod:"Thrones of Decay",wh3_ood:"Omens of Destruction",wh3_tot:"Tides of Torment",wh3_chd:"Forge of the Chaos Dwarfs",wh3_ogres:"Ogre Kingdoms",wh3_bhashiva:"Bhashiva Character Pack",wh3_eot:"Lords of the End Times",
+  wh1_chaos:"Warriors of Chaos (WH1)",wh1_beastmen:"Call of the Beastmen",wh1_woodelves:"Realm of the Wood Elves",wh1_norsca:"Norsca (WH1)",wh1_kw:"The King & the Warlord",wh1_gg:"The Grim & the Grave",
+  wh2_tk:"Rise of the Tomb Kings",wh2_vc:"Curse of the Vampire Coast",wh2_tw:"The Twisted & the Twilight",wh2_wp:"The Warden & the Paunch",wh2_sb:"The Shadow & the Blade",wh2_qc:"The Queen & the Crone",wh2_pw:"The Prophet & the Warlock",wh2_hb:"The Hunter & the Beast",wh2_sf:"The Silence & the Fury"
+};
+const OWN_SRC={
+  "WH3 base":"wh3","WH3 base (IE)":"wh3","FLC (Update 9.0)":"wh3","FLC (Update 7.0)":"wh3","FLC (Update 6.0)":"wh3","FLC (Update 5.0)":"wh3",
+  "WH1 base":"wh1","WH1 base (own faction in IE)":"wh1","WH1 FLC":"wh1","WH1: Bretonnia (free)":"wh1",
+  "WH1 (King & the Warlord)":"wh1_kw","WH1 (Grim & the Grave)":"wh1_gg","WH1: Call of the Beastmen":"wh1_beastmen","WH1: Realm of the Wood Elves":"wh1_woodelves","WH1: Norsca":"wh1_norsca","WH1: Chaos Warriors":"wh1_chaos",
+  "WH2 base":"wh2","WH2 FLC":"wh2","WH2: Rise of the Tomb Kings":"wh2_tk","WH2: Curse of the Vampire Coast":"wh2_vc","WH2 (Twisted & the Twilight)":"wh2_tw","WH2 (Warden & the Paunch)":"wh2_wp","WH2 (Shadow & the Blade)":"wh2_sb","WH2 (Queen & the Crone)":"wh2_qc","WH2 (Prophet & the Warlock)":"wh2_pw","WH2 (The Hunter & the Beast)":"wh2_hb","WH2 (Hunter & the Beast)":"wh2_hb","WH2: The Silence & The Fury":"wh2_sf","WH2 (Silence & the Fury)":"wh2_sf",
+  "Champions of Chaos":"wh3_coc","Shadows of Change":"wh3_soc","Thrones of Decay":"wh3_tod","Omens of Destruction":"wh3_ood","Tides of Torment":"wh3_tot","Forge of the Chaos Dwarfs":"wh3_chd","Ogre Kingdoms DLC":"wh3_ogres","Bhashiva Character Pack":"wh3_bhashiva","Lords of the End Times":"wh3_eot"
+};
+// Cross-game FLC: free, but they belong to a WH1 race, so they need the
+// WH1 base game rather than WH2 where the FLC patch shipped.
+const OWN_OVERRIDE={"Thorek Ironbrow":"wh1","Grombrindal":"wh1","Repanse de Lyonesse":"wh1"};
 // ---- Playstyle taxonomy: groups of lords whose campaign mechanics play similarly ----
 const PS={
  Aggro:{t:"War",l:"aggro",ic:"#e05050",g:"Mechanics punish peace - fight or lose power (meters, favour, momentum)."},
@@ -1592,8 +1847,7 @@ LORDS.forEach(l=>{l.eg=EG_BY_NAME[l.n]||[];});
 
 const DCOL={1:"#8fae6a",2:"#c9a24b",3:"#c77b3f",4:"#b03a3a"};
 const DLBL={1:"Easy",2:"Moderate",3:"Hard",4:"Very hard"};
-function bucket(s){s=s.toLowerCase();if(s.includes("flc")||s.includes("free"))return"free";if(s.startsWith("wh1"))return"wh1";if(s.startsWith("wh2"))return"wh2";if(s.includes("wh3 base"))return"wh3base";return"wh3dlc";}
-LORDS.forEach((l,i)=>{l.i=i;l.bk=bucket(l.src);l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
+LORDS.forEach((l,i)=>{l.i=i;l.loc=LORD_LOC[l.n]||"oldworld";l.own=(OWN_OVERRIDE[l.n]||OWN_SRC[l.src]||"wh3");l.hay=(l.n+" "+l.r+" "+l.f+" "+l.src+" "+LOCS[l.loc].t+" "+l.tags.join(" ")+" "+l.ps.map(p=>PS[p.charAt(0).toUpperCase()+p.slice(1)].t).join(" ")+" "+l.mech.map(m=>m[0]+" "+m[1]).join(" ")+" "+l.pros.join(" ")+" "+l.cons.join(" ")+" "+l.pick+" "+(l.battle||"")+" "+l.eg.join(" ")).toLowerCase();});
 
 // Map a playstyle display label (e.g. "War") to the PS object key (e.g.
 // "Aggro"). Lives in the first <script> block (not the radar one) so
@@ -1609,7 +1863,18 @@ function normTag(t) {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
-const state={q:"",race:new Set(),eg:new Set(),psInc:new Set(),psExc:new Set(),psAll:false,diff:"",src:"",sort:"race",open:new Set(),cmp:[],astrolabeExpanded:null};
+// Tiny localStorage wrapper - the site is one static file, but owned
+// content and "played" marks are personal state that should survive a
+// reload instead of being re-ticked every visit.
+const STORE={
+  get(key,fallback){ try{ const v=localStorage.getItem(key); return v===null?fallback:JSON.parse(v); }catch(e){ return fallback; } },
+  set(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
+};
+// Ownership is persisted, but only after the user has actually edited it.
+// Until then, opening a shared link carrying #own=... must not overwrite
+// the visitor's saved library.
+let _ownPersist=false;
+const state={q:"",race:new Set(),loc:new Set(),own:new Set(),eg:new Set(),psInc:new Set(),psExc:new Set(),psAll:false,diff:"",sort:"race",open:new Set(),cmp:[],played:new Set(),hidePlayed:false,astrolabeExpanded:null};
 
 // pushState lives at module scope so it's callable from anywhere
 // (e.g. the initial renderChips();render();pushState(); bootstrap at the
@@ -1619,11 +1884,21 @@ function pushState(){
   if(state.q) p.set("q",state.q);
   if(state.race.size) p.set("race",[...state.race].join(","));
   if(state.eg.size) p.set("eg",[...state.eg].join(","));
+  if(state.loc.size) p.set("loc",[...state.loc].join(","));
+  if(state.own.size) p.set("own",[...state.own].join(","));
   if(state.diff) p.set("diff",state.diff);
   if(state.sort!=="race") p.set("sort",state.sort);
   if(state.psInc.size) p.set("ps",[...state.psInc].join(","));
   if(state.cmp.length) p.set("cmp",state.cmp.join(","));
   
+  // Persist personal state that isn't necessarily in the URL. "played" is
+  // local-only. Ownership and "hide played" are remembered once the user
+  // has edited them (see _ownPersist) rather than on a passive link open.
+  STORE.set("twwlp.played.v1", [...state.played]);
+  if (_ownPersist) {
+    STORE.set("twwlp.own.v1", [...state.own]);
+    STORE.set("twwlp.hidePlayed.v1", state.hidePlayed);
+  }
   history.replaceState(null,"",location.pathname+(p.toString()?"#"+p.toString():""));
 }
 function psOk(l){
@@ -1660,12 +1935,16 @@ function _afterFilterChange(){
 function clearAllFilters(){
   state.q = '';
   state.race.clear();
+  state.loc.clear();
   state.eg.clear();
   state.psInc.clear();
   state.psExc.clear();
   state.psAll = false;
   state.diff = '';
-  state.src = '';
+  // Ownership is deliberately NOT cleared: it's a saved preference ("what I
+  // own"), not a transient filter. Use the Own panel's "Clear (show all)"
+  // to reset it. "Hide played" is a filter and does get reset.
+  state.hidePlayed = false;
   // Sync the DOM inputs the popovers still hold a hidden copy of.
   const q = document.getElementById('q'); if (q) q.value = '';
   const psa = document.getElementById('psall'); if (psa) psa.checked = false;
@@ -1731,6 +2010,8 @@ function loadFromHash(){
     if (params.get("q") !== null) state.q = params.get("q") || "";
     if (params.get("race")) state.race = new Set(params.get("race").split(",").filter(Boolean));
     if (params.get("eg")) state.eg = new Set(params.get("eg").split(",").filter(n => ENDGAMES.some(g => g.n === n)));
+    if (params.get("loc")) state.loc = new Set(params.get("loc").split(",").filter(k => LOCS[k]));
+    if (params.get("own")) state.own = new Set(params.get("own").split(",").filter(k => OWN_LABEL[k]));
     if (params.get("diff")) state.diff = params.get("diff") || "";
     if (params.get("sort")) state.sort = params.get("sort");
     if (params.get("cmp")) state.cmp = params.get("cmp").split(",").map(Number).filter(n => !isNaN(n)).slice(0, 3);
@@ -1742,14 +2023,29 @@ function loadFromHash(){
   } catch (e) {}
 }
 loadFromHash();
+// Restore personal state (owned content, played marks) from localStorage.
+// The URL hash is an explicit, shareable state and wins wherever it
+// provides a value; localStorage only fills in what the URL didn't set -
+// so a plain visit remembers your library, but a shared link still shows
+// exactly what it says.
+(function loadPersisted(){
+  try {
+    const params = new URLSearchParams(location.hash.slice(1));
+    if (params.get("own") === null) {
+      const saved = STORE.get("twwlp.own.v1", null);
+      if (Array.isArray(saved)) state.own = new Set(saved.filter(k => OWN_LABEL[k]));
+    }
+    const played = STORE.get("twwlp.played.v1", null);
+    if (Array.isArray(played)) state.played = new Set(played.filter(n => LORDS.some(l => l.n === n)));
+    state.hidePlayed = STORE.get("twwlp.hidePlayed.v1", false) === true;
+  } catch (e) {}
+})();
 // Sync the popover selects with whatever state was loaded from the URL
 // (or defaults) so they don't show stale values.
 (function() {
   const fdiffEl = document.getElementById("fdiff");
-  const fsrcEl = document.getElementById("fsrc");
   const sortEl = document.getElementById("sort");
   if (fdiffEl) fdiffEl.value = state.diff || "";
-  if (fsrcEl) fsrcEl.value = state.src || "";
   if (sortEl) sortEl.value = state.sort || "race";
 })();
 const $=s=>document.querySelector(s);
@@ -1770,10 +2066,11 @@ function cardHTML(l){
   const rc=RACES[l.r].c;
   const open=state.open.has(l.i)?" open":"";
   const ck=state.cmp.includes(l.i)?" checked":"";
-  return `<article class="card${open} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
+  const played=state.played.has(l.n)?" played":"";
+  return `<article class="card${open}${played} card-entering" data-i="${l.i}" style="--rc:${rc}" tabindex="0" aria-expanded="${!!open}">
     <div class="card-radar" data-i="${l.i}"></div>
     <h2 class="card-name">${esc(l.n)} ${pips(l.d)}</h2>
-    <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)}</div>
+    <div class="sub">${(RACE_ICONS[l.r]||"")+" "+esc(l.r)} · ${esc(l.f)} · ${(SRC_ICONS[l.src]||"")+" "+esc(l.src)} · <span class="loc">${LOC_ICON} ${esc(LOCS[l.loc].t)}</span></div>
     <div class="tags">${l.ps.map(p=>{const cap=p.charAt(0).toUpperCase()+p.slice(1);const segName=_axisSeg[p];const segCol=segName?PS_SEGMENTS[segName].col:PS[cap].ic;return `<button class="tag${state.psInc.has(p)?" on":state.psExc.has(p)?" off":""} ps-pill" data-ps="${p}" style="--icon-col:${PS[cap].ic};--rc:${segCol}" title="${esc(PS[cap].g)} (tap: include → clear)">${iconSVG(PSI[cap], 12, PS[cap].ic)} <span class="ps-pill-label">${esc(PS[cap].t)}</span></button>`;}).join("")}</div>
     <p class="pick">${esc(l.pick)}</p>
     <div class="det">
@@ -1786,7 +2083,10 @@ function cardHTML(l){
       ${lordLinks(l)}
       ${l.eg.length?`<div class="tags" style="margin-top:8px">${l.eg.map(g=>`<button class="tag eg-pill" data-egc="${esc(g)}" title="Filter to the ${esc(g)} end game scenario">&#9670; ${esc(g)}</button>`).join("")}</div>`:""}
     </div>
-    <label class="cmp-toggle"><input type="checkbox" data-cmp="${l.i}"${ck}> Compare (pick 2-3)</label>
+    <div class="card-actions">
+      <label class="cmp-toggle"><input type="checkbox" data-cmp="${l.i}"${ck}> Compare (pick 2-3)</label>
+      <label class="played-toggle${state.played.has(l.n)?" on":""}" title="Mark this campaign as played (saved on this device)"><input type="checkbox" data-played="${esc(l.n)}"${state.played.has(l.n)?" checked":""}> ${state.played.has(l.n)?"✓ Played":"Mark played"}</label>
+    </div>
   </article>`;
 }
 
@@ -1794,11 +2094,27 @@ function filtered(){
   return LORDS.filter(l=>
     !l._synthetic &&
     (state.race.size===0||state.race.has(l.r))&&
+    (state.loc.size===0||state.loc.has(l.loc))&&
+    (state.own.size===0||state.own.has(l.own))&&
+    (!state.hidePlayed||!state.played.has(l.n))&&
     (state.eg.size===0||[...state.eg].some(n=>l.eg.includes(n)))&&
     psOk(l)&&
     (!state.diff||l.d===+state.diff)&&
-    (!state.src||l.bk===state.src)&&
     (!state.q||l.hay.includes(state.q)));
+}
+// Whether a real lord passes every active filter EXCEPT the named
+// dimension. Chip counts use this so each chip's number equals what you
+// get on click (the count ignores the dimension it belongs to, matching
+// the End Game behaviour). `except` is one of race/loc/own/eg/ps.
+function _lordMatches(l, except){
+  if(except!=="race" && state.race.size && !state.race.has(l.r)) return false;
+  if(except!=="loc" && state.loc.size && !state.loc.has(l.loc)) return false;
+  if(except!=="own" && state.own.size && !state.own.has(l.own)) return false;
+  if(except!=="eg" && state.eg.size && ![...state.eg].some(n=>l.eg.includes(n))) return false;
+  if(except!=="ps" && !psOk(l)) return false;
+  if(state.diff && l.d!==+state.diff) return false;
+  if(state.q && !l.hay.includes(state.q)) return false;
+  return true;
 }
 
 function egSection(g){
@@ -1832,7 +2148,7 @@ function render(){
   // Scenario cards for any active End Game filter, shown above the grid.
   const egSec = state.eg.size ? [...state.eg].map(n=>ENDGAMES.find(g=>g.n===n)).filter(Boolean).map(egSection).join("") : "";
   // Add a visual "filter active" cue on the bar when any filter is set
-  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.eg.size || state.diff || state.src || state.q;
+  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.loc.size || state.own.size || state.eg.size || state.diff || state.hidePlayed || state.q;
   document.body.classList.toggle('filter-on', !!isFiltered);
   // If filtered, change the count text to mention the filter
   if (isFiltered) {
@@ -1840,7 +2156,6 @@ function render(){
     if (state.q) filterChips.push(`"${state.q}"`);
     if (state.race.size) filterChips.push([...state.race].join(" + "));
     if (state.diff) filterChips.push(DLBL[state.diff] || state.diff);
-    if (state.src) filterChips.push(state.src);
     if (state.psInc.size) filterChips.push([...state.psInc].map(t => PS[normTag(t)]?.t || t).join('+'));
     if (filterChips.length) {
       // Just the count, no filter names - the active-filters pill bar
@@ -1918,14 +2233,6 @@ function renderChips(){
   const psallBar = document.getElementById('psall-bar');
   if (psallBar && psallBar.checked !== state.psAll) psallBar.checked = state.psAll;
 
-  // Race count badge: how many lords (in the current diff+src+q context,
-  // excluding synthetic race-avg entries) belong to this race. Zero-count
-  // races are dimmed so the user can see at a glance which races are
-  // reachable from the current filter.
-  const raceCounts = {};
-  LORDS.filter(l => !l._synthetic).forEach(l => {
-    raceCounts[l.r] = (raceCounts[l.r] || 0) + 1;
-  });
   // Playstyle chips in the chip bar. Single source of truth (replaces
   // the duplicated popover list).
   const psCount = (p) => filtered().reduce(
@@ -1957,13 +2264,35 @@ function renderChips(){
   if (raceBar) {
     const races = Object.keys(RACES).sort();
     raceBar.innerHTML = races.map(r => {
-      const cnt = LORDS.filter(l => l.r === r && !l._synthetic).length;
+      const cnt = LORDS.filter(l => !l._synthetic && l.r === r && _lordMatches(l, "race")).length;
       const st = state.race.has(r) ? " on" : "";
       const dim = cnt === 0 && !state.race.has(r) ? " dim" : "";
       const rc = (RACES[r] && RACES[r].c) || "#888";
       return `<button class="chip race${st}${dim}" data-race="${esc(r)}" style="--rc:${rc}" title="${esc(r)} - ${cnt} lord${cnt===1?'':'s'}">${iconSVG(RACE_ICONS[r], 14, rc)}<span class="lbl">${esc(r)}</span><span class="count">${cnt}</span></button>`;
     }).join("");
   }
+  // Start-position chips. Same context-aware counting as End Game: each
+  // region's number reflects every other active filter, so it equals what
+  // you get when you click it. OR semantics across selected regions.
+  const locBar = document.getElementById("locchips-bar");
+  if (locBar) {
+    locBar.innerHTML = LOC_ORDER.map(k => {
+      const cnt = LORDS.filter(l => !l._synthetic && l.loc === k && _lordMatches(l, "loc")).length;
+      const st = state.loc.has(k) ? " on" : "";
+      const dim = cnt === 0 && !state.loc.has(k) ? " dim" : "";
+      const lc = LOCS[k].c;
+      return `<button class="chip loc${st}${dim}" data-loc="${k}" style="--rc:${lc}" title="${esc(LOCS[k].t)} - ${cnt} lord${cnt===1?'':'s'}">${LOC_ICON}<span class="lbl">${esc(LOCS[k].t)}</span><span class="count">${cnt}</span></button>`;
+    }).join("")
+    + (state.loc.size ? `<button class="chip" id="clearloc-bar">&#10005;</button>` : "");
+  }
+  // Ownership checkbox grid. Rebuilt from state on every chip render so
+  // clear-all and pill removal keep the boxes in sync.
+  if (typeof renderOwnership === "function") renderOwnership();
+  // Played-tracker controls reflect state too.
+  const hidePlayedCb=document.getElementById("hideplayed");
+  if (hidePlayedCb && hidePlayedCb.checked !== state.hidePlayed) hidePlayedCb.checked = state.hidePlayed;
+  const playedCountEl=document.getElementById("playedcount");
+  if (playedCountEl) playedCountEl.textContent = state.played.size ? `${state.played.size} marked` : "";
   // End Game scenario chips - the three Update 9.0 scenarios as a filter
   // dimension. Static per-scenario counts (like race), OR semantics.
   const egBar = document.getElementById("egchips-bar");
@@ -1971,14 +2300,7 @@ function renderChips(){
     // Context-aware counts: a scenario's number reflects every OTHER active
     // filter (race, playstyle, difficulty, source, search) but ignores the
     // End Game selection itself - so the count equals what you get on click.
-    const egCount = (n) => LORDS.filter(l =>
-      !l._synthetic && l.eg.includes(n) &&
-      (state.race.size===0||state.race.has(l.r)) &&
-      psOk(l) &&
-      (!state.diff||l.d===+state.diff) &&
-      (!state.src||l.bk===state.src) &&
-      (!state.q||l.hay.includes(state.q))
-    ).length;
+    const egCount = (n) => LORDS.filter(l => !l._synthetic && l.eg.includes(n) && _lordMatches(l, "eg")).length;
     egBar.innerHTML = ENDGAMES.map(g => {
       const cnt = egCount(g.n);
       const st = state.eg.has(g.n) ? " on" : "";
@@ -1993,16 +2315,49 @@ function renderChips(){
 // Filters button badge - shows the count of active filter dimensions
 // (race, playstyles, difficulty, source) so the user knows there's
 // something behind the button without having to open it.
+// ── Ownership picker ──────────────────────────────────────────────────────
+// Renders the "what do you own" checkbox grid. Grouped: base games, WH3
+// DLC (the common case, shown inline), then WH1/WH2 expansions tucked
+// behind <details> to keep the panel short. Nothing ticked = no filter.
+function renderOwnership(){
+  const box = document.getElementById("own-body");
+  if (!box) return;
+  const counts = {};
+  LORDS.forEach(l => { if (!l._synthetic) counts[l.own] = (counts[l.own] || 0) + 1; });
+  const item = (key) => {
+    if (!OWN_LABEL[key]) return "";
+    const on = state.own.has(key) ? " checked" : "";
+    return `<label class="own-item"><input type="checkbox" data-own="${key}"${on}>${esc(OWN_LABEL[key])}<span class="own-count">${counts[key] || 0}</span></label>`;
+  };
+  const group = (title, keys) => `<div class="own-group"><div class="own-group-title">${title}</div><div class="own-items">${keys.map(item).join("")}</div></div>`;
+  const wh3Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh3_"));
+  const wh1Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh1_"));
+  const wh2Keys = Object.keys(OWN_LABEL).filter(k => k.startsWith("wh2_"));
+  box.innerHTML =
+    `<div class="own-hint">Tick what you own to hide lords you can't play. <b>Free lords (FLC)</b> need only their base game. Nothing ticked shows everything.</div>`
+    + group("Base games", ["wh3", "wh1", "wh2"])
+    + group("Warhammer III DLC", wh3Keys)
+    + `<details class="own-old"><summary>Warhammer I expansions</summary><div class="own-items">${wh1Keys.map(item).join("")}</div></details>`
+    + `<details class="own-old"><summary>Warhammer II expansions</summary><div class="own-items">${wh2Keys.map(item).join("")}</div></details>`
+    + `<div class="own-actions"><button type="button" data-own-all="base">Base games only</button><button type="button" data-own-all="baseflc">Base + FLC only</button><button type="button" data-own-all="clear">Clear (show all)</button></div>`;
+  // Open the older-expansion groups if the user owns anything inside them.
+  box.querySelectorAll("details.own-old").forEach(d => {
+    if (d.querySelector("input[data-own]:checked")) d.open = true;
+  });
+}
+
 function updateFiltersBadge(){
   const badge = $("#filters-badge");
   if (!badge) return;
   let n = 0;
   if (state.race.size) n++;
+  if (state.loc.size) n++;
+  if (state.own.size) n++;
   if (state.eg.size) n++;
   if (state.psInc.size) n++;
   if (state.psExc.size) n++;
   if (state.diff) n++;
-  if (state.src) n++;
+  if (state.hidePlayed) n++;
   if (n > 0) { badge.textContent = n; badge.style.display = ''; }
   else { badge.style.display = 'none'; }
   // Also show/hide the "Clear" button in the top row
@@ -2025,13 +2380,14 @@ function setAccOpen(name, open){
   b.hidden = !open;
 }
 function updateAccSummaries(){
-  const srcLabels = {wh3base:'WH3 base', wh3dlc:'WH3 DLC', wh1:'WH1 + DLC', wh2:'WH2 + DLC', free:'Free (FLC)'};
   const nSel = n => n + ' selected';
   const sums = {
     race: state.race.size ? nSel(state.race.size) : '',
+    loc: state.loc.size ? nSel(state.loc.size) : '',
     style: (state.psInc.size || state.psExc.size) ? nSel(state.psInc.size + state.psExc.size) : '',
+    own: state.own.size ? nSel(state.own.size) : '',
     eg: state.eg.size ? nSel(state.eg.size) : '',
-    more: [state.diff ? (DLBL[state.diff] || state.diff) : '', state.src ? (srcLabels[state.src] || state.src) : ''].filter(Boolean).join(' · ')
+    more: state.diff ? (DLBL[state.diff] || state.diff) : ''
   };
   Object.keys(sums).forEach(name => {
     const h = accHead(name), el = document.getElementById('acc-sum-' + name);
@@ -2079,6 +2435,25 @@ function openOverlay(){
     ovLeg.innerHTML = state.cmp.map((lIdx, ci) =>
       `<span class="ov-legend-item"><span class="ov-legend-dot" style="background:${RADAR_COLORS[ci % RADAR_COLORS.length]}"></span>${esc(LORDS[lIdx].n.split(",")[0])}</span>`
     ).join("");
+  }
+
+  // Side-by-side facts table - the "can I actually play this / is it what
+  // I want" rows that a radar can't show.
+  const ovFacts = document.getElementById("ov-facts");
+  if (ovFacts) {
+    const factRows = [
+      ['Difficulty',  i => DLBL[LORDS[i].d] || '—'],
+      ['Start',       i => (LOCS[LORDS[i].loc]?.t) || '—'],
+      ['Race',        i => LORDS[i].r],
+      ['Faction',     i => LORDS[i].f],
+      ['Unlocked by', i => OWN_LABEL[LORDS[i].own] || '—'],
+      ['Playstyles',  i => (LORDS[i].ps || []).map(p => PS[normTag(p)]?.t || p).join(', ') || '—'],
+    ];
+    ovFacts.innerHTML = `<h3>At a glance</h3><table class="ov-table"><thead><tr><th></th>`
+      + state.cmp.map((li, ci) => `<th><span class="dot" style="background:${RADAR_COLORS[ci % RADAR_COLORS.length]}"></span>${esc(LORDS[li].n.split(',')[0])}</th>`).join('')
+      + `</tr></thead><tbody>`
+      + factRows.map(([label, fn]) => `<tr><th>${label}</th>` + state.cmp.map(li => `<td>${esc(String(fn(li)))}</td>`).join('') + `</tr>`).join('')
+      + `</tbody></table>`;
   }
 
   // Lord cards sidebar - full comparison content
@@ -2158,6 +2533,11 @@ document.addEventListener("click",e=>{
   }
   if(e.target.closest("#clearps") || e.target.closest("#clearps-bar")){state.psInc.clear();state.psExc.clear();_afterFilterChange();return;}
   if(e.target.closest("#cleareg-bar")){state.eg.clear();_afterFilterChange();return;}
+  if(e.target.closest("#clearloc-bar")){state.loc.clear();_afterFilterChange();return;}
+  const locc=e.target.closest(".chip[data-loc]");
+  if(locc){ const k=locc.dataset.loc; state.loc.has(k)?state.loc.delete(k):state.loc.add(k); _afterFilterChange(); return; }
+  const ownAll=e.target.closest("[data-own-all]");
+  if(ownAll){ const mode=ownAll.dataset.ownAll; state.own.clear(); if(mode==="base"){["wh3","wh1","wh2"].forEach(k=>state.own.add(k));} else if(mode==="baseflc"){state.own.add("wh3");} _afterFilterChange(); return; }
   const egc=e.target.closest("[data-egc]");
   if(egc){ const n=egc.dataset.egc; state.eg.has(n)?state.eg.delete(n):state.eg.add(n); _afterFilterChange(); return; }
   const psc=e.target.closest("[data-psc]");
@@ -2170,12 +2550,16 @@ document.addEventListener("click",e=>{
     e.ctrlKey||e.metaKey ? cycleRaceAdd(r) : cycleRace(r);
     return;
   }
-  if(e.target.closest(".cmp-toggle")||e.target.closest("a"))return;
+  if(e.target.closest(".cmp-toggle")||e.target.closest(".played-toggle")||e.target.closest("a"))return;
   const card=e.target.closest(".card");
   if(card){const i=+card.dataset.i;state.open.has(i)?state.open.delete(i):state.open.add(i);
     card.classList.toggle("open");card.setAttribute("aria-expanded",card.classList.contains("open"));return;}
 });
 document.addEventListener("change",e=>{
+  const ownCb=e.target.closest("input[data-own]");
+  if(ownCb){ const k=ownCb.dataset.own; if(ownCb.checked) state.own.add(k); else state.own.delete(k); _afterFilterChange(); return; }
+  const playCb=e.target.closest("input[data-played]");
+  if(playCb){ const n=playCb.dataset.played; if(playCb.checked) state.played.add(n); else state.played.delete(n); _afterFilterChange(); return; }
   if(!e.target.matches("[data-cmp]"))return;
   const i=+e.target.dataset.cmp;
   if(e.target.checked){
@@ -2244,13 +2628,15 @@ if (psallEl) psallEl.addEventListener("change",e=>{state.psAll=e.target.checked;
 const psallBarEl = document.getElementById("psall-bar");
 if (psallBarEl) psallBarEl.addEventListener("change",e=>{state.psAll=e.target.checked;render();});
 $("#fdiff").addEventListener("change",e=>{state.diff=e.target.value;render();syncMoreSelects();});
-$("#fsrc").addEventListener("change",e=>{state.src=e.target.value;render();syncMoreSelects();});
+const hidePlayedEl=document.getElementById("hideplayed");
+if(hidePlayedEl) hidePlayedEl.addEventListener("change",e=>{state.hidePlayed=e.target.checked;_afterFilterChange();});
+const clearPlayedEl=document.getElementById("clearplayed");
+if(clearPlayedEl) clearPlayedEl.addEventListener("click",()=>{state.played.clear();_afterFilterChange();});
 $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
 
-// ── Popover: Sort only. The Filters popover was removed - Difficulty
-// and Source now live as inline dropdowns in the chip bar (id #fdiff,
-// #fsrc), and race/playstyle chips are already in the always-visible
-// bar. So the only popover left is for the mutually-exclusive sort
+// ── Popover: Sort only. Filtering lives in the always-visible chip bar
+// (race / start / playstyle / ownership), with difficulty in the "More"
+// group. So the only popover left is for the mutually-exclusive sort
 // options. ──
 const sortBtn = $("#sort-btn");
 const sortPop = $("#sort-pop");
@@ -2288,12 +2674,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPops
 // <select> values. Called after any state mutation that touches diff/src.
 function syncMoreSelects() {
   const fd = $("#fdiff");
-  const fs = $("#fsrc");
   if (fd && fd.value !== (state.diff || '')) fd.value = state.diff || '';
-  if (fs && fs.value !== (state.src || '')) fs.value = state.src || '';
   // Visual highlight when a non-default value is set
   if (fd) fd.classList.toggle('has-value', !!state.diff);
-  if (fs) fs.classList.toggle('has-value', !!state.src);
 }
 
 // Sort popover options
@@ -2399,6 +2782,15 @@ function renderActiveFilters() {
     const rc = RACES[r]?.c || '#888';
     pills.push(`<span class="pill" style="--rc:${rc}"><span class="pill-ic">${iconSVG(RACE_ICONS[r] || '', 14, rc)}</span>${esc(r)}<button class="x" data-clear="race" data-race="${esc(r)}" aria-label="Clear race">&times;</button></span>`);
   });
+  // Start position
+  state.loc.forEach(k => {
+    const lc = LOCS[k]?.c || '#888';
+    pills.push(`<span class="pill" style="--rc:${lc}"><span class="pill-ic">${LOC_ICON}</span>${esc(LOCS[k]?.t || k)}<button class="x" data-clear="loc" data-loc="${esc(k)}" aria-label="Clear start position">&times;</button></span>`);
+  });
+  // DLC ownership
+  state.own.forEach(k => {
+    pills.push(`<span class="pill"><span class="pill-ic">▣</span>${esc(OWN_LABEL[k] || k)}<button class="x" data-clear="own" data-own="${esc(k)}" aria-label="Clear owned content">&times;</button></span>`);
+  });
   // Playstyle include
   state.psInc.forEach(pk => {
     const tag = pk.charAt(0).toUpperCase() + pk.slice(1);
@@ -2422,10 +2814,9 @@ function renderActiveFilters() {
     const lbl = {1: 'Easy', 2: 'Moderate', 3: 'Hard', 4: 'Very hard'}[+state.diff] || state.diff;
     pills.push(`<span class="pill"><span class="pill-ic">◆</span>${esc(lbl)}<button class="x" data-clear="diff" aria-label="Clear difficulty">&times;</button></span>`);
   }
-  // Source
-  if (state.src) {
-    const lbl = {wh3base:'WH3 base', wh3dlc:'WH3 DLC', wh1:'WH1 & DLC', wh2:'WH2 & DLC', free:'Free (FLC)'}[state.src] || state.src;
-    pills.push(`<span class="pill"><span class="pill-ic">⌘</span>${esc(lbl)}<button class="x" data-clear="src" aria-label="Clear source">&times;</button></span>`);
+  // Hide played
+  if (state.hidePlayed) {
+    pills.push(`<span class="pill"><span class="pill-ic">✓</span>Hide played<button class="x" data-clear="hideplayed" aria-label="Show played campaigns">&times;</button></span>`);
   }
   // Sort (only if not the default)
   if (state.sort && state.sort !== 'race') {
@@ -2455,8 +2846,10 @@ document.addEventListener('click', e => {
     else if (what === 'psinc'){ state.psInc.delete(ps); }
     else if (what === 'psexc'){ state.psExc.delete(ps); }
     else if (what === 'diff'){ state.diff = ''; }
-    else if (what === 'src') { state.src = ''; }
     else if (what === 'eg')  { if (x.dataset.eg) state.eg.delete(x.dataset.eg); else state.eg.clear(); }
+    else if (what === 'loc') { if (x.dataset.loc) state.loc.delete(x.dataset.loc); else state.loc.clear(); }
+    else if (what === 'own') { if (x.dataset.own) state.own.delete(x.dataset.own); else state.own.clear(); }
+    else if (what === 'hideplayed') { state.hidePlayed = false; }
     else if (what === 'sort'){ state.sort = 'race'; document.getElementById('sort').value = 'race'; const m=document.getElementById('sort-m'); if(m) m.value='race'; }
     pushState(); renderChips(); render(); drawRadars();
     // Sync the chip-bar Difficulty/Source dropdowns so they reset to
@@ -2476,15 +2869,113 @@ document.addEventListener('click', e => {
 });
 
 renderChips();render();pushState();renderActiveFilters();
+// From here on, ownership edits are user actions and get persisted.
+_ownPersist = true;
+
+// ── Guided "help me choose" ───────────────────────────────────────────────
+// A short questionnaire scored against the same data the filters use:
+// difficulty, playstyle axes, start region and (optionally) the visitor's
+// saved ownership. Returns the three best matches with a reason each.
+const QUIZ_AXES = {
+  pace:   { war:['Aggro'], build:['Builder','Defense'], schemes:['Politics','Schemes'], horde:['Horde'] },
+  battle: { melee:['Monsters','Duelist'], magic:['Magic'], none:[] },
+  micro:  { low:['Defense','Builder'], some:[], high:['Schemes','Strike'] }
+};
+function openQuiz(){
+  const q=document.getElementById('quiz'); if(!q) return;
+  const hint=document.getElementById('quiz-ownhint');
+  if(hint) hint.textContent = state.own.size ? '(from your Own tab)' : '(nothing selected in Own, so it is ignored)';
+  q.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeQuiz(){
+  const q=document.getElementById('quiz'); if(!q) return;
+  q.classList.remove('show');
+  if(!document.querySelector('#overlay.show')) document.body.style.overflow='';
+}
+function runQuiz(){
+  const val=n=>{ const el=document.querySelector('input[name="q-'+n+'"]:checked'); return el?el.value:''; };
+  const a={
+    exp:val('exp')||'some',
+    pace:val('pace')||'war',
+    battle:val('battle')||'none',
+    micro:val('micro')||'some',
+    loc:(document.getElementById('quiz-loc')||{}).value||'',
+    ownedOnly:!!(document.getElementById('quiz-owned')||{}).checked
+  };
+  const wantAxes=[...new Set([...(QUIZ_AXES.pace[a.pace]||[]),...(QUIZ_AXES.battle[a.battle]||[]),...(QUIZ_AXES.micro[a.micro]||[])])];
+  const scored=LORDS.filter(l=>!l._synthetic).map(l=>{
+    const tags=(l.ps||[]).map(normTag);
+    const matched=wantAxes.filter(ax=>tags.includes(ax));
+    let s=matched.length*3;
+    if(a.exp==='new'){
+      if(l.d<=2) s+=2; else if(l.d===3) s-=1; else s-=2;
+      if((l.tags||[]).some(t=>/beginner/i.test(t))) s+=2;
+      if((l.tags||[]).some(t=>/hard start/i.test(t))) s-=3;
+    }
+    if(a.exp==='vet' && l.d>=3) s+=1;
+    if(a.loc){ if(l.loc===a.loc) s+=4; else s-=2; }
+    if(a.ownedOnly && state.own.size && !state.own.has(l.own)) s=-999;
+    return { l, s, matched };
+  }).filter(x=>x.s>-900)
+    .sort((x,y)=>y.s-x.s || x.l.d-y.l.d || x.l.n.localeCompare(y.l.n))
+    .slice(0,3);
+  const res=document.getElementById('quiz-results');
+  if(!res) return;
+  if(!scored.length){
+    res.innerHTML=`<div class="quiz-empty">No lords match that combination. Try a broader answer${state.own.size?' or untick &ldquo;Only content I own&rdquo;':''}.</div>`;
+    return;
+  }
+  const reasonFor=x=>{
+    const out=[];
+    if(a.exp==='new' && x.l.d<=2) out.push('<b>Easy first campaign</b>');
+    if(x.matched.length) out.push('plays like <b>'+x.matched.map(ax=>PS[ax].t).join(' + ')+'</b>');
+    if(a.loc && x.l.loc===a.loc) out.push('starts in <b>'+esc(LOCS[x.l.loc].t)+'</b>');
+    if(a.exp==='vet' && x.l.d>=3) out.push('<b>Challenging</b> campaign');
+    if(a.ownedOnly && state.own.size) out.push('<b>You own it</b>');
+    return out.length ? out.join(' &middot; ') : 'A good all-round fit for your answers';
+  };
+  res.innerHTML='<div class="quiz-res"><h3>Your top picks</h3>'+scored.map(x=>{
+    const l=x.l, rc=RACES[l.r]?.c||'#888';
+    return `<div class="quiz-card" style="--rc:${rc}">
+      <div class="qc-top"><h4 class="qc-name">${esc(l.n)}</h4>${pips(l.d)}</div>
+      <div class="qc-sub">${(RACE_ICONS[l.r]||'')+' '+esc(l.r)} &middot; ${esc(l.f)} &middot; ${esc(LOCS[l.loc].t)}</div>
+      <p class="qc-why">${reasonFor(x)}</p>
+      <button class="qc-view" type="button" data-quiz-view="${l.i}">Show ${esc(l.n.split(',')[0])}</button>
+    </div>`;
+  }).join('')+'</div>';
+}
+function quizView(i){
+  const l=LORDS[i]; if(!l) return;
+  state.race.clear(); state.loc.clear(); state.eg.clear();
+  state.psInc.clear(); state.psExc.clear(); state.psAll=false; state.diff=''; state.hidePlayed=false;
+  state.q=l.n.split(',')[0].toLowerCase();
+  const qel=document.getElementById('q'); if(qel) qel.value=state.q;
+  state.open.add(i);
+  closeQuiz();
+  _afterFilterChange();
+  requestAnimationFrame(()=>{ const c=document.querySelector('.card[data-i="'+i+'"]'); if(c) c.scrollIntoView({block:'center',behavior:'smooth'}); });
+}
+(function wireQuiz(){
+  const open=document.getElementById('quiz-btn'); if(open) open.addEventListener('click',openQuiz);
+  const close=document.getElementById('quiz-close'); if(close) close.addEventListener('click',closeQuiz);
+  const go=document.getElementById('quiz-go'); if(go) go.addEventListener('click',runQuiz);
+  const modal=document.getElementById('quiz');
+  if(modal) modal.addEventListener('click',e=>{ if(e.target===modal) closeQuiz(); });
+  document.addEventListener('click',e=>{ const v=e.target.closest('[data-quiz-view]'); if(v) quizView(+v.dataset.quizView); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeQuiz(); });
+})();
 // If the page was opened with filters already active (a shared/bookmarked
 // URL), open those groups so the user can see and adjust their selection
 // instead of being met with a collapsed section hiding it.
 (function openActiveGroups(){
   const active = {
     race: state.race.size > 0,
+    loc: state.loc.size > 0,
     style: (state.psInc.size + state.psExc.size) > 0,
+    own: state.own.size > 0,
     eg: state.eg.size > 0,
-    more: !!(state.diff || state.src)
+    more: !!(state.diff || state.hidePlayed)
   };
   Object.keys(active).forEach(name => { if (active[name]) setAccOpen(name, true); });
 })();
@@ -2876,6 +3367,8 @@ function buildRaceAvgLords() {
       mech: [],
       pros: [],
       cons: [],
+      loc: 'oldworld',
+      own: '',
       _synthetic: true,
       _race: r,
     });
@@ -2964,7 +3457,7 @@ function updateFeaturedRadar() {
   }
 
   const svgEl = document.getElementById('fr-radar-svg');
-  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.diff || state.src || state.q;
+  const isFiltered = state.psInc.size || state.psExc.size || state.race.size || state.loc.size || state.own.size || state.diff || state.hidePlayed || state.q;
   const allIdxsBase = isFiltered ? filtered().map(l => l.i) : LORDS.map((_, i) => i);
   const allIdxs = allIdxsBase.filter(i => !isSyntheticLord(i));
   // Pass the first selected lord so the radar highlights it. For 2+ lords,
@@ -3038,7 +3531,6 @@ function updateFeaturedRadar() {
       if (state.q) filterDesc.push(`<b>search</b> "${esc(state.q)}"`);
       if (state.race.size) filterDesc.push(`<b>race</b> ${[...state.race].map(esc).join(' + ')}`);
       if (state.diff) filterDesc.push(`<b>difficulty</b> ${esc(DLBL[state.diff] || state.diff)}`);
-      if (state.src) filterDesc.push(`<b>source</b> ${esc(state.src)}`);
       if (state.psInc.size) filterDesc.push(`<b>including</b> ${[...state.psInc].map(t => PS[normTag(t)]?.t || t).join(' + ')}`);
       if (state.psExc.size) filterDesc.push(`<b>excluding</b> ${[...state.psExc].map(t => PS[normTag(t)]?.t || t).join(', ')}`);
       // The active-filters pill bar at the top of the page already shows
@@ -3126,7 +3618,7 @@ function updateFeaturedRadar() {
   }
 
   // ── Overlay radar (overlaid comparison) ─────────────────────────────────
-function openOverlay() {
+function _unusedOpenOverlay() {
   if (!state.cmp.length) return;
   document.getElementById('overlay').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -3205,7 +3697,7 @@ function openOverlay() {
   }
 }
 
-function closeOverlay() {
+function _unusedCloseOverlay() {
   document.getElementById('overlay').classList.remove('show');
   document.body.style.overflow = '';
 }
@@ -3215,16 +3707,35 @@ function drawRadars() {
   updateFeaturedRadar();
 }
 
+// Fill a single .card-radar div with that lord's mini radar.
+function drawCardRadar(el) {
+  if (!el || el.dataset.radarDone === '1') return;
+  const i = +el.dataset.i;
+  const l = LORDS[i];
+  if (!l) return;
+  el.innerHTML = buildSegmentRadarSVG([i], 80, null, null, 'averaged');
+  el.dataset.radarDone = '1';
+}
 // Fill every .card-radar div with a mini radar SVG for that lord.
 // Called by render() and once on initial page load (after both scripts are parsed).
+// Drawing is lazy: 110 eager radar SVGs is a lot of DOM on a phone, so an
+// IntersectionObserver fills them in just ahead of the viewport. The first
+// screenful is drawn immediately to avoid a blank flash.
+let _cardRadarObserver = null;
 function renderCardRadars() {
   if (typeof buildSegmentRadarSVG !== 'function') return;  // safety: second script not loaded yet
   const els = document.querySelectorAll('.card-radar[data-i]');
+  if (typeof IntersectionObserver !== 'function') { els.forEach(drawCardRadar); return; }
+  if (_cardRadarObserver) _cardRadarObserver.disconnect();
+  _cardRadarObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(en => { if (en.isIntersecting) { drawCardRadar(en.target); obs.unobserve(en.target); } });
+  }, { rootMargin: '300px 0px' });
+  const vh = window.innerHeight || 0;
   els.forEach(el => {
-    const i = +el.dataset.i;
-    const l = LORDS[i];
-    if (!l) return;
-    el.innerHTML = buildSegmentRadarSVG([i], 80, null, null, 'averaged');
+    if (el.dataset.radarDone === '1') return;
+    const r = el.getBoundingClientRect();
+    if (r.top < vh + 300 && r.bottom > -300) drawCardRadar(el);
+    else _cardRadarObserver.observe(el);
   });
 }
 
@@ -3450,6 +3961,17 @@ drawRadars();
 // Initial UI sync for the new popover-based bar
 if (typeof syncSortLabel === 'function') syncSortLabel();
 if (typeof updateFiltersBadge === 'function') updateFiltersBadge();
+</script>
+
+<script>
+// PWA: installable + offline shell. Registered only over http(s), so a
+// file:// preview skips it. The worker is network-first for the document,
+// so a redeploy is picked up immediately rather than stranded in cache.
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
 </script>
 
 </body>

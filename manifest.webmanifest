@@ -1,0 +1,16 @@
+{
+  "name": "Total War: WARHAMMER III - Legendary Lord Picker",
+  "short_name": "Lord Picker",
+  "description": "All 110 Legendary Lords. Filter by race, playstyle, start position, the DLC you own and campaign difficulty, then compare playstyle radars side by side.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#131017",
+  "theme_color": "#131017",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

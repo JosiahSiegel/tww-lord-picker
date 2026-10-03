@@ -11,6 +11,11 @@ verify_timeout_sec: 180
 required_files:
   - index.html
   - CNAME
+  - og.png
+  - manifest.webmanifest
+  - sw.js
+  - icon-192.png
+  - icon-512.png
 
 # Grep patterns (grep -E regex) that MUST appear in prod HTML after deploy.
 verify_checks:
@@ -19,17 +24,29 @@ verify_checks:
   - "const LORDS"
   - "Skarbrand"
   - "Update 9.0"
+  - "og:image"
+  - "Help me choose"
+  - "manifest.webmanifest"
 
-# Headless render assertions via jsdom.
+# Headless render assertions via jsdom (no layout engine: assert on DOM
+# structure and attributes, never on getBoundingClientRect).
 render_asserts:
   - "document.querySelectorAll('.card').length === 110"
   - "document.querySelector('#count')?.textContent?.includes('110')"
   - "document.querySelectorAll('.card-radar').length >= 110"
   - "document.querySelector('#fr-radar-svg')?.innerHTML?.length > 1000"
-  # Interactive radar: 14 axes (one per playstyle) and 14 wedges must be present
-  - "document.querySelectorAll('.all-lords-radar .axis').length === 14"
-  - "document.querySelectorAll('.all-lords-radar .wedge').length === 14"
-  # Mobile UX: active-filter pill bar + back-to-top button + more-filters
+  # Interactive radar: one segment radar with four quadrant labels
+  - "document.querySelectorAll('#fr-radar-svg svg.segment-radar').length === 1"
+  - "document.querySelectorAll('#fr-radar-svg .seg-axis').length === 4"
+  # Filter dimensions render: 9 start regions + 27 ownership products
+  - "document.querySelectorAll('#locchips-bar .chip').length === 9"
+  - "document.querySelectorAll('#own-body input[data-own]').length === 27"
+  # Mobile UX: active-filter pill bar + back-to-top button
   - "document.querySelectorAll('#active-filters').length === 1"
   - "document.querySelectorAll('#back-to-top').length === 1"
-  - "document.querySelectorAll('.more-filters [data-mirror]').length === 3"
+  # Layout guard: every inline SVG must declare its own width and height.
+  # Catches the class of bug where a raw SVG (e.g. an icon) has no
+  # dimensions and expands to fill its container. Attribute-based, so it
+  # works under jsdom and does not need a layout engine.
+  - "document.querySelectorAll('svg:not([width])').length === 0"
+  - "document.querySelectorAll('svg:not([height])').length === 0"
